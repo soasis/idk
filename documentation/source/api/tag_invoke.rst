@@ -31,7 +31,7 @@
 tag_invoke
 ==========
 
-``tag_invoke`` is a way of doing customization points in Modern C++ that is meant to be easier to work with and less hassle for end-users. It follows the paper `P1895 <https://wg21.link/p1896>`_.
+``tag_invoke`` is a way of doing customization points in Modern C++ that is meant to be easier to work with and less hassle for end-users. It follows the paper `P1895 <https://wg21.link/p1895>`_. A presentation for ``tag_invoke`` that covers its uses and its improvements over the status quo by `Gašper Ažman can be found here <https://www.youtube.com/watch?v=T_bijOA1jts>`_.
 
 
 .. doxygenvariable:: ztd::tag_invoke

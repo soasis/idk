@@ -43,6 +43,9 @@ namespace ztd {
 
 	namespace __tginv_detail {
 		namespace __adl {
+			// poison pill to get rid of too-aggressive catchers
+			void tag_invoke() = delete;
+
 			template <typename _Tag, typename... _Args>
 			constexpr auto __adl_tag_invoke(_Tag&& __tag, _Args&&... __args) noexcept(
 			     noexcept(tag_invoke(::std::declval<_Tag>(), std::declval<_Args>()...)))
