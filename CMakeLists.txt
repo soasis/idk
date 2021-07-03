@@ -61,10 +61,6 @@ if (ZTD_IDK_READTHEDOCS)
 	include(FeatureSummary)
 	include(FetchContent)
 	include(CTest)
-	# ztd
-	include(CheckCompilerDiagnostic)
-	include(CheckCompilerFlag)
-	include(FindVersion)
 endif()
 
 # # # Top-Level Directories
@@ -74,9 +70,19 @@ if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
 else()
 	set(ZTD_IDK_IS_TOP_LEVEL_PROJECT NO)
 endif()
+string(CONCAT ztd-idk-is-top-level $<STREQUAL:${PROJECT_NAME},${CMAKE_PROJECT_NAME}>)
+
+# # Options
+option(ZTD_IDK_CI "Whether or not we are in continuous integration mode" OFF)
+option(ZTD_IDK_TESTS "Enable build of tests" OFF)
+option(ZTD_IDK_DOCUMENTATION "Enable build of documentation" OFF)
+option(ZTD_IDK_DOCUMENTATION_NO_SPHINX "Turn off Sphinx usage (useful for ReadTheDocs builds)" OFF)
+option(ZTD_IDK_EXAMPLES "Enable build of examples" OFF)
+option(ZTD_IDK_BENCHMARKS "Enable build of benchmarks" OFF)
+option(ZTD_IDK_GENERATE_SINGLE "Enable generation of a single header and its target" OFF)
 
 # Modify bad flags / change defaults if we are the top level
-if (ZTD_IDK_IS_TOP_LEVEL_PROJECT)
+if (ztd-idk-is-top-level)
 	if (CMAKE_SIZEOF_VOID_P EQUAL 4)
 		set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/x86/${CMAKE_BUILD_TYPE}/${CFG_INT_DIR}/lib")
 		set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/x86/${CMAKE_BUILD_TYPE}/${CFG_INT_DIR}/bin")
@@ -95,30 +101,20 @@ if (ZTD_IDK_IS_TOP_LEVEL_PROJECT)
 		set(CMAKE_C_STANDARD 11)
 	endif()
 
-	# normal flags
-	check_compiler_flag(disable-permissive MSVC /permissive- GCC -pedantic)
-	# Warning flags
-	check_compiler_flag(warn-pedantic MSVC /permissive- GCC -pedantic)
-	check_compiler_flag(warn-all MSVC /W4 GCC -Wall)
-	check_compiler_flag(warn-errors MSVC /WX GCC -Werror)
-	check_compiler_flag(utf8-literal-encoding MSVC /execution-charset:utf-8 GCC -fexec-charset=utf-8)
-	check_compiler_flag(utf8-source-encoding MSVC /source-charset:utf-8 GCC -finput-charset=utf-8)
-	check_compiler_flag(extra-constexpr-depth MSVC /constexpr:depth2147483647 GCC -fconstexpr-depth=2147483647 CLANG -fconstexpr-depth=2147483647)
-	check_compiler_flag(extra-constexpr-steps MSVC /constexpr:steps2147483647 GCC -fconstexpr-ops-limit=2147483647 CLANG -fconstexpr-steps=2147483647)
-	check_compiler_flag(template-debugging-mode GCC -ftemplate-backtrace-limit=0)
+	if (ZTD_IDK_BENCHMARKS OR ZTD_IDK_EXAMPLES OR ZTD_IDK_TESTS OR ZTD_IDK_SCRATCH)
+		# normal flags
+		check_compiler_flag(disable-permissive MSVC /permissive- GCC -pedantic)
+		# Warning flags
+		check_compiler_flag(warn-pedantic MSVC /permissive- GCC -pedantic)
+		check_compiler_flag(warn-all MSVC /W4 GCC -Wall)
+		check_compiler_flag(warn-errors MSVC /WX GCC -Werror)
+		check_compiler_flag(utf8-literal-encoding MSVC /execution-charset:utf-8 GCC -fexec-charset=utf-8)
+		check_compiler_flag(utf8-source-encoding MSVC /source-charset:utf-8 GCC -finput-charset=utf-8)
+		check_compiler_flag(extra-constexpr-depth MSVC /constexpr:depth2147483647 GCC -fconstexpr-depth=2147483647 CLANG -fconstexpr-depth=2147483647)
+		check_compiler_flag(extra-constexpr-steps MSVC /constexpr:steps2147483647 GCC -fconstexpr-ops-limit=2147483647 CLANG -fconstexpr-steps=2147483647)
+		check_compiler_flag(template-debugging-mode GCC -ftemplate-backtrace-limit=0)
+	endif()
 endif()
-
-# # Options
-option(ZTD_IDK_CI "Whether or not we are in continuous integration mode" OFF)
-option(ZTD_IDK_TESTS "Enable build of tests" OFF)
-option(ZTD_IDK_DOCUMENTATION "Enable build of documentation" OFF)
-option(ZTD_IDK_DOCUMENTATION_NO_SPHINX "Turn off Sphinx usage (useful for ReadTheDocs builds)" OFF)
-option(ZTD_IDK_EXAMPLES "Enable build of examples" OFF)
-option(ZTD_IDK_BENCHMARKS "Enable build of benchmarks" OFF)
-option(ZTD_IDK_GENERATE_SINGLE "Enable generation of a single header and its target" OFF)
-
-# # Dependencies
-string(CONCAT ztd-idk-is-top-level $<STREQUAL:${PROJECT_NAME},${CMAKE_PROJECT_NAME}>)
 
 # # Main library declarations
 # ztd.version
