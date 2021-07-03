@@ -1,0 +1,11 @@
+build/
+install/
+scratch/
+
+.mypy_cache/
+.vscode/
+.vs/
+CMakeSettings.json
+
+/main.cpp
+/*.hex

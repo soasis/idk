@@ -1,0 +1,4 @@
+breathe
+myst_parser
+cmake
+ninja

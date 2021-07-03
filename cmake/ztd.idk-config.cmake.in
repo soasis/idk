@@ -1,0 +1,14 @@
+@PACKAGE_INIT@
+
+if (TARGET ztd::idk)
+	get_target_property(ZTD_IDK_INCLUDE_DIRS
+		ztd.idk INTERFACE_INCLUDE_DIRECTORIES)
+	set_and_check(ZTD_IDK_INCLUDE_DIRS "${ZTD_IDK_INCLUDE_DIRS}")
+endif()
+
+if(TARGET ztd::idk::single)
+	get_target_property(ZTD_IDK_SINGLE_INCLUDE_DIRS
+		ztd.idk.single INTERFACE_INCLUDE_DIRECTORIES)
+	set_and_check(ZTD_IDK_INCLUDE_DIRS "${ZTD_IDK_SINGLE_INCLUDE_DIRS}")
+	set(ZTD_IDK_LIBRARIES_SINGLE ztd::idk::single)
+endif()
