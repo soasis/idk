@@ -48,9 +48,9 @@ namespace ztd {
 
 			template <typename _Tag, typename... _Args>
 			constexpr auto __adl_tag_invoke(_Tag&& __tag, _Args&&... __args) noexcept(
-			     noexcept(tag_invoke(::std::declval<_Tag>(), std::declval<_Args>()...)))
-			     -> decltype(tag_invoke(::std::declval<_Tag>(), std::declval<_Args>()...)) {
-				return tag_invoke(::std::forward<_Tag>(__tag), std::forward<_Args>(__args)...);
+			     noexcept(tag_invoke(::std::declval<_Tag>(), ::std::declval<_Args>()...)))
+			     -> decltype(tag_invoke(::std::declval<_Tag>(), ::std::declval<_Args>()...)) {
+				return tag_invoke(::std::forward<_Tag>(__tag), ::std::forward<_Args>(__args)...);
 			}
 		} // namespace __adl
 
@@ -58,7 +58,7 @@ namespace ztd {
 			template <typename _Tag, typename... _Args>
 			constexpr decltype(auto) operator()(_Tag&& __tag, _Args&&... __args) const
 			     noexcept(noexcept(__adl::__adl_tag_invoke(::std::declval<_Tag>(), ::std::declval<_Args>()...))) {
-				return __adl::__adl_tag_invoke(::std::forward<_Tag>(__tag), std::forward<_Args>(__args)...);
+				return __adl::__adl_tag_invoke(::std::forward<_Tag>(__tag), ::std::forward<_Args>(__args)...);
 			}
 		};
 	} // namespace __tginv_detail
@@ -84,7 +84,7 @@ namespace ztd {
 	///
 	//////
 	template <typename _Tag, typename... _Args>
-	class is_tag_invocable : public ::std::is_invocable<decltype(tag_invoke), _Tag, _Args...> { };
+	struct is_tag_invocable : public ::std::is_invocable<decltype(tag_invoke), _Tag, _Args...> { };
 
 	//////
 	/// @brief A @c _v alias for ztd::is_tag_invocable.
@@ -99,7 +99,7 @@ namespace ztd {
 	///
 	//////
 	template <typename _Tag, typename... _Args>
-	class is_nothrow_tag_invocable
+	struct is_nothrow_tag_invocable
 	: public __tginv_detail::__is_nothrow_tag_invocable_i<is_tag_invocable_v<_Tag, _Args...>, _Tag, _Args...> { };
 
 	//////
