@@ -49,6 +49,24 @@ project(ztd.idk
 	HOMEPAGE_URL "https://ztdidk.rtfd.io/"
 	LANGUAGES CXX)
 
+if (ZTD_IDK_READTHEDOCS)
+	# ReadTheDocs seems unable to handle the include at the project level: something must be going wrong?
+	include(CheckCXXCompilerFlag)
+	include(CheckCCompilerFlag)
+	include(CheckIPOSupported)
+	include(CMakePackageConfigHelpers)
+	include(CMakeDependentOption)
+	include(CMakePrintHelpers)
+	include(GNUInstallDirs)
+	include(FeatureSummary)
+	include(FetchContent)
+	include(CTest)
+	# ztd
+	include(CheckCompilerDiagnostic)
+	include(CheckCompilerFlag)
+	include(FindVersion)
+endif()
+
 # # # Top-Level Directories
 # Check if this is the top-level project or not
 if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
@@ -100,16 +118,6 @@ option(ZTD_IDK_BENCHMARKS "Enable build of benchmarks" OFF)
 option(ZTD_IDK_GENERATE_SINGLE "Enable generation of a single header and its target" OFF)
 
 # # Dependencies
-# includes
-include(CheckIPOSupported)
-include(CMakePackageConfigHelpers)
-include(CMakeDependentOption)
-include(CMakePrintHelpers)
-include(GNUInstallDirs)
-include(FeatureSummary)
-include(FetchContent)
-include(CTest)
-
 string(CONCAT ztd-idk-is-top-level $<STREQUAL:${PROJECT_NAME},${CMAKE_PROJECT_NAME}>)
 
 # # Main library declarations

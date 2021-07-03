@@ -110,7 +110,7 @@ def run_cmake_doxygen():
 
 	try:
 		retcode = subprocess.call(
-		    "cmake -DZTD_IDK_DOCUMENTATION:BOOL=TRUE -DZTD_IDK_DOCUMENTATION_NO_SPHINX:BOOL=TRUE ../../../..",
+		    "cmake -DZTD_IDK_READTHEDOCS:BOOL=TRUE -DZTD_IDK_DOCUMENTATION:BOOL=TRUE -DZTD_IDK_DOCUMENTATION_NO_SPHINX:BOOL=TRUE ../../../..",
 		    shell=True,
 		    cwd=cmake_dir)
 	except OSError as e:
