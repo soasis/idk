@@ -74,6 +74,7 @@ string(CONCAT ztd-idk-is-top-level $<STREQUAL:${PROJECT_NAME},${CMAKE_PROJECT_NA
 
 # # Options
 option(ZTD_IDK_CI "Whether or not we are in continuous integration mode" OFF)
+option(ZTD_IDK_READTHEDOCS "Whether or not we are building inside of ReadTheDocs" OFF)
 option(ZTD_IDK_TESTS "Enable build of tests" OFF)
 option(ZTD_IDK_DOCUMENTATION "Enable build of documentation" OFF)
 option(ZTD_IDK_DOCUMENTATION_NO_SPHINX "Turn off Sphinx usage (useful for ReadTheDocs builds)" OFF)
