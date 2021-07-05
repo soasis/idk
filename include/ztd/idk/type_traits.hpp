@@ -35,6 +35,8 @@
 
 #include <ztd/idk/version.hpp>
 
+#include <ztd/idk/char8_t.hpp>
+
 #include <type_traits>
 
 #include <ztd/prologue.hpp>
@@ -119,7 +121,7 @@ namespace ztd {
 	//////
 	/// @brief Checks if the given type is one of the plain character types.
 	template <typename _Type>
-	using is_character = ::std::integral_constant<bool,
+	class is_character : public ::std::integral_constant<bool,
 		::std::is_same_v<_Type, char> || ::std::is_same_v<_Type, wchar_t> ||
 #if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T_I_)
 		::std::is_same_v<_Type, char8_t> ||
@@ -128,19 +130,22 @@ namespace ztd {
 		::std::is_same_v<_Type, signed char> ||
 		::std::is_same_v<_Type, char16_t> ||
 		::std::is_same_v<_Type, char32_t>
-	>;
+	> {};
 
 	//////
 	/// @brief Checks if the given type is one of the types that is usable in the standard with the @c std::char_traits traits type that's used for @c std::string_view , @c std::string and others.
 	template <typename _Type>
-	using is_char_traitable = ::std::integral_constant<bool,
+	class is_char_traitable : public ::std::integral_constant<bool,
 		::std::is_same_v<_Type, char> || ::std::is_same_v<_Type, wchar_t> ||
 #if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T_I_)
 		::std::is_same_v<_Type, char8_t> ||
+#else
+		// for the less fortunate
+		::std::is_same_v<_Type, uchar8_t> ||
 #endif
 		::std::is_same_v<_Type, char16_t> ||
 		::std::is_same_v<_Type, char32_t>
-	>;
+	> {};
 	// clang-format on
 
 	//////
@@ -254,11 +259,21 @@ namespace ztd {
 	template <typename _Type>
 	using type_identity_t = typename type_identity<_Type>::type;
 
-	//////
-	/// @brief A detection decltype for use with ztd::is_detected and similar. Checks if the given type has a .reserve
-	/// member function on it that takes the provided size type.
-	template <typename _Type, typename _SizeType = ::std::size_t>
-	using detect_reserve_with_size_type = decltype(::std::declval<_Type>().reserve(::std::declval<_SizeType>()));
+	template <typename _From, typename _To>
+	using is_nothrow_convertible =
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_NOTHROW_CONVERTIBLE_I_)
+	     ::std::is_nothrow_convertible<_From, _To>;
+#else
+	     ::std::integral_constant<bool, noexcept(static_cast<_To>(::std::declval<_From>()))>;
+#endif
+
+	template <typename _From, typename _To>
+	inline constexpr bool is_nothrow_convertible_v =
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_NOTHROW_CONVERTIBLE_I_)
+	     ::std::is_nothrow_convertible_v<_From, _To>;
+#else
+	     is_nothrow_convertible<_From, _To>::value;
+#endif
 
 	//////
 	/// @brief A detection decltype for use with ztd::is_detected and similar. Checks if the given left-hand type has

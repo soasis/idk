@@ -28,14 +28,7 @@
 ..
 .. =============================================================================>
 
-Licenses, Thanks and Attribution
-=================================
+uchar8_t
+========
 
-
-``ztd.idk`` is dual-licensed under either the Apache 2 License, or a corporate license if you bought it with special support. See the LICENSE file or your copy of the corporate license agreement for more details!
-
-
-Heartfelt Thanks
-----------------
-
-Thank you to the `Macromancer, Jordan Rose <https://belkadan.com/blog/>`_, for suggesting the expansion of "idk" as the "Industrial Development Kit" and Ólafur Waage for deeply encouraging "idk" as the acronym. It's a brilliant name!
+.. doxygentypedef:: ztd::uchar8_t

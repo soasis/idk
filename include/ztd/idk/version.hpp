@@ -33,14 +33,15 @@
 #ifndef ZTD_IDK_VERSION_HPP
 #define ZTD_IDK_VERSION_HPP
 
-#include <ztd/version/version.hpp>
+#include <ztd/version.hpp>
 
 #define ZTD_IDK_VERSION_MAJOR 0
 #define ZTD_IDK_VERSION_MINOR 0
 #define ZTD_IDK_VERSION_PATCH 0
 #define ZTD_IDK_VERSION_STRING "0.0.0"
-#define ZTD_IDK_VERSION \
-	((ZTD_IDK_VERSION_MAJOR * 100'000) + (ZTD_IDK_VERSION_MINOR * 100) + (ZTD_IDK_VERSION_PATCH))
+#define ZTD_IDK_VERSION ((ZTD_IDK_VERSION_MAJOR * 100'000) + (ZTD_IDK_VERSION_MINOR * 100) + (ZTD_IDK_VERSION_PATCH))
+
+// clang-format off
 
 #if defined(ZTD_IDK_ABI_NAMESPACE)
 	#define ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_ inline namespace ZTD_IDK_ABI_NAMESPACE {
@@ -49,5 +50,7 @@
 	#define ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_ inline namespace __v0 {
 	#define ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_ }
 #endif
+
+// clang-format on
 
 #endif // ZTD_IDK_VERSION_HPP

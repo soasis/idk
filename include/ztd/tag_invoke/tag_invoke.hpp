@@ -43,9 +43,6 @@ namespace ztd {
 
 	namespace __tginv_detail {
 		namespace __adl {
-			// poison pill to get rid of too-aggressive catchers
-			void tag_invoke() = delete;
-
 			template <typename _Tag, typename... _Args>
 			constexpr auto __adl_tag_invoke(_Tag&& __tag, _Args&&... __args) noexcept(
 			     noexcept(tag_invoke(::std::declval<_Tag>(), ::std::declval<_Args>()...)))
@@ -54,10 +51,12 @@ namespace ztd {
 			}
 		} // namespace __adl
 
-		struct tag_invoke_fn {
+		class tag_invoke_fn {
+		public:
 			template <typename _Tag, typename... _Args>
-			constexpr decltype(auto) operator()(_Tag&& __tag, _Args&&... __args) const
-			     noexcept(noexcept(__adl::__adl_tag_invoke(::std::declval<_Tag>(), ::std::declval<_Args>()...))) {
+			constexpr auto operator()(_Tag&& __tag, _Args&&... __args) const
+			     noexcept(noexcept(__adl::__adl_tag_invoke(::std::declval<_Tag>(), ::std::declval<_Args>()...)))
+			          -> decltype(__adl::__adl_tag_invoke(::std::declval<_Tag>(), ::std::declval<_Args>()...)) {
 				return __adl::__adl_tag_invoke(::std::forward<_Tag>(__tag), ::std::forward<_Args>(__args)...);
 			}
 		};
@@ -71,10 +70,10 @@ namespace ztd {
 
 	namespace __tginv_detail {
 		template <bool, typename _Tag, typename... _Args>
-		struct __is_nothrow_tag_invocable_i : public ::std::false_type { };
+		class __is_nothrow_tag_invocable_i : public ::std::false_type { };
 
 		template <typename _Tag, typename... _Args>
-		struct __is_nothrow_tag_invocable_i<true, _Tag, _Args...>
+		class __is_nothrow_tag_invocable_i<true, _Tag, _Args...>
 		: public ::std::integral_constant<bool, ::std::is_nothrow_invocable_v<decltype(tag_invoke), _Tag, _Args...>> {
 		};
 	} // namespace __tginv_detail
@@ -84,7 +83,7 @@ namespace ztd {
 	///
 	//////
 	template <typename _Tag, typename... _Args>
-	struct is_tag_invocable : public ::std::is_invocable<decltype(tag_invoke), _Tag, _Args...> { };
+	class is_tag_invocable : public ::std::is_invocable<decltype(tag_invoke), _Tag, _Args...> { };
 
 	//////
 	/// @brief A @c _v alias for ztd::is_tag_invocable.
@@ -99,7 +98,7 @@ namespace ztd {
 	///
 	//////
 	template <typename _Tag, typename... _Args>
-	struct is_nothrow_tag_invocable
+	class is_nothrow_tag_invocable
 	: public __tginv_detail::__is_nothrow_tag_invocable_i<is_tag_invocable_v<_Tag, _Args...>, _Tag, _Args...> { };
 
 	//////
@@ -110,7 +109,7 @@ namespace ztd {
 	inline constexpr bool is_nothrow_tag_invocable_v = is_nothrow_tag_invocable<_Tag, _Args...>::value;
 
 	//////
-	/// @brief A structure representing the type that results from a tag invocation.
+	/// @brief A classure representing the type that results from a tag invocation.
 	///
 	//////
 	template <typename _Tag, typename... _Args>

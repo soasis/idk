@@ -30,15 +30,37 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_HPP
-#define ZTD_IDK_HPP
+#ifndef ZTD_IDK_CONTIGUOUS_ITERATOR_TAG_HPP
+#define ZTD_IDK_CONTIGUOUS_ITERATOR_TAG_HPP
 
 #include <ztd/idk/version.hpp>
 
-#include <ztd/idk/ebco.hpp>
-#include <ztd/idk/type_traits.hpp>
-#include <ztd/idk/char8_t.hpp>
-#include <ztd/idk/hijack.hpp>
-#include <ztd/idk/to_underlying.hpp>
+#include <iterator>
 
-#endif // ZTD_IDK_HPP
+#include <ztd/prologue.hpp>
+
+namespace ztd {
+	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
+
+	namespace __idk_detail {
+		class __contiguous_iterator_tag : public ::std::random_access_iterator_tag { };
+	} // namespace __idk_detail
+
+	//////
+	/// @brief Either a typedef or a polyfill of the contiguous iterator text_tag, only standardized in C++20.
+	///
+	//////
+	using contiguous_iterator_tag =
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_CONTIGUOUS_ITERATOR_TAG_I_)
+	     ::std::contiguous_iterator_tag
+#else
+	     __idk_detail::__contiguous_iterator_tag
+#endif
+	     ;
+
+	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
+} // namespace ztd
+
+#include <ztd/epilogue.hpp>
+
+#endif // ZTD_IDK_CONTIGUOUS_ITERATOR_TAG_HPP

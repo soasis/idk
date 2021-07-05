@@ -30,15 +30,24 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_HPP
-#define ZTD_IDK_HPP
+#ifndef ZTD_IDK_HIJACK_HPP
+#define ZTD_IDK_HIJACK_HPP
 
 #include <ztd/idk/version.hpp>
 
-#include <ztd/idk/ebco.hpp>
-#include <ztd/idk/type_traits.hpp>
-#include <ztd/idk/char8_t.hpp>
-#include <ztd/idk/hijack.hpp>
-#include <ztd/idk/to_underlying.hpp>
+#include <ztd/prologue.hpp>
 
-#endif // ZTD_IDK_HPP
+namespace ztd { namespace hijack {
+
+	//////
+	/// @brief A token to derive from, which in some cases allows external members to place customization points and
+	/// extension functions in the hijack namespace. Extension points would be defined in the "namespace ztd {
+	/// namespace hijack { /* here */ }}" area.
+	//////
+	struct token { };
+
+}} // namespace ztd::hijack
+
+#include <ztd/epilogue.hpp>
+
+#endif // ZTD_IDK_HIJACK_HPP

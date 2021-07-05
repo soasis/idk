@@ -30,15 +30,49 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_HPP
-#define ZTD_IDK_HPP
+#ifndef ZTD_IDK_DETAIL_WINDOWS_HPP
+#define ZTD_IDK_DETAIL_WINDOWS_HPP
 
 #include <ztd/idk/version.hpp>
 
-#include <ztd/idk/ebco.hpp>
-#include <ztd/idk/type_traits.hpp>
-#include <ztd/idk/char8_t.hpp>
-#include <ztd/idk/hijack.hpp>
-#include <ztd/idk/to_underlying.hpp>
+#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
 
-#endif // ZTD_IDK_HPP
+#pragma push_macro("NOMINMAX")
+#pragma push_macro("WIN32_LEAN_AND_MEAN")
+#pragma push_macro("VC_EXTRALEAN")
+
+#define NOMINMAX 1
+#define WIN32_LEAN_AND_MEAN 1
+#define VC_EXTRALEAN 1
+
+#ifdef _MSC_VER
+#include <cstddef>
+#include <ciso646>
+#include <cwchar>
+#include <locale>
+#else
+#endif
+
+extern "C" {
+#include <Windows.h>
+}
+
+#include <ztd/prologue.hpp>
+
+namespace ztd { namespace idk {
+	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
+	namespace __idk_detail { namespace __windows {
+
+	}} // namespace __idk_detail::__windows
+	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
+}} // namespace ztd::idk
+
+#pragma pop_macro("VC_EXTRALEAN")
+#pragma pop_macro("WIN32_LEAN_AND_MEAN")
+#pragma pop_macro("NOMINMAX")
+
+#endif // Windows nightmare
+
+#include <ztd/epilogue.hpp>
+
+#endif // ZTD_IDK_DETAIL_WINDOWS_HPP

@@ -30,15 +30,37 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_HPP
-#define ZTD_IDK_HPP
+#ifndef ZTD_IDK_TO_UNDERLYING_HPP
+#define ZTD_IDK_TO_UNDERLYING_HPP
 
 #include <ztd/idk/version.hpp>
 
-#include <ztd/idk/ebco.hpp>
-#include <ztd/idk/type_traits.hpp>
-#include <ztd/idk/char8_t.hpp>
-#include <ztd/idk/hijack.hpp>
-#include <ztd/idk/to_underlying.hpp>
+#include <type_traits>
 
-#endif // ZTD_IDK_HPP
+#include <ztd/prologue.hpp>
+
+namespace ztd {
+	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
+
+	template <typename _Enum>
+	inline constexpr ::std::underlying_type_t<_Enum> to_underlying(_Enum __value) noexcept {
+		return static_cast<::std::underlying_type_t<_Enum>>(__value);
+	}
+
+	template <typename _MaybeEnum>
+	inline constexpr auto any_to_underlying(_MaybeEnum __value) noexcept {
+		if constexpr (::std::is_enum_v<_MaybeEnum>) {
+			return to_underlying(__value);
+		}
+		else {
+			// TODO: verify integral-ness?
+			return __value;
+		}
+	}
+
+	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
+} // namespace ztd
+
+#include <ztd/epilogue.hpp>
+
+#endif // ZTD_IDK_TO_UNDERLYING_HPP

@@ -34,6 +34,6 @@ is_character
 The ``is_character`` detects the typical "``char``" types in C++ (``char``, ``signed char``, ``char8_t``, ``char16_t``, and ``char32_t``).
 
 
-.. doxygentypedef:: ztd::is_character
+.. doxygenclass:: ztd::is_character
 
 .. doxygenvariable:: ztd::is_character_v

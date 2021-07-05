@@ -30,15 +30,31 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_HPP
-#define ZTD_IDK_HPP
+#ifndef ZTD_IDK_DETAIL_MATH_HPP
+#define ZTD_IDK_DETAIL_MATH_HPP
 
 #include <ztd/idk/version.hpp>
 
-#include <ztd/idk/ebco.hpp>
-#include <ztd/idk/type_traits.hpp>
-#include <ztd/idk/char8_t.hpp>
-#include <ztd/idk/hijack.hpp>
-#include <ztd/idk/to_underlying.hpp>
+#include <cstdint>
 
-#endif // ZTD_IDK_HPP
+#include <ztd/prologue.hpp>
+
+namespace ztd {
+	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
+	namespace __idk_detail {
+
+		constexpr uint_least64_t __ce_ipow_r(uint_least64_t base, uint_least64_t exp, uint_least64_t result) {
+			return exp < 1u ? result : __ce_ipow_r(base * base, exp / 2, (exp % 2) ? result * base : result);
+		}
+
+		constexpr uint_least64_t __ce_ipow(uint_least64_t base, uint_least64_t exp) {
+			return __ce_ipow_r(base, exp, 1);
+		}
+
+	} // namespace __idk_detail
+	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
+} // namespace ztd
+
+#include <ztd/epilogue.hpp>
+
+#endif // ZTD_IDK_DETAIL_MATH_HPP

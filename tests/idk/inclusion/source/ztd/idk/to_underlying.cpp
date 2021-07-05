@@ -28,17 +28,4 @@
 //
 // ============================================================================>
 
-#pragma once
-
-#ifndef ZTD_IDK_HPP
-#define ZTD_IDK_HPP
-
-#include <ztd/idk/version.hpp>
-
-#include <ztd/idk/ebco.hpp>
-#include <ztd/idk/type_traits.hpp>
-#include <ztd/idk/char8_t.hpp>
-#include <ztd/idk/hijack.hpp>
 #include <ztd/idk/to_underlying.hpp>
-
-#endif // ZTD_IDK_HPP
