@@ -369,6 +369,12 @@
 	#define ZTD_CUCHAR_I_ ZTD_DEFAULT_OFF
 #endif
 
+#if ZTD_IS_ON(ZTD_CUCHAR_I_)
+	#define ZTD_UCHAR_ACCESSOR_I_ ::std::
+#else
+	#define ZTD_UCHAR_ACCESSOR_I_ ::
+#endif
+
 #if defined(ZTD_LANGINFO)
 	#if (ZTD_LANGINFO != 0)
 		#define ZTD_LANGINFO_I_ ZTD_ON
