@@ -43,6 +43,10 @@ namespace ztd {
 
 	namespace __tginv_detail {
 		namespace __adl {
+
+			// poison pill
+			constexpr void tag_invoke() = delete;
+
 			template <typename _Tag, typename... _Args>
 			constexpr auto __adl_tag_invoke(_Tag&& __tag, _Args&&... __args) noexcept(
 			     noexcept(tag_invoke(::std::declval<_Tag>(), ::std::declval<_Args>()...)))
@@ -109,7 +113,7 @@ namespace ztd {
 	inline constexpr bool is_nothrow_tag_invocable_v = is_nothrow_tag_invocable<_Tag, _Args...>::value;
 
 	//////
-	/// @brief A classure representing the type that results from a tag invocation.
+	/// @brief A class representing the type that results from a tag invocation.
 	///
 	//////
 	template <typename _Tag, typename... _Args>

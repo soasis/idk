@@ -56,11 +56,11 @@
 
 // clang-format off
 
-#if defined(__has_include)
-	#define ZTD_COMPILER_WITH_HAS_INCLUDE_I_ ZTD_ON
+#if defined(ZTD_HAS_INCLUDE)
+	#define ZTD_HAS_INCLUDE_I_(...) ZTD_HAS_INCLUDE(__VA_ARGS__)
+#elif defined(__has_include)
 	#define ZTD_HAS_INCLUDE_I_(...) __has_include(__VA_ARGS__)
 #else
-	#define ZTD_COMPILER_WITH_HAS_INCLUDE_I_ ZTD_OFF
 	#define ZTD_HAS_INCLUDE_I_(...) 0
 #endif
 
@@ -188,6 +188,12 @@
 #else
 	#define ZTD_PLATFORM_LINUX_I_ ZTD_DEFAULT_OFF
 #endif // Linux platforms
+
+#if defined(macintosh) || defined(Macintosh) || (__APPLE__)
+	#define ZTD_PLATFORM_MAC_OS_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_PLATFORM_MAC_OS_I_ ZTD_DEFAULT_OFF
+#endif
 
 #if defined(__STDC_ISO_10646__) && (__STDC_ISO_10646__ != 0)
 	#define ZTD_WCHAR_T_UTF32_COMPATIBLE_I_ ZTD_DEFAULT_ON
@@ -337,6 +343,30 @@
 	#define ZTD_CONCEPTS_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_CONCEPTS_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_UCHAR)
+	#if (ZTD_UCHAR != 0)
+		#define ZTD_UCHAR_I_ ZTD_ON
+	#else
+		#define ZTD_UCHAR_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<uchar.h>)
+	#define ZTD_UCHAR_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_UCHAR_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_CUCHAR)
+	#if (ZTD_CUCHAR != 0)
+		#define ZTD_CUCHAR_I_ ZTD_ON
+	#else
+		#define ZTD_CUCHAR_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<cuchar>)
+	#define ZTD_CUCHAR_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_CUCHAR_I_ ZTD_DEFAULT_OFF
 #endif
 
 #if defined(ZTD_LANGINFO)
@@ -682,6 +712,8 @@
 #endif // Intermediate buffer sizing
 
 #define ZTD_INTERMEDIATE_BUFFER_SUGGESTED_SIZE_I_(...) (ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE_I_ / sizeof(__VA_ARGS__))
+
+#include <ztd/version/detail/build_version.hpp>
 
 #include <ztd/prologue.hpp>
 #include <ztd/epilogue.hpp>
