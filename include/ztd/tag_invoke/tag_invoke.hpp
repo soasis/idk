@@ -44,8 +44,12 @@ namespace ztd {
 	namespace __tginv_detail {
 		namespace __adl {
 
+#if ZTD_IS_OFF(ZTD_LIBVCXX_I_)
 			// poison pill
+			// This is disabled on MSVC because even with /permissive- and /std:c++latest or /std:c++17,
+			// it is still broken.
 			constexpr void tag_invoke() = delete;
+#endif
 
 			template <typename _Tag, typename... _Args>
 			constexpr auto __adl_tag_invoke(_Tag&& __tag, _Args&&... __args) noexcept(
