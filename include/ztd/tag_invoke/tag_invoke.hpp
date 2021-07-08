@@ -44,10 +44,12 @@ namespace ztd {
 	namespace __tginv_detail {
 		namespace __adl {
 
-#if ZTD_IS_OFF(ZTD_LIBVCXX_I_)
+#if 0
 			// poison pill
-			// This is disabled on MSVC because even with /permissive- and /std:c++latest or /std:c++17,
-			// it is still broken.
+			// This is disabled in general becase the poison pill is actually creating serious problems on MSVC, GCC,
+			// and under select conditions Clang. I can imagine that there's some special change made in the standard
+			// between C++14/1 and C++20 and on so that this works better but I truthfully cannot be assed to figure
+			// it out.
 			constexpr void tag_invoke() = delete;
 #endif
 
