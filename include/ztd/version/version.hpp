@@ -195,6 +195,24 @@
 	#define ZTD_PLATFORM_MAC_OS_I_ ZTD_DEFAULT_OFF
 #endif
 
+#if defined(ZTD_DEBUG)
+	#if (ZTD_DEBUG != 0)
+		#define ZTD_DEBUG_I_ ZTD_ON
+	#else
+		#define ZTD_DEBUG_I_ ZTD_OFF
+	#endif
+#elif !defined(NDEBUG)
+	#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_) && defined(_DEBUG)
+		#define ZTD_DEBUG_I_ ZTD_DEFAULT_ON
+	#elif (ZTD_IS_ON(ZTD_COMPILER_CLANG_I_) || ZTD_IS_ON(ZTD_COMPILER_GCC_I_)) && !defined(__OPTIMIZE__)
+		#define ZTD_DEBUG_I_ ZTD_DEFAULT_ON
+	#else
+		#define ZTD_DEBUG_I_ ZTD_DEFAULT_OFF
+	#endif
+#else
+	#define ZTD_DEBUG_I_ ZTD_DEFAULT_OFF
+#endif // We are in a debug mode of some sort
+
 #if defined(ZTD_WCHAR_T_UTF32_COMPATIBLE)
 	#if (ZTD_WCHAR_T_UTF32_COMPATIBLE != 0)
 		#define ZTD_WCHAR_T_UTF32_COMPATIBLE_I_ ZTD_ON
@@ -697,7 +715,16 @@
 		// ...
 		// "For ARM, x86 and x64 machines, the default commit value is 4 KB"
 		// https://docs.microsoft.com/en-us/cpp/build/reference/stack-stack-allocations?view=vs-2019
-		#define ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE_I_ (1024 * 64)
+		// Uses: (1024 * 64)
+		#define ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE_I_ (65536)
+	#elif ZTD_IS_ON(ZTD_PLATFORM_APPLE_I_)
+		// "  -stack_size size
+		//     Specifies the maximum stack size for the main thread in a program.  Without this option a
+		//     program has a 8MB stack.  The argument size is a hexadecimal number with an optional lead-
+		//     ing 0x. The size should be a multiple of the architecture's page size (4KB or 16KB).
+		// ld(1) manpage on Mac OS
+		// Uses: ((1024 * 64) * 8)
+		#define ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE_I_ (524288)
 	#elif ZTD_IS_ON(ZTD_PLATFORM_LINUX_I_) || ZTD_IS_ON(ZTD_PLATFORM_UNIX_I_)
 		// "Here is the vale for a few architectures:"
 		//
@@ -718,10 +745,12 @@
 		//    │x86_64       │               2 MB │
 		//    └─────────────┴────────────────────┘
 		// http://man7.org/linux/man-pages/man3/pthread_create.3.html
-		#define ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE_I_ (1024 * 128)
+		// Uses: (1024 * 128)
+		#define ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE_I_ (131072)
 	#else
 		// Tiny embbeded compiler shenanigans??
-		#define ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE_I_ (1024 * 2)
+		// Uses: (1024 * 2)
+		#define ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE_I_ (2048)
 	#endif // MSVC vs. others
 #endif // Intermediate buffer sizing
 

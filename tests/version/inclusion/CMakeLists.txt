@@ -42,6 +42,7 @@ target_compile_options(ztd.version.tests.inclusion
 	${--disable-permissive}
 	${--warn-pedantic}
 	${--warn-default}
+	${--warn-extra}
 	${--warn-errors})
 target_link_libraries(ztd.version.tests.inclusion
 	PRIVATE

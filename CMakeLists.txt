@@ -109,6 +109,7 @@ if (ztd-idk-is-top-level)
 		check_compiler_flag(warn-pedantic MSVC /permissive- GCC -pedantic)
 		check_compiler_flag(warn-all MSVC /W4 GCC -Wall)
 		check_compiler_flag(warn-errors MSVC /WX GCC -Werror)
+		check_compiler_flag(warn-errors CLANG -Wextra)
 		check_compiler_flag(utf8-literal-encoding MSVC /execution-charset:utf-8 GCC -fexec-charset=utf-8)
 		check_compiler_flag(utf8-source-encoding MSVC /source-charset:utf-8 GCC -finput-charset=utf-8)
 		check_compiler_flag(extra-constexpr-depth MSVC /constexpr:depth2147483647 GCC -fconstexpr-depth=2147483647 CLANG -fconstexpr-depth=2147483647)
@@ -243,5 +244,6 @@ if (ZTD_IDK_SCRATCH)
 		${--disable-permissive}
 		${--warn-pedantic}
 		${--warn-all}
+		${--warn-extra}
 		${--warn-errors})
 endif()
