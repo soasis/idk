@@ -120,10 +120,16 @@
 	#define ZTD_LIBVCXX_I_ ZTD_OFF
 #endif
 
-#if defined(_WIN32)
-	#define ZTD_PLATFORM_WINDOWS_I_ ZTD_ON
+#if defined(ZTD_PLATFORM_WINDOWS)
+	#if (ZTD_PLATFORM_WINDOWS != 0)
+		#define ZTD_PLATFORM_WINDOWS_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_WINDOWS_I_ ZTD_ON
+	#endif
+#elif defined(_WIN32)
+	#define ZTD_PLATFORM_WINDOWS_I_ ZTD_DEFAULT_ON
 #else
-	#define ZTD_PLATFORM_WINDOWS_I_ ZTD_OFF
+	#define ZTD_PLATFORM_WINDOWS_I_ ZTD_DEFAULT_OFF
 #endif // Windows
 
 #if defined(__CYGWIN__)
@@ -132,24 +138,42 @@
 	#define ZTD_PLATFORM_CYGWIN_I_ ZTD_OFF
 #endif // Cygwin shenanigans
 
-#if defined(__MVS__)
-	#define ZTD_PLATFORM_ZEDOS_I_ ZTD_ON
+#if defined(ZTD_PLATFORM_ZEDOS)
+	#if (ZTD_PLATFORM_ZEDOS != 0)
+		#define ZTD_PLATFORM_ZEDOS_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_ZEDOS_I_ ZTD_OFF
+	#endif
+#elif defined(__MVS__)
+	#define ZTD_PLATFORM_ZEDOS_I_ ZTD_DEFAULT_ON
 #else
-	#define ZTD_PLATFORM_ZEDOS_I_ ZTD_OFF
+	#define ZTD_PLATFORM_ZEDOS_I_ ZTD_DEFAULT_OFF
 #endif // IBM's Z/OS
 
-#if defined(__STDC_HOSTED__)
-	#define ZTD_PLATFORM_FREESTANDING_I_ ZTD_OFF
+#if defined(ZTD_PLATFORM_FREESTANDING)
+	#if (ZTD_PLATFORM_FREESTANDING != 0)
+		#define ZTD_PLATFORM_FREESTANDING_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_FREESTANDING_I_ ZTD_OFF
+	#endif
+#elif !defined(__STDC_HOSTED__)
+	#define ZTD_PLATFORM_FREESTANDING_I_ ZTD_DEFAULT_ON
 #else
-	#define ZTD_PLATFORM_FREESTANDING_I_ ZTD_ON
+	#define ZTD_PLATFORM_FREESTANDING_I_ ZTD_DEFAULT_OFF
 #endif
 
-#if defined(_AIX)
+#if defined(ZTD_PLATFORM_AIX)
+	#if (ZTD_PLATFORM_AIX != 0)
+		#define ZTD_PLATFORM_AIX_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_AIX_I_ ZTD_OFF
+	#endif
+#elif defined(_AIX)
 	// We are on the AIX platform
-	#define ZTD_PLATFORM_AIX_I_ ZTD_ON
+	#define ZTD_PLATFORM_AIX_I_ ZTD_DEFAULT_ON
 #else
 	// We are not on the AIX platform
-	#define ZTD_PLATFORM_AIX_I_ ZTD_OFF
+	#define ZTD_PLATFORM_AIX_I_ ZTD_DEFAULT_OFF
 #endif // IBM's AIX
 
 #if defined(ZTD_PLATFORM_UNKNOWN_CHECK)
@@ -159,37 +183,64 @@
 		#define ZTD_PLATFORM_UNKNOWN_CHECK_I_ ZTD_OFF
 	#endif
 #else
-	#define ZTD_PLATFORM_UNKNOWN_CHECK_I_ ZTD_OFF
+	#define ZTD_PLATFORM_UNKNOWN_CHECK_I_ ZTD_DEFAULT_OFF
 #endif
 
-#if defined(sun) || defined(__sun)
-	#if defined(__SVR4) || defined(__svr4__)
-		// Solaris
-		#define ZTD_PLATFORM_SUNOS_I_ ZTD_DEFAULT_OFF
-		#define ZTD_PLATFORM_SOLARIS_I_ ZTD_DEFAULT_ON
+#if defined(ZTD_PLATFORM_SOLARIS)
+	#if (ZTD_PLATFORM_SOLARIS != 0)
+		#define ZTD_PLATFORM_SOLARIS_I_ ZTD_ON
 	#else
-		// SunOS
-		#define ZTD_PLATFORM_SUNOS_I_ ZTD_DEFAULT_ON
-		#define ZTD_PLATFORM_SOLARIS_I_ ZTD_DEFAULT_OFF
+		#define ZTD_PLATFORM_SOLARIS_I_ ZTD_OFF
 	#endif
+#elif (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
+	#define ZTD_PLATFORM_SOLARIS_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_PLATFORM_SOLARIS_I_ ZTD_DEFAULT_OFF
+#endif // Solaris
+
+#if defined(ZTD_PLATFORM_SUNOS)
+	#if (ZTD_PLATFORM_SUNOS_I_ != 0)
+		#define ZTD_PLATFORM_SUNOS_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_SUNOS_I_ ZTD_OFF
+	#endif
+#elif (defined(sun) || defined(__sun)) && (!defined(__SVR4) && !defined(__svr4__))
+	#define ZTD_PLATFORM_SUNOS_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_PLATFORM_SUNOS_I_ ZTD_DEFAULT_OFF
-	#define ZTD_PLATFORM_SOLARIS_I_ ZTD_DEFAULT_OFF
-#endif // SunOS and Solaris
+#endif // SunOS
 
-#if defined(__unix) || defined(__unix__)
-	#define ZTD_PLATFORM_UNIX_I_ ZTD_ON
+#if defined(ZTD_PLATFORM_UNIX)
+	#if (ZTD_PLATFORM_UNIX != 0)
+		#define ZTD_PLATFORM_UNIX_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_UNIX_I_ ZTD_OFF
+	#endif
+#elif defined(__unix) || defined(__unix__)
+	#define ZTD_PLATFORM_UNIX_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_PLATFORM_UNIX_I_ ZTD_DEFAULT_OFF
 #endif // UNIX platforms
 
-#if defined(__linux) || defined(__linux__) || defined(linux)
-	#define ZTD_PLATFORM_LINUX_I_ ZTD_ON
+#if defined(ZTD_PLATFORM_LINUX)
+	#if (ZTD_PLATFORM_LINUX != 0)
+		#define ZTD_PLATFORM_LINUX_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_LINUX_I_ ZTD_OFF
+	#endif
+#elif defined(__linux) || defined(__linux__) || defined(linux)
+	#define ZTD_PLATFORM_LINUX_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_PLATFORM_LINUX_I_ ZTD_DEFAULT_OFF
 #endif // Linux platforms
 
-#if defined(macintosh) || defined(Macintosh) || (__APPLE__)
+#if defined(ZTD_PLATFORM_MAC_OS)
+	#if (ZTD_PLATFORM_MAC_OS != 0)
+		#define ZTD_PLATFORM_MAC_OS_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_MAC_OS_I_ ZTD_OFF
+	#endif
+#elif defined(macintosh) || defined(Macintosh) || (__APPLE__)
 	#define ZTD_PLATFORM_MAC_OS_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_PLATFORM_MAC_OS_I_ ZTD_DEFAULT_OFF
@@ -717,7 +768,7 @@
 		// https://docs.microsoft.com/en-us/cpp/build/reference/stack-stack-allocations?view=vs-2019
 		// Uses: (1024 * 64)
 		#define ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE_I_ (65536)
-	#elif ZTD_IS_ON(ZTD_PLATFORM_APPLE_I_)
+	#elif ZTD_IS_ON(ZTD_PLATFORM_MAC_OS_I_)
 		// "  -stack_size size
 		//     Specifies the maximum stack size for the main thread in a program.  Without this option a
 		//     program has a 8MB stack.  The argument size is a hexadecimal number with an optional lead-
