@@ -57,6 +57,32 @@ namespace ztd {
 		};
 
 		template <typename _Type>
+		struct __extract_first_parameter { };
+
+		template <template <class, class...> typename _Ty, typename _First, typename... _Args>
+		struct __extract_first_parameter<_Ty<_First, _Args...>> {
+			using type = _First;
+		};
+
+		template <typename _Type, typename = void>
+		struct __extract_element_type : public __extract_first_parameter<_Type> { };
+
+		template <typename _Type>
+		struct __extract_element_type<_Type, ::std::void_t<typename remove_cvref_t<_Type>::element_type>> {
+			using type = typename remove_cvref_t<_Type>::element_type;
+		};
+
+		template <typename _Type, typename = void>
+		struct __is_maybe_std_pointer_traitable : ::std::false_type { };
+
+		template <typename _Type>
+		struct __is_maybe_std_pointer_traitable<_Type,
+		     ::std::void_t<typename __extract_element_type<remove_cvref_t<_Type>>::type>> : ::std::true_type { };
+
+		template <typename _Type>
+		inline constexpr bool __is_maybe_std_pointer_traitable_v = __is_maybe_std_pointer_traitable<_Type>::value;
+
+		template <typename _Type>
 		using __detect_std_pointer_traits_to_address
 		     = decltype(::std::pointer_traits<_Type>::to_address(::std::declval<_Type&>()));
 	} // namespace __idk_detail
@@ -90,7 +116,7 @@ namespace ztd {
 	/// @brief Whether or not the given type is can have to_address (std::pointer_traits<Type>::to_address) called on
 	/// it.
 	template <typename _Type>
-	struct is_to_addressable<_Type, ::std::void_t<typename remove_cvref_t<_Type>::element_type>>
+	struct is_to_addressable<_Type, ::std::enable_if_t<__idk_detail::__is_maybe_std_pointer_traitable_v<_Type>>>
 	: public ::std::integral_constant<bool,
 	       is_detected_v<__idk_detail::__detect_std_pointer_traits_to_address,
 	            _Type> || (!::std::is_function_v<::std::remove_reference_t<_Type>> && is_operator_arrowable_v<::std::remove_reference_t<_Type>>)> {
