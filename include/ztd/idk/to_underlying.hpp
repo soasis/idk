@@ -53,7 +53,7 @@ namespace ztd {
 			return to_underlying(__value);
 		}
 		else {
-			// TODO: verify integral-ness?
+			static_assert(::std::is_integral_v<_MaybeEnum>);
 			return __value;
 		}
 	}
