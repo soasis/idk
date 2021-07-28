@@ -105,12 +105,11 @@ namespace ztd {
 	/// @brief Whether or not the given type is can have to_address (std::pointer_traits<Type>::to_address) called on
 	/// it.
 	template <typename _Type, typename = void>
-	struct is_to_addressable {
-		inline static constexpr bool value
-		     = (::std::is_pointer_v<
-		             _Type> && !::std::is_function_v<::std::remove_reference_t<::std::remove_pointer_t<_Type>>>)
-		     || is_operator_arrowable_v<::std::remove_reference_t<_Type>>;
-	};
+	struct is_to_addressable
+	: public ::std::integral_constant<bool,
+	       (::std::is_pointer_v<
+	             _Type> && !::std::is_function_v<::std::remove_reference_t<::std::remove_pointer_t<_Type>>>)
+	            || is_operator_arrowable_v<::std::remove_reference_t<_Type>>> { };
 
 	//////
 	/// @brief Whether or not the given type is can have to_address (std::pointer_traits<Type>::to_address) called on
