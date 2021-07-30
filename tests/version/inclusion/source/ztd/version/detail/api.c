@@ -28,4 +28,6 @@
 //
 // ============================================================================>
 
-#include <ztd/version/version.hpp>
+#include <ztd/version/detail/api.h>
+
+#include <ztd/idk/tests/unused_declaration.h>

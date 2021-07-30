@@ -30,10 +30,11 @@
 
 #pragma once
 
-#ifndef ZTD_VERSION_DETAIL_BUILD_VERSION_HPP
-#define ZTD_VERSION_DETAIL_BUILD_VERSION_HPP
+#ifndef ZTD_VERSION_DETAIL_BUILD_VERSION_H
+#define ZTD_VERSION_DETAIL_BUILD_VERSION_H
 
-#include <ztd/version/version.hpp>
+#include <ztd/version/detail/is.h>
+#include <ztd/version/detail/version.c.h>
 
 // clang-format off
 
@@ -74,7 +75,7 @@
 #endif // Header only library
 
 #if !defined(ZTD_FUNCTION_LINKAGE)
-	#if defined(__cplusplus)
+	#if ZTD_IS_ON(ZTD_CXX_I_)
 		// C++
 		#define ZTD_FUNCTION_LINKAGE_I_ extern "C"
 	#else
@@ -122,7 +123,7 @@
 		#endif
 	#else
 		// Normal static library
-		#if defined(__cplusplus)
+		#if ZTD_IS_ON(ZTD_CXX_I_)
 			#define ZTD_API_LINKAGE_I_
 		#else
 			#define ZTD_API_LINKAGE_I_ extern

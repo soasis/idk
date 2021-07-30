@@ -28,4 +28,22 @@
 //
 // ============================================================================>
 
-#include <ztd/version/version.hpp>
+#pragma once
+
+#ifndef ZTD_VERSION_VERSION_H
+#define ZTD_VERSION_VERSION_H
+
+#define ZTD_VERSION_MAJOR 0
+#define ZTD_VERSION_MINOR 0
+#define ZTD_VERSION_PATCH 0
+#define ZTD_VERSION_STRING "0.0.0"
+#define ZTD_VERSION_VERSION ((ZTD_VERSION_MAJOR * 100'000) + (ZTD_VERSION_MINOR * 100) + (ZTD_VERSION_PATCH))
+
+#include <ztd/version/detail/is.h>
+#include <ztd/version/detail/version.c.h>
+#include <ztd/version/detail/api.h>
+
+#include <ztd/prologue.hpp>
+#include <ztd/epilogue.hpp>
+
+#endif // ZTD_VERSION_VERSION_H

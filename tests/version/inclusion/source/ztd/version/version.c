@@ -28,4 +28,6 @@
 //
 // ============================================================================>
 
-#include <ztd/version/version.hpp>
+#include <ztd/version/version.c>
+
+#include <ztd/idk/tests/unused_declaration.h>

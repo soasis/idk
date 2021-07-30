@@ -35,6 +35,9 @@ file(GLOB_RECURSE ztd.version.tests.inclusion.sources
 	source/*.cpp)
 
 add_executable(ztd.version.tests.inclusion ${ztd.version.tests.inclusion.sources})
+target_include_directories(ztd.version.tests.inclusion
+	PRIVATE
+	../../shared/include)
 target_compile_options(ztd.version.tests.inclusion
 	PRIVATE
 	${--utf8-literal-encoding}

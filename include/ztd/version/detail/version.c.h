@@ -1,0 +1,509 @@
+// =============================================================================
+//
+// ztd.idk
+// Copyright © 2021 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
+// Contact: opensource@soasis.org
+//
+// Commercial License Usage
+// Licensees holding valid commercial ztd.idk licenses may use this file in
+// accordance with the commercial license agreement provided with the
+// Software or, alternatively, in accordance with the terms contained in
+// a written agreement between you and Shepherd's Oasis, LLC.
+// For licensing terms and conditions see your agreement. For
+// further information contact opensource@soasis.org.
+//
+// Apache License Version 2 Usage
+// Alternatively, this file may be used under the terms of Apache License
+// Version 2.0 (the "License") for non-commercial use; you may not use this
+// file except in compliance with the License. You may obtain a copy of the
+// License at
+//
+//		http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+// ============================================================================>
+
+#pragma once
+
+#ifndef ZTD_VERSION_DETAIL_VERSION_C_H
+#define ZTD_VERSION_DETAIL_VERSION_C_H
+
+#include <ztd/version/detail/vc++.codepage_to_name.h>
+
+// clang-format off
+
+#if ZTD_IS_ON(ZTD_CXX_I_)
+	#include <cstddef>
+	#include <cstdint>
+	#include <climits>
+	#if ZTD_HAS_INCLUDE_I_(<version>)
+		// Can check __has_include and we have the C++20 <version> header
+		#include <version>
+	#endif
+#else
+	#include <stddef.h>
+	#include <stdint.h>
+	#include <limits.h>
+#endif
+
+#if defined(__clang__)
+	#define ZTD_COMPILER_CLANG_I_ ZTD_ON
+#else
+	#define ZTD_COMPILER_CLANG_I_ ZTD_OFF
+#endif
+
+#if defined(__GNUC__)
+	#define ZTD_COMPILER_GCC_I_ ZTD_ON
+#else
+	#define ZTD_COMPILER_GCC_I_ ZTD_OFF
+#endif
+
+#if defined (_MSC_VER)
+	#define ZTD_COMPILER_VCXX_I_ ZTD_ON
+#else
+	#define ZTD_COMPILER_VCXX_I_ ZTD_OFF
+#endif
+
+#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_) && ZTD_IS_ON(ZTD_COMPILER_CLANG_I_)
+	#define ZTD_COMPILER_VCXX_CLANG_I_ ZTD_ON
+#else
+	#define ZTD_COMPILER_VCXX_CLANG_I_ ZTD_OFF
+#endif
+
+#if defined(__MINGW32__)
+	#define ZTD_COMPILER_MINGW_I_ ZTD_ON
+#else
+	#define ZTD_COMPILER_MINGW_I_ ZTD_OFF
+#endif
+
+#if defined(__GLIBCXX__)
+	#define ZTD_LIBSTDCXX_I_ ZTD_ON
+#else
+	#define ZTD_LIBSTDCXX_I_ ZTD_OFF
+#endif
+
+#if defined(_LIBCPP_VERSION)
+	#define ZTD_LIBCXX_I_ ZTD_ON
+#else
+	#define ZTD_LIBCXX_I_ ZTD_OFF
+#endif
+
+#if defined (_YVALS_CORE_H_) // Volatile definition; would be nice if VC++ exposed some documented macros...
+	#define ZTD_LIBVCXX_I_ ZTD_ON
+#else
+	#define ZTD_LIBVCXX_I_ ZTD_OFF
+#endif
+
+#if defined(ZTD_PLATFORM_WINDOWS)
+	#if (ZTD_PLATFORM_WINDOWS != 0)
+		#define ZTD_PLATFORM_WINDOWS_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_WINDOWS_I_ ZTD_ON
+	#endif
+#elif defined(_WIN32)
+	#define ZTD_PLATFORM_WINDOWS_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_PLATFORM_WINDOWS_I_ ZTD_DEFAULT_OFF
+#endif // Windows
+
+#if defined(__CYGWIN__)
+	#define ZTD_PLATFORM_CYGWIN_I_ ZTD_ON
+#else
+	#define ZTD_PLATFORM_CYGWIN_I_ ZTD_OFF
+#endif // Cygwin shenanigans
+
+#if defined(ZTD_PLATFORM_ZEDOS)
+	#if (ZTD_PLATFORM_ZEDOS != 0)
+		#define ZTD_PLATFORM_ZEDOS_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_ZEDOS_I_ ZTD_OFF
+	#endif
+#elif defined(__MVS__)
+	#define ZTD_PLATFORM_ZEDOS_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_PLATFORM_ZEDOS_I_ ZTD_DEFAULT_OFF
+#endif // IBM's Z/OS
+
+#if defined(ZTD_PLATFORM_FREESTANDING)
+	#if (ZTD_PLATFORM_FREESTANDING != 0)
+		#define ZTD_PLATFORM_FREESTANDING_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_FREESTANDING_I_ ZTD_OFF
+	#endif
+#elif !defined(__STDC_HOSTED__)
+	#define ZTD_PLATFORM_FREESTANDING_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_PLATFORM_FREESTANDING_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_PLATFORM_AIX)
+	#if (ZTD_PLATFORM_AIX != 0)
+		#define ZTD_PLATFORM_AIX_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_AIX_I_ ZTD_OFF
+	#endif
+#elif defined(_AIX)
+	// We are on the AIX platform
+	#define ZTD_PLATFORM_AIX_I_ ZTD_DEFAULT_ON
+#else
+	// We are not on the AIX platform
+	#define ZTD_PLATFORM_AIX_I_ ZTD_DEFAULT_OFF
+#endif // IBM's AIX
+
+#if defined(ZTD_PLATFORM_UNKNOWN_CHECK)
+	#if (ZTD_PLATFORM_UNKNOWN_CHECK != 0)
+		#define ZTD_PLATFORM_UNKNOWN_CHECK_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_UNKNOWN_CHECK_I_ ZTD_OFF
+	#endif
+#else
+	#define ZTD_PLATFORM_UNKNOWN_CHECK_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_PLATFORM_SOLARIS)
+	#if (ZTD_PLATFORM_SOLARIS != 0)
+		#define ZTD_PLATFORM_SOLARIS_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_SOLARIS_I_ ZTD_OFF
+	#endif
+#elif (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
+	#define ZTD_PLATFORM_SOLARIS_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_PLATFORM_SOLARIS_I_ ZTD_DEFAULT_OFF
+#endif // Solaris
+
+#if defined(ZTD_PLATFORM_SUNOS)
+	#if (ZTD_PLATFORM_SUNOS_I_ != 0)
+		#define ZTD_PLATFORM_SUNOS_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_SUNOS_I_ ZTD_OFF
+	#endif
+#elif (defined(sun) || defined(__sun)) && (!defined(__SVR4) && !defined(__svr4__))
+	#define ZTD_PLATFORM_SUNOS_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_PLATFORM_SUNOS_I_ ZTD_DEFAULT_OFF
+#endif // SunOS
+
+#if defined(ZTD_PLATFORM_UNIX)
+	#if (ZTD_PLATFORM_UNIX != 0)
+		#define ZTD_PLATFORM_UNIX_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_UNIX_I_ ZTD_OFF
+	#endif
+#elif defined(__unix) || defined(__unix__)
+	#define ZTD_PLATFORM_UNIX_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_PLATFORM_UNIX_I_ ZTD_DEFAULT_OFF
+#endif // UNIX platforms
+
+#if defined(ZTD_PLATFORM_LINUX)
+	#if (ZTD_PLATFORM_LINUX != 0)
+		#define ZTD_PLATFORM_LINUX_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_LINUX_I_ ZTD_OFF
+	#endif
+#elif defined(__linux) || defined(__linux__) || defined(linux)
+	#define ZTD_PLATFORM_LINUX_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_PLATFORM_LINUX_I_ ZTD_DEFAULT_OFF
+#endif // Linux platforms
+
+#if defined(ZTD_PLATFORM_MAC_OS)
+	#if (ZTD_PLATFORM_MAC_OS != 0)
+		#define ZTD_PLATFORM_MAC_OS_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_MAC_OS_I_ ZTD_OFF
+	#endif
+#elif defined(macintosh) || defined(Macintosh) || (__APPLE__)
+	#define ZTD_PLATFORM_MAC_OS_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_PLATFORM_MAC_OS_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_DEBUG)
+	#if (ZTD_DEBUG != 0)
+		#define ZTD_DEBUG_I_ ZTD_ON
+	#else
+		#define ZTD_DEBUG_I_ ZTD_OFF
+	#endif
+#elif !defined(NDEBUG)
+	#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_) && defined(_DEBUG)
+		#define ZTD_DEBUG_I_ ZTD_DEFAULT_ON
+	#elif (ZTD_IS_ON(ZTD_COMPILER_CLANG_I_) || ZTD_IS_ON(ZTD_COMPILER_GCC_I_)) && !defined(__OPTIMIZE__)
+		#define ZTD_DEBUG_I_ ZTD_DEFAULT_ON
+	#else
+		#define ZTD_DEBUG_I_ ZTD_DEFAULT_OFF
+	#endif
+#else
+	#define ZTD_DEBUG_I_ ZTD_DEFAULT_OFF
+#endif // We are in a debug mode of some sort
+
+#if defined(ZTD_WCHAR_T_UTF32_COMPATIBLE)
+	#if (ZTD_WCHAR_T_UTF32_COMPATIBLE != 0)
+		#define ZTD_WCHAR_T_UTF32_COMPATIBLE_I_ ZTD_ON
+	#else
+		#define ZTD_WCHAR_T_UTF32_COMPATIBLE_I_ ZTD_OFF
+	#endif
+#elif defined(__STDC_ISO_10646__) && (__STDC_ISO_10646__ != 0)
+	#define ZTD_WCHAR_T_UTF32_COMPATIBLE_I_ ZTD_DEFAULT_ON
+#elif (WCHAR_MAX >= 0x001FFFFF) && ZTD_IS_ON(ZTD_COMPILER_CLANG_I_)
+	#define ZTD_WCHAR_T_UTF32_COMPATIBLE_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_WCHAR_T_UTF32_COMPATIBLE_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_NATIVE_CHAR8_T)
+	#if (ZTD_NATIVE_CHAR8_T)
+		#define ZTD_NATIVE_CHAR8_T_I_ ZTD_ON
+	#else
+		#define ZTD_NATIVE_CHAR8_T_I_ ZTD_OFF
+	#endif
+#elif ZTD_IS_ON(ZTD_CXX_I_) && defined(__cpp_char8_t)
+	#define ZTD_NATIVE_CHAR8_T_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_NATIVE_CHAR8_T_I_ ZTD_DEFAULT_OFF
+#endif // char8_t exists natively (C++) - C proposal in WG14 still in progress
+
+#if defined(ZTD_CHAR8_T)
+	#define ZTD_USE_USER_CHAR8_T_I_ ZTD_ON
+	#define ZTD_CHAR8_T_I_ ZTD_CHAR8_T
+#elif ZTD_IS_ON(ZTD_NATIVE_CHAR8_T_I_)
+	#define ZTD_USE_USER_CHAR8_T_I_ ZTD_DEFAULT_OFF
+	#define ZTD_CHAR8_T_I_ char8_t
+#else
+	#define ZTD_USE_USER_CHAR8_T_I_ ZTD_DEFAULT_OFF
+	#define ZTD_CHAR8_T_I_ unsigned char
+#endif // char8_t defined by the user
+
+#if defined(ZTD_UCHAR)
+	#if (ZTD_UCHAR != 0)
+		#define ZTD_UCHAR_I_ ZTD_ON
+	#else
+		#define ZTD_UCHAR_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<uchar.h>)
+	#define ZTD_UCHAR_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_UCHAR_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_CUCHAR)
+	#if (ZTD_CUCHAR != 0)
+		#define ZTD_CUCHAR_I_ ZTD_ON
+	#else
+		#define ZTD_CUCHAR_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<cuchar>)
+	#define ZTD_CUCHAR_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_CUCHAR_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if ZTD_IS_ON(ZTD_CXX_I_)
+	#if ZTD_IS_ON(ZTD_CUCHAR_I_)
+		#define ZTD_UCHAR_ACCESSOR_I_ ::std::
+	#else
+		#define ZTD_UCHAR_ACCESSOR_I_ ::
+	#endif
+#else
+	#define ZTD_UCHAR_ACCESSOR_I_
+#endif
+
+#if defined(ZTD_LANGINFO)
+	#if (ZTD_LANGINFO != 0)
+		#define ZTD_LANGINFO_I_ ZTD_ON
+	#else
+		#define ZTD_LANGINFO_I_ ZTD_OFF
+	#endif
+#else
+	#if ZTD_HAS_INCLUDE_I_(<langinfo.h>)
+		#define ZTD_LANGINFO_I_ ZTD_ON
+	#else
+		#define ZTD_LANGINFO_I_ ZTD_DEFAULT_OFF
+	#endif
+#endif // langinfo POSIX
+
+#if defined(ZTD_NL_LANGINFO)
+	#if (ZTD_NL_LANGINFO != 0)
+		#define ZTD_NL_LANGINFO_I_ ZTD_ON
+	#else
+		#define ZTD_NL_LANGINFO_I_ ZTD_OFF
+	#endif
+#else
+	#if ZTD_HAS_INCLUDE_I_(<nl_langinfo.h>)
+		#define ZTD_NL_LANGINFO_I_ ZTD_ON
+	#else
+		#define ZTD_NL_LANGINFO_I_ ZTD_DEFAULT_OFF
+	#endif
+#endif // nl_langinfo POSIX
+
+#if defined(ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION)
+	#if (ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION != 0)
+		#define ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_ ZTD_ON
+	#else
+		#define ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_ ZTD_OFF
+	#endif
+#elif ZTD_IS_ON(ZTD_NL_LANGINFO_I_) && (ZTD_IS_ON(ZTD_PLATFORM_ZEDOS_I_) || ZTD_IS_ON(ZTD_PLATFORM_AIX_I_))
+	#define ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_ ZTD_ON
+#else
+	#define ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_ ZTD_DEFAULT_OFF
+#endif // Locale-dependent wchar_t detection
+
+#if (ZTD_HAS_ATTRIBUTE_I_(nodiscard) != 0L)
+	#if ZTD_IS_ON(ZTD_CXX_I_)
+		#if ZTD_HAS_ATTRIBUTE_I_(nodiscard) >= 201907L
+			#define ZTD_NODISCARD_MESSAGE_I_(__message) [[nodiscard(__message)]]
+			#define ZTD_NODISCARD_I_ [[nodiscard]]
+		#else
+			#define ZTD_NODISCARD_MESSAGE_I_(__message) [[nodiscard]]
+			#define ZTD_NODISCARD_I_ [[nodiscard]]
+		#endif
+	#else
+		#define ZTD_NODISCARD_MESSAGE_I_(__message) [[nodiscard(__message)]]
+		#define ZTD_NODISCARD_I_ [[nodiscard]]
+	#endif
+#else
+	#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_) && defined(_Check_return_)
+		#define ZTD_NODISCARD_MESSAGE_I_(__message) _Check_return_
+		#define ZTD_NODISCARD_I_ _Check_return_
+	#elif ZTD_IS_ON(ZTD_COMPILER_CLANG_I_) || ZTD_IS_ON(ZTD_COMPILER_GCC_I_)
+		#define ZTD_NODISCARD_MESSAGE_I_(__message) __attribute__((warn_unused_result))
+		#define ZTD_NODISCARD_I_ __attribute__((warn_unused_result))
+	#else
+		// :c
+		#define ZTD_NODSICARD_I_(__message)
+		#define ZTD_NODISCARD_I_
+	#endif
+#endif
+
+#if (ZTD_HAS_ATTRIBUTE_I_(deprecated) != 0L)
+	#define ZTD_DEPRECATED_I_(__message) [[deprecated(__message)]]
+#else
+	#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_)
+		#define ZTD_DEPRECATED_I_(__message) declspec(deprecated)
+	#elif ZTD_IS_ON(ZTD_COMPILER_CLANG_I_) || ZTD_IS_ON(ZTD_COMPILER_GCC_I_)
+		#define ZTD_DEPRECATED_I_(__message) __attribute__((warn_unused_result))
+	#else
+		// :c
+		#define ZTD_DEPRECATED_I_(__message)
+	#endif
+#endif
+
+#if defined(ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE)
+	#define ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE_I_ ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE
+#else
+	#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_)
+		// "The reserve value specifies the total stack allocation in virtual memory. 
+		// For ARM, x86 and x64 machines, the default stack size is 1 MB."
+		// ...
+		// "For ARM, x86 and x64 machines, the default commit value is 4 KB"
+		// https://docs.microsoft.com/en-us/cpp/build/reference/stack-stack-allocations?view=vs-2019
+		// Uses: (1024 * 64)
+		#define ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE_I_ (65536)
+	#elif ZTD_IS_ON(ZTD_PLATFORM_MAC_OS_I_)
+		// "  -stack_size size
+		//     Specifies the maximum stack size for the main thread in a program.  Without this option a
+		//     program has a 8MB stack.  The argument size is a hexadecimal number with an optional lead-
+		//     ing 0x. The size should be a multiple of the architecture's page size (4KB or 16KB).
+		// ld(1) manpage on Mac OS
+		// Uses: ((1024 * 64) * 8)
+		#define ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE_I_ (524288)
+	#elif ZTD_IS_ON(ZTD_PLATFORM_LINUX_I_) || ZTD_IS_ON(ZTD_PLATFORM_UNIX_I_)
+		// "Here is the vale for a few architectures:"
+		//
+		//    │Architecture │ Default stack size │
+		//    ├─────────────┼────────────────────┤
+		//    │i386         │               2 MB │
+		//    ├─────────────┼────────────────────┤
+		//    │IA-64        │              32 MB │
+		//    ├─────────────┼────────────────────┤
+		//    │PowerPC      │               4 MB │
+		//    ├─────────────┼────────────────────┤
+		//    │S/390        │               2 MB │
+		//    ├─────────────┼────────────────────┤
+		//    │Sparc-32     │               2 MB │
+		//    ├─────────────┼────────────────────┤
+		//    │Sparc-64     │               4 MB │
+		//    ├─────────────┼────────────────────┤
+		//    │x86_64       │               2 MB │
+		//    └─────────────┴────────────────────┘
+		// http://man7.org/linux/man-pages/man3/pthread_create.3.html
+		// Uses: (1024 * 128)
+		#define ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE_I_ (131072)
+	#else
+		// Tiny embbeded compiler shenanigans??
+		// Uses: (1024 * 2)
+		#define ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE_I_ (2048)
+	#endif // MSVC vs. others
+#endif // Intermediate buffer sizing
+
+#define ZTD_INTERMEDIATE_BUFFER_SUGGESTED_SIZE_I_(...) (ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE_I_ / sizeof(__VA_ARGS__))
+
+#if defined(ZTD_COMPILE_TIME_ENCODING_NAME)
+	#define ZTD_COMPILE_TIME_ENCODING_NAME_GET_I_()         ZTD_COMPILE_TIME_ENCODING_NAME
+	#define ZTD_COMPILE_TIME_ENCODING_NAME_DESCRIPTION_I_() "set by the user with ZTD_COMPILE_TIME_ENCODING_NAME as (" ZTD_TOKEN_TO_STRING_I_(ZTD_COMPILE_TIME_ENCODING_NAME) ")"
+	#define ZTD_COMPILE_TIME_ENCODING_NAME_I_               ZTD_DEFAULT_ON
+#elif defined(__MSC_EXECUTION_CHARSET_ID)
+	#define ZTD_COMPILE_TIME_ENCODING_NAME_GET_I_()         ZTD_MSC_CODEPAGE_ID_TO_NAME_I_(__MSC_EXECUTION_CHARSET_ID)
+	#define ZTD_COMPILE_TIME_ENCODING_NAME_DESCRIPTION_I_() "MSVC CodePage ID: " ZTD_TOKEN_TO_STRING_I_(__MSC_EXECUTION_CHARSET_ID)
+	#define ZTD_COMPILE_TIME_ENCODING_NAME_I_               ZTD_DEFAULT_ON
+#elif defined(__GNUC_EXECUTION_CHARSET_NAME)
+	#define ZTD_COMPILE_TIME_ENCODING_NAME_GET_I_()         __GNUC_EXECUTION_CHARSET_NAME
+	#define ZTD_COMPILE_TIME_ENCODING_NAME_DESCRIPTION_I_() __GNUC_EXECUTION_CHARSET_NAME
+	#define ZTD_COMPILE_TIME_ENCODING_NAME_I_               ZTD_DEFAULT_ON
+#elif defined(__clang_literal_encoding__)
+	#define ZTD_COMPILE_TIME_ENCODING_NAME_GET_I_()         __clang_literal_encoding__
+	#define ZTD_COMPILE_TIME_ENCODING_NAME_DESCRIPTION_I_() __clang_literal_encoding__
+	#define ZTD_COMPILE_TIME_ENCODING_NAME_I_               ZTD_DEFAULT_ON
+#elif ZTD_IS_ON(ZTD_COMPILER_CLANG_I_)
+	#define ZTD_COMPILE_TIME_ENCODING_NAME_GET_I_()         "UTF-8"
+	#define ZTD_COMPILE_TIME_ENCODING_NAME_DESCRIPTION_I_() "UTF-8"
+	#define ZTD_COMPILE_TIME_ENCODING_NAME_I_               ZTD_DEFAULT_ON
+#else
+	#define ZTD_COMPILE_TIME_ENCODING_NAME_GET_I_()         "UTF-8"
+	#define ZTD_COMPILE_TIME_ENCODING_NAME_DESCRIPTION_I_() "UTF-8"
+	#define ZTD_COMPILE_TIME_ENCODING_NAME_I_               ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_COMPILE_TIME_WIDE_ENCODING_NAME)
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_()         ZTD_COMPILE_TIME_WIDE_ENCODING_NAME
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_DESCRIPTION_I_() "set by the user with ZTD_COMPILE_TIME_ENCODING_NAME as (" ZTD_TOKEN_TO_STRING_I_(ZTD_COMPILE_TIME_WIDE_ENCODING_NAME) ")"
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_I_               ZTD_ON
+#elif defined(__GNUC_WIDE_EXECUTION_CHARSET_NAME)
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_()         __GNUC_WIDE_EXECUTION_CHARSET_NAME
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_DESCRIPTION_I_() ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_()
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_I_               ZTD_DEFAULT_ON
+#elif defined(__clang_wide_literal_encoding__)
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_()         __clang_wide_literal_encoding__
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_DESCRIPTION_I_() ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_()
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_I_               ZTD_DEFAULT_ON
+#elif ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_()         "UTF-16"
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_DESCRIPTION_I_() "UTF-16"
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_I_               ZTD_DEFAULT_ON
+#elif (WCHAR_MAX >= 0x001FFFFF) && ZTD_IS_ON(ZTD_WCHAR_T_UTF32_COMPATIBLE_I_)
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_()         "UTF-32"
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_DESCRIPTION_I_() "UTF-32"
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_I_               ZTD_DEFAULT_ON
+#elif (WCHAR_MAX >= 0x0000FFFF)
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_()         "UTF-16"
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_DESCRIPTION_I_() "UTF-16"
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_I_               ZTD_DEFAULT_ON
+#elif (WCHAR_MAX >= 0x000000FF)
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_()         "UTF-8"
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_DESCRIPTION_I_() "UTF-8"
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_I_               ZTD_DEFAULT_ON
+#else
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_()         "UTF-32"
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_DESCRIPTION_I_() "UTF-32"
+	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_I_               ZTD_DEFAULT_OFF
+#endif
+
+// clang-format on
+
+#endif // ZTD_VERSION_DETAIL_VERSION_C_H
