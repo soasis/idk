@@ -77,7 +77,7 @@ typedef struct ZTD_IDK_C_SPAN_FULL_NAME_I_ {
 	ZTD_IDK_C_SPAN_SIZE_TYPE_I_ size;
 } ZTD_IDK_C_SPAN_FULL_NAME_I_;
 
-ZTD_C_FUNCTION_LINKAGE_I_ inline ZTD_IDK_C_SPAN_FULL_NAME_I_ ZTD_IDK_C_SPAN_PREFIX_I_(make_)(
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_FULL_NAME_I_ ZTD_IDK_C_SPAN_PREFIX_I_(make_)(
      ZTD_IDK_C_SPAN_TYPE_I_* __first, ZTD_IDK_C_SPAN_TYPE_I_* __last) {
 	ZTD_IDK_C_SPAN_FULL_NAME_I_ __result;
 	__result.data = __first;
@@ -85,7 +85,7 @@ ZTD_C_FUNCTION_LINKAGE_I_ inline ZTD_IDK_C_SPAN_FULL_NAME_I_ ZTD_IDK_C_SPAN_PREF
 	return __result;
 }
 
-ZTD_C_FUNCTION_LINKAGE_I_ inline ZTD_IDK_C_SPAN_FULL_NAME_I_ ZTD_IDK_C_SPAN_PREFIX_I_(make_sized_)(
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_FULL_NAME_I_ ZTD_IDK_C_SPAN_PREFIX_I_(make_sized_)(
      ZTD_IDK_C_SPAN_TYPE_I_* __first, ZTD_IDK_C_SPAN_SIZE_TYPE_I_ __size) {
 	ZTD_IDK_C_SPAN_FULL_NAME_I_ __result;
 	__result.data = __first;
@@ -93,67 +93,68 @@ ZTD_C_FUNCTION_LINKAGE_I_ inline ZTD_IDK_C_SPAN_FULL_NAME_I_ ZTD_IDK_C_SPAN_PREF
 	return __result;
 }
 
-ZTD_C_FUNCTION_LINKAGE_I_ inline ZTD_IDK_C_SPAN_TYPE_I_* ZTD_IDK_C_SPAN_SUFFIX_I_(_data)(
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_TYPE_I_* ZTD_IDK_C_SPAN_SUFFIX_I_(_data)(
      ZTD_IDK_C_SPAN_FULL_NAME_I_ __span) {
 	return __span.data;
 }
 
-ZTD_C_FUNCTION_LINKAGE_I_ inline ZTD_IDK_C_SPAN_SIZE_TYPE_I_ ZTD_IDK_C_SPAN_SUFFIX_I_(_size)(
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_SIZE_TYPE_I_ ZTD_IDK_C_SPAN_SUFFIX_I_(_size)(
      ZTD_IDK_C_SPAN_FULL_NAME_I_ __span) {
 	return __span.size;
 }
 
-ZTD_C_FUNCTION_LINKAGE_I_ inline bool ZTD_IDK_C_SPAN_SUFFIX_I_(_empty)(ZTD_IDK_C_SPAN_FULL_NAME_I_ __span) {
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ bool ZTD_IDK_C_SPAN_SUFFIX_I_(_empty)(
+     ZTD_IDK_C_SPAN_FULL_NAME_I_ __span) {
 	return __span.size == 0;
 }
 
-ZTD_C_FUNCTION_LINKAGE_I_ inline ZTD_IDK_C_SPAN_TYPE_I_ ZTD_IDK_C_SPAN_SUFFIX_I_(_front)(
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_TYPE_I_ ZTD_IDK_C_SPAN_SUFFIX_I_(_front)(
      ZTD_IDK_C_SPAN_FULL_NAME_I_ __span) {
 	ZTD_ASSERT_MESSAGE_I_("c_span's size must be greater than zero", __span.size > 0);
 	return *__span.data;
 }
 
-ZTD_C_FUNCTION_LINKAGE_I_ inline ZTD_IDK_C_SPAN_TYPE_I_ ZTD_IDK_C_SPAN_SUFFIX_I_(_back)(
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_TYPE_I_ ZTD_IDK_C_SPAN_SUFFIX_I_(_back)(
      ZTD_IDK_C_SPAN_FULL_NAME_I_ __span) {
 	ZTD_ASSERT_MESSAGE_I_("c_span's size must be greater than zero", __span.size > 0);
 	return *(__span.data + __span.size - 1);
 }
 
-ZTD_C_FUNCTION_LINKAGE_I_ inline ZTD_IDK_C_SPAN_TYPE_I_ ZTD_IDK_C_SPAN_SUFFIX_I_(_at)(
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_TYPE_I_ ZTD_IDK_C_SPAN_SUFFIX_I_(_at)(
      ZTD_IDK_C_SPAN_FULL_NAME_I_ __span, ZTD_IDK_C_SPAN_SIZE_TYPE_I_ __index) {
 	ZTD_ASSERT_MESSAGE_I_("c_span's size must be greater than zero", __span.size > __index);
 	return __span.data[__index];
 }
 
-ZTD_C_FUNCTION_LINKAGE_I_ inline ZTD_IDK_C_SPAN_TYPE_I_* ZTD_IDK_C_SPAN_SUFFIX_I_(_ptr_at)(
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_TYPE_I_* ZTD_IDK_C_SPAN_SUFFIX_I_(_ptr_at)(
      ZTD_IDK_C_SPAN_FULL_NAME_I_ __span, ZTD_IDK_C_SPAN_SIZE_TYPE_I_ __index) {
 	ZTD_ASSERT_MESSAGE_I_("index must be within c_span's boundaries", __index < __span.size);
 	return __span.data + __index;
 }
 
-ZTD_C_FUNCTION_LINKAGE_I_ inline ZTD_IDK_C_SPAN_TYPE_I_* ZTD_IDK_C_SPAN_SUFFIX_I_(_maybe_ptr_at)(
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_TYPE_I_* ZTD_IDK_C_SPAN_SUFFIX_I_(_maybe_ptr_at)(
      ZTD_IDK_C_SPAN_FULL_NAME_I_ __span, ZTD_IDK_C_SPAN_SIZE_TYPE_I_ __index) {
 	if (__index < __span.size)
 		return __span.data + __index;
 	return NULL;
 }
 
-ZTD_C_FUNCTION_LINKAGE_I_ inline ZTD_IDK_C_SPAN_SIZE_TYPE_I_ ZTD_IDK_C_SPAN_SUFFIX_I_(_byte_size)(
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_SIZE_TYPE_I_ ZTD_IDK_C_SPAN_SUFFIX_I_(_byte_size)(
      ZTD_IDK_C_SPAN_FULL_NAME_I_ __span) {
 	return __span.size * sizeof(char);
 }
 
-ZTD_C_FUNCTION_LINKAGE_I_ inline ZTD_IDK_C_SPAN_TYPE_I_* ZTD_IDK_C_SPAN_SUFFIX_I_(_begin)(
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_TYPE_I_* ZTD_IDK_C_SPAN_SUFFIX_I_(_begin)(
      ZTD_IDK_C_SPAN_FULL_NAME_I_ __span) {
 	return __span.data;
 }
 
-ZTD_C_FUNCTION_LINKAGE_I_ inline ZTD_IDK_C_SPAN_TYPE_I_* ZTD_IDK_C_SPAN_SUFFIX_I_(_end)(
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_TYPE_I_* ZTD_IDK_C_SPAN_SUFFIX_I_(_end)(
      ZTD_IDK_C_SPAN_FULL_NAME_I_ __span) {
 	return __span.data + __span.size;
 }
 
-ZTD_C_FUNCTION_LINKAGE_I_ inline ZTD_IDK_C_SPAN_FULL_NAME_I_ ZTD_IDK_C_SPAN_SUFFIX_I_(_subspan_at)(
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_FULL_NAME_I_ ZTD_IDK_C_SPAN_SUFFIX_I_(_subspan_at)(
      ZTD_IDK_C_SPAN_FULL_NAME_I_ __span, ZTD_IDK_C_SPAN_SIZE_TYPE_I_ __offset_index,
      ZTD_IDK_C_SPAN_SIZE_TYPE_I_ __size) {
 	ZTD_ASSERT_MESSAGE_I_("c_span's size must be greater than or equal to the offset and size",
@@ -161,7 +162,7 @@ ZTD_C_FUNCTION_LINKAGE_I_ inline ZTD_IDK_C_SPAN_FULL_NAME_I_ ZTD_IDK_C_SPAN_SUFF
 	return ZTD_IDK_C_SPAN_PREFIX_I_(make_sized_)(__span.data + __offset_index, __size);
 }
 
-ZTD_C_FUNCTION_LINKAGE_I_ inline ZTD_IDK_C_SPAN_FULL_NAME_I_ ZTD_IDK_C_SPAN_SUFFIX_I_(_subspan)(
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_FULL_NAME_I_ ZTD_IDK_C_SPAN_SUFFIX_I_(_subspan)(
      ZTD_IDK_C_SPAN_FULL_NAME_I_ __span, ZTD_IDK_C_SPAN_SIZE_TYPE_I_ __offset_index) {
 	ZTD_ASSERT_MESSAGE_I_(
 	     "c_span's size must be greater than or equal to the offset and size", __span.size >= (__offset_index));
