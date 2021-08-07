@@ -30,22 +30,15 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_VERSION_HPP
-#define ZTD_IDK_VERSION_HPP
+#ifndef ZTD_IDK_VERSION_H
+#define ZTD_IDK_VERSION_H
 
-#include <ztd/idk/version.h>
-#include <ztd/version.hpp>
+#include <ztd/version.h>
 
-// clang-format off
+#define ZTD_IDK_VERSION_MAJOR 0
+#define ZTD_IDK_VERSION_MINOR 0
+#define ZTD_IDK_VERSION_PATCH 0
+#define ZTD_IDK_VERSION_STRING "0.0.0"
+#define ZTD_IDK_VERSION ((ZTD_IDK_VERSION_MAJOR * 100000) + (ZTD_IDK_VERSION_MINOR * 100) + (ZTD_IDK_VERSION_PATCH))
 
-#if defined(ZTD_IDK_ABI_NAMESPACE)
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_ inline namespace ZTD_IDK_ABI_NAMESPACE {
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_ }
-#else
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_ inline namespace __v0 {
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_ }
-#endif
-
-// clang-format on
-
-#endif // ZTD_IDK_VERSION_HPP
+#endif // ZTD_IDK_VERSION_H

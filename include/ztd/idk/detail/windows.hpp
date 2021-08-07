@@ -53,9 +53,9 @@
 #else
 #endif
 
-extern "C" {
+ZTD_EXTERN_C_OPEN_I_
 #include <Windows.h>
-}
+ZTD_EXTERN_C_CLOSE_I_
 
 #include <ztd/prologue.hpp>
 

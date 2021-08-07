@@ -37,7 +37,7 @@
 #define ZTD_VERSION_MINOR 0
 #define ZTD_VERSION_PATCH 0
 #define ZTD_VERSION_STRING "0.0.0"
-#define ZTD_VERSION_VERSION ((ZTD_VERSION_MAJOR * 100'000) + (ZTD_VERSION_MINOR * 100) + (ZTD_VERSION_PATCH))
+#define ZTD_VERSION_VERSION ((ZTD_VERSION_MAJOR * 100000) + (ZTD_VERSION_MINOR * 100) + (ZTD_VERSION_PATCH))
 
 #include <ztd/version/detail/is.h>
 #include <ztd/version/detail/version.c.h>

@@ -28,16 +28,7 @@
 ..
 .. =============================================================================>
 
-🔨 Configuring the Library
-==========================
+assertions
+==========
 
-.. _config-ZTD_DEBUG:
-
-- ``ZTD_DEBUG``:
-	- Signals to ztd.idk and downstream users that this should be considered a "debugging" build.
-	- Affects many things, such as error printouts, warnings given, and more.
-	- Turned on by default if compiler/platform-specific debug macros are detected, or ``NDEBUG`` is not defined by the compiler/library.
-
-.. warning::
-
-	|unfinished_warning|
+This API is identical to the one defined in the C APIs, which can be :doc:`found here</c_api/assert>`.

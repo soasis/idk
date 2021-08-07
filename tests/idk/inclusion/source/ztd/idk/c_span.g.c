@@ -28,30 +28,5 @@
 //
 // ============================================================================>
 
-#pragma once
-
-#ifndef ZTD_IDK_CHAR8_T_HPP
-#define ZTD_IDK_CHAR8_T_HPP
-
-#include <ztd/idk/version.hpp>
-
-#include <ztd/prologue.hpp>
-
-namespace ztd {
-	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
-
-	//////
-	/// @brief An alias to a unsigned representation of an 8-bit (or greater) code unit type.
-	///
-	/// @remarks This will be a type alias for the type given in @c ZTD_CHAR8_T is defined by the user. Otherwise,
-	/// it will be a type alias for @c char8_t if present. If neither are available, it will alias @c uchar
-	/// for the type.
-	//////
-	using uchar8_t = ZTD_CHAR8_T_I_;
-
-	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
-} // namespace ztd
-
-#include <ztd/epilogue.hpp>
-
-#endif // ZTD_IDK_CHAR8_T_HPP
+#define ZTD_IDK_C_SPAN_TYPE int
+#include <ztd/idk/c_span.g.h>

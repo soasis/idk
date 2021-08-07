@@ -131,6 +131,18 @@
 	#endif // DLL or not
 #endif // Build definitions
 
+#if defined(ZTD_C_FUNCTION_LINKAGE)
+	#define ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_LINKAGE
+#else
+	#if ZTD_IS_ON(ZTD_CXX_I_)
+		// C++
+		#define ZTD_C_FUNCTION_LINKAGE_I_ extern "C"
+	#else
+		// normal
+		#define ZTD_C_FUNCTION_LINKAGE_I_
+	#endif // C++ or not
+#endif // Linkage specification
+
 // clang-format on
 
 #endif // ZTD_VERSION_DETAIL_BUILD_VERSION_HPP

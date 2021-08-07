@@ -47,7 +47,7 @@ project(ztd.idk
 	VERSION 0.0.0
 	DESCRIPTION "The IDK (Industrial Development Kit) Library, for useful tools that get the job done!"
 	HOMEPAGE_URL "https://ztdidk.rtfd.io/"
-	LANGUAGES CXX)
+	LANGUAGES CXX C)
 
 if (ZTD_IDK_READTHEDOCS)
 	# ReadTheDocs seems unable to handle the include at the project level: something must be going wrong?

@@ -30,22 +30,54 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_VERSION_HPP
-#define ZTD_IDK_VERSION_HPP
+#ifndef ZTD_IDK_CHAR8_T_HPP
+#define ZTD_IDK_CHAR8_T_HPP
 
-#include <ztd/idk/version.h>
-#include <ztd/version.hpp>
+#include <ztd/idk/version.hpp>
 
-// clang-format off
+#include <ztd/idk/charN_t.h>
 
-#if defined(ZTD_IDK_ABI_NAMESPACE)
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_ inline namespace ZTD_IDK_ABI_NAMESPACE {
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_ }
-#else
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_ inline namespace __v0 {
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_ }
-#endif
+#include <ztd/prologue.hpp>
 
-// clang-format on
+//////
+/// @addtogroup ztd_idk_charN_t ztd.idk char8/16/32_t code unit type definitions
+///
+/// @{
+//////
 
-#endif // ZTD_IDK_VERSION_HPP
+namespace ztd {
+	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
+
+	//////
+	/// @brief An alias to a unsigned representation of an 8-bit (or greater) code unit type.
+	///
+	/// @remarks This will be a type alias for the type given in @c ZTD_CHAR8_T is defined by the user. Otherwise,
+	/// it will be a type alias for @c char8_t if present. If neither are available, it will alias @c uchar
+	/// for the type.
+	//////
+	using uchar8_t = ZTD_CHAR8_T_I_;
+
+	//////
+	/// @brief An alias to a unsigned representation of an 16-bit (or greater) code unit type.
+	///
+	/// @remarks This alias will always point to `char16_t`, because C++ has this as a built-in type.
+	//////
+	using uchar16_t = char16_t;
+
+	//////
+	/// @brief An alias to a unsigned representation of an 32-bit (or greater) code unit type.
+	///
+	/// @remarks This alias will always point to `char32_t`, because C++ has this as a built-in type.
+	//////
+	using uchar32_t = char32_t;
+
+	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
+} // namespace ztd
+
+//////
+/// @}
+//////
+
+#include <ztd/epilogue.hpp>
+
+#endif // ZTD_IDK_CHAR8_T_HPP

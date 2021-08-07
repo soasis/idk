@@ -34,9 +34,22 @@ API Reference
 This is simply a listing of all the available pages containing various APIs, or links to pages that link to more API documentation.
 
 
+C++ APIs
+--------
+
 .. toctree::
 	:maxdepth: 1
 	:glob:
 	
 	api/*
 	api/type_traits/*
+
+
+C APIs
+------
+
+.. toctree::
+	:maxdepth: 1
+	:glob:
+	
+	c_api/*

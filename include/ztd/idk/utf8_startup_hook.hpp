@@ -30,22 +30,36 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_VERSION_HPP
-#define ZTD_IDK_VERSION_HPP
+#ifndef ZTD_IDK_UTF8_STARTUP_HOOK_HPP
+#define ZTD_IDK_UTF8_STARTUP_HOOK_HPP
 
-#include <ztd/idk/version.h>
-#include <ztd/version.hpp>
+#include <ztd/idk/version.hpp>
 
-// clang-format off
+#include <ztd/idk/utf8_locale.h>
 
-#if defined(ZTD_IDK_ABI_NAMESPACE)
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_ inline namespace ZTD_IDK_ABI_NAMESPACE {
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_ }
-#else
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_ inline namespace __v0 {
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_ }
-#endif
+#include <iostream>
 
-// clang-format on
+namespace ztd { namespace idk {
+	//////
+	/// @brief A hook which attempts to set the locale to a UTF-8 locale of some kind.
+	//////
+	struct utf8_startup_hook {
+		//////
+		/// @brief The result of the hook.
+		//////
+		int result;
 
-#endif // ZTD_IDK_VERSION_HPP
+		//////
+		/// @brief A constructor which attempts to set the locale to UTF-8.
+		//////
+		utf8_startup_hook() noexcept : result(0) {
+			result = ztd_idk_attempt_utf8_locale();
+			if (result == 0) {
+				std::cerr << "cannot set the locale-based encoding in non-Windows to UTF8" << std::endl;
+			}
+		}
+	};
+}} // namespace ztd::idk
+
+
+#endif // ZTD_IDK_UTF8_STARTUP_HOOK_HPP

@@ -28,16 +28,9 @@
 ..
 .. =============================================================================>
 
-🔨 Configuring the Library
-==========================
+span
+====
 
-.. _config-ZTD_DEBUG:
+A polyfill ("shim", fill-in-layer) meant to emulate `std::span <https://en.cppreference.com/w/cpp/container/span>`_.
 
-- ``ZTD_DEBUG``:
-	- Signals to ztd.idk and downstream users that this should be considered a "debugging" build.
-	- Affects many things, such as error printouts, warnings given, and more.
-	- Turned on by default if compiler/platform-specific debug macros are detected, or ``NDEBUG`` is not defined by the compiler/library.
-
-.. warning::
-
-	|unfinished_warning|
+Available in the namespace uner the name ``ztd::span``.

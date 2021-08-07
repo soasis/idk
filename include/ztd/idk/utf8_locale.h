@@ -30,22 +30,32 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_VERSION_HPP
-#define ZTD_IDK_VERSION_HPP
+#ifndef ZTD_IDK_UTF8_LOCALE_H
+#define ZTD_IDK_UTF8_LOCALE_H
 
 #include <ztd/idk/version.h>
-#include <ztd/version.hpp>
 
-// clang-format off
-
-#if defined(ZTD_IDK_ABI_NAMESPACE)
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_ inline namespace ZTD_IDK_ABI_NAMESPACE {
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_ }
+#if ZTD_IS_ON(ZTD_CXX_I_)
+#include <clocale>
 #else
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_ inline namespace __v0 {
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_ }
+#include <locale.h>
 #endif
 
-// clang-format on
+ZTD_EXTERN_C_OPEN_I_
 
-#endif // ZTD_IDK_VERSION_HPP
+extern "C" inline int ztd_idk_attempt_utf8_locale(void) {
+	char* __result;
+	__result = std::setlocale(LC_ALL, ".65001");
+	if (__result != nullptr) {
+		return 1;
+	}
+	__result = std::setlocale(LC_ALL, "en_US.utf8");
+	if (__result != nullptr) {
+		return 1;
+	}
+	return 0;
+}
+
+ZTD_EXTERN_C_CLOSE_I_
+
+#endif // ZTD_IDK_UTF8_LOCALE_H

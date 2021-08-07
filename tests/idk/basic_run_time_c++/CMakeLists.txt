@@ -28,18 +28,26 @@
 #
 # ============================================================================>
 
-# # Fetch dependencies
-# Catch2
-if (NOT TARGET Catch2::Catch2)
-	FetchContent_Declare(
-		catch2
-		GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-		GIT_TAG        v2.13.4
-	)
-	FetchContent_MakeAvailable(catch2)
-endif()
+# # Tests
+file(GLOB_RECURSE ztd.idk.tests.basic_run_time_c++.sources
+	LIST_DIRECTORIES FALSE
+	CONFIGURE_DEPENDS
+	source/*.cpp)
 
-# # Test Subdirectories
-add_subdirectory(inclusion)
-add_subdirectory(basic_run_time_c++)
-add_subdirectory(basic_run_time_c)
+add_executable(ztd.idk.tests.basic_run_time_c++ ${ztd.idk.tests.basic_run_time_c++.sources})
+target_compile_options(ztd.idk.tests.basic_run_time_c++
+	PRIVATE
+	${--utf8-literal-encoding}
+	${--utf8-source-encoding}
+	${--disable-permissive}
+	${--warn-pedantic}
+	${--warn-default}
+	${--warn-extra}
+	${--warn-errors})
+target_link_libraries(ztd.idk.tests.basic_run_time_c++
+	PRIVATE
+	ztd::idk
+	Catch2::Catch2
+	${CMAKE_DL_LIBS}
+)
+add_test(NAME ztd.idk.tests.basic_run_time_c++ COMMAND ztd.idk.tests.basic_run_time_c++)

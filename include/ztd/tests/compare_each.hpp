@@ -30,22 +30,30 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_VERSION_HPP
-#define ZTD_IDK_VERSION_HPP
+#ifndef ZTD_IDK_TESTS_RESULT_COMPARE_HPP
+#define ZTD_IDK_TESTS_RESULT_COMPARE_HPP
 
-#include <ztd/idk/version.h>
-#include <ztd/version.hpp>
+#include <catch2/catch.hpp>
 
-// clang-format off
+namespace ztd { namespace tests {
 
-#if defined(ZTD_IDK_ABI_NAMESPACE)
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_ inline namespace ZTD_IDK_ABI_NAMESPACE {
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_ }
-#else
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_ inline namespace __v0 {
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_ }
-#endif
+	template <typename Result, typename Expected>
+	void compare_each(Result& result, Expected& expected) {
+		std::size_t result_size   = result.size();
+		std::size_t expected_size = expected.size();
+		for (std::size_t index = 0; index < expected_size; ++index) {
+			REQUIRE(result_size > index);
+			const auto& result_c   = result[index];
+			const auto& expected_c = expected[index];
+			if (result_c != expected_c) {
+				REQUIRE(result_c == expected_c);
+			}
+			REQUIRE(result_c == expected_c);
+		}
+		REQUIRE(result_size == expected_size);
+		REQUIRE(result == expected);
+	}
 
-// clang-format on
+}} // namespace ztd::tests
 
-#endif // ZTD_IDK_VERSION_HPP
+#endif // ZTD_IDK_TESTS_RESULT_COMPARE_HPP

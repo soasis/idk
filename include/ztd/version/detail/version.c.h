@@ -33,6 +33,7 @@
 #ifndef ZTD_VERSION_DETAIL_VERSION_C_H
 #define ZTD_VERSION_DETAIL_VERSION_C_H
 
+#include <ztd/version/detail/is.h>
 #include <ztd/version/detail/vc++.codepage_to_name.h>
 
 // clang-format off
@@ -231,14 +232,12 @@
 	#else
 		#define ZTD_DEBUG_I_ ZTD_OFF
 	#endif
+#elif ZTD_IS_ON(ZTD_COMPILER_VCXX_I_) && defined(_DEBUG)
+	#define ZTD_DEBUG_I_ ZTD_DEFAULT_ON
+#elif (ZTD_IS_ON(ZTD_COMPILER_CLANG_I_) || ZTD_IS_ON(ZTD_COMPILER_GCC_I_)) && !defined(__OPTIMIZE__)
+	#define ZTD_DEBUG_I_ ZTD_DEFAULT_ON
 #elif !defined(NDEBUG)
-	#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_) && defined(_DEBUG)
-		#define ZTD_DEBUG_I_ ZTD_DEFAULT_ON
-	#elif (ZTD_IS_ON(ZTD_COMPILER_CLANG_I_) || ZTD_IS_ON(ZTD_COMPILER_GCC_I_)) && !defined(__OPTIMIZE__)
-		#define ZTD_DEBUG_I_ ZTD_DEFAULT_ON
-	#else
-		#define ZTD_DEBUG_I_ ZTD_DEFAULT_OFF
-	#endif
+	#define ZTD_DEBUG_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_DEBUG_I_ ZTD_DEFAULT_OFF
 #endif // We are in a debug mode of some sort
@@ -503,6 +502,25 @@
 	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_DESCRIPTION_I_() "UTF-32"
 	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_I_               ZTD_DEFAULT_OFF
 #endif
+
+#if defined(ZTD_DOXYGEN_PREPROCESSING)
+	#if (ZTD_DOXYGEN_PREPROCESSING != 0)
+		#define ZTD_DOXYGEN_PREPROCESSING_I_ ZTD_ON
+	#else
+		#define ZTD_DOXYGEN_PREPROCESSING_I_ ZTD_OFF
+	#endif
+#else
+	#define ZTD_DOXYGEN_PREPROCESSING_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if ZTD_IS_ON(ZTD_CXX_I_)
+	#define ZTD_EXTERN_C_OPEN_I_ extern "C" {
+	#define ZTD_EXTERN_C_CLOSE_I_ }
+#else
+	#define ZTD_EXTERN_C_OPEN_I_
+	#define ZTD_EXTERN_C_CLOSE_I_
+#endif
+
 
 // clang-format on
 

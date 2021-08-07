@@ -30,22 +30,32 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_VERSION_HPP
-#define ZTD_IDK_VERSION_HPP
+#ifndef ZTD_IDK_C_SPAN_H
+#define ZTD_IDK_C_SPAN_H
 
 #include <ztd/idk/version.h>
-#include <ztd/version.hpp>
+#include <ztd/idk/charN_t.h>
 
-// clang-format off
+#define ZTD_IDK_C_SPAN_TYPE char
+#include <ztd/idk/c_span.g.h>
 
-#if defined(ZTD_IDK_ABI_NAMESPACE)
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_ inline namespace ZTD_IDK_ABI_NAMESPACE {
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_ }
-#else
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_ inline namespace __v0 {
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_ }
-#endif
+#define ZTD_IDK_C_SPAN_TYPE wchar_t
+#include <ztd/idk/c_span.g.h>
 
-// clang-format on
+#define ZTD_IDK_C_SPAN_TYPE ztd_char8_t
+#define ZTD_IDK_C_SPAN_TYPE_NAME char8_t
+#include <ztd/idk/c_span.g.h>
 
-#endif // ZTD_IDK_VERSION_HPP
+#define ZTD_IDK_C_SPAN_TYPE ztd_char16_t
+#define ZTD_IDK_C_SPAN_TYPE_NAME char16_t
+#include <ztd/idk/c_span.g.h>
+
+#define ZTD_IDK_C_SPAN_TYPE ztd_char32_t
+#define ZTD_IDK_C_SPAN_TYPE_NAME char32_t
+#include <ztd/idk/c_span.g.h>
+
+#define ZTD_IDK_C_SPAN_TYPE unsigned char
+#define ZTD_IDK_C_SPAN_TYPE_NAME uchar
+#include <ztd/idk/c_span.g.h>
+
+#endif // ZTD_IDK_C_SPAN_H

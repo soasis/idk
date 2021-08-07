@@ -45,11 +45,11 @@ namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
 
 	//////
-	/// @brief A class for optimizing the amount of space a certain member of type @p _Type might use.
+	/// @brief A class for optimizing the amount of space a certain member of type `_Type` might use.
 	///
 	/// @tparam _Type The type of the member.
 	/// @tparam _Tag A differentiating tag to separate this member from others when there are multiple bases of the
-	/// same <tt>_Type</tt>.
+	/// same `_Type`.
 	///
 	/// @remarks The only reason this class continues to be necessary is because of Microsoft Visual C++. Every other
 	/// compiler respects the new C++20 attribute [[no_unique_address]] - it is only Microsoft that explicitly decided

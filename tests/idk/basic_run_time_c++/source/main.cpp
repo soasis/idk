@@ -28,24 +28,10 @@
 //
 // ============================================================================>
 
-#pragma once
+#define CATCH_CONFIG_RUNNER
+#include <catch2/catch.hpp>
 
-#ifndef ZTD_IDK_VERSION_HPP
-#define ZTD_IDK_VERSION_HPP
-
-#include <ztd/idk/version.h>
-#include <ztd/version.hpp>
-
-// clang-format off
-
-#if defined(ZTD_IDK_ABI_NAMESPACE)
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_ inline namespace ZTD_IDK_ABI_NAMESPACE {
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_ }
-#else
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_ inline namespace __v0 {
-	#define ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_ }
-#endif
-
-// clang-format on
-
-#endif // ZTD_IDK_VERSION_HPP
+int main(int argc, char* argv[]) {
+	int result = Catch::Session().run(argc, argv);
+	return result;
+}

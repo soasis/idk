@@ -28,16 +28,13 @@
 ..
 .. =============================================================================>
 
-🔨 Configuring the Library
-==========================
+char(8/16/32)_t
+===============
 
-.. _config-ZTD_DEBUG:
+This makes ``char(8/16/32)_t`` available under the type definitions of ``ztd_char(8/16/32)_t``. This allows their use uniformly in C and C++, regardless of whether or not the type definition is present in the proper place.
 
-- ``ZTD_DEBUG``:
-	- Signals to ztd.idk and downstream users that this should be considered a "debugging" build.
-	- Affects many things, such as error printouts, warnings given, and more.
-	- Turned on by default if compiler/platform-specific debug macros are detected, or ``NDEBUG`` is not defined by the compiler/library.
+.. doxygentypedef:: ztd_char8_t
 
-.. warning::
+.. doxygentypedef:: ztd_char16_t
 
-	|unfinished_warning|
+.. doxygentypedef:: ztd_char32_t

@@ -47,7 +47,6 @@ target_compile_options(ztd.idk.tests.inclusion
 target_link_libraries(ztd.idk.tests.inclusion
 	PRIVATE
 	ztd::idk
-	Catch2::Catch2
 	${CMAKE_DL_LIBS}
 )
 add_test(NAME ztd.idk.tests.inclusion COMMAND ztd.idk.tests.inclusion)

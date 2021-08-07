@@ -35,7 +35,7 @@
 
 #include <ztd/idk/version.hpp>
 
-#include <ztd/idk/char8_t.hpp>
+#include <ztd/idk/charN_t.hpp>
 #include <ztd/idk/type_traits.hpp>
 
 #include <ztd/prologue.hpp>

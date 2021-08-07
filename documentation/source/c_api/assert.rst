@@ -28,16 +28,19 @@
 ..
 .. =============================================================================>
 
-🔨 Configuring the Library
-==========================
+assertions
+==========
 
-.. _config-ZTD_DEBUG:
+This API defines 2 assertion macros. One is named ``ZTD_ASSERT``, and the other is named ``ZTD_ASSERT_MESSAGE``. The first takes only one or more conditional tokens, the second takes a mandatory message token as the first parameter, and then one or more conditional parameters.
 
-- ``ZTD_DEBUG``:
-	- Signals to ztd.idk and downstream users that this should be considered a "debugging" build.
-	- Affects many things, such as error printouts, warnings given, and more.
-	- Turned on by default if compiler/platform-specific debug macros are detected, or ``NDEBUG`` is not defined by the compiler/library.
+The user can override the behavior of each of these by defining both of ``ZTD_ASSERT_USER`` and ``ZTD_ASSERT_MESSAGE_USER``.
 
-.. warning::
+When :ref:`debug mode is detected<config-ZTD_DEBUG>` and user-defined assertions are not macro-defined, then a default implementation is used. Typically, these:
 
-	|unfinished_warning|
+- check the condition, and if it is true:
+	- print (``std::cerr`` or ``fprintf(stderr, ...)``, depending on the language) a message including line, file, etc.
+	- exit the program cleanly (``std::terminate`` or ``exit``, depending on the language)
+
+.. doxygendefine:: ZTD_ASSERT
+
+.. doxygendefine:: ZTD_ASSERT_MESSAGE

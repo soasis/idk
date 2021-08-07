@@ -43,8 +43,11 @@
 #define ZTD_DEFAULT_ON +
 #define ZTD_DEFAULT_OFF -
 
-#define ZTD_TOKEN_TO_STRING_POST_EXPANSION_I_(__TOK) #__TOK
-#define ZTD_TOKEN_TO_STRING_I_(__TOK) ZTD_TOKEN_TO_STRING_POST_EXPANSION_I_(__TOK)
+#define ZTD_TOKEN_TO_STRING_POST_EXPANSION_I_(_TOKEN) #_TOKEN
+#define ZTD_TOKEN_TO_STRING_I_(_TOKEN) ZTD_TOKEN_TO_STRING_POST_EXPANSION_I_(_TOKEN)
+
+#define ZTD_CONCAT_TOKENS_POST_EXPANSION_I_(_LEFT, _RIGHT) _LEFT##_RIGHT
+#define ZTD_CONCAT_TOKENS_I_(_LEFT, _RIGHT) ZTD_CONCAT_TOKENS_POST_EXPANSION_I_(_LEFT, _RIGHT)
 
 // clang-format off
 #if defined(ZTD_CXX)
@@ -91,7 +94,7 @@
 
 #if defined(ZTD_HAS_BUILTIN)
 	#define ZTD_HAS_BUILTIN_I_(...) ZTD_HAS_BUILTIN(__VA_ARGS__)
-#elif ZTD_IS_ON(ZTD_CXX_I_) && defined(__has_cpp_attribute)
+#elif ZTD_IS_ON(ZTD_CXX_I_) && defined(__has_builtin)
 	#define ZTD_HAS_BUILTIN_I_(...) __has_builtin(__VA_ARGS__)
 #else
 	#define ZTD_HAS_BUILTIN_I_(...) 0
