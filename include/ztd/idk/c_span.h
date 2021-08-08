@@ -85,11 +85,20 @@
 /// to just `c_span{type name}` (without the brackets and with the names substituted in).
 //////
 #define ZTD_IDK_C_SPAN_NAME
+//////
+/// @brief Whether or not the size type comes before the pointer.
+///
+/// @remarks This definition is optional. When not provided, the default layout is `{ pointer_type , size_type }`. If
+/// this is defined and its value is 1, the layout is `{ size_type, pointer_type }`. This can aid when generating
+/// certain types that are meant to be compatible with other kinds of buffers, e.g. with POSIX's `iovec`.
+//////
+#define ZTD_IDK_C_SPAN_SIZE_FIRST
 
 #undef ZTD_IDK_C_SPAN_TYPE
 #undef ZTD_IDK_C_SPAN_TYPE_NAME
 #undef ZTD_IDK_C_SPAN_SIZE_TYPE
 #undef ZTD_IDK_C_SPAN_SIZE_TYPE_NAME
+#undef ZTD_IDK_C_SPAN_SIZE_FIRST
 #undef ZTD_IDK_C_SPAN_NAME
 
 //////
