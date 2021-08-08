@@ -157,7 +157,7 @@ extern int c_span_tests(void) {
 	C_SPAN_BASIC_TEST(char, c_span_char);
 	C_SPAN_BASIC_TEST(unsigned char, c_span_uchar);
 	C_SPAN_BASIC_TEST(wchar_t, c_span_wchar_t);
-	C_SPAN_BASIC_TEST(char16_t, c_span_char16_t);
-	C_SPAN_BASIC_TEST(char32_t, c_span_char32_t);
+	C_SPAN_BASIC_TEST(ztd_char16_t, c_span_char16_t);
+	C_SPAN_BASIC_TEST(ztd_char32_t, c_span_char32_t);
 	return 0;
 }

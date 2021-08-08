@@ -33,7 +33,6 @@
 
 #if ZTD_IS_ON(ZTD_CXX_I_)
 #include <cstddef>
-#include <cstdbool>
 #else
 #include <stddef.h>
 #include <stdbool.h>
