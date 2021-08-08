@@ -43,6 +43,11 @@ The final name is composed of either just the type name suffixed on ``c_span``; 
 
 The ``<ztd/idk/c_span.h>`` header includes some common definitions of a ``c_span`` to be used, most notably ``c_span_uchar``. The documentation below is for ``c_span_uchar``, but works for all entities.
 
+.. note::
+
+	|generic_type|
+
+
 
 
 Structure + Functions

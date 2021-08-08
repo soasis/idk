@@ -77,6 +77,8 @@ rst_prolog: str = """
 .. |reserved_name| replace:: ⚠️ Names with double underscores, and within the ``__detail`` and ``__impl`` namespaces are reserved for the implementation. Referencing this entity directly is bad, and the name/functionality can be changed at any point in the future. Relying on anything not guaranteed by the documentation is |ub|.
 
 .. |unfinished_warning| replace:: 🔨 This isn't finished yet! Come check back by the next major or minor version update.
+
+.. |generic_type| replace:: ``ztd_generic_type`` is a name used as a placeholder. When it appears as a name (or within a name) or a type, it can be substituted out for another type name!
 """
 
 # C++ Index Configuration

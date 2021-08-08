@@ -39,17 +39,14 @@ build:
    apt_packages:
      - doxygen
 
-# Build documentation in the docs/ directory with Sphinx
 sphinx:
    builder: html
    configuration: documentation/source/conf.py
 
-# Optionally build your docs in additional formats such as PDF
 formats:
    - pdf
    - epub
 
-# Optionally set the version of Python and requirements required to build your docs
 python:
    install:
    - requirements: documentation/requirements.txt

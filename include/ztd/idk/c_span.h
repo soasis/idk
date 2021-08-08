@@ -144,7 +144,7 @@
 /// performance. Therefore, we deeply encourage you to NOT access the data or size directly and use the functions when
 /// possible.
 //////
-typedef struct c_span_ {
+typedef struct c_span {
 	//////
 	/// @brief A pointer to the region of data.
 	//////
