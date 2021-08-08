@@ -35,7 +35,11 @@
 
 #include <ztd/idk/version.h>
 
+#if ZTD_IS_ON(ZTD_CXX_I_)
+#include <cassert>
+#else
 #include <assert.h>
+#endif
 
 // clang-format off
 #if defined(ZTD_ASSERT_USER)
