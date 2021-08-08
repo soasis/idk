@@ -35,6 +35,8 @@
 
 #include <ztd/idk/version.h>
 
+#include <assert.h>
+
 // clang-format off
 #if defined(ZTD_ASSERT_USER)
 	#define ZTD_ASSERT_I_(...) ZTD_ASSERT_USER(__VA_ARGS__)

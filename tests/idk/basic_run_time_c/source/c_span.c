@@ -30,6 +30,8 @@
 
 #include <ztd/idk/c_span.h>
 
+#include <ztd/idk/assert.h>
+
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -39,7 +41,7 @@
 		puts("Condition failed: " #__VA_ARGS__); \
 		exit(1);                                 \
 	}                                             \
-	_Static_assert(1, "😋")
+	static_assert(1, "😋")
 
 #define TEST_CASE(...)
 #define SECTION(...)
@@ -151,7 +153,7 @@
 			REQUIRE(TYPE_NAME##_back(value3) == *(expected_pointer_end - 1));                                     \
 		}                                                                                                          \
 	}                                                                                                               \
-	_Static_assert(true, "👍")
+	static_assert(true, "👍")
 
 extern int c_span_tests(void) {
 	C_SPAN_BASIC_TEST(char, c_span_char);
