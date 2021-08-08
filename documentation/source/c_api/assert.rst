@@ -38,8 +38,11 @@ The user can override the behavior of each of these by defining both of ``ZTD_AS
 When :ref:`debug mode is detected<config-ZTD_DEBUG>` and user-defined assertions are not macro-defined, then a default implementation is used. Typically, these:
 
 - check the condition, and if it is true:
-	- print (``std::cerr`` or ``fprintf(stderr, ...)``, depending on the language) a message including line, file, etc.
-	- exit the program cleanly (``std::terminate`` or ``exit``, depending on the language)
+
+  - print (``std::cerr`` or ``fprintf(stderr, ...)``, depending on the language) a message including line, file, etc.; and,
+  - exit the program cleanly (``std::terminate`` or ``exit``, depending on the language)
+
+Note that no side-effects should ever go into assertions, because assertions can be compiled to do nothing.
 
 .. doxygendefine:: ZTD_ASSERT
 
