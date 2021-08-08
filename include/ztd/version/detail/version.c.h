@@ -547,6 +547,14 @@
 	#define ZTD_DOXYGEN_PREPROCESSING_I_ ZTD_DEFAULT_OFF
 #endif
 
+#if defined(ZTD_CONST_IF_NOT_CXX)
+	#define ZTD_CONST_IF_NOT_CXX_I_ ZTD_CONST_IF_NOT_CXX
+#elif ZTD_IS_ON(ZTD_CXX_I_)
+	#define ZTD_CONST_IF_NOT_CXX_I_ 
+#else
+	#define ZTD_CONST_IF_NOT_CXX_I_ const
+#endif
+
 #if ZTD_IS_ON(ZTD_CXX_I_)
 	#define ZTD_EXTERN_C_OPEN_I_ extern "C" {
 	#define ZTD_EXTERN_C_CLOSE_I_ }

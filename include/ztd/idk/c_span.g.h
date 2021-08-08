@@ -33,9 +33,11 @@
 
 #if ZTD_IS_ON(ZTD_CXX_I_)
 #include <cstddef>
+#include <cstring>
 #else
 #include <stddef.h>
 #include <stdbool.h>
+#include <string.h>
 #endif
 
 // clang-format off
@@ -43,7 +45,15 @@
 	#error "A type must be specified using ZTD_IDK_C_SPAN_TYPE when including the generation header."
 #endif
 
-#define ZTD_IDK_C_SPAN_TYPE_I_ ZTD_IDK_C_SPAN_TYPE
+#if defined(ZTD_IDK_C_SPAN_TYPE_IS_CONST) && (ZTD_IDK_C_SPAN_TYPE_IS_CONST != 0)
+	#define ZTD_IDK_C_SPAN_TYPE_IS_CONST_I_ ZTD_ON
+	#define ZTD_IDK_C_SPAN_TYPE_I_ ZTD_IDK_C_SPAN_TYPE
+	#define ZTD_IDK_C_SPAN_CONST_TYPE_I_ ZTD_IDK_C_SPAN_TYPE const
+#else
+	#define ZTD_IDK_C_SPAN_TYPE_IS_CONST_I_ ZTD_OFF
+	#define ZTD_IDK_C_SPAN_TYPE_I_ ZTD_IDK_C_SPAN_TYPE
+	#define ZTD_IDK_C_SPAN_CONST_TYPE_I_ ZTD_IDK_C_SPAN_TYPE
+#endif
 
 #if defined(ZTD_IDK_C_SPAN_SIZE_TYPE)
 	#define ZTD_IDK_C_SPAN_SIZE_TYPE_I_ ZTD_IDK_C_SPAN_SIZE_TYPE
@@ -81,30 +91,64 @@
 
 #define ZTD_IDK_C_SPAN_PREFIX_I_(_PREFIX) ZTD_CONCAT_TOKENS_I_(_PREFIX, ZTD_IDK_C_SPAN_FULL_NAME_I_)
 #define ZTD_IDK_C_SPAN_SUFFIX_I_(_SUFFIX) ZTD_CONCAT_TOKENS_I_(ZTD_IDK_C_SPAN_FULL_NAME_I_, _SUFFIX)
+
+#if defined(ZTD_IDK_C_SPAN_SIZE_FIRST)
+	#if (ZTD_IDK_C_SPAN_SIZE_FIRST != 0)
+		#define ZTD_IDK_C_SPAN_SIZE_FIRST_I_ ZTD_ON
+	#else
+		#define ZTD_IDK_C_SPAN_SIZE_FIRST_I_ ZTD_OFF
+	#endif
+#else
+	#define ZTD_IDK_C_SPAN_SIZE_FIRST_I_ ZTD_DEFAULT_OFF
+#endif
 // clang-format on
 
 typedef struct ZTD_IDK_C_SPAN_FULL_NAME_I_ {
-	ZTD_IDK_C_SPAN_TYPE_I_* data;
-	ZTD_IDK_C_SPAN_SIZE_TYPE_I_ size;
+#if ZTD_IS_ON(ZTD_IDK_C_SPAN_SIZE_FIRST_I_)
+	ZTD_IDK_C_SPAN_SIZE_TYPE_I_ const size;
+	ZTD_IDK_C_SPAN_CONST_TYPE_I_* const data;
+#else
+	ZTD_IDK_C_SPAN_CONST_TYPE_I_* const data;
+	ZTD_IDK_C_SPAN_SIZE_TYPE_I_ const size;
+#endif
 } ZTD_IDK_C_SPAN_FULL_NAME_I_;
 
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ void ZTD_IDK_C_SPAN_PREFIX_I_(copy_)(
+     ZTD_IDK_C_SPAN_FULL_NAME_I_* __destination, ZTD_IDK_C_SPAN_FULL_NAME_I_ __source) {
+	ZTD_ASSERT_MESSAGE_I_("the destination parameter must not be null", __destination != NULL);
+	memcpy(__destination, &__source, sizeof(__source));
+}
+
 ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_FULL_NAME_I_ ZTD_IDK_C_SPAN_PREFIX_I_(make_)(
-     ZTD_IDK_C_SPAN_TYPE_I_* __first, ZTD_IDK_C_SPAN_TYPE_I_* __last) {
-	ZTD_IDK_C_SPAN_FULL_NAME_I_ __result;
-	__result.data = __first;
-	__result.size = __last - __first;
+     ZTD_IDK_C_SPAN_CONST_TYPE_I_* __first, ZTD_IDK_C_SPAN_CONST_TYPE_I_* __last) {
+	ZTD_IDK_C_SPAN_FULL_NAME_I_ __result =
+#if ZTD_IS_ON(ZTD_IDK_C_SPAN_SIZE_FIRST_I_)
+	{(ZTD_IDK_C_SPAN_SIZE_TYPE_I_)(__last - __first),
+		__first }
+#else
+	{ __first,
+		(ZTD_IDK_C_SPAN_SIZE_TYPE_I_)(__last - __first) }
+#endif
+	;
 	return __result;
 }
 
 ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_FULL_NAME_I_ ZTD_IDK_C_SPAN_PREFIX_I_(make_sized_)(
-     ZTD_IDK_C_SPAN_TYPE_I_* __first, ZTD_IDK_C_SPAN_SIZE_TYPE_I_ __size) {
-	ZTD_IDK_C_SPAN_FULL_NAME_I_ __result;
-	__result.data = __first;
-	__result.size = __size;
+     ZTD_IDK_C_SPAN_CONST_TYPE_I_* __first, ZTD_IDK_C_SPAN_SIZE_TYPE_I_ __size) {
+	ZTD_IDK_C_SPAN_FULL_NAME_I_ __result =
+#if ZTD_IS_ON(ZTD_IDK_C_SPAN_SIZE_FIRST_I_)
+	{ __size,
+		__first }
+#else
+	{ __first,
+		__size }
+#endif
+	;
+
 	return __result;
 }
 
-ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_TYPE_I_* ZTD_IDK_C_SPAN_SUFFIX_I_(_data)(
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_CONST_TYPE_I_* ZTD_IDK_C_SPAN_SUFFIX_I_(_data)(
      ZTD_IDK_C_SPAN_FULL_NAME_I_ __span) {
 	return __span.data;
 }
@@ -133,18 +177,28 @@ ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_TYPE_I_ ZTD_ID
 
 ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_TYPE_I_ ZTD_IDK_C_SPAN_SUFFIX_I_(_at)(
      ZTD_IDK_C_SPAN_FULL_NAME_I_ __span, ZTD_IDK_C_SPAN_SIZE_TYPE_I_ __index) {
-	ZTD_ASSERT_MESSAGE_I_("c_span's size must be greater than zero", __span.size > __index);
+	ZTD_ASSERT_MESSAGE_I_("index must be within c_span's boundaries", __span.size > __index);
 	return __span.data[__index];
 }
 
-ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_TYPE_I_* ZTD_IDK_C_SPAN_SUFFIX_I_(_ptr_at)(
+#if ZTD_IS_OFF(ZTD_IDK_C_SPAN_TYPE_IS_CONST_I_)
+// need: https://thephd.dev/_vendor/future_cxx/papers/C%20-%20typeof.html
+// to make it non-conditional and instead assert/toss when the function is called
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ void ZTD_IDK_C_SPAN_SUFFIX_I_(_set)(
+     ZTD_IDK_C_SPAN_FULL_NAME_I_ __span, ZTD_IDK_C_SPAN_SIZE_TYPE_I_ __index, ZTD_IDK_C_SPAN_TYPE_I_ __value) {
+	ZTD_ASSERT_MESSAGE_I_("index must be within c_span's boundaries", __span.size > __index);
+	__span.data[__index] = __value;
+}
+#endif
+
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_CONST_TYPE_I_* ZTD_IDK_C_SPAN_SUFFIX_I_(_ptr_at)(
      ZTD_IDK_C_SPAN_FULL_NAME_I_ __span, ZTD_IDK_C_SPAN_SIZE_TYPE_I_ __index) {
 	ZTD_ASSERT_MESSAGE_I_("index must be within c_span's boundaries", __index < __span.size);
 	return __span.data + __index;
 }
 
-ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_TYPE_I_* ZTD_IDK_C_SPAN_SUFFIX_I_(_maybe_ptr_at)(
-     ZTD_IDK_C_SPAN_FULL_NAME_I_ __span, ZTD_IDK_C_SPAN_SIZE_TYPE_I_ __index) {
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_CONST_TYPE_I_* ZTD_IDK_C_SPAN_SUFFIX_I_(
+     _maybe_ptr_at)(ZTD_IDK_C_SPAN_FULL_NAME_I_ __span, ZTD_IDK_C_SPAN_SIZE_TYPE_I_ __index) {
 	if (__index < __span.size)
 		return __span.data + __index;
 	return NULL;
@@ -155,33 +209,48 @@ ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_SIZE_TYPE_I_ Z
 	return __span.size * sizeof(char);
 }
 
-ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_TYPE_I_* ZTD_IDK_C_SPAN_SUFFIX_I_(_begin)(
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_CONST_TYPE_I_* ZTD_IDK_C_SPAN_SUFFIX_I_(_begin)(
      ZTD_IDK_C_SPAN_FULL_NAME_I_ __span) {
 	return __span.data;
 }
 
-ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_TYPE_I_* ZTD_IDK_C_SPAN_SUFFIX_I_(_end)(
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_CONST_TYPE_I_* ZTD_IDK_C_SPAN_SUFFIX_I_(_end)(
      ZTD_IDK_C_SPAN_FULL_NAME_I_ __span) {
 	return __span.data + __span.size;
 }
 
-ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_FULL_NAME_I_ ZTD_IDK_C_SPAN_SUFFIX_I_(_subspan_at)(
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_FULL_NAME_I_ ZTD_IDK_C_SPAN_SUFFIX_I_(_subspan)(
      ZTD_IDK_C_SPAN_FULL_NAME_I_ __span, ZTD_IDK_C_SPAN_SIZE_TYPE_I_ __offset_index,
      ZTD_IDK_C_SPAN_SIZE_TYPE_I_ __size) {
 	ZTD_ASSERT_MESSAGE_I_("c_span's size must be greater than or equal to the offset and size",
-	     __span.size >= (__offset_index + __size));
+	     ((__span.size >= __offset_index) ? ((__span.size - __offset_index) >= __size) : false));
 	return ZTD_IDK_C_SPAN_PREFIX_I_(make_sized_)(__span.data + __offset_index, __size);
 }
 
-ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_FULL_NAME_I_ ZTD_IDK_C_SPAN_SUFFIX_I_(_subspan)(
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_FULL_NAME_I_ ZTD_IDK_C_SPAN_SUFFIX_I_(_subspan_at)(
      ZTD_IDK_C_SPAN_FULL_NAME_I_ __span, ZTD_IDK_C_SPAN_SIZE_TYPE_I_ __offset_index) {
 	ZTD_ASSERT_MESSAGE_I_(
 	     "c_span's size must be greater than or equal to the offset and size", __span.size >= (__offset_index));
-	return ZTD_IDK_C_SPAN_SUFFIX_I_(_subspan_at)(__span, __offset_index, __span.size - __offset_index);
+	return ZTD_IDK_C_SPAN_SUFFIX_I_(_subspan)(__span, __offset_index, __span.size - __offset_index);
+}
+
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_FULL_NAME_I_ ZTD_IDK_C_SPAN_SUFFIX_I_(
+     _subspan_prefix)(ZTD_IDK_C_SPAN_FULL_NAME_I_ __span, ZTD_IDK_C_SPAN_SIZE_TYPE_I_ __size) {
+	ZTD_ASSERT_MESSAGE_I_("c_span's size must be greater than or equal to the size", __span.size >= (__size));
+	return ZTD_IDK_C_SPAN_SUFFIX_I_(_subspan)(__span, 0, __span.size - __size);
+}
+
+ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_FULL_NAME_I_ ZTD_IDK_C_SPAN_SUFFIX_I_(
+     _subspan_suffix)(ZTD_IDK_C_SPAN_FULL_NAME_I_ __span, ZTD_IDK_C_SPAN_SIZE_TYPE_I_ __size) {
+	ZTD_ASSERT_MESSAGE_I_("c_span's size must be greater than or equal to the size", __span.size >= (__size));
+	return ZTD_IDK_C_SPAN_SUFFIX_I_(_subspan)(__span, __span.size - __size, __size);
 }
 
 // clang-format off
 #undef ZTD_IDK_C_SPAN_TYPE
+#if defined(ZTD_IDK_C_SPAN_TYPE_IS_CONST)
+	#undef ZTD_IDK_C_SPAN_TYPE_IS_CONST
+#endif
 #if defined(ZTD_IDK_C_SPAN_TYPE_NAME)
 	#undef ZTD_IDK_C_SPAN_TYPE_NAME
 #endif
@@ -195,7 +264,9 @@ ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_FULL_NAME_I_ Z
 	#undef ZTD_IDK_C_SPAN_NAME
 #endif
 
+#undef ZTD_IDK_C_SPAN_TYPE_IS_CONST_I_
 #undef ZTD_IDK_C_SPAN_TYPE_I_
+#undef ZTD_IDK_C_SPAN_CONST_TYPE_I_
 #undef ZTD_IDK_C_SPAN_TYPE_NAME_I_
 #undef ZTD_IDK_C_SPAN_SIZE_TYPE_I_
 #undef ZTD_IDK_C_SPAN_SIZE_TYPE_NAME_I_

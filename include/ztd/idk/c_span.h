@@ -103,6 +103,10 @@
 #define ZTD_IDK_C_SPAN_TYPE char
 #include <ztd/idk/c_span.g.h>
 
+#define ZTD_IDK_C_SPAN_TYPE unsigned char
+#define ZTD_IDK_C_SPAN_TYPE_NAME uchar
+#include <ztd/idk/c_span.g.h>
+
 #define ZTD_IDK_C_SPAN_TYPE ztd_wchar_t
 #define ZTD_IDK_C_SPAN_TYPE_NAME wchar_t
 #include <ztd/idk/c_span.g.h>
@@ -119,8 +123,34 @@
 #define ZTD_IDK_C_SPAN_TYPE_NAME char32_t
 #include <ztd/idk/c_span.g.h>
 
+#define ZTD_IDK_C_SPAN_TYPE char
+#define ZTD_IDK_C_SPAN_TYPE_IS_CONST 1
+#define ZTD_IDK_C_SPAN_TYPE_NAME const_char
+#include <ztd/idk/c_span.g.h>
+
 #define ZTD_IDK_C_SPAN_TYPE unsigned char
-#define ZTD_IDK_C_SPAN_TYPE_NAME uchar
+#define ZTD_IDK_C_SPAN_TYPE_IS_CONST 1
+#define ZTD_IDK_C_SPAN_TYPE_NAME const_uchar
+#include <ztd/idk/c_span.g.h>
+
+#define ZTD_IDK_C_SPAN_TYPE ztd_wchar_t
+#define ZTD_IDK_C_SPAN_TYPE_IS_CONST 1
+#define ZTD_IDK_C_SPAN_TYPE_NAME const_wchar_t
+#include <ztd/idk/c_span.g.h>
+
+#define ZTD_IDK_C_SPAN_TYPE ztd_char8_t
+#define ZTD_IDK_C_SPAN_TYPE_IS_CONST 1
+#define ZTD_IDK_C_SPAN_TYPE_NAME const_char8_t
+#include <ztd/idk/c_span.g.h>
+
+#define ZTD_IDK_C_SPAN_TYPE ztd_char16_t
+#define ZTD_IDK_C_SPAN_TYPE_IS_CONST 1
+#define ZTD_IDK_C_SPAN_TYPE_NAME const_char16_t
+#include <ztd/idk/c_span.g.h>
+
+#define ZTD_IDK_C_SPAN_TYPE ztd_char32_t
+#define ZTD_IDK_C_SPAN_TYPE_IS_CONST 1
+#define ZTD_IDK_C_SPAN_TYPE_NAME const_char32_t
 #include <ztd/idk/c_span.g.h>
 //////
 /// @endcond
@@ -140,22 +170,37 @@
 //////
 /// @brief A structured pointer which keeps its size type, which represents a non-owning view into a buffer.
 ///
-/// @remarks This type is meant to be "immutable", but this is hard to do in C and retain good usability and
-/// performance. Therefore, we deeply encourage you to NOT access the data or size directly and use the functions when
-/// possible.
+/// @remarks This type is meant to be "immutable", which is why the members are marked const. This can present some
+/// issues when dealing with, for example, trying to fill out members manually in structures that are heap-allocated.
+/// Instead, copy it using `memcpy`, like `memcpy(my_span_ptr, &some_span, sizeof(some_span));` rather than
+/// `my_span_ptr->data = some_ptr; my_span_ptr->size = some_size;`.
+///
+/// This type can be initialized with designated initializers.
 //////
 typedef struct c_span {
 	//////
 	/// @brief A pointer to the region of data.
 	//////
-	ztd_generic_type* data;
+	ztd_generic_type* const data;
 	//////
 	/// @brief The size of the region of data (in number of elements).
 	//////
-	size_t size;
+	size_t const size;
 } c_span;
 
 
+
+//////
+/// @brief Copies on c_span into the memory of another.
+///
+/// @param[in] __destination Pointer to the destination.
+/// @param[in] __source The source span to copy.
+///
+/// @remarks
+/// @preconditions
+/// - `__destination != NULL`
+//////
+void copy_c_span(c_span* __destination, c_span __source);
 
 //////
 /// @brief Create a c_span from two pointers which denote a region of memory.
@@ -163,7 +208,8 @@ typedef struct c_span {
 /// @param[in] __first The start of the region of memory, inclusive.
 /// @param[in] __last The end of the region of memory, non-inclusive.
 ///
-/// @remarks Precondition:
+/// @remarks
+/// @preconditions
 /// - `__first` <  `__last` (`__first` is reachable from `__last`).
 /// - `__first` and `__last` are part of the same storage and form a valid range.
 //////
@@ -175,7 +221,8 @@ c_span make_c_span(ztd_generic_type* __first, ztd_generic_type* __last);
 /// @param[in] __first The start of the region of memory, inclusive.
 /// @param[in] __size The number of elements of the region of memory.
 ///
-/// @remarks Precondition:
+/// @remarks
+/// @preconditions
 /// - `__first` and `__first + __size` are part of the same storage and form a valid range.
 //////
 c_span make_sized_c_span(ztd_generic_type* __first, size_t __size);
@@ -207,7 +254,7 @@ bool c_span_empty(c_span __span);
 /// @param[in] __span The "self" object.
 ///
 /// @remarks Preconditions:
-/// - `c_span_size(__span) > 0`.
+/// - `__span.size > 0`.
 //////
 ztd_generic_type c_span_front(c_span __span);
 
@@ -215,7 +262,7 @@ ztd_generic_type c_span_front(c_span __span);
 /// @brief Retrieves the last element of this span of elements.
 ///
 /// @remarks Preconditions:
-/// - `c_span_size(__span) > 0`.
+/// - `__span.size > 0`.
 //////
 ztd_generic_type c_span_back(c_span __span);
 
@@ -226,7 +273,7 @@ ztd_generic_type c_span_back(c_span __span);
 /// @param[in] __index The offset into the span of elements to access.
 ///
 /// @remarks Preconditions:
-/// - The size is greater than the @c __index value.
+/// - `__span.size > __index`.
 //////
 ztd_generic_type c_span_at(c_span __span, size_t __index);
 
@@ -235,9 +282,21 @@ ztd_generic_type c_span_at(c_span __span, size_t __index);
 ///
 /// @param[in] __span The "self" object.
 /// @param[in] __index The offset into the span of elements to access.
+/// @param[in] __value The value to insert.
 ///
 /// @remarks Preconditions:
-/// - The size is greater than the @c __index value.
+/// - `__span.size > __index`.
+//////
+void c_span_set(c_span __span, size_t __index, ztd_generic_type __value);
+
+//////
+/// @brief Retrieves the the element at the provided index.
+///
+/// @param[in] __span The "self" object.
+/// @param[in] __index The offset into the span of elements to access.
+///
+/// @remarks Preconditions:
+/// - `__span.size > __index`.
 //////
 ztd_generic_type* c_span_ptr_at(c_span __span, size_t __index);
 
@@ -279,10 +338,11 @@ ztd_generic_type* c_span_end(c_span __span);
 /// @param[in] __offset_index The offset into the span.
 /// @param[in] __size The size of the resulting span.
 ///
-/// @remarks Precondition:
+/// @remarks
+/// @preconditions
 /// - `__span.size >= (__offset_index + __size)`.
 //////
-c_span c_span_subspan_at(c_span __span, size_t __offset_index, size_t __size);
+c_span c_span_subspan(c_span __span, size_t __offset_index, size_t __size);
 
 //////
 /// @brief Creates a smaller span from this span, from the given offset. The resulting size is the offset minus the
@@ -291,10 +351,36 @@ c_span c_span_subspan_at(c_span __span, size_t __offset_index, size_t __size);
 /// @param[in] __span The "self" object.
 /// @param[in] __offset_index The offset into the span.
 ///
-/// @remarks Precondition:
+/// @remarks
+/// @preconditions
 /// - `__span.size >= __offset_index`.
 //////
-c_span c_span_subspan(c_span __span, size_t __offset_index);
+c_span c_span_subspan_at(c_span __span, size_t __offset_index);
+
+//////
+/// @brief Creates a smaller span from this span, from the given size. The resulting offset is from 0 and has the given
+/// size.
+///
+/// @param[in] __span The "self" object.
+/// @param[in] __size The size of the span, from the beginning.
+///
+/// @remarks
+/// @preconditions
+/// - `__span.size >= __size`.
+//////
+c_span c_span_subspan_prefix(c_span __span, size_t __size);
+
+//////
+/// @brief Creates a smaller span from this span, from the given size.
+///
+/// @param[in] __span The "self" object.
+/// @param[in] __size The size of the span, from the beginning.
+///
+/// @remarks The resulting offset is from the current span's size minus the desired size, and has the given `__size`.
+/// @preconditions
+/// - `__span.size >= __size`.
+//////
+c_span c_span_subspan_suffix(c_span __span, size_t __size);
 #endif
 
 //////
