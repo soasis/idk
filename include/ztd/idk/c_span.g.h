@@ -103,7 +103,7 @@
 #endif
 // clang-format on
 
-typedef struct ZTD_IDK_C_SPAN_FULL_NAME_I_ {
+ZTD_C_STRUCT_LINKAGE_I_ typedef struct ZTD_IDK_C_SPAN_FULL_NAME_I_ {
 #if ZTD_IS_ON(ZTD_IDK_C_SPAN_SIZE_FIRST_I_)
 	ZTD_IDK_C_SPAN_SIZE_TYPE_I_ const size;
 	ZTD_IDK_C_SPAN_CONST_TYPE_I_* const data;
