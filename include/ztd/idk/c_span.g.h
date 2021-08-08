@@ -52,12 +52,24 @@
 #endif
 
 #if defined(ZTD_IDK_C_SPAN_TYPE_NAME)
-	#define ZTD_IDK_C_SPAN_NAME_SUFFIX_I_ ZTD_IDK_C_SPAN_TYPE_NAME
+	#define ZTD_IDK_C_SPAN_TYPE_NAME_I_ ZTD_IDK_C_SPAN_TYPE_NAME
 #else
-	#if !defined(ZTD_IDK_C_SPAN_SIZE_TYPE)
-		#define ZTD_IDK_C_SPAN_NAME_SUFFIX_I_ ZTD_IDK_C_SPAN_TYPE_I_
+	#define ZTD_IDK_C_SPAN_TYPE_NAME_I_ ZTD_IDK_C_SPAN_TYPE_I_
+#endif
+
+#if defined(ZTD_IDK_C_SPAN_SIZE_TYPE_NAME)
+	#define ZTD_IDK_C_SPAN_SIZE_TYPE_NAME_I_ ZTD_IDK_C_SPAN_SIZE_TYPE_NAME
+#else
+	#define ZTD_IDK_C_SPAN_SIZE_TYPE_NAME_I_ ZTD_IDK_C_SPAN_SIZE_TYPE_I_
+#endif
+
+#if defined(ZTD_IDK_C_SPAN_TYPE_NAME)
+	#define ZTD_IDK_C_SPAN_NAME_SUFFIX_I_ ZTD_IDK_C_SPAN_TYPE_NAME_I_
+#else
+	#if defined(ZTD_IDK_C_SPAN_SIZE_TYPE)
+		#define ZTD_IDK_C_SPAN_NAME_SUFFIX_I_ ZTD_CONCAT_TOKENS_I_(ZTD_IDK_C_SPAN_TYPE_NAME_I_, ZTD_IDK_C_SPAN_SIZE_TYPE_NAME_I_)
 	#else
-		#define ZTD_IDK_C_SPAN_NAME_SUFFIX_I_ ZTD_CONCAT_TOKENS_I_(ZTD_IDK_C_SPAN_TYPE_I_, ZTD_IDK_C_SPAN_SIZE_TYPE_I_)
+		#define ZTD_IDK_C_SPAN_NAME_SUFFIX_I_ ZTD_IDK_C_SPAN_TYPE_NAME_I_
 	#endif
 #endif
 
@@ -168,212 +180,26 @@ ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_FULL_NAME_I_ Z
 	return ZTD_IDK_C_SPAN_SUFFIX_I_(_subspan_at)(__span, __offset_index, __span.size - __offset_index);
 }
 
-//////
-/// @file c_span.g.h
-///
-/// @brief The generation header for the C-style span type.
-//////
-
-//////
-/// @addtogroup ztd_idk_c_c_span ztd.idk c_span functions
-///
-/// @{
-//////
-
-//////
-/// @struct c_span_T
-///
-/// @brief A structured pointer which keeps its size type, which represents a NON-OWNING view into a buffer.
-//////
-
-//////
-/// @var c_span_T::size
-///
-/// @brief A pointer to the region of data.
-//////
-
-//////
-/// @var c_span_T::size
-///
-/// @brief The size of the region of data (in number of elements).
-//////
-
-//////
-/// @fn c_span_T make_c_span_T(T* __first, T* __last)
-///
-/// @brief Create a c_span from two pointers which denote a region of memory.
-///
-/// @param[in] __first The start of the region of memory, inclusive.
-/// @param[in] __last The end of the region of memory, non-inclusive.
-///
-/// @remarks Precondition:
-/// - `__first` <  `__last` (`__first` is reachable from `__last`).
-/// - `__first` and `__last` are part of the same storage and form a valid range.
-//////
-
-//////
-/// @fn c_span_T make_sized_c_span_T(T* __first, size_t __size)
-///
-/// @brief Create a c_span from two pointers which denote a region of memory.
-///
-/// @param[in] __first The start of the region of memory, inclusive.
-/// @param[in] __size The number of elements of the region of memory.
-///
-/// @remarks Precondition:
-/// - `__first` and `__first + __size` are part of the same storage and form a valid range.
-//////
-
-//////
-/// @fn T* c_span_T_data(c_span_T __span)
-///
-/// @brief Retrieves a pointer to the start of this span of memory.
-///
-/// @param[in] __span The "self" object.
-//////
-
-//////
-/// @fn size_t c_span_T_size(c_span_T __span)
-///
-/// @brief Retrieves the size of this span of memory, in number of elements.
-///
-/// @param[in] __span The "self" object.
-//////
-
-//////
-/// @fn bool c_span_T_empty(c_span_T __span)
-///
-/// @brief Returns whether or not this span is empty.
-///
-/// @param[in] __span The "self" object.
-//////
-
-//////
-/// @fn T c_span_T_front(c_span_T __span)
-///
-/// @brief Retrieves the first element of this span of elements.
-///
-/// @param[in] __span The "self" object.
-///
-/// @remarks Preconditions:
-/// - `c_span_T_size(__span) > 0`.
-//////
-
-//////
-/// @fn T c_span_T_back(c_span_T __span)
-///
-/// @brief Retrieves the last element of this span of elements.
-///
-/// @remarks Preconditions:
-/// - `c_span_T_size(__span) > 0`.
-//////
-
-//////
-/// @fn T c_span_T_at(c_span_T __span, size_t __index)
-///
-/// @brief Retrieves the the element at the provided index.
-///
-/// @param[in] __span The "self" object.
-/// @param[in] __index The offset into the span of elements to access.
-///
-/// @remarks Preconditions:
-/// - The size is greater than the @c __index value.
-//////
-
-//////
-/// @fn T* c_span_T_ptr_at(c_span_T __span, size_t __index)
-///
-/// @brief Retrieves the the element at the provided index.
-///
-/// @param[in] __span The "self" object.
-/// @param[in] __index The offset into the span of elements to access.
-///
-/// @remarks Preconditions:
-/// - The size is greater than the @c __index value.
-//////
-
-//////
-/// @fn T* c_span_T_maybe_ptr_at(c_span_T __span, size_t __index)
-///
-/// @brief Retrieves the the element at the provided index.
-///
-/// @param[in] __span The "self" object.
-/// @param[in] __index The offset into the span of elements to access.
-///
-/// @remarks This function checks size so there are no preconditions.
-//////
-
-//////
-/// @fn size_t c_span_T_byte_size(c_span_T __span)
-///
-/// @brief Retrieves the size of this span of memory, in number of `unsigned char`s.
-///
-/// @param[in] __span The "self" object.
-//////
-
-//////
-/// @fn c_span_T_begin(c_span_T __span)
-///
-/// @brief An iterator to the beginning of the span of elements.
-///
-/// @param[in] __span The "self" object.
-//////
-
-//////
-/// @fn T* c_span_T_end(c_span_T __span)
-///
-/// @brief An iterator to the end of the span of elements.
-///
-/// @param[in] __span The "self" object.
-//////
-
-//////
-/// @fn c_span_T c_span_T_subspan_at(c_span_T __span, size_t __offset_index, size_t __size)
-///
-/// @brief Creates a smaller span from this span, using the given offset into the span and the desired size.
-///
-/// @param[in] __span The "self" object.
-/// @param[in] __offset_index The offset into the span.
-/// @param[in] __size The size of the resulting span.
-///
-/// @remarks Precondition:
-/// - `__span.size >= (__offset_index + __size)`.
-//////
-
-//////
-/// @fn c_span_T c_span_T_subspan(c_span_T __span, size_t __offset_index)
-///
-/// @brief Creates a smaller span from this span, from the given offset. The resulting size is the offset minus the
-/// `__span`'s current size.
-///
-/// @param[in] __span The "self" object.
-/// @param[in] __offset_index The offset into the span.
-///
-/// @remarks Precondition:
-/// - `__span.size >= __offset_index`.
-//////
-
-//////
-/// @}
-//////
-
 // clang-format off
 #undef ZTD_IDK_C_SPAN_TYPE
-#undef ZTD_IDK_C_SPAN_TYPE_I_
 #if defined(ZTD_IDK_C_SPAN_TYPE_NAME)
 	#undef ZTD_IDK_C_SPAN_TYPE_NAME
 #endif
-#undef ZTD_IDK_C_SPAN_NAME_SUFFIX_I_
-
 #if defined(ZTD_IDK_C_SPAN_SIZE_TYPE)
 	#undef ZTD_IDK_C_SPAN_SIZE_TYPE
 #endif
-#undef ZTD_IDK_C_SPAN_SIZE_TYPE_I_
-
+#if defined(ZTD_IDK_C_SPAN_SIZE_TYPE_NAME)
+	#undef ZTD_IDK_C_SPAN_SIZE_TYPE
+#endif
 #if defined(ZTD_IDK_C_SPAN_NAME)
 	#undef ZTD_IDK_C_SPAN_NAME
 #endif
 
-#undef ZTD_IDK_C_SPAN_CRIME_I_
+#undef ZTD_IDK_C_SPAN_TYPE_I_
+#undef ZTD_IDK_C_SPAN_TYPE_NAME_I_
+#undef ZTD_IDK_C_SPAN_SIZE_TYPE_I_
+#undef ZTD_IDK_C_SPAN_SIZE_TYPE_NAME_I_
+#undef ZTD_IDK_C_SPAN_NAME_SUFFIX_I_
 #undef ZTD_IDK_C_SPAN_FULL_NAME_I_
 #undef ZTD_IDK_C_SPAN_PREFIX_I_
 #undef ZTD_IDK_C_SPAN_SUFFIX_I_

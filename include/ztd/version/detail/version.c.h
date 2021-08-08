@@ -303,6 +303,30 @@
 	#define ZTD_CUCHAR_I_ ZTD_DEFAULT_OFF
 #endif
 
+#if defined(ZTD_WCHAR)
+	#if (ZTD_WCHAR != 0)
+		#define ZTD_WCHAR_I_ ZTD_ON
+	#else
+		#define ZTD_WCHAR_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<wchar.h>)
+	#define ZTD_WCHAR_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_WCHAR_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_CWCHAR)
+	#if (ZTD_CWCHAR != 0)
+		#define ZTD_CWCHAR_I_ ZTD_ON
+	#else
+		#define ZTD_CWCHAR_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<cwchar>)
+	#define ZTD_CWCHAR_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_CWCHAR_I_ ZTD_DEFAULT_OFF
+#endif
+
 #if ZTD_IS_ON(ZTD_CXX_I_)
 	#if ZTD_IS_ON(ZTD_CUCHAR_I_)
 		#define ZTD_UCHAR_ACCESSOR_I_ ::std::
@@ -311,6 +335,16 @@
 	#endif
 #else
 	#define ZTD_UCHAR_ACCESSOR_I_
+#endif
+
+#if ZTD_IS_ON(ZTD_CXX_I_)
+	#if ZTD_IS_ON(ZTD_CWCHAR_I_)
+		#define ZTD_WCHAR_ACCESSOR_I_ ::std::
+	#else
+		#define ZTD_WCHAR_ACCESSOR_I_ ::
+	#endif
+#else
+	#define ZTD_WCHAR_ACCESSOR_I_
 #endif
 
 #if defined(ZTD_LANGINFO)

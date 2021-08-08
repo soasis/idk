@@ -37,21 +37,21 @@ This is the IDK (Industrial Development Kit) library, part of the ZTD collection
 
 	- A small collection of type traits, optimizations, and other semi-niche utilities for accelerating development.
 	- Small, header-only.
-	- CMake: ztd::idk
+	- CMake: ``ztd::idk`` (also pulls in ``ztd::tag_invoke`` and ``ztd::version``)
 
 - The ztd.tag_invoke customization point library:
 
-	- Modeled after [C++ proposal p1895](https://wg21.link/p1895).
-	- Makes for a single extension point to be written, tag_invoke(...), whose first argument is the name of the extension point to be hooking into. E.g., tag_invoke(tag_t<lua_push>, ...).
+	- Modeled after `C++ proposal p1895 <https://wg21.link/p1895>`_.
+	- Makes for a single extension point to be written, ``tag_invoke(...)``, whose first argument is the name of the extension point to be hooking into. E.g., ``tag_invoke(tag_t<lua_push>, ...)``.
 	- Tiny, header-only.
-	- CMake: `ztd::tag_invoke`
+	- CMake: ``ztd::tag_invoke`` (also pulls in ``ztd::version``)
 
 - The ztd.version configuration macro library:
 
 	- A formalization of the principles found in this post and this post.
 	- Mistake-resistant configuration and default-on/off vs. deliberate on/off detection.
 	- Infinitesimally tiny, header-only.
-	- CMake: `ztd::version`
+	- CMake: ``ztd::version``
 
 
 

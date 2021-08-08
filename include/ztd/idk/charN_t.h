@@ -50,7 +50,8 @@
 typedef ZTD_CHAR8_T_I_ ztd_char8_t;
 
 // clang-format off
-#if ZTD_IS_ON(ZTD_CXX_I_) 
+#if ZTD_IS_ON(ZTD_CXX_I_)
+		typedef wchar_t ztd_wchar_t;
 		typedef char16_t ztd_char16_t;
 		typedef char32_t ztd_char32_t;
 #else
@@ -69,17 +70,44 @@ typedef ZTD_CHAR8_T_I_ ztd_char8_t;
 		typedef uint_least16_t ztd_char16_t;
 		typedef uint_least32_t ztd_char32_t;
 	#endif
+
+	#if ZTD_IS_ON(ZTD_WCHAR_I_)
+		#include <wchar.h>
+
+		typedef wchar_t ztd_wchar_t;
+	#else
+		#if ZTD_IS_ON(ZTD_CXX_I_)
+			#include <cstdint>
+		#else
+			#include <stdint.h>
+		#endif
+
+		#if ZTD_IS_ON(ZTD_TEXT_PLATFORM_WINDOWS_I_)
+			typedef uint_least16_t ztd_wchar_t;
+		#else
+			typedef uint_least32_t ztd_wchar_t;
+		#endif
+	#endif
 #endif
 // clang-format on
 
+
+//////
+/// @typedef ztd_wchar_t
+///
+/// @brief An alias to a unsigned representation of an implementation-defined code unit type.
+///
+/// @remarks This will be a type alias for `wchar_t` from `<wchar.h>` if the header exists. Otherwise, it will use one
+/// of `uint_least16_t` (for Windows or Windows-alike platforms) or `uint_least32_t` (for all other platforms).
+//////
 
 //////
 /// @typedef ztd_char8_t
 ///
 /// @brief An alias to a unsigned representation of an 8-bit (or greater) code unit type.
 ///
-/// @remarks This will be a type alias for the type given in @c ZTD_CHAR8_T is defined by the user. Otherwise,
-/// it will be a type alias for @c char8_t if present. If neither are available, it will alias @c uchar
+/// @remarks This will be a type alias for the type given in `ZTD_CHAR8_T` if it is defined by the user. Otherwise,
+/// it will be a type alias for `char8_t` if present. If neither are available, it will alias `unsigned char`
 /// for the type.
 //////
 
