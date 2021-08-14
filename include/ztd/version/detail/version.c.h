@@ -100,6 +100,66 @@
 	#define ZTD_LIBVCXX_I_ ZTD_OFF
 #endif
 
+#if defined(ZTD_LIBICONV_STATIC)
+	#if (ZTD_LIBICONV_STATIC != 0)
+		#define ZTD_LIBICONV_STATIC_I_ ZTD_ON
+	#else
+		#define ZTD_LIBICONV_STATIC_I_ ZTD_OFF
+	#endif
+#else
+	#define ZTD_LIBICONV_STATIC_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_LIBICONV_DYNAMIC)
+	#if (ZTD_LIBICONV_DYNAMIC != 0)
+		#define ZTD_LIBICONV_DYNAMIC_I_ ZTD_ON
+	#else
+		#define ZTD_LIBICONV_DYNAMIC_I_ ZTD_OFF
+	#endif
+#else
+	#define ZTD_LIBICONV_DYNAMIC_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_ICONV_H)
+	#if (ZTD_ICONV_H != 0)
+		#define ZTD_ICONV_H_I_ ZTD_ON
+	#else
+		#define ZTD_ICONV_H_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<iconv.h>)
+	#define ZTD_ICONV_H_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_ICONV_H_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_LIBICONV_LOAD)
+	#if (ZTD_LIBICONV_LOAD != 0)
+		#define ZTD_LIBICONV_LOAD_I_ ZTD_ON
+	#else
+		#define ZTD_LIBICONV_LOAD_I_ ZTD_OFF
+	#endif
+#elif ZTD_IS_OFF(ZTD_ICONV_H_I_)
+	#define ZTD_LIBICONV_LOAD_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_LIBICONV_LOAD_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_LIBICONV)
+	#if (ZTD_LIBICONV != 0)
+		#define ZTD_LIBICONV_I_ ZTD_ON
+	#else
+		#define ZTD_LIBICONV_I_ ZTD_OFF
+	#endif
+#elif ZTD_IS_ON(ZTD_LIBICONV_LOAD_I_)
+	#define ZTD_LIBICONV_I_ ZTD_ON
+#elif ZTD_IS_ON(ZTD_LIBICONV_STATIC_I_)
+	#define ZTD_LIBICONV_I_ ZTD_LIBICONV_STATIC_I_
+#elif ZTD_IS_ON(ZTD_LIBICONV_DYNAMIC_I_)
+	#define ZTD_LIBICONV_I_ ZTD_LIBICONV_DYNAMIC_I_
+#else
+	#define ZTD_LIBICONV_I_ ZTD_DEFAULT_OFF
+#endif
+
 #if defined(ZTD_PLATFORM_WINDOWS)
 	#if (ZTD_PLATFORM_WINDOWS != 0)
 		#define ZTD_PLATFORM_WINDOWS_I_ ZTD_ON
@@ -156,16 +216,6 @@
 	#define ZTD_PLATFORM_AIX_I_ ZTD_DEFAULT_OFF
 #endif // IBM's AIX
 
-#if defined(ZTD_PLATFORM_UNKNOWN_CHECK)
-	#if (ZTD_PLATFORM_UNKNOWN_CHECK != 0)
-		#define ZTD_PLATFORM_UNKNOWN_CHECK_I_ ZTD_ON
-	#else
-		#define ZTD_PLATFORM_UNKNOWN_CHECK_I_ ZTD_OFF
-	#endif
-#else
-	#define ZTD_PLATFORM_UNKNOWN_CHECK_I_ ZTD_DEFAULT_OFF
-#endif
-
 #if defined(ZTD_PLATFORM_SOLARIS)
 	#if (ZTD_PLATFORM_SOLARIS != 0)
 		#define ZTD_PLATFORM_SOLARIS_I_ ZTD_ON
@@ -202,6 +252,18 @@
 	#define ZTD_PLATFORM_UNIX_I_ ZTD_DEFAULT_OFF
 #endif // UNIX platforms
 
+#if defined(ZTD_PLATFORM_POSIX)
+	#if (ZTD_PLATFORM_POSIX != 0)
+		#define ZTD_PLATFORM_POSIX_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_POSIX_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<unistd.h>) && ZTD_HAS_INCLUDE_I_(<sys/types.h>)
+	#define ZTD_PLATFORM_POSIX_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_PLATFORM_POSIX_I_ ZTD_DEFAULT_OFF
+#endif // POSIX platforms
+
 #if defined(ZTD_PLATFORM_LINUX)
 	#if (ZTD_PLATFORM_LINUX != 0)
 		#define ZTD_PLATFORM_LINUX_I_ ZTD_ON
@@ -224,6 +286,16 @@
 	#define ZTD_PLATFORM_MAC_OS_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_PLATFORM_MAC_OS_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_PLATFORM_UNKNOWN_CHECK)
+	#if (ZTD_PLATFORM_UNKNOWN_CHECK != 0)
+		#define ZTD_PLATFORM_UNKNOWN_CHECK_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_UNKNOWN_CHECK_I_ ZTD_OFF
+	#endif
+#else
+	#define ZTD_PLATFORM_UNKNOWN_CHECK_I_ ZTD_DEFAULT_OFF
 #endif
 
 #if defined(ZTD_DEBUG)
@@ -325,6 +397,18 @@
 	#define ZTD_CWCHAR_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_CWCHAR_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_DLFCN_H)
+	#if (ZTD_DLFCN_H != 0)
+		#define ZTD_DLFCN_H_I_ ZTD_ON
+	#else
+		#define ZTD_DLFCN_H_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<dlfcn.h>)
+	#define ZTD_DLFCN_H_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_DLFCN_H_I_ ZTD_DEFAULT_OFF
 #endif
 
 #if ZTD_IS_ON(ZTD_CXX_I_)
