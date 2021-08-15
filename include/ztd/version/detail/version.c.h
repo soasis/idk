@@ -138,8 +138,6 @@
 	#else
 		#define ZTD_LIBICONV_LOAD_I_ ZTD_OFF
 	#endif
-#elif ZTD_IS_OFF(ZTD_ICONV_H_I_)
-	#define ZTD_LIBICONV_LOAD_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_LIBICONV_LOAD_I_ ZTD_DEFAULT_OFF
 #endif
