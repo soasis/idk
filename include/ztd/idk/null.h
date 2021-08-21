@@ -30,36 +30,13 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_UTF8_STARTUP_HOOK_HPP
-#define ZTD_IDK_UTF8_STARTUP_HOOK_HPP
+#ifndef ZTD_IDK_NULL_H
+#define ZTD_IDK_NULL_H
 
-#include <ztd/idk/version.hpp>
+#include <ztd/idk/version.h>
 
-#include <ztd/idk/utf8_locale.h>
+#include <stdlib.h>
 
-#include <iostream>
+#define ztd_null_of(...) (__VA_ARGS__*)(NULL)
 
-namespace ztd {
-	//////
-	/// @brief A hook which attempts to set the locale to a UTF-8 locale of some kind.
-	//////
-	struct utf8_startup_hook {
-		//////
-		/// @brief The result of the hook.
-		//////
-		int result;
-
-		//////
-		/// @brief A constructor which attempts to set the locale to UTF-8.
-		//////
-		utf8_startup_hook() noexcept : result(0) {
-			result = ztd_idk_attempt_utf8_locale();
-			if (result == 0) {
-				std::cerr << "cannot set the locale-based encoding in non-Windows to UTF8" << std::endl;
-			}
-		}
-	};
-} // namespace ztd
-
-
-#endif // ZTD_IDK_UTF8_STARTUP_HOOK_HPP
+#endif // ZTD_IDK_NULL_H

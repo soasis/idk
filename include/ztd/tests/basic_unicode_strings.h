@@ -1747,4 +1747,13 @@
 	     (_CHARTYPE)0x75, (_CHARTYPE)0x72, (_CHARTYPE)0xc3, (_CHARTYPE)0xa9, (_CHARTYPE)0x6c, (_CHARTYPE)0x69, \
 	     (_CHARTYPE)0x65, (_CHARTYPE)0x2e, (_CHARTYPE)0x00
 
+const char ztd_tests_basic_source_character_set[]
+     = "\f\v\t \nabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_{}[]#()<>%:;.?*+-/^&|~!=,\\\"'\0";
+const ztd_char8_t ztd_tests_u8_basic_source_character_set[]
+     = u8"\f\v\t \nabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_{}[]#()<>%:;.?*+-/^&|~!=,\\\"'\0";
+const ztd_char16_t ztd_tests_u16_basic_source_character_set[]
+     = u"\f\v\t \nabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_{}[]#()<>%:;.?*+-/^&|~!=,\\\"'\0";
+const ztd_char32_t ztd_tests_u32_basic_source_character_set[]
+     = U"\f\v\t \nabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_{}[]#()<>%:;.?*+-/^&|~!=,\\\"'\0";
+
 #endif // ZTD_TESTS_BASIC_UNICODE_STRINGS_H
