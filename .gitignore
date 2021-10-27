@@ -2,6 +2,7 @@ build/
 install/
 scratch/
 
+.cmake/
 .mypy_cache/
 .vscode/
 .vs/

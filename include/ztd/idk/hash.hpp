@@ -35,7 +35,10 @@
 
 #include <ztd/idk/version.hpp>
 
+#include <ztd/idk/type_traits.hpp>
+
 #include <functional>
+#include <iterator>
 
 #include <ztd/prologue.hpp>
 
