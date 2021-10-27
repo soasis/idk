@@ -33,6 +33,16 @@
 #ifndef ZTD_TESTS_BASIC_UNICODE_STRINGS_H
 #define ZTD_TESTS_BASIC_UNICODE_STRINGS_H
 
+#include <ztd/version.h>
+
+#include <ztd/idk/size.h>
+
+#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_)
+#pragma warning(push)
+// cast truncates (cast truncation is intended)
+#pragma warning(disable : 4310)
+#endif // VC++ warnings
+
 #define ZTD_TESTS_UNICODE_SEQUENCE_UTF32_NATIVE_ENDIAN_STORAGE(_CHARTYPE)                             \
 	(_CHARTYPE)0x00006b66, (_CHARTYPE)0x00004fa6, (_CHARTYPE)0x00005baa, (_CHARTYPE)0x00007ae0,      \
 	     (_CHARTYPE)0x00007b2c, (_CHARTYPE)0x00000039, (_CHARTYPE)0x00006761, (_CHARTYPE)0x00002014, \
@@ -1749,11 +1759,35 @@
 
 const char ztd_tests_basic_source_character_set[]
      = "\f\v\t \nabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_{}[]#()<>%:;.?*+-/^&|~!=,\\\"'\0";
+const size_t ztd_tests_basic_source_character_set_size = ztd_c_string_array_size(ztd_tests_basic_source_character_set);
 const ztd_char8_t ztd_tests_u8_basic_source_character_set[]
      = u8"\f\v\t \nabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_{}[]#()<>%:;.?*+-/^&|~!=,\\\"'\0";
+const size_t ztd_tests_u8_basic_source_character_set_size
+     = ztd_c_string_array_size(ztd_tests_u8_basic_source_character_set);
 const ztd_char16_t ztd_tests_u16_basic_source_character_set[]
      = u"\f\v\t \nabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_{}[]#()<>%:;.?*+-/^&|~!=,\\\"'\0";
+const size_t ztd_tests_u16_basic_source_character_set_size
+     = ztd_c_string_array_size(ztd_tests_u16_basic_source_character_set);
 const ztd_char32_t ztd_tests_u32_basic_source_character_set[]
      = U"\f\v\t \nabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_{}[]#()<>%:;.?*+-/^&|~!=,\\\"'\0";
+const size_t ztd_tests_u32_basic_source_character_set_size
+     = ztd_c_string_array_size(ztd_tests_u32_basic_source_character_set);
+
+const char ztd_tests_unicode_sequence[]      = { ZTD_TESTS_UNICODE_SEQUENCE_UTF8_NATIVE_ENDIAN_STORAGE(char) };
+const size_t ztd_tests_unicode_sequence_size = ztd_c_string_array_size(ztd_tests_unicode_sequence);
+const ztd_char8_t ztd_tests_u8_unicode_sequence[]
+     = { ZTD_TESTS_UNICODE_SEQUENCE_UTF8_NATIVE_ENDIAN_STORAGE(ztd_char8_t) };
+const size_t ztd_tests_u8_unicode_sequence_size = ztd_c_string_array_size(ztd_tests_u8_unicode_sequence);
+const ztd_char16_t ztd_tests_u16_unicode_sequence[]
+     = { ZTD_TESTS_UNICODE_SEQUENCE_UTF16_NATIVE_ENDIAN_STORAGE(ztd_char16_t) };
+const size_t ztd_tests_u16_unicode_sequence_size = ztd_c_string_array_size(ztd_tests_u16_unicode_sequence);
+const ztd_char32_t ztd_tests_u32_unicode_sequence[]
+     = { ZTD_TESTS_UNICODE_SEQUENCE_UTF32_NATIVE_ENDIAN_STORAGE(ztd_char32_t) };
+const size_t ztd_tests_u32_unicode_sequence_size = ztd_c_string_array_size(ztd_tests_u32_unicode_sequence);
+
+
+#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_)
+#pragma warning(pop)
+#endif
 
 #endif // ZTD_TESTS_BASIC_UNICODE_STRINGS_H

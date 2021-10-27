@@ -296,6 +296,34 @@
 	#define ZTD_PLATFORM_UNKNOWN_CHECK_I_ ZTD_DEFAULT_OFF
 #endif
 
+#if defined(ZTD_SIZE_64_BITS)
+	#if (ZTD_SIZE_64_BITS != 0)
+		#define ZTD_SIZE_64_BITS_I_ ZTD_ON
+	#else
+		#define ZTD_SIZE_64_BITS_I_ ZTD_OFF
+	#endif
+#elif SIZE_MAX <= 0xFFFFFFFF
+	#define ZTD_SIZE_64_BITS_I_ ZTD_DEFAULT_OFF
+#elif SIZE_MAX >= 0xFFFFFFFFFFFFFFFF
+	#define ZTD_SIZE_64_BITS_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_SIZE_64_BITS_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_SIZE_32_BITS)
+	#if (ZTD_SIZE_32_BITS != 0)
+		#define ZTD_SIZE_32_BITS_I_ ZTD_ON
+	#else
+		#define ZTD_SIZE_32_BITS_I_ ZTD_OFF
+	#endif
+#elif SIZE_MAX <= 0xFFFF
+	#define ZTD_SIZE_32_BITS_I_ ZTD_DEFAULT_OFF
+#elif SIZE_MAX >= 0xFFFFFFFF
+	#define ZTD_SIZE_32_BITS_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_SIZE_32_BITS_I_ ZTD_DEFAULT_OFF
+#endif
+
 #if defined(ZTD_DEBUG)
 	#if (ZTD_DEBUG != 0)
 		#define ZTD_DEBUG_I_ ZTD_ON
@@ -496,6 +524,14 @@
 	#endif
 #endif
 
+#if (ZTD_HAS_ATTRIBUTE_I_(no_unique_address) != 0L)
+	#define ZTD_NO_UNIQUE_ADDRESS_I_ [[no_unique_address]]
+#elif ZTD_IS_ON(ZTD_CXX_I_) && ZTD_IS_ON(ZTD_COMPILER_VCXX_I_) && _MSC_VER >= 1929L
+	#define ZTD_NO_UNIQUE_ADDRESS_I_ [[msvc::no_unique_address]]
+#else
+	#define ZTD_NO_UNIQUE_ADDRESS_I_
+#endif
+
 #if (ZTD_HAS_ATTRIBUTE_I_(deprecated) != 0L)
 	#define ZTD_DEPRECATED_I_(__message) [[deprecated(__message)]]
 #else
@@ -636,6 +672,26 @@
 #else
 	#define ZTD_CONST_IF_NOT_BROKEN_CXX_I_ const
 #endif
+
+#if ZTD_IS_ON(ZTD_CXX_I_)
+	#define ZTD_CONSTEXPR_IF_CXX_I_ constexpr
+#else
+	#define ZTD_CONSTEXPR_IF_CXX_I_
+#endif
+
+#if ZTD_IS_ON(ZTD_CXX_I_)
+	#define ZTD_INLINE_IF_CXX_I_ inline
+#else
+	#define ZTD_INLINE_IF_CXX_I_
+#endif
+
+#if ZTD_IS_ON(ZTD_CXX_I_)
+	#define ZTD_NOEXCEPT_IF_CXX_I_ noexcept
+#else
+	#define ZTD_NOEXCEPT_IF_CXX_I_
+#endif
+
+#define ZTD_INLINE_CONSTEXPR_IF_CXX_I_ ZTD_INLINE_IF_CXX_I_ ZTD_CONSTEXPR_IF_CXX_I_
 
 #if ZTD_IS_ON(ZTD_CXX_I_)
 	#define ZTD_EXTERN_C_OPEN_I_ extern "C" {

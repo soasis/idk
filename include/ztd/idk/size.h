@@ -30,17 +30,10 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_NULL_H
-#define ZTD_IDK_NULL_H
+#ifndef ZTD_IDK_SIZE_H
+#define ZTD_IDK_SIZE_H
 
-#include <ztd/idk/version.h>
+#define ztd_c_array_size(...) (sizeof((__VA_ARGS__)) / sizeof(*(__VA_ARGS__)))
+#define ztd_c_string_array_size(...) (ztd_c_array_size(__VA_ARGS__) - 1)
 
-#if ZTD_IS_ON(ZTD_CXX_I_)
-#include <cstdlib>
-#else
-#include <stdlib.h>
-#endif
-
-#define ztd_null_of(...) (__VA_ARGS__*)(NULL)
-
-#endif // ZTD_IDK_NULL_H
+#endif // ZTD_IDK_SIZE_H

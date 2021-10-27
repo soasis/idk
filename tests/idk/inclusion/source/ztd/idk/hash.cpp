@@ -28,19 +28,4 @@
 //
 // ============================================================================>
 
-#pragma once
-
-#ifndef ZTD_IDK_NULL_H
-#define ZTD_IDK_NULL_H
-
-#include <ztd/idk/version.h>
-
-#if ZTD_IS_ON(ZTD_CXX_I_)
-#include <cstdlib>
-#else
-#include <stdlib.h>
-#endif
-
-#define ztd_null_of(...) (__VA_ARGS__*)(NULL)
-
-#endif // ZTD_IDK_NULL_H
+#include <ztd/idk/hash.hpp>

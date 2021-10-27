@@ -79,7 +79,7 @@
 #elif defined(__has_include)
 	#define ZTD_HAS_INCLUDE_I_(...) __has_include(__VA_ARGS__)
 #else
-	#define ZTD_HAS_INCLUDE_I_(...) 0
+	#define ZTD_HAS_INCLUDE_I_(...) 0L
 #endif
 
 #if defined(ZTD_HAS_ATTRIBUTE)
@@ -88,8 +88,10 @@
 	#define ZTD_HAS_ATTRIBUTE_I_(...) __has_cpp_attribute(__VA_ARGS__)
 #elif ZTD_IS_ON(ZTD_C_I_) && defined(__has_c_attribute)
 	#define ZTD_HAS_ATTRIBUTE_I_(...) __has_c_attribute(__VA_ARGS__)
+#elif defined(__has_attribute)
+	#define ZTD_HAS_ATTRIBUTE_I_(...) __has_attribute(__VA_ARGS__)
 #else
-	#define ZTD_HAS_ATTRIBUTE_I_(...) 0
+	#define ZTD_HAS_ATTRIBUTE_I_(...) 0L
 #endif
 
 #if defined(ZTD_HAS_BUILTIN)

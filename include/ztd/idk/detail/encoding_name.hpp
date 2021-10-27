@@ -35,7 +35,10 @@
 
 #include <ztd/idk/version.hpp>
 
+#include <ztd/idk/charN_t.hpp>
+
 #include <string_view>
+#include <array>
 
 #include <ztd/prologue.hpp>
 
@@ -43,41 +46,68 @@ namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
 
 	namespace __idk_detail {
+		template <typename _Char>
+		inline constexpr ::std::array<_Char, 63> __readable_characters_storage_v = { 'A', 'B', 'C', 'D', 'E', 'F',
+			'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a',
+			'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'u',
+			'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
+		template <typename _Char>
+		inline constexpr ::std::array<_Char, 26> __uncased_characters_storage_v = { 'a', 'b', 'c', 'd', 'e', 'f', 'g',
+			'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+		template <typename _Char>
+		inline constexpr ::std::array<_Char, 26> __cased_characters_storage_v = { 'A', 'B', 'C', 'D', 'E', 'F', 'G',
+			'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 
-		inline constexpr bool __is_encoding_name_equal(
-		     ::std::string_view __left, ::std::string_view __right) noexcept {
-			constexpr ::std::string_view __readable_characters
-			     = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuuvwxyz1234567890";
-			constexpr ::std::string_view __uncased_characters = "abcdefghijklmnopqrstuuvwxyz";
-			constexpr ::std::string_view __cased_characters   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-			::std::size_t __left_size                         = __left.size();
-			::std::size_t __right_size                        = __right.size();
-			const char* __left_ptr                            = __left.data();
-			const char* __right_ptr                           = __right.data();
-			::std::size_t __left_index                        = 0;
-			::std::size_t __right_index                       = 0;
+		template <typename _Char>
+		inline constexpr ::std::basic_string_view<_Char> __readable_characters_v(
+		     __readable_characters_storage_v<_Char>.data(), __readable_characters_storage_v<_Char>.size());
+		template <typename _Char>
+		inline constexpr ::std::basic_string_view<_Char> __uncased_characters_v(
+		     __uncased_characters_storage_v<_Char>.data(), __uncased_characters_storage_v<_Char>.size());
+		template <typename _Char>
+		inline constexpr ::std::basic_string_view<_Char> __cased_characters_v(
+		     __cased_characters_storage_v<_Char>.data(), __cased_characters_storage_v<_Char>.size());
+
+
+		inline constexpr const char* __unicode_names[]
+		     = { "UTF-7", "UTF-7-IMAP", "UTF-8", "UTF-16", "UTF-32", "UTF-16LE", "UTF-16BE", "UTF-32LE", "UTF-32BE",
+			       "UTF-EBCDIC", "UTF-8-EBCDIC", "MUTF-8", "WTF-8", "GB18030", "CESU-8", "UTF-1" };
+		inline constexpr ::std::size_t __unicode_names_count = sizeof(__unicode_names) / sizeof(__unicode_names[0]);
+
+		template <typename _Left, typename _Right>
+		inline constexpr bool __is_encoding_name_equal_generic(const _Left& __left, const _Right& __right) noexcept {
+			using _LeftChar             = typename _Left::value_type;
+			using _RightChar            = typename _Left::value_type;
+			::std::size_t __left_size   = __left.size();
+			::std::size_t __right_size  = __right.size();
+			auto __left_ptr             = __left.data();
+			auto __right_ptr            = __right.data();
+			::std::size_t __left_index  = 0;
+			::std::size_t __right_index = 0;
 			for (; __left_index < __left_size && __right_index < __right_size;) {
 				// find the first non-ignorable character we can read
-				::std::size_t __left_first_index = __left.find_first_of(__readable_characters, __left_index);
+				::std::size_t __left_first_index
+				     = __left.find_first_of(__readable_characters_v<_LeftChar>, __left_index);
 				if (__left_first_index == ::std::string_view::npos) {
 					return __right_index == __right_size;
 				}
-				__left_index                      = __left_first_index + 1;
-				::std::size_t __right_first_index = __right.find_first_of(__readable_characters, __right_index);
+				__left_index = __left_first_index + 1;
+				::std::size_t __right_first_index
+				     = __right.find_first_of(__readable_characters_v<_RightChar>, __right_index);
 				if (__right_first_index == ::std::string_view::npos) {
 					return __left_index == __left_size;
 				}
 				__right_index  = __right_first_index + 1;
-				char __left_c  = __left_ptr[__left_first_index];
-				char __right_c = __right_ptr[__right_first_index];
+				auto __left_c  = __left_ptr[__left_first_index];
+				auto __right_c = __right_ptr[__right_first_index];
 				// make sure we eliminate casing differences
-				::std::size_t __left_c_casing_index = __uncased_characters.find(__left_c);
+				::std::size_t __left_c_casing_index = __uncased_characters_v<_LeftChar>.find(__left_c);
 				if (__left_c_casing_index != ::std::string_view::npos) {
-					__left_c = __cased_characters[__left_c_casing_index];
+					__left_c = __cased_characters_v<_LeftChar>[__left_c_casing_index];
 				}
-				::std::size_t __right_c_casing_index = __uncased_characters.find(__right_c);
+				::std::size_t __right_c_casing_index = __uncased_characters_v<_RightChar>.find(__right_c);
 				if (__right_c_casing_index != ::std::string_view::npos) {
-					__right_c = __cased_characters[__right_c_casing_index];
+					__right_c = __cased_characters_v<_RightChar>[__right_c_casing_index];
 				}
 				// finally, check
 				if (__left_c == __right_c) {
@@ -86,17 +116,23 @@ namespace ztd {
 				return false;
 			}
 			bool __left_exhausted
-			     = __left.find_first_of(__readable_characters, __left_index) == ::std::string_view::npos;
+			     = __left.find_first_of(__readable_characters_v<_LeftChar>, __left_index) == _Left::npos;
 			bool __right_exhausted
-			     = __right.find_first_of(__readable_characters, __right_index) == ::std::string_view::npos;
+			     = __right.find_first_of(__readable_characters_v<_RightChar>, __right_index) == _Right::npos;
 			return __left_exhausted && __right_exhausted;
 		}
 
+		inline constexpr bool __is_encoding_name_equal(
+		     ::std::string_view __left, ::std::string_view __right) noexcept {
+			return __is_encoding_name_equal_generic(__left, __right);
+		}
+
+		inline constexpr bool __is_encoding_name_equal(
+		     ::std::basic_string_view<ztd_char8_t> __left, ::std::basic_string_view<ztd_char8_t> __right) noexcept {
+			return __is_encoding_name_equal_generic(__left, __right);
+		}
+
 		inline constexpr bool __is_unicode_encoding_name(::std::string_view __encoding_name) noexcept {
-			constexpr const char* __unicode_names[]
-			     = { "UTF-7", "UTF-7-IMAP", "UTF-8", "UTF-16", "UTF-32", "UTF-16LE", "UTF-16BE", "UTF-32LE",
-				       "UTF-32BE", "UTF-EBCDIC", "UTF-8-EBCDIC", "MUTF-8", "WTF-8", "GB18030", "CESU-8", "UTF-1" };
-			constexpr ::std::size_t __unicode_names_count = sizeof(__unicode_names) / sizeof(__unicode_names[0]);
 			for (::std::size_t __index = 0; __index < __unicode_names_count; ++__index) {
 				::std::string_view __unicode_name = __unicode_names[__index];
 				if (__is_encoding_name_equal(__encoding_name, __unicode_name)) {
