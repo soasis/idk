@@ -61,6 +61,11 @@ namespace ztd {
 		: public __mark_contiguous<decltype(::std::declval<_It>()._Unwrapped())> { };
 #endif
 
+#if ZTD_IS_ON(ZTD_LIBCXX_I_)
+		template <typename _It>
+		struct __mark_contiguous<::std::__wrap_iter<_It>> : public __mark_contiguous<_It> { };
+#endif
+
 		template <typename _It>
 		inline constexpr bool __mark_contiguous_v = __mark_contiguous<_It>::value;
 
