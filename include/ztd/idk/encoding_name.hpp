@@ -74,74 +74,6 @@ namespace ztd {
 			       "UTF-EBCDIC", "UTF-8-EBCDIC", "MUTF-8", "WTF-8", "GB18030", "CESU-8", "UTF-1" };
 		inline constexpr ::std::size_t __unicode_names_count = sizeof(__unicode_names) / sizeof(__unicode_names[0]);
 
-		template <typename _Left, typename _Right>
-		inline constexpr bool __is_encoding_name_equal_generic(const _Left& __left, const _Right& __right) noexcept {
-			using _LeftChar             = typename _Left::value_type;
-			using _RightChar            = typename _Left::value_type;
-			::std::size_t __left_size   = __left.size();
-			::std::size_t __right_size  = __right.size();
-			auto __left_ptr             = __left.data();
-			auto __right_ptr            = __right.data();
-			::std::size_t __left_index  = 0;
-			::std::size_t __right_index = 0;
-			for (; __left_index < __left_size && __right_index < __right_size;) {
-				// find the first non-ignorable character we can read
-				::std::size_t __left_first_index
-				     = __left.find_first_of(__readable_characters_v<_LeftChar>, __left_index);
-				if (__left_first_index == ::std::string_view::npos) {
-					return __right_index == __right_size;
-				}
-				__left_index = __left_first_index + 1;
-				::std::size_t __right_first_index
-				     = __right.find_first_of(__readable_characters_v<_RightChar>, __right_index);
-				if (__right_first_index == ::std::string_view::npos) {
-					return __left_index == __left_size;
-				}
-				__right_index  = __right_first_index + 1;
-				auto __left_c  = __left_ptr[__left_first_index];
-				auto __right_c = __right_ptr[__right_first_index];
-				// make sure we eliminate casing differences
-				::std::size_t __left_c_casing_index = __uncased_characters_v<_LeftChar>.find(__left_c);
-				if (__left_c_casing_index != ::std::string_view::npos) {
-					__left_c = __cased_characters_v<_LeftChar>[__left_c_casing_index];
-				}
-				::std::size_t __right_c_casing_index = __uncased_characters_v<_RightChar>.find(__right_c);
-				if (__right_c_casing_index != ::std::string_view::npos) {
-					__right_c = __cased_characters_v<_RightChar>[__right_c_casing_index];
-				}
-				// finally, check
-				if (__left_c == __right_c) {
-					continue;
-				}
-				return false;
-			}
-			bool __left_exhausted
-			     = __left.find_first_of(__readable_characters_v<_LeftChar>, __left_index) == _Left::npos;
-			bool __right_exhausted
-			     = __right.find_first_of(__readable_characters_v<_RightChar>, __right_index) == _Right::npos;
-			return __left_exhausted && __right_exhausted;
-		}
-
-		inline constexpr bool __is_encoding_name_equal(
-		     ::std::string_view __left, ::std::string_view __right) noexcept {
-			return __is_encoding_name_equal_generic(__left, __right);
-		}
-
-		inline constexpr bool __is_encoding_name_equal(
-		     ::std::basic_string_view<ztd_char8_t> __left, ::std::basic_string_view<ztd_char8_t> __right) noexcept {
-			return __is_encoding_name_equal_generic(__left, __right);
-		}
-
-		inline constexpr bool __is_unicode_encoding_name(::std::string_view __encoding_name) noexcept {
-			for (::std::size_t __index = 0; __index < __unicode_names_count; ++__index) {
-				::std::string_view __unicode_name = __unicode_names[__index];
-				if (__is_encoding_name_equal(__encoding_name, __unicode_name)) {
-					return true;
-				}
-			}
-			return false;
-		}
-
 		enum class __encoding_id {
 			__unknown = 0,
 			__utf7imap,
@@ -202,57 +134,130 @@ namespace ztd {
 				return "unknown";
 			}
 		}
+	} // namespace __idk_detail
+
+	template <typename _Left, typename _Right>
+	inline constexpr bool is_encoding_name_equal_for(const _Left& __left, const _Right& __right) noexcept {
+		using _LeftChar             = typename _Left::value_type;
+		using _RightChar            = typename _Left::value_type;
+		::std::size_t __left_size   = __left.size();
+		::std::size_t __right_size  = __right.size();
+		auto __left_ptr             = __left.data();
+		auto __right_ptr            = __right.data();
+		::std::size_t __left_index  = 0;
+		::std::size_t __right_index = 0;
+		for (; __left_index < __left_size && __right_index < __right_size;) {
+			// find the first non-ignorable character we can read
+			::std::size_t __left_first_index
+			     = __left.find_first_of(__idk_detail::__readable_characters_v<_LeftChar>, __left_index);
+			if (__left_first_index == ::std::string_view::npos) {
+				return __right_index == __right_size;
+			}
+			__left_index = __left_first_index + 1;
+			::std::size_t __right_first_index
+			     = __right.find_first_of(__idk_detail::__readable_characters_v<_RightChar>, __right_index);
+			if (__right_first_index == ::std::string_view::npos) {
+				return __left_index == __left_size;
+			}
+			__right_index  = __right_first_index + 1;
+			auto __left_c  = __left_ptr[__left_first_index];
+			auto __right_c = __right_ptr[__right_first_index];
+			// make sure we eliminate casing differences
+			::std::size_t __left_c_casing_index = __idk_detail::__uncased_characters_v<_LeftChar>.find(__left_c);
+			if (__left_c_casing_index != ::std::string_view::npos) {
+				__left_c = __idk_detail::__cased_characters_v<_LeftChar>[__left_c_casing_index];
+			}
+			::std::size_t __right_c_casing_index = __idk_detail::__uncased_characters_v<_RightChar>.find(__right_c);
+			if (__right_c_casing_index != ::std::string_view::npos) {
+				__right_c = __idk_detail::__cased_characters_v<_RightChar>[__right_c_casing_index];
+			}
+			// finally, check
+			if (__left_c == __right_c) {
+				continue;
+			}
+			return false;
+		}
+		bool __left_exhausted
+		     = __left.find_first_of(__idk_detail::__readable_characters_v<_LeftChar>, __left_index) == _Left::npos;
+		bool __right_exhausted
+		     = __right.find_first_of(__idk_detail::__readable_characters_v<_RightChar>, __right_index)
+		     == _Right::npos;
+		return __left_exhausted && __right_exhausted;
+	}
+
+	inline constexpr bool is_encoding_name_equal(::std::string_view __left, ::std::string_view __right) noexcept {
+		return is_encoding_name_equal_for(__left, __right);
+	}
+
+	inline constexpr bool is_encoding_name_equal(
+	     ::std::basic_string_view<ztd_char8_t> __left, ::std::basic_string_view<ztd_char8_t> __right) noexcept {
+		return is_encoding_name_equal_for(__left, __right);
+	}
+
+	inline constexpr bool is_unicode_encoding_name(::std::string_view __encoding_name) noexcept {
+		for (::std::size_t __index = 0; __index < __idk_detail::__unicode_names_count; ++__index) {
+			::std::string_view __unicode_name = __idk_detail::__unicode_names[__index];
+			if (is_encoding_name_equal(__encoding_name, __unicode_name)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	namespace __idk_detail {
 
 		inline constexpr __encoding_id __to_encoding_id(::std::string_view __name) {
-			if (__is_encoding_name_equal(__name, "UTF-8")) {
+			if (::ztd::is_encoding_name_equal(__name, "UTF-8")) {
 				return __encoding_id::__utf8;
 			}
-			else if (__is_encoding_name_equal(__name, "UTF-16") || __is_encoding_name_equal(__name, "UCS-2-INTERNAL")
-			     || __is_encoding_name_equal(__name, "UCS-2")) {
+			else if (::ztd::is_encoding_name_equal(__name, "UTF-16")
+			     || ::ztd::is_encoding_name_equal(__name, "UCS-2-INTERNAL")
+			     || ::ztd::is_encoding_name_equal(__name, "UCS-2")) {
 				return __encoding_id::__utf16;
 			}
-			else if (__is_encoding_name_equal(__name, "UTF-16LE")
-			     || __is_encoding_name_equal(__name, "UCS-2LE-INTERNAL")
-			     || __is_encoding_name_equal(__name, "UCS-2LE")) {
+			else if (::ztd::is_encoding_name_equal(__name, "UTF-16LE")
+			     || ::ztd::is_encoding_name_equal(__name, "UCS-2LE-INTERNAL")
+			     || ::ztd::is_encoding_name_equal(__name, "UCS-2LE")) {
 				return __encoding_id::__utf16le;
 			}
-			else if (__is_encoding_name_equal(__name, "UTF-16BE")
-			     || __is_encoding_name_equal(__name, "UCS-2BE-INTERNAL")
-			     || __is_encoding_name_equal(__name, "UCS-2BE")) {
+			else if (::ztd::is_encoding_name_equal(__name, "UTF-16BE")
+			     || ::ztd::is_encoding_name_equal(__name, "UCS-2BE-INTERNAL")
+			     || ::ztd::is_encoding_name_equal(__name, "UCS-2BE")) {
 				return __encoding_id::__utf16be;
 			}
-			else if (__is_encoding_name_equal(__name, "UTF-32") || __is_encoding_name_equal(__name, "UCS-4-INTERNAL")
-			     || __is_encoding_name_equal(__name, "UCS-4")) {
+			else if (::ztd::is_encoding_name_equal(__name, "UTF-32")
+			     || ::ztd::is_encoding_name_equal(__name, "UCS-4-INTERNAL")
+			     || ::ztd::is_encoding_name_equal(__name, "UCS-4")) {
 				return __encoding_id::__utf32;
 			}
-			else if (__is_encoding_name_equal(__name, "UTF-32LE")
-			     || __is_encoding_name_equal(__name, "UCS-4LE-INTERNAL")
-			     || __is_encoding_name_equal(__name, "UCS-4LE")) {
+			else if (::ztd::is_encoding_name_equal(__name, "UTF-32LE")
+			     || ::ztd::is_encoding_name_equal(__name, "UCS-4LE-INTERNAL")
+			     || ::ztd::is_encoding_name_equal(__name, "UCS-4LE")) {
 				return __encoding_id::__utf32le;
 			}
-			else if (__is_encoding_name_equal(__name, "UTF-32BE")
-			     || __is_encoding_name_equal(__name, "UCS-4BE-INTERNAL")
-			     || __is_encoding_name_equal(__name, "UCS-4BE")) {
+			else if (::ztd::is_encoding_name_equal(__name, "UTF-32BE")
+			     || ::ztd::is_encoding_name_equal(__name, "UCS-4BE-INTERNAL")
+			     || ::ztd::is_encoding_name_equal(__name, "UCS-4BE")) {
 				return __encoding_id::__utf32be;
 			}
-			else if (__is_encoding_name_equal(__name, "ASCII")
-			     || __is_encoding_name_equal(__name, "ANSI_X3.4-1968")) {
+			else if (::ztd::is_encoding_name_equal(__name, "ASCII")
+			     || ::ztd::is_encoding_name_equal(__name, "ANSI_X3.4-1968")) {
 				return __encoding_id::__ascii;
 			}
-			else if (__is_encoding_name_equal(__name, "UTF-EBCDIC")
-			     || __is_encoding_name_equal(__name, "UTF-8-EBCDIC")) {
+			else if (::ztd::is_encoding_name_equal(__name, "UTF-EBCDIC")
+			     || ::ztd::is_encoding_name_equal(__name, "UTF-8-EBCDIC")) {
 				return __encoding_id::__utfebcdic;
 			}
-			else if (__is_encoding_name_equal(__name, "WTF-8")) {
+			else if (::ztd::is_encoding_name_equal(__name, "WTF-8")) {
 				return __encoding_id::__wtf8;
 			}
-			else if (__is_encoding_name_equal(__name, "MUTF-8")) {
+			else if (::ztd::is_encoding_name_equal(__name, "MUTF-8")) {
 				return __encoding_id::__mutf8;
 			}
-			else if (__is_encoding_name_equal(__name, "UTF-7")) {
+			else if (::ztd::is_encoding_name_equal(__name, "UTF-7")) {
 				return __encoding_id::__utf7;
 			}
-			else if (__is_encoding_name_equal(__name, "UTF-7-IMAP")) {
+			else if (::ztd::is_encoding_name_equal(__name, "UTF-7-IMAP")) {
 				return __encoding_id::__utf7imap;
 			}
 			else {

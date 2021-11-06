@@ -28,4 +28,37 @@
 //
 // ============================================================================>
 
-#include <ztd/idk/encoding_name.hpp>
+#pragma once
+
+#ifndef ZTD_IDK_SIZE_HPP
+#define ZTD_IDK_SIZE_HPP
+
+#include <ztd/idk/version.hpp>
+
+#include <ztd/idk/size.h>
+
+namespace ztd {
+	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
+
+	template <typename _Type, typename _Sentinel>
+	size_t c_string_ptr_size(_Type* __ptr, const _Sentinel& __sen) {
+		if (__ptr == nullptr) {
+			return 0;
+		}
+		size_t __len = 0;
+		while (__ptr[__len] != __sen) {
+			++__len;
+		}
+		return __len;
+	}
+
+	template <typename _Type>
+	size_t c_string_ptr_size(_Type* __ptr) {
+		constexpr _Type __sentinel {};
+		return c_string_ptr_size(__ptr, __sentinel);
+	}
+
+	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
+} // namespace ztd
+
+#endif // ZTD_IDK_SIZE_HPP

@@ -39,7 +39,7 @@
 #include <ztd/idk/endian.hpp>
 #include <ztd/idk/span.hpp>
 #include <ztd/idk/type_traits.hpp>
-#include <ztd/idk/detail/encoding_name.hpp>
+#include <ztd/idk/encoding_name.hpp>
 
 #if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_)
 #pragma warning(push)
@@ -49,15 +49,15 @@
 namespace ztd { namespace tests {
 
 	inline constexpr bool wide_is_utf32
-		= ztd::__idk_detail::__is_encoding_name_equal(ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_(), "UTF-32");
+		= ::ztd::is_encoding_name_equal(ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_(), "UTF-32");
 	inline constexpr bool wide_is_utf16
-		= ztd::__idk_detail::__is_encoding_name_equal(ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_(), "UTF-16");
+		= ::ztd::is_encoding_name_equal(ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_(), "UTF-16");
 	inline constexpr bool wide_is_utf8
-		= ztd::__idk_detail::__is_encoding_name_equal(ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_(), "UTF-8");
+		= ::ztd::is_encoding_name_equal(ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_(), "UTF-8");
 
 	template <typename Container>
-	inline ztd::span<const std::byte> range_to_bytes(Container& c) {
-		return ztd::as_bytes(ztd::span<std::remove_pointer_t<decltype(c.data())>>(c.data(), c.size()));
+	inline ::ztd::span<const std::byte> range_to_bytes(Container& c) {
+		return ::ztd::as_bytes(ztd::span<std::remove_pointer_t<decltype(c.data())>>(c.data(), c.size()));
 	}
 
 	template <typename Container>
