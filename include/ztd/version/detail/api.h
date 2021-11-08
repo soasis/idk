@@ -96,14 +96,14 @@
 				// Building the library
 				#if ZTD_IS_ON(ZTD_COMPILER_GCC_I_)
 					// Using GCC
-					#define ZTD_API_LINKAGE_I_ __attribute__(dllexport        )
+					#define ZTD_API_LINKAGE_I_ __attribute__((dllexport))
 				#else
 					// Using Clang, MSVC, etc...
 					#define ZTD_API_LINKAGE_I_ __declspec(dllexport)
 				#endif
 			#else
 				#if ZTD_IS_ON(ZTD_COMPILER_GCC_I_)
-					#define ZTD_API_LINKAGE_I_ __attribute__(dllimport)
+					#define ZTD_API_LINKAGE_I_ __attribute__((dllimport))
 				#else
 					#define ZTD_API_LINKAGE_I_ __declspec(dllimport)
 				#endif

@@ -116,7 +116,8 @@ ZTD_C_STRUCT_LINKAGE_I_ typedef struct ZTD_IDK_C_SPAN_FULL_NAME_I_ {
 ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ void ZTD_IDK_C_SPAN_PREFIX_I_(copy_)(
      ZTD_IDK_C_SPAN_FULL_NAME_I_* __destination, ZTD_IDK_C_SPAN_FULL_NAME_I_ __source) {
 	ZTD_ASSERT_MESSAGE_I_("the destination parameter must not be null", __destination != NULL);
-	memcpy(__destination, &__source, sizeof(__source));
+	(*(ZTD_IDK_C_SPAN_CONST_TYPE_I_**)&__destination->data) = __source.data;
+	(*(ZTD_IDK_C_SPAN_SIZE_TYPE_I_*)&__destination->size)   = __source.size;
 }
 
 ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_FULL_NAME_I_ ZTD_IDK_C_SPAN_PREFIX_I_(make_)(
