@@ -134,13 +134,14 @@ def generate_doxygen_xml(app):
 	"""Run the doxygen make commands if we're on the ReadTheDocs server"""
 
 	read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
-
 	if read_the_docs_build:
+		print(
+		    "[ztd.idk/documentation/conf.py] Detected READTHEDOCS environment variable: running cmake from conf.py"
+		)
 		run_cmake_doxygen()
 
 
 def setup(app):
 	"""Sphinx / ReadTheDocs hook for when the build system is initialized."""
-
 	# Add hook for building doxygen xml when needed
 	app.connect("builder-inited", generate_doxygen_xml)

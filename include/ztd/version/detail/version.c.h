@@ -437,6 +437,18 @@
 	#define ZTD_DLFCN_H_I_ ZTD_DEFAULT_OFF
 #endif
 
+#if defined(ZTD_STDBIT_H)
+	#if (ZTD_STDBIT_H != 0)
+		#define ZTD_STDBIT_H_I_ ZTD_ON
+	#else
+		#define ZTD_STDBIT_H_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<stdbit.h>)
+	#define ZTD_STDBIT_H_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_STDBIT_H_I_ ZTD_DEFAULT_OFF
+#endif
+
 #if ZTD_IS_ON(ZTD_CXX_I_)
 	#if ZTD_IS_ON(ZTD_CUCHAR_I_)
 		#define ZTD_UCHAR_ACCESSOR_I_ ::std::
@@ -545,6 +557,16 @@
 	#endif
 #endif
 
+#if defined(ZTD_TYPE_ALIGN_ATTRIBUTE)
+	#define ZTD_TYPE_ALIGN_ATTRIBUTE_I_(...) ZTD_TYPE_ALIGN_ATTRIBUTE(__VA__ARGS__)
+#elif ZTD_IS_ON(ZTD_COMPILER_VCXX_I_)
+	#define ZTD_TYPE_ALIGN_ATTRIBUTE_I_(...) __declspec(align(__VA_ARGS__))
+#elif ZTD_IS_ON(ZTD_COMPILER_CLANG_I_) || ZTD_IS_ON(ZTD_COMPILER_GCC_I_)
+	#define ZTD_TYPE_ALIGN_ATTRIBUTE_I_(...) __attribute__((aligned(__VA_ARGS__)))
+#else
+	#define ZTD_TYPE_ALIGN_ATTRIBUTE_I_(...)
+#endif
+
 #if defined(ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE)
 	#define ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE_I_ ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE
 #else
@@ -651,6 +673,12 @@
 	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_I_               ZTD_DEFAULT_OFF
 #endif
 
+#if ZTD_IS_ON(ZTD_CXX_I_) || ZTD_IS_ON(ZTD_COMPILER_VCXX_I_)
+	#define ZTD_STATIC_PTR_EXTENT_I_(...)
+#else
+	#define ZTD_STATIC_PTR_EXTENT_I_(...) static (__VA_ARGS__)
+#endif
+
 #if defined(ZTD_DOXYGEN_PREPROCESSING)
 	#if (ZTD_DOXYGEN_PREPROCESSING != 0)
 		#define ZTD_DOXYGEN_PREPROCESSING_I_ ZTD_ON
@@ -695,6 +723,14 @@
 #else
 	#define ZTD_EXTERN_C_OPEN_I_
 	#define ZTD_EXTERN_C_CLOSE_I_
+#endif
+
+#if ZTD_IS_ON(ZTD_CXX_I_)
+	#define ZTD_CXX_NOEXCEPT_I_ noexcept
+	#define ZTD_CXX_NOEXCEPT_IF_I_(...) noexcept(__VA_ARGS__)
+#else
+	#define ZTD_CXX_NOEXCEPT_I_
+	#define ZTD_CXX_NOEXCEPT_IF_I_(...)
 #endif
 
 

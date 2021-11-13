@@ -28,12 +28,36 @@
 //
 // ============================================================================>
 
-extern int c_span_tests(void);
+#pragma once
 
-int main(int argc, char* argv[]) {
-	(void)argc;
-	(void)argv;
-	int result = 0;
-	result += c_span_tests();
-	return result;
-}
+#ifndef ZTD_IDK_ASSUME_ALIGNED_H
+#define ZTD_IDK_ASSUME_ALIGNED_H
+
+#include <ztd/idk/version.h>
+
+// clang-format off
+#if ZTD_HAS_BUILTIN_I_(__builtin_assume_aligned)
+	#define ZTD_ASSUME_ALIGNED_C(_ALIGNMENT, ...) __builtin_assume_aligned((__VA_ARGS__), _ALIGNMENT)
+#else
+	#define ZTD_ASSUME_ALIGNED_C(_ALIGNMENT, ...) __VA_ARGS__
+#endif
+
+#if ZTD_IS_ON(ZTD_C_I_)
+	#define ZTD_ASSUME_ALIGNED(_ALIGNMENT, ...) ZTD_ASSUME_ALIGNED_C(_ALIGNMENT, __VA_ARGS__)
+	#define ZTD_ASSUME_ALIGNED_CXX(_ALIGNMENT, ...) ZTD_ASSUME_ALIGNED(_ALIGNMENT, __VA_ARGS__)
+#else
+	#include <ztd/idk/version.hpp>
+
+	#if ZTD_IS_ON(ZTD_STD_LIBRARY_ASSUME_ALIGNED_I_)
+		#include <memory>
+
+		#define ZTD_ASSUME_ALIGNED_CXX(_ALIGNMENT, ...) ::std::assume_aligned<_ALIGNMENT>(__VA_ARGS__);
+	#else
+		#define ZTD_ASSUME_ALIGNED_CXX(_ALIGNMENT, ...) ZTD_ASSUME_ALIGNED_C(__VA_ARGS__)
+	#endif
+
+	#define ZTD_ASSUME_ALIGNED(_ALIGNMENT, ...) ZTD_ASSUME_ALIGNED_CXX(_ALIGNMENT, __VA_ARGS__)
+#endif
+// clang-format on
+
+#endif // ZTD_IDK_ASSUME_ALIGNED_H

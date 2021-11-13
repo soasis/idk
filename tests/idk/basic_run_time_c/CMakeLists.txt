@@ -32,8 +32,8 @@
 file(GLOB_RECURSE ztd.idk.tests.basic_run_time_c.sources
 	LIST_DIRECTORIES FALSE
 	CONFIGURE_DEPENDS
-	source/*.c)
-message(STATUS ${ztd.idk.tests.basic_run_time_c.sources})
+	source/*.c
+)
 add_executable(ztd.idk.tests.basic_run_time_c ${ztd.idk.tests.basic_run_time_c.sources})
 target_compile_options(ztd.idk.tests.basic_run_time_c
 	PRIVATE

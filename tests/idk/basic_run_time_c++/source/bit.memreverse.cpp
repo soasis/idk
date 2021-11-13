@@ -28,12 +28,34 @@
 //
 // ============================================================================>
 
-extern int c_span_tests(void);
+#include <ztd/idk/bit.h>
+#include <ztd/idk/endian.h>
+#include <ztd/idk/type_traits.hpp>
 
-int main(int argc, char* argv[]) {
-	(void)argc;
-	(void)argv;
-	int result = 0;
-	result += c_span_tests();
-	return result;
+#include <catch2/catch.hpp>
+
+#include <random>
+
+
+TEST_CASE("bit/memreverse", "Ensure that hte 8-bit memory reverse algorithm works.") {
+#if CHAR_BIT == 8
+	std::random_device dev;
+	std::mt19937 rng(dev());
+	std::uniform_int_distribution<std::mt19937::result_type> dist(0, std::numeric_limits<unsigned char>::max());
+	const std::vector<unsigned char> data = [&rng, &dist]() {
+		std::vector<unsigned char> data_init(50000);
+		for (unsigned char& val : data_init) {
+			val = static_cast<unsigned char>(dist(rng));
+		}
+		return data_init;
+	}();
+
+	const std::vector<unsigned char> reverse_data(data.rbegin(), data.rend());
+	std::vector<unsigned char> target = data;
+	REQUIRE(target == data);
+	ztdc_memreverse8(target.size(), target.data());
+	REQUIRE(target == reverse_data);
+#else
+#error This test must be upated to work on (CHAR_BIT != 8) and ((CHAR_BIT % 8) == 0) environments!
+#endif
 }

@@ -39,7 +39,7 @@ include(GNUInstallDirs)
 # Find all the public headers
 file(GLOB_RECURSE ztd_idk_headers
 	LIST_DIRECTORIES NO
-	CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/include/**.*)
+	CONFIGURE_DEPENDS ../include/**.*)
 # First, make a list copy for use with dependency tracking later down below
 # Remove every single public header
 # separate text with spaces and surround them with quotes for Doxygen to understand them all
@@ -48,10 +48,9 @@ list(FILTER ztd_idk_doxygen_public_headers EXCLUDE REGEX /detail/.*)
 list(TRANSFORM ztd_idk_doxygen_public_headers REPLACE "(.+)" [["\1"]])
 list(JOIN ztd_idk_doxygen_public_headers " " ztd_idk_doxygen_public_headers)
 # do the same for the include paths
-get_target_property(ztd_idk_doxygen_include_paths ztd::idk INTERFACE_INCLUDE_DIRECTORIES)
+get_target_property(ztd_idk_doxygen_include_paths ztd::idk INCLUDE_DIRECTORIES)
 list(TRANSFORM ztd_idk_doxygen_include_paths REPLACE "(.+)" [["\1"]])
 list(JOIN ztd_idk_doxygen_include_paths " " ztd_idk_doxygen_include_paths)
-
 
 set(ZTD_IDK_DOXYGEN_PROJECT_DESCRIPTION ${PROJECT_DESCRIPTION})
 set(ZTD_IDK_DOXYGEN_PROJECT_VERSION ${PROJECT_VERSION})

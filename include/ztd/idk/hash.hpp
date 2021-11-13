@@ -58,6 +58,7 @@ namespace ztd {
 	/// @brief Computes the hash for each element of the range, if the __predicate returns true for that element.
 	/// Returns final combined and mixed hash value.
 	///
+	/// @param[in] __initial_seed The starting seed value.
 	/// @param[in] __range The range to loop over from its `begin` to its `end`.
 	/// @param[in] __predicate The predicate that will be called on each element to determine whether or not it should
 	/// be hashed as part of the range.
@@ -88,6 +89,7 @@ namespace ztd {
 	//////
 	/// @brief Computes the hash for each element of the range. Returns final combined and mixed hash value.
 	///
+	/// @param[in] __initial_seed The starting seed value.
 	/// @param[in] __range The range to loop over from its `begin` to its `end`.
 	//////
 	template <typename _Range>

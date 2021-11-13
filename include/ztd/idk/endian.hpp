@@ -35,11 +35,11 @@
 
 #include <ztd/version.hpp>
 
+#include <ztd/idk/endian.h>
+
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_ENDIAN_I_)
 #include <bit>
 #endif
-
-#include <ztd/idk/detail/windows.hpp>
 
 #include <ztd/prologue.hpp>
 
@@ -49,61 +49,24 @@ namespace ztd {
 #if ZTD_IS_OFF(ZTD_STD_LIBRARY_ENDIAN_I_)
 	namespace __idk_detail {
 		enum class __endian {
-#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
 			//////
 			/// @brief Little endian, in which the least significant byte as the first byte value.
 			///
 			//////
-			little = 0,
+			little = ZTDC_LITTLE_ENDIAN,
 			//////
 			/// @brief Big endian, in which the most significant byte as the first byte value.
 			///
 			//////
-			big = 1,
-		// clang-format off
-	#if defined(REG_DWORD)
-		#if (REG_DWORD == REG_DWORD_LITTLE_ENDIAN)
-		//////
-		/// @brief Native endian, whcih is big, little, or some implementation-defined ordering (e.g., middle endian).
-		/// If it is big or little, then ``ztd::text::endian::little`` == `ztd::text::endian::big``.
-		//////
-			native = little
-		#else
-		//////
-		/// @brief Native endian, whcih is big, little, or some implementation-defined ordering (e.g., middle endian).
-		/// If it is big or little, then ``ztd::text::endian::little`` == `ztd::text::endian::big``.
-		//////
-			native = big
-		#endif
-	#else
-		//////
-		/// @brief Native endian, whcih is big, little, or some implementation-defined ordering (e.g., middle endian).
-		/// If it is big or little, then ``ztd::text::endian::little`` == `ztd::text::endian::big``.
-		//////
-		native = big
-	#endif
-		// clang-format on
-#else
-			//////
-			/// @brief Little endian, in which the least significant byte as the first byte value.
-			///
-			//////
-			little = __ORDER_LITTLE_ENDIAN__,
-			//////
-			/// @brief Big endian, in which the most significant byte as the first byte value.
-			///
-			//////
-			big = __ORDER_BIG_ENDIAN__,
+			big = ZTDC_BIG_ENDIAN,
 			//////
 			/// @brief Native endian, whcih is big, little, or some implementation-defined ordering (e.g., middle
 			/// endian).
 			/// If it is big or little, then ``ztd::text::endian::little`` == `ztd::text::endian::big``.
 			//////
-			native = __BYTE_ORDER__
-#endif
+			native = ZTDC_NATIVE_ENDIAN
 		};
 	} // namespace __idk_detail
-
 #endif
 
 	//////

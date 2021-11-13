@@ -28,12 +28,4 @@
 //
 // ============================================================================>
 
-extern int c_span_tests(void);
-
-int main(int argc, char* argv[]) {
-	(void)argc;
-	(void)argv;
-	int result = 0;
-	result += c_span_tests();
-	return result;
-}
+#include <ztd/idk/static_assert.h>

@@ -28,12 +28,13 @@
 //
 // ============================================================================>
 
-extern int c_span_tests(void);
+#pragma once
 
-int main(int argc, char* argv[]) {
-	(void)argc;
-	(void)argv;
-	int result = 0;
-	result += c_span_tests();
-	return result;
-}
+#ifndef ZTD_IDK_ASSUME_ALIGNED_HPP
+#define ZTD_IDK_ASSUME_ALIGNED_HPP
+
+#include <ztd/idk/version.hpp>
+
+#include <ztd/idk/assume_aligned.h>
+
+#endif // ZTD_IDK_ASSUME_ALIGNED_HPP

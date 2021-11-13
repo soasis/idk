@@ -178,17 +178,18 @@ export(TARGETS ztd.tag_invoke
 	"${CMAKE_CURRENT_BINARY_DIR}/cmake/ztd.tag_invoke/ztd.tag_invoke-targets.cmake")
 
 # ztd.idk
-file(GLOB_RECURSE ztd.idk.includes CONFIGURE_DEPENDS include/idk*.hpp)
+file(GLOB_RECURSE ztd.idk.includes CONFIGURE_DEPENDS include/ztd/idk**.hpp include/ztd/idk**.h)
+file(GLOB_RECURSE ztd.idk.sources CONFIGURE_DEPENDS source/ztd/idk/**.cpp source/ztd/idk/**.c)
 
-add_library(ztd.idk INTERFACE)
+add_library(ztd.idk ${ztd.idk.sources})
 add_library(ztd::idk ALIAS ztd.idk)
 target_include_directories(ztd.idk
-	INTERFACE
+	PUBLIC
 		$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
 		$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
-target_sources(ztd.idk INTERFACE ${ztd.idk.includes})
+target_sources(ztd.idk PUBLIC ${ztd.idk.includes} ${ztd.idk.sources})
 target_link_libraries(ztd.idk
-	INTERFACE
+	PUBLIC
 		ztd::version
 		ztd::tag_invoke
 )

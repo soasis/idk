@@ -32,7 +32,7 @@
 
 #include <catch2/catch.hpp>
 
-TEST_CASE("text/detail/encoding_name", "Ensure that basic usages of the encoding_name comparison works") {
+TEST_CASE("text/is_unicode_encoding_name", "Ensure that basic usages of the is_unicode_encoding_name predicate work") {
 	static_assert(ztd::is_unicode_encoding_name("UTF-8"));
 	static_assert(ztd::is_unicode_encoding_name("UTF-16"));
 	static_assert(ztd::is_unicode_encoding_name("UTF-32"));
@@ -106,4 +106,26 @@ TEST_CASE("text/detail/encoding_name", "Ensure that basic usages of the encoding
 	REQUIRE(!ztd::is_unicode_encoding_name("UTF-8-not-really"));
 	REQUIRE(!ztd::is_unicode_encoding_name("UTF-7-not-really"));
 	REQUIRE(!ztd::is_unicode_encoding_name("UTF69"));
+}
+
+TEST_CASE("text/is)encoding_name_equals", "Ensure that basic usages of the encoding_name comparison works") {
+	static_assert(ztd::is_encoding_name_equal("UTF-8", "UTF-8"));
+	static_assert(ztd::is_encoding_name_equal("UTF-16", "UTF-16"));
+	static_assert(ztd::is_encoding_name_equal("UTF-32", "UTF-32"));
+	static_assert(ztd::is_encoding_name_equal("UTF8", "UTF8"));
+	static_assert(ztd::is_encoding_name_equal("UTF16", "UTF16"));
+	static_assert(ztd::is_encoding_name_equal("UTF32", "UTF32"));
+	static_assert(ztd::is_encoding_name_equal("utf8", "utf8"));
+	static_assert(ztd::is_encoding_name_equal("utf16", "utf16"));
+	static_assert(ztd::is_encoding_name_equal("utf32", "utf32"));
+
+	static_assert(!ztd::is_encoding_name_equal("xD", "UTF-8"));
+	static_assert(!ztd::is_encoding_name_equal("UTF-16", "UTF-16meow"));
+	static_assert(!ztd::is_encoding_name_equal("UTF-32", "UTF-329405"));
+	static_assert(!ztd::is_encoding_name_equal("UTF8  1", "UTF8"));
+	static_assert(!ztd::is_encoding_name_equal("sdasdUTF16", "UTF16"));
+	static_assert(!ztd::is_encoding_name_equal("UTF32  :P", "UTF32"));
+	static_assert(!ztd::is_encoding_name_equal("utf8", "utf8tyy"));
+	static_assert(!ztd::is_encoding_name_equal("utf16", "utf16g"));
+	static_assert(!ztd::is_encoding_name_equal("utf32", "utf32s"));
 }

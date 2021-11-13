@@ -96,7 +96,7 @@
 
 #if defined(ZTD_HAS_BUILTIN)
 	#define ZTD_HAS_BUILTIN_I_(...) ZTD_HAS_BUILTIN(__VA_ARGS__)
-#elif ZTD_IS_ON(ZTD_CXX_I_) && defined(__has_builtin)
+#elif defined(__has_builtin)
 	#define ZTD_HAS_BUILTIN_I_(...) __has_builtin(__VA_ARGS__)
 #else
 	#define ZTD_HAS_BUILTIN_I_(...) 0
