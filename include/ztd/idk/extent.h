@@ -30,46 +30,29 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_ENDIAN_HPP
-#define ZTD_IDK_ENDIAN_HPP
+#ifndef ZTD_IDK_EXTENT_H
+#define ZTD_IDK_EXTENT_H
 
-#include <ztd/version.hpp>
+#include <ztd/idk/version.h>
 
-#include <ztd/idk/endian.h>
+//////
+///	@addtogroup ztd_idk_extent Extent Utilities
+///
+/// @{
+//////
 
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_ENDIAN_I_)
-#include <bit>
-#endif
+//////
+/// @brief Provides the `T arg[static N]` functionality ("sized at least `N` large" hint).
+///
+/// @param[in] ... An expression which computes the intended size of the pointer argument.
+///
+/// @remarks Expands to the proper notation for C compilers, and expands to nothing for C++ compilers. It is meant to be
+/// used as in the declaration: `void f(T arg[ZTD_PTR_EXTENT(N)]);`.
+//////
+#define ZTD_PTR_EXTENT(...) ZTD_STATIC_PTR_EXTENT_I_(__VA_ARGS__)
 
-#include <ztd/prologue.hpp>
+//////
+/// @}
+//////
 
-namespace ztd {
-	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
-
-#if ZTD_IS_OFF(ZTD_STD_LIBRARY_ENDIAN_I_)
-	namespace __idk_detail {
-		enum class __endian { little = ZTDC_LITTLE_ENDIAN, big = ZTDC_BIG_ENDIAN, native = ZTDC_NATIVE_ENDIAN };
-	} // namespace __idk_detail
-#endif
-
-	//////
-	/// @brief An endian enumeration.
-	///
-	/// @remarks It may include little, big, or native values. The native value can be the same as the little or big
-	/// values, but if on a middle-endian machine it may be an implementation-defined "middle endian" value that is not
-	/// equal to either little or big (as on the PDP-11). We don't expect many relevant architectures to be using
-	/// middle-endian, though.
-	//////
-	using endian =
-#if ZTD_IS_OFF(ZTD_STD_LIBRARY_ENDIAN_I_)
-	     __idk_detail::__endian;
-#else
-	     ::std::endian;
-#endif
-
-	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
-} // namespace ztd
-
-#include <ztd/epilogue.hpp>
-
-#endif // ZTD_IDK_ENDIAN_HPP
+#endif // ZTD_IDK_EXTENT_H

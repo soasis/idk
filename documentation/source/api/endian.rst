@@ -31,6 +31,8 @@
 endian
 ======
 
-The endian enumeration is a very simple enum used to communicate what kind of byte ordering certain parts of the library should use to interpret incoming byte sequences.
+The endian enumeration is a very simple ``enum class`` used to communicate what kind of byte ordering certain parts of the library should use to interpret incoming byte sequences. The C version uses macros and can be found :doc:`here </c_api/endian>`.
+
+The values are ``ztd::endian::little``, ``ztd::endian::big``, or ``ztd::endian::native``.
 
 .. doxygentypedef:: ztd::endian

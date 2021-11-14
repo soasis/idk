@@ -33,6 +33,7 @@
 #include <ztd/idk/bit.h>
 
 #include <ztd/idk/endian.h>
+#include <ztd/idk/extent.h>
 #include <ztd/idk/static_assert.h>
 #include <ztd/idk/assume_aligned.hpp>
 
@@ -116,80 +117,80 @@
 	}                                                                                                                 \
 	ztd_static_assert(1, "👍")
 
-#define ZTDC_GENERATE_LOAD8_STORE8_DEFINITIONS(_N)                                                             \
-	uint_least##_N##_t ztdc_load8_leu##_N(const unsigned char __ptr[ZTD_STATIC_PTR_EXTENT_I_(_N / CHAR_BIT)]) \
-	     ZTD_CXX_NOEXCEPT_I_ {                                                                                \
-		ZTDC_GENERATE_LOAD8_BODY_LE(_N, 0, u);                                                               \
-	}                                                                                                         \
-	uint_least##_N##_t ztdc_load8_beu##_N(const unsigned char __ptr[ZTD_STATIC_PTR_EXTENT_I_(_N / CHAR_BIT)]) \
-	     ZTD_CXX_NOEXCEPT_I_ {                                                                                \
-		ZTDC_GENERATE_LOAD8_BODY_BE(_N, 0, u);                                                               \
-	}                                                                                                         \
-	uint_least##_N##_t ztdc_load8_aligned_leu##_N(                                                            \
-	     const unsigned char __unaligned_ptr[ZTD_STATIC_PTR_EXTENT_I_(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_ {  \
-		const unsigned char* __ptr = ZTD_ASSUME_ALIGNED(((_N) / CHAR_BIT), __unaligned_ptr);                 \
-		ZTDC_GENERATE_LOAD8_BODY_LE(_N, 0, u);                                                               \
-	}                                                                                                         \
-	uint_least##_N##_t ztdc_load8_aligned_beu##_N(                                                            \
-	     const unsigned char __unaligned_ptr[ZTD_STATIC_PTR_EXTENT_I_(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_ {  \
-		const unsigned char* __ptr = ZTD_ASSUME_ALIGNED(((_N) / CHAR_BIT), __unaligned_ptr);                 \
-		ZTDC_GENERATE_LOAD8_BODY_BE(_N, 0, u);                                                               \
-	}                                                                                                         \
-	int_least##_N##_t ztdc_load8_les##_N(const unsigned char __ptr[ZTD_STATIC_PTR_EXTENT_I_(_N / CHAR_BIT)])  \
-	     ZTD_CXX_NOEXCEPT_I_ {                                                                                \
-		ZTDC_GENERATE_LOAD8_BODY_LE(_N, 1, );                                                                \
-	}                                                                                                         \
-	int_least##_N##_t ztdc_load8_bes##_N(const unsigned char __ptr[ZTD_STATIC_PTR_EXTENT_I_(_N / CHAR_BIT)])  \
-	     ZTD_CXX_NOEXCEPT_I_ {                                                                                \
-		ZTDC_GENERATE_LOAD8_BODY_BE(_N, 1, );                                                                \
-	}                                                                                                         \
-	int_least##_N##_t ztdc_load8_aligned_les##_N(                                                             \
-	     const unsigned char __unaligned_ptr[ZTD_STATIC_PTR_EXTENT_I_(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_ {  \
-		const unsigned char* __ptr = ZTD_ASSUME_ALIGNED(((_N) / CHAR_BIT), __unaligned_ptr);                 \
-		ZTDC_GENERATE_LOAD8_BODY_LE(_N, 1, );                                                                \
-	}                                                                                                         \
-	int_least##_N##_t ztdc_load8_aligned_bes##_N(                                                             \
-	     const unsigned char __unaligned_ptr[ZTD_STATIC_PTR_EXTENT_I_(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_ {  \
-		const unsigned char* __ptr = ZTD_ASSUME_ALIGNED(((_N) / CHAR_BIT), __unaligned_ptr);                 \
-		ZTDC_GENERATE_LOAD8_BODY_BE(_N, 1, );                                                                \
-	}                                                                                                         \
-                                                                                                               \
-	void ztdc_store8_leu##_N(const uint_least##_N##_t __value,                                                \
-	     unsigned char __ptr[ZTD_STATIC_PTR_EXTENT_I_(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_ {                  \
-		ZTDC_GENERATE_STORE8_BODY_LE(_N, 0);                                                                 \
-	}                                                                                                         \
-	void ztdc_store8_beu##_N(const uint_least##_N##_t __value,                                                \
-	     unsigned char __ptr[ZTD_STATIC_PTR_EXTENT_I_(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_ {                  \
-		ZTDC_GENERATE_STORE8_BODY_BE(_N, 0);                                                                 \
-	}                                                                                                         \
-	void ztdc_store8_aligned_leu##_N(const uint_least##_N##_t __value,                                        \
-	     unsigned char __unaligned_ptr[ZTD_STATIC_PTR_EXTENT_I_(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_ {        \
-		unsigned char* __ptr = ZTD_ASSUME_ALIGNED(((_N) / CHAR_BIT), __unaligned_ptr);                       \
-		ZTDC_GENERATE_STORE8_BODY_LE(_N, 0);                                                                 \
-	}                                                                                                         \
-	void ztdc_store8_aligned_beu##_N(const uint_least##_N##_t __value,                                        \
-	     unsigned char __unaligned_ptr[ZTD_STATIC_PTR_EXTENT_I_(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_ {        \
-		unsigned char* __ptr = ZTD_ASSUME_ALIGNED(((_N) / CHAR_BIT), __unaligned_ptr);                       \
-		ZTDC_GENERATE_STORE8_BODY_BE(_N, 0);                                                                 \
-	}                                                                                                         \
-	void ztdc_store8_les##_N(const int_least##_N##_t __value,                                                 \
-	     unsigned char __ptr[ZTD_STATIC_PTR_EXTENT_I_(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_ {                  \
-		ZTDC_GENERATE_STORE8_BODY_LE(_N, 1);                                                                 \
-	}                                                                                                         \
-	void ztdc_store8_bes##_N(const int_least##_N##_t __value,                                                 \
-	     unsigned char __ptr[ZTD_STATIC_PTR_EXTENT_I_(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_ {                  \
-		ZTDC_GENERATE_STORE8_BODY_BE(_N, 1);                                                                 \
-	}                                                                                                         \
-	void ztdc_store8_aligned_les##_N(const int_least##_N##_t __value,                                         \
-	     unsigned char __unaligned_ptr[ZTD_STATIC_PTR_EXTENT_I_(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_ {        \
-		unsigned char* __ptr = ZTD_ASSUME_ALIGNED(((_N) / CHAR_BIT), __unaligned_ptr);                       \
-		ZTDC_GENERATE_STORE8_BODY_LE(_N, 1);                                                                 \
-	}                                                                                                         \
-	void ztdc_store8_aligned_bes##_N(const int_least##_N##_t __value,                                         \
-	     unsigned char __unaligned_ptr[ZTD_STATIC_PTR_EXTENT_I_(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_ {        \
-		unsigned char* __ptr = ZTD_ASSUME_ALIGNED(((_N) / CHAR_BIT), __unaligned_ptr);                       \
-		ZTDC_GENERATE_STORE8_BODY_BE(_N, 1);                                                                 \
-	}                                                                                                         \
+#define ZTDC_GENERATE_LOAD8_STORE8_DEFINITIONS(_N)                                                                     \
+	uint_least##_N##_t ztdc_load8_leu##_N(const unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)])                   \
+	     ZTD_CXX_NOEXCEPT_I_ {                                                                                        \
+		ZTDC_GENERATE_LOAD8_BODY_LE(_N, 0, u);                                                                       \
+	}                                                                                                                 \
+	uint_least##_N##_t ztdc_load8_beu##_N(const unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)])                   \
+	     ZTD_CXX_NOEXCEPT_I_ {                                                                                        \
+		ZTDC_GENERATE_LOAD8_BODY_BE(_N, 0, u);                                                                       \
+	}                                                                                                                 \
+	uint_least##_N##_t ztdc_load8_aligned_leu##_N(const unsigned char __unaligned_ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) \
+	     ZTD_CXX_NOEXCEPT_I_ {                                                                                        \
+		const unsigned char* __ptr = ZTD_ASSUME_ALIGNED(((_N) / CHAR_BIT), __unaligned_ptr);                         \
+		ZTDC_GENERATE_LOAD8_BODY_LE(_N, 0, u);                                                                       \
+	}                                                                                                                 \
+	uint_least##_N##_t ztdc_load8_aligned_beu##_N(const unsigned char __unaligned_ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) \
+	     ZTD_CXX_NOEXCEPT_I_ {                                                                                        \
+		const unsigned char* __ptr = ZTD_ASSUME_ALIGNED(((_N) / CHAR_BIT), __unaligned_ptr);                         \
+		ZTDC_GENERATE_LOAD8_BODY_BE(_N, 0, u);                                                                       \
+	}                                                                                                                 \
+	int_least##_N##_t ztdc_load8_les##_N(const unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)])                    \
+	     ZTD_CXX_NOEXCEPT_I_ {                                                                                        \
+		ZTDC_GENERATE_LOAD8_BODY_LE(_N, 1, );                                                                        \
+	}                                                                                                                 \
+	int_least##_N##_t ztdc_load8_bes##_N(const unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)])                    \
+	     ZTD_CXX_NOEXCEPT_I_ {                                                                                        \
+		ZTDC_GENERATE_LOAD8_BODY_BE(_N, 1, );                                                                        \
+	}                                                                                                                 \
+	int_least##_N##_t ztdc_load8_aligned_les##_N(const unsigned char __unaligned_ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)])  \
+	     ZTD_CXX_NOEXCEPT_I_ {                                                                                        \
+		const unsigned char* __ptr = ZTD_ASSUME_ALIGNED(((_N) / CHAR_BIT), __unaligned_ptr);                         \
+		ZTDC_GENERATE_LOAD8_BODY_LE(_N, 1, );                                                                        \
+	}                                                                                                                 \
+	int_least##_N##_t ztdc_load8_aligned_bes##_N(const unsigned char __unaligned_ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)])  \
+	     ZTD_CXX_NOEXCEPT_I_ {                                                                                        \
+		const unsigned char* __ptr = ZTD_ASSUME_ALIGNED(((_N) / CHAR_BIT), __unaligned_ptr);                         \
+		ZTDC_GENERATE_LOAD8_BODY_BE(_N, 1, );                                                                        \
+	}                                                                                                                 \
+                                                                                                                       \
+	void ztdc_store8_leu##_N(const uint_least##_N##_t __value, unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)])    \
+	     ZTD_CXX_NOEXCEPT_I_ {                                                                                        \
+		ZTDC_GENERATE_STORE8_BODY_LE(_N, 0);                                                                         \
+	}                                                                                                                 \
+	void ztdc_store8_beu##_N(const uint_least##_N##_t __value, unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)])    \
+	     ZTD_CXX_NOEXCEPT_I_ {                                                                                        \
+		ZTDC_GENERATE_STORE8_BODY_BE(_N, 0);                                                                         \
+	}                                                                                                                 \
+	void ztdc_store8_aligned_leu##_N(const uint_least##_N##_t __value,                                                \
+	     unsigned char __unaligned_ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_ {                          \
+		unsigned char* __ptr = ZTD_ASSUME_ALIGNED(((_N) / CHAR_BIT), __unaligned_ptr);                               \
+		ZTDC_GENERATE_STORE8_BODY_LE(_N, 0);                                                                         \
+	}                                                                                                                 \
+	void ztdc_store8_aligned_beu##_N(const uint_least##_N##_t __value,                                                \
+	     unsigned char __unaligned_ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_ {                          \
+		unsigned char* __ptr = ZTD_ASSUME_ALIGNED(((_N) / CHAR_BIT), __unaligned_ptr);                               \
+		ZTDC_GENERATE_STORE8_BODY_BE(_N, 0);                                                                         \
+	}                                                                                                                 \
+	void ztdc_store8_les##_N(const int_least##_N##_t __value, unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)])     \
+	     ZTD_CXX_NOEXCEPT_I_ {                                                                                        \
+		ZTDC_GENERATE_STORE8_BODY_LE(_N, 1);                                                                         \
+	}                                                                                                                 \
+	void ztdc_store8_bes##_N(const int_least##_N##_t __value, unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)])     \
+	     ZTD_CXX_NOEXCEPT_I_ {                                                                                        \
+		ZTDC_GENERATE_STORE8_BODY_BE(_N, 1);                                                                         \
+	}                                                                                                                 \
+	void ztdc_store8_aligned_les##_N(const int_least##_N##_t __value,                                                 \
+	     unsigned char __unaligned_ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_ {                          \
+		unsigned char* __ptr = ZTD_ASSUME_ALIGNED(((_N) / CHAR_BIT), __unaligned_ptr);                               \
+		ZTDC_GENERATE_STORE8_BODY_LE(_N, 1);                                                                         \
+	}                                                                                                                 \
+	void ztdc_store8_aligned_bes##_N(const int_least##_N##_t __value,                                                 \
+	     unsigned char __unaligned_ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_ {                          \
+		unsigned char* __ptr = ZTD_ASSUME_ALIGNED(((_N) / CHAR_BIT), __unaligned_ptr);                               \
+		ZTDC_GENERATE_STORE8_BODY_BE(_N, 1);                                                                         \
+	}                                                                                                                 \
 	ztd_static_assert(((_N % 8) == 0), "👍")
 
 

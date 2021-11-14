@@ -32,6 +32,8 @@
 
 #include <ztd/idk/bit.h>
 
+#include <ztd/idk/extent.h>
+
 #if ZTD_IS_ON(ZTD_C_I_)
 #include <string.h>
 #include <stdint.h>
@@ -43,7 +45,7 @@
 #endif
 
 #if (CHAR_BIT % 8 == 0)
-void ztdc_memreverse8(size_t __n, unsigned char __ptr[ZTD_STATIC_PTR_EXTENT_I_(__n)]) ZTD_CXX_NOEXCEPT_I_ {
+void ztdc_memreverse8(size_t __n, unsigned char __ptr[ZTD_PTR_EXTENT(__n)]) ZTD_CXX_NOEXCEPT_I_ {
 	const size_t __mid_n = __n / 2;
 	for (size_t __ptr_index = 0; __ptr_index < __mid_n; ++__ptr_index) {
 		const size_t __reverse_ptr_index = __n - 1 - __ptr_index;

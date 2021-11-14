@@ -283,26 +283,26 @@ unsigned long long ztdc_rotate_rightull(unsigned long long __value, int __count)
 #undef _ZTDC_ROTATE_LEFT_BODY_I_
 #undef _ZTDC_ROTATE_RIGHT_BODY_I_
 
-#define _ZTDC_BIT_FLOOR_I_(_TYPE, ...) \
+#define _ZTDC_BIT_FLOOR_BODY_I_(_TYPE, ...) \
 	((__VA_ARGS__ == (_TYPE)0) ? (_TYPE)0 : (((_TYPE)1) << (ztdc_bit_width(__VA_ARGS__) - 1)));
 
 unsigned char ztdc_bit_flooruc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
-	return _ZTDC_BIT_FLOOR_I_(unsigned char, __value);
+	return _ZTDC_BIT_FLOOR_BODY_I_(unsigned char, __value);
 }
 unsigned short ztdc_bit_floorus(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
-	return _ZTDC_BIT_FLOOR_I_(unsigned short, __value);
+	return _ZTDC_BIT_FLOOR_BODY_I_(unsigned short, __value);
 }
 unsigned int ztdc_bit_floorui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
-	return _ZTDC_BIT_FLOOR_I_(unsigned int, __value);
+	return _ZTDC_BIT_FLOOR_BODY_I_(unsigned int, __value);
 }
 unsigned long ztdc_bit_floorul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
-	return _ZTDC_BIT_FLOOR_I_(unsigned long, __value);
+	return _ZTDC_BIT_FLOOR_BODY_I_(unsigned long, __value);
 }
 unsigned long long ztdc_bit_floorull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
-	return _ZTDC_BIT_FLOOR_I_(unsigned long long, __value);
+	return _ZTDC_BIT_FLOOR_BODY_I_(unsigned long long, __value);
 }
 
-#undef _ZTDC_BIT_FLOOR_I_
+#undef _ZTDC_BIT_FLOOR_BODY_I_
 
 #if ZTD_IS_ON(ZTD_COMPILER_GCC_I_) || ZTD_IS_ON(ZTD_COMPILER_CLANG_I_)
 #pragma GCC diagnostic push
@@ -312,10 +312,10 @@ unsigned long long ztdc_bit_floorull(unsigned long long __value) ZTD_CXX_NOEXCEP
 #pragma warning(disable : 4333 4293)
 #endif
 
-#define _ZTDC_BIT_CEIL_I_(_TYPE, _Value) \
+#define _ZTDC_BIT_CEIL_BODY_I_(_TYPE, _Value) \
 	((_Value <= (_TYPE)1) ? ((_TYPE)1) : ((_TYPE)(1u << (ztdc_bit_width((_TYPE)((_Value)-1))))))
 
-#define _ZTDC_BIT_CEIL_PROMOTED_I_(_TYPE, _Value)                                                               \
+#define _ZTDC_BIT_CEIL_BODY_PROMOTED_I_(_TYPE, _Value)                                                          \
 	((_Value <= (_TYPE)1) ? (_TYPE)1                                                                           \
 	                      : ((_TYPE)(1u << (ztdc_bit_width((_TYPE)((_Value)-1))                                \
 	                                      + ((sizeof(unsigned int) * CHAR_BIT) - (sizeof(_TYPE) * CHAR_BIT)))) \
@@ -323,40 +323,40 @@ unsigned long long ztdc_bit_floorull(unsigned long long __value) ZTD_CXX_NOEXCEP
 
 // integer promotion rules means we need to
 // precisely calculate the bit ceiling here >___>
-#define _ZTDC_BIT_CEIL_PROMOTION_PROTECTION_I_(_TYPE, ...)     \
-	_Generic((+(_TYPE)0), _TYPE                               \
-	         : _ZTDC_BIT_CEIL_I_(_TYPE, __VA_ARGS__), default \
-	         : _ZTDC_BIT_CEIL_PROMOTED_I_(_TYPE, __VA_ARGS__))
+#define _ZTDC_BIT_CEIL_BODY_PROMOTION_PROTECTION_I_(_TYPE, ...)     \
+	_Generic((+(_TYPE)0), _TYPE                                    \
+	         : _ZTDC_BIT_CEIL_BODY_I_(_TYPE, __VA_ARGS__), default \
+	         : _ZTDC_BIT_CEIL_BODY_PROMOTED_I_(_TYPE, __VA_ARGS__))
 
-#define _ZTDC_BIT_CEIL_GENERIC_SUCKS_I_(...)                                                           \
-	_Generic((__VA_ARGS__), char                                                                      \
-	         : _ZTDC_BIT_CEIL_PROMOTION_PROTECTION_I_(unsigned char, __VA_ARGS__), unsigned char      \
-	         : _ZTDC_BIT_CEIL_PROMOTION_PROTECTION_I_(unsigned char, __VA_ARGS__), unsigned short     \
-	         : _ZTDC_BIT_CEIL_PROMOTION_PROTECTION_I_(unsigned short, __VA_ARGS__), unsigned int      \
-	         : _ZTDC_BIT_CEIL_PROMOTION_PROTECTION_I_(unsigned int, __VA_ARGS__), unsigned long       \
-	         : _ZTDC_BIT_CEIL_PROMOTION_PROTECTION_I_(unsigned long, __VA_ARGS__), unsigned long long \
-	         : _ZTDC_BIT_CEIL_PROMOTION_PROTECTION_I_(unsigned long long, __VA_ARGS__))
+#define _ZTDC_BIT_CEIL_BODY_GENERIC_SUCKS_I_(...)                                                           \
+	_Generic((__VA_ARGS__), char                                                                           \
+	         : _ZTDC_BIT_CEIL_BODY_PROMOTION_PROTECTION_I_(unsigned char, __VA_ARGS__), unsigned char      \
+	         : _ZTDC_BIT_CEIL_BODY_PROMOTION_PROTECTION_I_(unsigned char, __VA_ARGS__), unsigned short     \
+	         : _ZTDC_BIT_CEIL_BODY_PROMOTION_PROTECTION_I_(unsigned short, __VA_ARGS__), unsigned int      \
+	         : _ZTDC_BIT_CEIL_BODY_PROMOTION_PROTECTION_I_(unsigned int, __VA_ARGS__), unsigned long       \
+	         : _ZTDC_BIT_CEIL_BODY_PROMOTION_PROTECTION_I_(unsigned long, __VA_ARGS__), unsigned long long \
+	         : _ZTDC_BIT_CEIL_BODY_PROMOTION_PROTECTION_I_(unsigned long long, __VA_ARGS__))
 
 unsigned char ztdc_bit_ceiluc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
-	return _ZTDC_BIT_CEIL_GENERIC_SUCKS_I_(__value);
+	return _ZTDC_BIT_CEIL_BODY_GENERIC_SUCKS_I_(__value);
 }
 unsigned short ztdc_bit_ceilus(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
-	return _ZTDC_BIT_CEIL_GENERIC_SUCKS_I_(__value);
+	return _ZTDC_BIT_CEIL_BODY_GENERIC_SUCKS_I_(__value);
 }
 unsigned int ztdc_bit_ceilui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
-	return _ZTDC_BIT_CEIL_GENERIC_SUCKS_I_(__value);
+	return _ZTDC_BIT_CEIL_BODY_GENERIC_SUCKS_I_(__value);
 }
 unsigned long ztdc_bit_ceilul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
-	return _ZTDC_BIT_CEIL_GENERIC_SUCKS_I_(__value);
+	return _ZTDC_BIT_CEIL_BODY_GENERIC_SUCKS_I_(__value);
 }
 unsigned long long ztdc_bit_ceilull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
-	return _ZTDC_BIT_CEIL_GENERIC_SUCKS_I_(__value);
+	return _ZTDC_BIT_CEIL_BODY_GENERIC_SUCKS_I_(__value);
 }
 
-#undef _ZTDC_BIT_CEIL_GENERIC_SUCKS_I_
-#undef _ZTDC_BIT_CEIL_PROMOTION_PROTECTION_I_
-#undef _ZTDC_BIT_CEIL_PROMOTED_I_
-#undef _ZTDC_BIT_CEIL_I_
+#undef _ZTDC_BIT_CEIL_BODY_GENERIC_SUCKS_I_
+#undef _ZTDC_BIT_CEIL_BODY_PROMOTION_PROTECTION_I_
+#undef _ZTDC_BIT_CEIL_BODY_PROMOTED_I_
+#undef _ZTDC_BIT_CEIL_BODY_I_
 
 #if ZTD_IS_ON(ZTD_COMPILER_GCC_I_) || ZTD_IS_ON(ZTD_COMPILER_CLANG_I_)
 #pragma GCC diagnostic pop

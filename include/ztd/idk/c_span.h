@@ -166,7 +166,7 @@
 //////
 
 
-#if defined(ZTD_DOXYGEN_PREPROCESSING)
+#if defined(ZTD_DOXYGEN_PREPROCESSING) && (ZTD_DOXYGEN_PREPROCESSING != 0)
 
 #include <ztd/text/detail/doxygen_type.h>
 

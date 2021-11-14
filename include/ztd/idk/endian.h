@@ -73,7 +73,7 @@
 #endif
 //clang-format on
 
-#if defined(ZTD_DOXYGEN_PREPROCESSING)
+#if defined(ZTD_DOXYGEN_PREPROCESSING) && (ZTD_DOXYGEN_PREPROCESSING != 0)
 //////
 /// @addtogroup ztd_idk_c_endian ztd.idk ZTDC_ENDIAN macros
 ///
@@ -91,8 +91,8 @@
 //////
 #define ZTDC_BIG_ENDIAN
 //////
-/// @brief Native endian, whcih is big, little, or some implementation-defined ordering (e.g., middle endian).
-/// If it is big or little, then ``ztd::text::endian::little`` == `ztd::text::endian::big``.
+/// @brief Native endian, which is one of big, little, or some implementation-defined ordering (e.g., middle endian).
+/// If it is big or little, then `ZTD_NATIVE_ENDIAN == ZTD_LITTLE_ENDIAN`, or `ZTD_NATIVE_ENDIAN == ZTD_BIG_ENDIAN`.
 //////
 #define ZTDC_NATIVE_ENDIAN
 

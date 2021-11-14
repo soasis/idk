@@ -152,7 +152,7 @@ ZTD_EXTERN_C_CLOSE_I_
 
 #if ZTD_IS_ON(ZTD_C_I_)
 
-#define ztdc_count_ones(...)                                                    \
+#define _ZTDC_COUNT_ONES_I_(...)                                                \
 	(_Generic((__VA_ARGS__), char                                              \
 	          : ztdc_count_onesuc((unsigned char)(__VA_ARGS__)), unsigned char \
 	          : ztdc_count_onesuc(__VA_ARGS__), unsigned short                 \
@@ -161,9 +161,9 @@ ZTD_EXTERN_C_CLOSE_I_
 	          : ztdc_count_onesul(__VA_ARGS__), unsigned long long             \
 	          : ztdc_count_onesull(__VA_ARGS__)))
 
-#define ztdc_count_zeros(...) ((sizeof(__VA_ARGS__) * CHAR_BIT) - ztdc_count_ones(__VA_ARGS__))
+#define _ZTDC_COUNT_ZEROS_I_(...) ((sizeof(__VA_ARGS__) * CHAR_BIT) - ztdc_count_ones(__VA_ARGS__))
 
-#define ztdc_count_leading_zeros(...)                                                    \
+#define _ZTDC_COUNT_LEADING_ZEROS_I_(...)                                                \
 	(_Generic((__VA_ARGS__), char                                                       \
 	          : ztdc_count_leading_zerosuc((unsigned char)(__VA_ARGS__)), unsigned char \
 	          : ztdc_count_leading_zerosuc(__VA_ARGS__), unsigned short                 \
@@ -172,7 +172,7 @@ ZTD_EXTERN_C_CLOSE_I_
 	          : ztdc_count_leading_zerosul(__VA_ARGS__), unsigned long long             \
 	          : ztdc_count_leading_zerosull(__VA_ARGS__)))
 
-#define ztdc_count_trailing_zeros(...)                                                    \
+#define _ZTDC_COUNT_TRAILING_ZEROS_I_(...)                                                \
 	(_Generic((__VA_ARGS__), char                                                        \
 	          : ztdc_count_trailing_zerosuc((unsigned char)(__VA_ARGS__)), unsigned char \
 	          : ztdc_count_trailing_zerosuc(__VA_ARGS__), unsigned short                 \
@@ -181,7 +181,7 @@ ZTD_EXTERN_C_CLOSE_I_
 	          : ztdc_count_trailing_zerosul(__VA_ARGS__), unsigned long long             \
 	          : ztdc_count_trailing_zerosull(__VA_ARGS__)))
 
-#define ztdc_count_leading_ones(...)                                                    \
+#define _ZTDC_COUNT_LEADING_ONES_I_(...)                                                \
 	(_Generic((__VA_ARGS__), char                                                      \
 	          : ztdc_count_leading_onesuc((unsigned char)(__VA_ARGS__)), unsigned char \
 	          : ztdc_count_leading_onesuc(__VA_ARGS__), unsigned short                 \
@@ -190,7 +190,7 @@ ZTD_EXTERN_C_CLOSE_I_
 	          : ztdc_count_leading_onesul(__VA_ARGS__), unsigned long long             \
 	          : ztdc_count_leading_onesull(__VA_ARGS__)))
 
-#define ztdc_count_trailing_ones(...)                                                    \
+#define _ZTDC_COUNT_TRAILING_ONES_I_(...)                                                \
 	(_Generic((__VA_ARGS__), char                                                       \
 	          : ztdc_count_trailing_onesuc((unsigned char)(__VA_ARGS__)), unsigned char \
 	          : ztdc_count_trailing_onesuc(__VA_ARGS__), unsigned short                 \
@@ -199,7 +199,7 @@ ZTD_EXTERN_C_CLOSE_I_
 	          : ztdc_count_trailing_onesul(__VA_ARGS__), unsigned long long             \
 	          : ztdc_count_trailing_onesull(__VA_ARGS__)))
 
-#define ztdc_first_leading_zero(...)                                                    \
+#define _ZTDC_FIRST_LEADING_ZERO_I_(...)                                                \
 	(_Generic((__VA_ARGS__), char                                                      \
 	          : ztdc_first_leading_zerouc((unsigned char)(__VA_ARGS__)), unsigned char \
 	          : ztdc_first_leading_zerouc(__VA_ARGS__), unsigned short                 \
@@ -208,7 +208,7 @@ ZTD_EXTERN_C_CLOSE_I_
 	          : ztdc_first_leading_zeroul(__VA_ARGS__), unsigned long long             \
 	          : ztdc_first_leading_zeroull(__VA_ARGS__)))
 
-#define ztdc_first_trailing_zero(...)                                                    \
+#define _ZTDC_FIRST_TRAILING_ZERO_I_(...)                                                \
 	(_Generic((__VA_ARGS__), char                                                       \
 	          : ztdc_first_trailing_zerouc((unsigned char)(__VA_ARGS__)), unsigned char \
 	          : ztdc_first_trailing_zerouc(__VA_ARGS__), unsigned short                 \
@@ -217,7 +217,7 @@ ZTD_EXTERN_C_CLOSE_I_
 	          : ztdc_first_trailing_zeroul(__VA_ARGS__), unsigned long long             \
 	          : ztdc_first_trailing_zeroull(__VA_ARGS__)))
 
-#define ztdc_first_leading_one(...)                                                    \
+#define _ZTDC_FIRST_LEADING_ONE_I_(...)                                                \
 	(_Generic((__VA_ARGS__), char                                                     \
 	          : ztdc_first_leading_oneuc((unsigned char)(__VA_ARGS__)), unsigned char \
 	          : ztdc_first_leading_oneuc(__VA_ARGS__), unsigned short                 \
@@ -226,7 +226,7 @@ ZTD_EXTERN_C_CLOSE_I_
 	          : ztdc_first_leading_oneul(__VA_ARGS__), unsigned long long             \
 	          : ztdc_first_leading_oneull(__VA_ARGS__)))
 
-#define ztdc_first_trailing_one(...)                                                    \
+#define _ZTDC_FIRST_TRAILING_ONE_I_(...)                                                \
 	(_Generic((__VA_ARGS__), char                                                      \
 	          : ztdc_first_trailing_oneuc((unsigned char)(__VA_ARGS__)), unsigned char \
 	          : ztdc_first_trailing_oneuc(__VA_ARGS__), unsigned short                 \
@@ -235,7 +235,7 @@ ZTD_EXTERN_C_CLOSE_I_
 	          : ztdc_first_trailing_oneul(__VA_ARGS__), unsigned long long             \
 	          : ztdc_first_trailing_oneull(__VA_ARGS__)))
 
-#define ztdc_rotate_left(_VALUE, ...)                                                    \
+#define _ZTDC_ROTATE_LEFT_I_(_VALUE, ...)                                                \
 	(_Generic((_VALUE), char                                                            \
 	          : ztdc_rotate_leftuc((unsigned char)(_VALUE), __VA_ARGS__), unsigned char \
 	          : ztdc_rotate_leftuc(_VALUE, __VA_ARGS__), unsigned short                 \
@@ -244,7 +244,7 @@ ZTD_EXTERN_C_CLOSE_I_
 	          : ztdc_rotate_leftul(_VALUE, __VA_ARGS__), unsigned long long             \
 	          : ztdc_rotate_leftull(_VALUE, __VA_ARGS__)))
 
-#define ztdc_rotate_right(_VALUE, ...)                                                    \
+#define _ZTDC_ROTATE_RIGHT_I_(_VALUE, ...)                                                \
 	(_Generic((_VALUE), char                                                             \
 	          : ztdc_rotate_rightuc((unsigned char)(_VALUE), __VA_ARGS__), unsigned char \
 	          : ztdc_rotate_rightuc(_VALUE, __VA_ARGS__), unsigned short                 \
@@ -253,7 +253,7 @@ ZTD_EXTERN_C_CLOSE_I_
 	          : ztdc_rotate_rightul(_VALUE, __VA_ARGS__), unsigned long long             \
 	          : ztdc_rotate_rightull(_VALUE, __VA_ARGS__)))
 
-#define ztdc_has_single_bit(...)                                                    \
+#define _ZTDC_HAS_SINGLE_BIT_I_(...)                                                \
 	(_Generic((__VA_ARGS__), char                                                  \
 	          : ztdc_has_single_bituc((unsigned char)(__VA_ARGS__)), unsigned char \
 	          : ztdc_has_single_bituc(__VA_ARGS__), unsigned short                 \
@@ -262,7 +262,7 @@ ZTD_EXTERN_C_CLOSE_I_
 	          : ztdc_has_single_bitul(__VA_ARGS__), unsigned long long             \
 	          : ztdc_has_single_bitull(__VA_ARGS__)))
 
-#define ztdc_bit_width(...)                                                                                        \
+#define _ZTDC_BIT_WIDTH_I_(...)                                                                                    \
 	_Generic((__VA_ARGS__), char                                                                                  \
 	         : ((sizeof(unsigned char) * CHAR_BIT) - ztdc_count_leading_zeros((__VA_ARGS__))), unsigned char      \
 	         : ((sizeof(unsigned char) * CHAR_BIT) - ztdc_count_leading_zeros((__VA_ARGS__))), unsigned short     \
@@ -271,7 +271,7 @@ ZTD_EXTERN_C_CLOSE_I_
 	         : ((sizeof(unsigned long) * CHAR_BIT) - ztdc_count_leading_zeros((__VA_ARGS__))), unsigned long long \
 	         : ((sizeof(unsigned long long) * CHAR_BIT) - ztdc_count_leading_zeros((__VA_ARGS__))))
 
-#define ztdc_bit_ceil(...)                                       \
+#define _ZTDC_BIT_CEIL_I_(...)                                   \
 	_Generic((__VA_ARGS__), char                                \
 	         : ztdc_bit_ceiluc(__VA_ARGS__), unsigned char      \
 	         : ztdc_bit_ceiluc(__VA_ARGS__), unsigned short     \
@@ -280,7 +280,7 @@ ZTD_EXTERN_C_CLOSE_I_
 	         : ztdc_bit_ceilul(__VA_ARGS__), unsigned long long \
 	         : ztdc_bit_ceilull(__VA_ARGS__))
 
-#define ztdc_bit_floor(...)                                       \
+#define _ZTDC_BIT_FLOOR_I_(...)                                   \
 	_Generic((__VA_ARGS__), char                                 \
 	         : ztdc_bit_flooruc(__VA_ARGS__), unsigned char      \
 	         : ztdc_bit_flooruc(__VA_ARGS__), unsigned short     \
@@ -294,7 +294,7 @@ ZTD_EXTERN_C_CLOSE_I_
 #include <ztd/idk/type_traits.hpp>
 
 template <typename _Value>
-int ztdc_count_ones(_Value __value) noexcept {
+int _ZTDC_COUNT_ONES_I_(_Value __value) noexcept {
 	if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 		return ztdc_count_onesuc(static_cast<unsigned char>(__value));
 	}
@@ -316,11 +316,11 @@ int ztdc_count_ones(_Value __value) noexcept {
 }
 
 template <typename _Value>
-int ztdc_count_zeros(_Value __value) noexcept {
+int _ZTDC_COUNT_ZEROS_I_(_Value __value) noexcept {
 	if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char> ||      // cf-hack
 	     ::std::is_same_v<_Value, unsigned short> || ::std::is_same_v<_Value, unsigned int> ||      // cf-hack
 	     ::std::is_same_v<_Value, unsigned long> || ::std::is_same_v<_Value, unsigned long long>) { // cf-hack
-		return ((sizeof(_Value) * CHAR_BIT) - ztdc_count_ones(__value));
+		return ((sizeof(_Value) * CHAR_BIT) - _ZTDC_COUNT_ONES_I_(__value));
 	}
 	else {
 		static_assert(
@@ -329,7 +329,7 @@ int ztdc_count_zeros(_Value __value) noexcept {
 }
 
 template <typename _Value>
-int ztdc_count_leading_zeros(_Value __value) noexcept {
+int _ZTDC_COUNT_LEADING_ZEROS_I_(_Value __value) noexcept {
 	if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 		return ztdc_count_leading_zerosuc(static_cast<unsigned char>(__value));
 	}
@@ -352,7 +352,7 @@ int ztdc_count_leading_zeros(_Value __value) noexcept {
 }
 
 template <typename _Value>
-int ztdc_count_trailing_zeros(_Value __value) noexcept {
+int _ZTDC_COUNT_TRAILING_ZEROS_I_(_Value __value) noexcept {
 	if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 		return ztdc_count_trailing_zerosuc(static_cast<unsigned char>(__value));
 	}
@@ -375,7 +375,7 @@ int ztdc_count_trailing_zeros(_Value __value) noexcept {
 }
 
 template <typename _Value>
-int ztdc_count_leading_ones(_Value __value) noexcept {
+int _ZTDC_COUNT_LEADING_ONES_I_(_Value __value) noexcept {
 	if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 		return ztdc_count_leading_onesuc(static_cast<unsigned char>(__value));
 	}
@@ -398,7 +398,7 @@ int ztdc_count_leading_ones(_Value __value) noexcept {
 }
 
 template <typename _Value>
-int ztdc_count_trailing_ones(_Value __value) noexcept {
+int _ZTDC_COUNT_TRAILING_ONES_I_(_Value __value) noexcept {
 	if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 		return ztdc_count_trailing_onesuc(static_cast<unsigned char>(__value));
 	}
@@ -421,7 +421,7 @@ int ztdc_count_trailing_ones(_Value __value) noexcept {
 }
 
 template <typename _Value>
-int ztdc_first_leading_zero(_Value __value) noexcept {
+int _ZTDC_FIRST_LEADING_ZERO_I_(_Value __value) noexcept {
 	if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 		return ztdc_first_leading_zerouc(static_cast<unsigned char>(__value));
 	}
@@ -444,7 +444,7 @@ int ztdc_first_leading_zero(_Value __value) noexcept {
 }
 
 template <typename _Value>
-int ztdc_first_trailing_zero(_Value __value) noexcept {
+int _ZTDC_FIRST_TRAILING_ZERO_I_(_Value __value) noexcept {
 	if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 		return ztdc_first_trailing_zerouc(static_cast<unsigned char>(__value));
 	}
@@ -467,7 +467,7 @@ int ztdc_first_trailing_zero(_Value __value) noexcept {
 }
 
 template <typename _Value>
-int ztdc_first_leading_one(_Value __value) noexcept {
+int _ZTDC_FIRST_LEADING_ONE_I_(_Value __value) noexcept {
 	if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 		return ztdc_first_leading_oneuc(static_cast<unsigned char>(__value));
 	}
@@ -490,7 +490,7 @@ int ztdc_first_leading_one(_Value __value) noexcept {
 }
 
 template <typename _Value>
-int ztdc_first_trailing_one(_Value __value) noexcept {
+int _ZTDC_FIRST_TRAILING_ONE_I_(_Value __value) noexcept {
 	if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 		return ztdc_first_trailing_oneuc(static_cast<unsigned char>(__value));
 	}
@@ -513,7 +513,7 @@ int ztdc_first_trailing_one(_Value __value) noexcept {
 }
 
 template <typename _Value>
-int ztdc_rotate_left(_Value __value, int __rotation) noexcept {
+int _ZTDC_ROTATE_LEFT_I_(_Value __value, int __rotation) noexcept {
 	if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 		return ztdc_rotate_leftuc(static_cast<unsigned char>(__value), __rotation);
 	}
@@ -536,7 +536,7 @@ int ztdc_rotate_left(_Value __value, int __rotation) noexcept {
 }
 
 template <typename _Value>
-int ztdc_rotate_right(_Value __value, int __rotation) noexcept {
+int _ZTDC_ROTATE_RIGHT_I_(_Value __value, int __rotation) noexcept {
 	if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 		return ztdc_rotate_rightuc(static_cast<unsigned char>(__value), __rotation);
 	}
@@ -559,7 +559,7 @@ int ztdc_rotate_right(_Value __value, int __rotation) noexcept {
 }
 
 template <typename _Value>
-int ztdc_has_single_bit(_Value __value) noexcept {
+int _ZTDC_HAS_SINGLE_BIT_I_(_Value __value) noexcept {
 	if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 		return ztdc_has_single_bituc(static_cast<unsigned char>(__value));
 	}
@@ -582,7 +582,7 @@ int ztdc_has_single_bit(_Value __value) noexcept {
 }
 
 template <typename _Value>
-int ztdc_bit_width(_Value __value) noexcept {
+int _ZTDC_BIT_WIDTH_I_(_Value __value) noexcept {
 	if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char> ||      // cf-hack
 	     ::std::is_same_v<_Value, unsigned short> || ::std::is_same_v<_Value, unsigned int> ||      // cf-hack
 	     ::std::is_same_v<_Value, unsigned long> || ::std::is_same_v<_Value, unsigned long long>) { // cf-hack
@@ -594,7 +594,7 @@ int ztdc_bit_width(_Value __value) noexcept {
 }
 
 template <typename _Value>
-int ztdc_bit_ceil(_Value __value) noexcept {
+int _ZTDC_BIT_CEIL_I_(_Value __value) noexcept {
 	if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 		return ztdc_bit_ceiluc(static_cast<unsigned char>(__value));
 	}
@@ -616,7 +616,7 @@ int ztdc_bit_ceil(_Value __value) noexcept {
 }
 
 template <typename _Value>
-int ztdc_bit_floor(_Value __value) noexcept {
+int _ZTDC_BIT_FLOOR_I_(_Value __value) noexcept {
 	if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 		return ztdc_bit_flooruc(static_cast<unsigned char>(__value));
 	}

@@ -35,6 +35,7 @@
 
 #include <ztd/idk/version.h>
 
+#include <ztd/idk/extent.h>
 #include <ztd/idk/static_assert.h>
 
 #if ZTD_IS_ON(ZTD_C_I_)
@@ -50,8 +51,7 @@
 ZTD_EXTERN_C_OPEN_I_
 
 #if (CHAR_BIT % 8 == 0)
-ZTD_IDK_API_LINKAGE_I_ void ztdc_memreverse8(
-     size_t __n, unsigned char __ptr[ZTD_STATIC_PTR_EXTENT_I_(__n)]) ZTD_CXX_NOEXCEPT_I_;
+ZTD_IDK_API_LINKAGE_I_ void ztdc_memreverse8(size_t __n, unsigned char __ptr[ZTD_PTR_EXTENT(__n)]) ZTD_CXX_NOEXCEPT_I_;
 #if defined(UINT8_MAX)
 ZTD_IDK_API_LINKAGE_I_ uint8_t ztdc_memreverse8u8(uint8_t __value) ZTD_CXX_NOEXCEPT_I_;
 #endif // 8 bits

@@ -28,22 +28,13 @@
 ..
 .. =============================================================================>
 
-Assertions
-==========
+endian
+======
 
-This API defines 2 assertion macros. One is named ``ZTD_ASSERT``, and the other is named ``ZTD_ASSERT_MESSAGE``. The first takes only one or more conditional tokens, the second takes a mandatory message token as the first parameter, and then one or more conditional parameters.
+The endian enumeration is a very simple enum used to communicate what kind of byte ordering certain parts of the library should use to interpret incoming byte sequences. The C version uses macros and can be found :doc:`here </c_api/endian>`.
 
-The user can override the behavior of each of these by defining both of ``ZTD_ASSERT_USER`` and ``ZTD_ASSERT_MESSAGE_USER``.
+.. doxygendefine:: ZTDC_LITTLE_ENDIAN
 
-When :ref:`debug mode is detected<config-ZTD_DEBUG>` and user-defined assertions are not macro-defined, then a default implementation is used. Typically, these:
+.. doxygendefine:: ZTDC_BIG_ENDIAN
 
-- check the condition, and if it is true:
-
-  - print (``std::cerr`` or ``fprintf(stderr, ...)``, depending on the language) a message including line, file, etc.; and,
-  - exit the program cleanly (``std::terminate`` or ``exit``, depending on the language)
-
-Note that no side-effects should ever go into assertions, because assertions can be compiled to do nothing.
-
-.. doxygendefine:: ZTD_ASSERT
-
-.. doxygendefine:: ZTD_ASSERT_MESSAGE
+.. doxygendefine:: ZTDC_NATIVE_ENDIAN

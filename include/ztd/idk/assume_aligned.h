@@ -60,4 +60,30 @@
 #endif
 // clang-format on
 
+//////
+/// @addtogroup ztd_idk_assume_aligned Assume Aligned
+///
+/// @{
+//////
+
+//////
+/// @def ZTD_ASSUME_ALIGNED(_ALIGNMENT, ...)
+///
+/// @brief Returns a pointer suitable-aligned for `_ALIGNMENT`.
+///
+/// @param[in] _ALIGNMENT An integer constant expression indicating the alignment of the pointer value.
+/// @param[in] ... The pointer to assume alignment of.
+///
+/// @returns A pointer (assumed to be) suitably-aligned to `_ALIGNMENT`.
+///
+/// @remarks This function does NOT align the pointer, just marks it as such. This uses builtins or other tricks
+/// depending on the compiler. It can trigger Undefined Behavior if it is not properly checked and protected against, so
+/// make sure the pointer is properly aligned.
+//////
+
+//////
+/// @}
+//////
+
+
 #endif // ZTD_IDK_ASSUME_ALIGNED_H
