@@ -97,8 +97,9 @@ TEMPLATE_TEST_CASE("bit intrinsics with count_zeros", "[bit intrinsics][stdc_cou
 	}
 }
 
-TEMPLATE_TEST_CASE("bit intrinsics with (leading/trailing)_ones", "[bit intrinsics][stdc_(leading/trailing)_ones]",
-     unsigned long long, unsigned long, unsigned int, unsigned short, unsigned char) {
+TEMPLATE_TEST_CASE("bit intrinsics with count_(leading/trailing)_ones",
+     "[bit intrinsics][stdc_count_(leading/trailing)_ones]", unsigned long long, unsigned long, unsigned int,
+     unsigned short, unsigned char) {
 	static constexpr TestType zeroes = static_cast<TestType>(0);
 	static constexpr TestType ones   = static_cast<TestType>(std::numeric_limits<TestType>::max());
 
@@ -169,8 +170,9 @@ TEMPLATE_TEST_CASE("bit intrinsics with (leading/trailing)_ones", "[bit intrinsi
 	}
 }
 
-TEMPLATE_TEST_CASE("bit intrinsics with (leading/trailing)_zeros", "[bit intrinsics][stdc_(leading/trailing)_zeros]",
-     unsigned long long, unsigned long, unsigned int, unsigned short, unsigned char) {
+TEMPLATE_TEST_CASE("bit intrinsics with count_(leading/trailing)_zeros",
+     "[bit intrinsics][stdc_count_(leading/trailing)_zeros]", unsigned long long, unsigned long, unsigned int,
+     unsigned short, unsigned char) {
 	static constexpr TestType zeroes             = static_cast<TestType>(0);
 	static constexpr TestType ones               = static_cast<TestType>(std::numeric_limits<TestType>::max());
 	const int trailing_zeros_zeroes_val          = ztdc_count_trailing_zeros(zeroes);

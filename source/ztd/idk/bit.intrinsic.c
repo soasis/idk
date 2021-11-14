@@ -118,81 +118,81 @@ bool ztdc_has_single_bitull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
 }
 
 #if ZTD_IS_ON(ZTD_BUILTIN_CLZ_I_)
-#define _ZTDC_LEADING_ZEROES_BODY_I_(_TYPE, _VALUE, _BUILTIN_SUFFIX, _BUILTIN_ADJUSTMENT) \
-	if (_VALUE == 0)                                                                     \
-		return sizeof(_VALUE) * CHAR_BIT;                                               \
+#define _ZTDC_COUNT_LEADING_ZEROES_BODY_I_(_TYPE, _VALUE, _BUILTIN_SUFFIX, _BUILTIN_ADJUSTMENT) \
+	if (_VALUE == 0)                                                                           \
+		return sizeof(_VALUE) * CHAR_BIT;                                                     \
 	return __builtin_clz##_BUILTIN_SUFFIX(_VALUE) - _BUILTIN_ADJUSTMENT
 #else
-#define _ZTDC_LEADING_ZEROES_BODY_I_(_TYPE, _VALUE, _BUILTIN_SUFFIX, _BUILTIN_ADJUSTMENT)  \
-	int __num = 0;                                                                        \
-	for (size_t __bit_index = (sizeof((_VALUE)) * CHAR_BIT); __bit_index-- > 0;) {        \
-		bool __not_is_set = (_VALUE & (_TYPE)((_TYPE)(1) << __bit_index)) == (_TYPE)(0); \
-		if (__not_is_set) {                                                              \
-			__num += 1;                                                                 \
-		}                                                                                \
-		else {                                                                           \
-			break;                                                                      \
-		}                                                                                \
-	}                                                                                     \
+#define _ZTDC_COUNT_LEADING_ZEROES_BODY_I_(_TYPE, _VALUE, _BUILTIN_SUFFIX, _BUILTIN_ADJUSTMENT) \
+	int __num = 0;                                                                             \
+	for (size_t __bit_index = (sizeof((_VALUE)) * CHAR_BIT); __bit_index-- > 0;) {             \
+		bool __not_is_set = (_VALUE & (_TYPE)((_TYPE)(1) << __bit_index)) == (_TYPE)(0);      \
+		if (__not_is_set) {                                                                   \
+			__num += 1;                                                                      \
+		}                                                                                     \
+		else {                                                                                \
+			break;                                                                           \
+		}                                                                                     \
+	}                                                                                          \
 	return __num
 #endif
 
 #if ZTD_IS_ON(ZTD_BUILTIN_CTZ_I_)
-#define _ZTDC_TRAILING_ZEROES_BODY_I_(_TYPE, _VALUE, _BUILTIN_SUFFIX, _BUILTIN_ADJUSTMENT) \
-	if (_VALUE == 0)                                                                      \
-		return sizeof(_VALUE) * CHAR_BIT;                                                \
+#define _ZTDC_COUNT_TRAILING_ZEROES_BODY_I_(_TYPE, _VALUE, _BUILTIN_SUFFIX, _BUILTIN_ADJUSTMENT) \
+	if (_VALUE == 0)                                                                            \
+		return sizeof(_VALUE) * CHAR_BIT;                                                      \
 	return __builtin_ctz##_BUILTIN_SUFFIX(_VALUE) - _BUILTIN_ADJUSTMENT
 #else
-#define _ZTDC_TRAILING_ZEROES_BODY_I_(_TYPE, _VALUE, _BUILTIN_SUFFIX, _BUILTIN_ADJUSTMENT) \
-	int __num = 0;                                                                        \
-	for (size_t __bit_index = (sizeof((_VALUE)) * CHAR_BIT); __bit_index-- > 0;) {        \
-		bool __not_is_set = (_VALUE & (_TYPE)((_TYPE)(1) << __bit_index)) == (_TYPE)(0); \
-		if (__not_is_set) {                                                              \
-			__num += 1;                                                                 \
-		}                                                                                \
-		else {                                                                           \
-			break;                                                                      \
-		}                                                                                \
-	}                                                                                     \
+#define _ZTDC_COUNT_TRAILING_ZEROES_BODY_I_(_TYPE, _VALUE, _BUILTIN_SUFFIX, _BUILTIN_ADJUSTMENT) \
+	int __num = 0;                                                                              \
+	for (size_t __bit_index = 0; __bit_index < (sizeof((_VALUE)) * CHAR_BIT); ++__bit_index) {  \
+		bool __not_is_set = (_VALUE & (_TYPE)((_TYPE)(1) << __bit_index)) == (_TYPE)(0);       \
+		if (__not_is_set) {                                                                    \
+			__num += 1;                                                                       \
+		}                                                                                      \
+		else {                                                                                 \
+			break;                                                                            \
+		}                                                                                      \
+	}                                                                                           \
 	return __num
 #endif
 
 int ztdc_count_leading_zerosuc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
-	_ZTDC_LEADING_ZEROES_BODY_I_(
+	_ZTDC_COUNT_LEADING_ZEROES_BODY_I_(
 	     unsigned char, __value, , ((sizeof(unsigned int) * CHAR_BIT) - (sizeof(unsigned char) * CHAR_BIT)));
 }
 int ztdc_count_leading_zerosus(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
-	_ZTDC_LEADING_ZEROES_BODY_I_(
+	_ZTDC_COUNT_LEADING_ZEROES_BODY_I_(
 	     unsigned short, __value, , ((sizeof(unsigned int) * CHAR_BIT) - (sizeof(unsigned short) * CHAR_BIT)));
 }
 int ztdc_count_leading_zerosui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
-	_ZTDC_LEADING_ZEROES_BODY_I_(unsigned int, __value, , 0);
+	_ZTDC_COUNT_LEADING_ZEROES_BODY_I_(unsigned int, __value, , 0);
 }
 int ztdc_count_leading_zerosul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
-	_ZTDC_LEADING_ZEROES_BODY_I_(unsigned long, __value, l, 0);
+	_ZTDC_COUNT_LEADING_ZEROES_BODY_I_(unsigned long, __value, l, 0);
 }
 int ztdc_count_leading_zerosull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
-	_ZTDC_LEADING_ZEROES_BODY_I_(unsigned long long, __value, ll, 0);
+	_ZTDC_COUNT_LEADING_ZEROES_BODY_I_(unsigned long long, __value, ll, 0);
 }
 
 int ztdc_count_trailing_zerosuc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
-	_ZTDC_TRAILING_ZEROES_BODY_I_(unsigned char, __value, , 0);
+	_ZTDC_COUNT_TRAILING_ZEROES_BODY_I_(unsigned char, __value, , 0);
 }
 int ztdc_count_trailing_zerosus(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
-	_ZTDC_TRAILING_ZEROES_BODY_I_(unsigned short, __value, , 0);
+	_ZTDC_COUNT_TRAILING_ZEROES_BODY_I_(unsigned short, __value, , 0);
 }
 int ztdc_count_trailing_zerosui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
-	_ZTDC_TRAILING_ZEROES_BODY_I_(unsigned int, __value, , 0);
+	_ZTDC_COUNT_TRAILING_ZEROES_BODY_I_(unsigned int, __value, , 0);
 }
 int ztdc_count_trailing_zerosul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
-	_ZTDC_TRAILING_ZEROES_BODY_I_(unsigned long, __value, l, 0);
+	_ZTDC_COUNT_TRAILING_ZEROES_BODY_I_(unsigned long, __value, l, 0);
 }
 int ztdc_count_trailing_zerosull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
-	_ZTDC_TRAILING_ZEROES_BODY_I_(unsigned long long, __value, ll, 0);
+	_ZTDC_COUNT_TRAILING_ZEROES_BODY_I_(unsigned long long, __value, ll, 0);
 }
 
-#undef _ZTDC_LEADING_ZEROES_BODY_I_
-#undef _ZTDC_TRAILING_ZEROES_BODY_I_
+#undef _ZTDC_COUNT_LEADING_ZEROES_BODY_I_
+#undef _ZTDC_COUNT_TRAILING_ZEROES_BODY_I_
 
 int ztdc_count_leading_onesuc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
 	return ztdc_count_leading_zeros((unsigned char)~__value);
@@ -389,7 +389,7 @@ unsigned long long ztdc_bit_widthull(unsigned long long __value) ZTD_CXX_NOEXCEP
 #else
 #define _ZTD_FIRST_LEADING_ONE_BODY_I_(_TYPE, _VALUE, _BUILTIN_SUFFIX, _BUILTIN_ADJUSTMENT) \
 	for (size_t __bit_index = (sizeof(_VALUE) * CHAR_BIT); __bit_index-- > 0;) {           \
-		bool __is_set = (__val & (_TYPE)(((_TYPE)1) << __bit_index)) != ((_TYPE)0);       \
+		bool __is_set = (_VALUE & (_TYPE)(((_TYPE)1) << __bit_index)) != ((_TYPE)0);      \
 		if (__is_set) {                                                                   \
 			return (int)((sizeof(_VALUE) * CHAR_BIT) - __bit_index);                     \
 		}                                                                                 \
@@ -422,7 +422,7 @@ int ztdc_first_leading_oneull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
 #else
 #define _ZTD_FIRST_TRAILING_ONE_BODY_I_(_TYPE, _VALUE, _BUILTIN_SUFFIX)                       \
 	for (size_t __bit_index = 0; __bit_index < (sizeof(_VALUE) * CHAR_BIT); ++__bit_index) { \
-		bool __is_set = (__val & (_TYPE)(((_TYPE)1) << __bit_index)) != ((_TYPE)0);         \
+		bool __is_set = (_VALUE & (_TYPE)(((_TYPE)1) << __bit_index)) != ((_TYPE)0);        \
 		if (__is_set) {                                                                     \
 			return (int)(__bit_index + 1);                                                 \
 		}                                                                                   \
