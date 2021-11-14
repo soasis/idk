@@ -211,6 +211,18 @@ target_link_libraries(ztd.idk
 		ztd::version
 		ztd::tag_invoke
 )
+if (ztd-idk-is-top-level) 
+	target_compile_options(ztd.idk
+		PRIVATE
+			${--utf8-literal-encoding}
+			${--utf8-source-encoding}
+			${--disable-permissive}
+			${--warn-pedantic}
+			${--warn-default}
+			${--warn-extra}
+			${--warn-errors}
+	)
+endif()
 install(TARGETS ztd.idk)
 install(DIRECTORY include/
 	DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
