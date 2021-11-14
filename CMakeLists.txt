@@ -28,7 +28,7 @@
 #
 # ============================================================================>
 
-cmake_minimum_required(VERSION 3.16.0)
+cmake_minimum_required(VERSION 3.21.0)
 cmake_policy(VERSION 3.16)
 # # Project kickstart
 # Includes a bunch of basic flags and utilities shared across projects
@@ -98,7 +98,7 @@ if (ztd-idk-is-top-level)
 		set(CMAKE_CXX_STANDARD 17)
 	endif()
 
-	if (NOT DEFINED CMAKE_CXX_STANDARD)
+	if (NOT DEFINED CMAKE_C_STANDARD)
 		set(CMAKE_C_STANDARD 11)
 	endif()
 
@@ -120,13 +120,19 @@ endif()
 
 # # Main library declarations
 # ztd.version
+file(GLOB_RECURSE ztd.version.includes
+	CONFIGURE_DEPENDS
+	include/tag_invoke**.hpp
+	include/tag_invoke**.h
+)
+
 add_library(ztd.version INTERFACE)
 add_library(ztd::version ALIAS ztd.version)
 target_include_directories(ztd.version
 	INTERFACE
 		$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-		$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
-target_sources(ztd.version INTERFACE include/ztd/version.hpp include/ztd/version/version.hpp)
+		$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
 install(DIRECTORY include/
 	DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
@@ -135,18 +141,23 @@ configure_package_config_file(
 	cmake/ztd.version-config.cmake.in
 	"${CMAKE_CURRENT_BINARY_DIR}/cmake/ztd.version/ztd.version-config.cmake"
 	INSTALL_DESTINATION lib/cmake/ztd.version
-	NO_CHECK_REQUIRED_COMPONENTS_MACRO)
-
+	NO_CHECK_REQUIRED_COMPONENTS_MACRO
+)
 write_basic_package_version_file(
 	"${CMAKE_CURRENT_BINARY_DIR}/cmake/ztd.version/ztd.version-config-version.cmake"
-	COMPATIBILITY SameMajorVersion)
-
+	COMPATIBILITY SameMajorVersion
+)
 export(TARGETS ztd.version
 	FILE
-	"${CMAKE_CURRENT_BINARY_DIR}/cmake/ztd.version/ztd.version-targets.cmake")
+	"${CMAKE_CURRENT_BINARY_DIR}/cmake/ztd.version/ztd.version-targets.cmake"
+)
 
 # ztd.tag_invoke
-file(GLOB_RECURSE ztd.tag_invoke.includes CONFIGURE_DEPENDS include/tag_invoke*.hpp)
+file(GLOB_RECURSE ztd.tag_invoke.includes
+	CONFIGURE_DEPENDS
+	include/tag_invoke**.hpp
+	include/tag_invoke**.h
+)
 
 add_library(ztd.tag_invoke INTERFACE)
 add_library(ztd::tag_invoke ALIAS ztd.tag_invoke)
@@ -158,7 +169,6 @@ target_link_libraries(ztd.tag_invoke
 	INTERFACE
 		ztd::version
 )
-target_sources(ztd.tag_invoke INTERFACE ${ztd.tag_invoke.includes})
 install(DIRECTORY include/
 	DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
@@ -167,19 +177,28 @@ configure_package_config_file(
 	cmake/ztd.tag_invoke-config.cmake.in
 	"${CMAKE_CURRENT_BINARY_DIR}/cmake/ztd.tag_invoke/ztd.tag_invoke-config.cmake"
 	INSTALL_DESTINATION lib/cmake/ztd.tag_invoke
-	NO_CHECK_REQUIRED_COMPONENTS_MACRO)
-
+	NO_CHECK_REQUIRED_COMPONENTS_MACRO
+)
 write_basic_package_version_file(
 	"${CMAKE_CURRENT_BINARY_DIR}/cmake/ztd.tag_invoke/ztd.tag_invoke-config-version.cmake"
-	COMPATIBILITY SameMajorVersion)
-
+	COMPATIBILITY SameMajorVersion
+)
 export(TARGETS ztd.tag_invoke
 	FILE
-	"${CMAKE_CURRENT_BINARY_DIR}/cmake/ztd.tag_invoke/ztd.tag_invoke-targets.cmake")
+	"${CMAKE_CURRENT_BINARY_DIR}/cmake/ztd.tag_invoke/ztd.tag_invoke-targets.cmake"
+)
 
 # ztd.idk
-file(GLOB_RECURSE ztd.idk.includes CONFIGURE_DEPENDS include/ztd/idk**.hpp include/ztd/idk**.h)
-file(GLOB_RECURSE ztd.idk.sources CONFIGURE_DEPENDS source/ztd/idk/**.cpp source/ztd/idk/**.c)
+file(GLOB_RECURSE ztd.idk.includes
+	CONFIGURE_DEPENDS
+	include/ztd/idk**.hpp
+	include/ztd/idk**.h
+)
+file(GLOB_RECURSE ztd.idk.sources
+	CONFIGURE_DEPENDS
+	source/ztd/idk/**.cpp
+	source/ztd/idk/**.c
+)
 
 add_library(ztd.idk ${ztd.idk.sources})
 add_library(ztd::idk ALIAS ztd.idk)
@@ -187,12 +206,12 @@ target_include_directories(ztd.idk
 	PUBLIC
 		$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
 		$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
-target_sources(ztd.idk PUBLIC ${ztd.idk.includes} ${ztd.idk.sources})
 target_link_libraries(ztd.idk
 	PUBLIC
 		ztd::version
 		ztd::tag_invoke
 )
+install(TARGETS ztd.idk)
 install(DIRECTORY include/
 	DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
@@ -201,16 +220,16 @@ configure_package_config_file(
 	cmake/ztd.idk-config.cmake.in
 	"${CMAKE_CURRENT_BINARY_DIR}/cmake/ztd.idk/ztd.idk-config.cmake"
 	INSTALL_DESTINATION lib/cmake/ztd.idk
-	NO_CHECK_REQUIRED_COMPONENTS_MACRO)
-
+	NO_CHECK_REQUIRED_COMPONENTS_MACRO
+)
 write_basic_package_version_file(
 	"${CMAKE_CURRENT_BINARY_DIR}/cmake/ztd.idk/ztd.idk-config-version.cmake"
-	COMPATIBILITY SameMajorVersion)
-
+	COMPATIBILITY SameMajorVersion
+)
 export(TARGETS ztd.idk
 	FILE
-	"${CMAKE_CURRENT_BINARY_DIR}/cmake/ztd.idk/ztd.idk-targets.cmake")
-
+	"${CMAKE_CURRENT_BINARY_DIR}/cmake/ztd.idk/ztd.idk-targets.cmake"
+)
 
 if (ZTD_IDK_GENERATE_SINGLE)
 	add_subdirectory(single)

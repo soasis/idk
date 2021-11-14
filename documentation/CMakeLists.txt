@@ -48,7 +48,7 @@ list(FILTER ztd_idk_doxygen_public_headers EXCLUDE REGEX /detail/.*)
 list(TRANSFORM ztd_idk_doxygen_public_headers REPLACE "(.+)" [["\1"]])
 list(JOIN ztd_idk_doxygen_public_headers " " ztd_idk_doxygen_public_headers)
 # do the same for the include paths
-get_target_property(ztd_idk_doxygen_include_paths ztd::idk INCLUDE_DIRECTORIES)
+get_target_property(ztd_idk_doxygen_include_paths ztd::idk INTERFACE_INCLUDE_DIRECTORIES)
 list(TRANSFORM ztd_idk_doxygen_include_paths REPLACE "(.+)" [["\1"]])
 list(JOIN ztd_idk_doxygen_include_paths " " ztd_idk_doxygen_include_paths)
 

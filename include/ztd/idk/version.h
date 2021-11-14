@@ -35,6 +35,12 @@
 
 #include <ztd/version.h>
 
+#if defined(ZTD_IDK_API_LINKAGE)
+#define ZTD_IDK_API_LINKAGE_I_ ZTD_IDK_API_LINKAGE
+#else
+#define ZTD_IDK_API_LINKAGE_I_ ZTD_API_LINKAGE_I_
+#endif
+
 #define ZTD_IDK_VERSION_MAJOR 0
 #define ZTD_IDK_VERSION_MINOR 0
 #define ZTD_IDK_VERSION_PATCH 0
