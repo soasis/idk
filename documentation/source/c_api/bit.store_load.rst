@@ -31,28 +31,49 @@
 8-bit Endian Load/Store
 =======================
 
+The 8-bit loads and stores put values in a format suitable for bit-by-bit transition over the network or to the filesystem. Because it will serialize exactly enough bytes to memory so that it is suitable for transition over the network, it has the general requirement that when it tries to load *N* bit integers it expects exactly *N* bits to be present in the array. Therefore, ``CHAR_BIT % 8`` must be ``0`` and ``N % 8`` must be ``0``.
+
+When ``CHAR_BIT`` is larger than 8 (16, 24, 32, 64, and other values that are multiples of 8), each 8-bit byte within an ``unsigned char`` is masked off with ``0xFF << (8 * byte_index)``, and then serialized for storing/loading.
+
+
 
 Unsigned Variants
 -----------------
 
 .. doxygenfunction:: ztdc_store8_leuN
+
 .. doxygenfunction:: ztdc_store8_beuN
+
 .. doxygenfunction:: ztdc_load8_leuN
+
 .. doxygenfunction:: ztdc_load8_beuN
+
 .. doxygenfunction:: ztdc_store8_aligned_leuN
+
 .. doxygenfunction:: ztdc_store8_aligned_beuN
+
 .. doxygenfunction:: ztdc_load8_aligned_leuN
+
 .. doxygenfunction:: ztdc_load8_aligned_beuN
+
+
+
 
 Signed Variants
 ---------------
 
 .. doxygenfunction:: ztdc_store8_lesN
-.. doxygenfunction:: ztdc_store8_besN
-.. doxygenfunction:: ztdc_load8_lesN
-.. doxygenfunction:: ztdc_load8_besN
-.. doxygenfunction:: ztdc_store8_aligned_lesN
-.. doxygenfunction:: ztdc_store8_aligned_besN
-.. doxygenfunction:: ztdc_load8_aligned_lesN
-.. doxygenfunction:: ztdc_load8_aligned_besN
 
+.. doxygenfunction:: ztdc_store8_besN
+
+.. doxygenfunction:: ztdc_load8_lesN
+
+.. doxygenfunction:: ztdc_load8_besN
+
+.. doxygenfunction:: ztdc_store8_aligned_lesN
+
+.. doxygenfunction:: ztdc_store8_aligned_besN
+
+.. doxygenfunction:: ztdc_load8_aligned_lesN
+
+.. doxygenfunction:: ztdc_load8_aligned_besN

@@ -31,6 +31,9 @@
 8-bit Memory Reverse
 ====================
 
-.. doxygenfunction:: ztdc_memreverse8
+The 8-bit memory reverse swaps 8-bit bytes, regardless of the size of ``CHAR_BIT`` on the given platform. In order to achieve this in a platform-agnostic manner, it requires that ``CHAR_BIT % 8`` is ``0``. When ``CHAR_BIT`` is larger than 8 (16, 24, 32, 64, and other values that are multiples of 8), each 8-bit byte within an ``unsigned char`` is masked off with ``0xFF << (8 * byte_index)``, and then serialized for storing/loading. ``byte_index`` is a value from [0, ``CHAR_BIT / 8``) and it is swapped with the reverse 8-bit byte, which is computed with ``0xFF << (8 * ((CHAR_BIT / 8) - 1 - byte_index))``.
 
+
+.. doxygenfunction:: ztdc_memreverse8
+	
 .. doxygenfunction:: ztdc_memreverse8uN
