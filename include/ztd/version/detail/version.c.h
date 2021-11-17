@@ -366,7 +366,7 @@
 	#define ZTD_WCHAR_T_UTF16_COMPATIBLE_I_ ZTD_DEFAULT_OFF
 #endif
 
-#if ZTD_IS_ON(ZTD_WCHAR_T_UTF32_COMPATIBLE_I_) && ZTD_IS_ON(ZTD_WCHAR_T_UTF32_COMPATIBLE_I_)
+#if ZTD_IS_ON(ZTD_WCHAR_T_UTF32_COMPATIBLE_I_) && ZTD_IS_ON(ZTD_WCHAR_T_UTF16_COMPATIBLE_I_)
 	#error Both ZTD_WCHAR_T_UTF32_COMPATIBLE_I_ and ZTD_WCHAR_T_UTF32_COMPATIBLE_I_ are on, meaning that the wchar_t encoding is both UTF-32 and UTF-16 compatible. This cannot be right: please check your build macros for WCHAR_T-related ZTD defines, or file a bug report!
 #endif
 

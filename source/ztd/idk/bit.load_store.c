@@ -194,6 +194,11 @@
 	ztd_static_assert(((_N % 8) == 0), "👍")
 
 
+#if ZTD_IS_ON(ZTD_COMPILER_GCC_I_) || ZTD_IS_ON(ZTD_COMPILER_CLANG_I_)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wtype-limits"
+#endif
+
 #if ((CHAR_BIT % 8) == 0)
 ZTDC_GENERATE_LOAD8_STORE8_DEFINITIONS(8);
 ZTDC_GENERATE_LOAD8_STORE8_DEFINITIONS(16);
@@ -234,5 +239,10 @@ ZTDC_GENERATE_LOAD8_STORE8_DEFINITIONS(120);
 ZTDC_GENERATE_LOAD8_STORE8_DEFINITIONS(128);
 #endif
 #endif
+
+#if ZTD_IS_ON(ZTD_COMPILER_GCC_I_) || ZTD_IS_ON(ZTD_COMPILER_CLANG_I_)
+#pragma GCC diagnostic pop
+#endif
+
 
 #undef ZTDC_GENERATE_LOAD8_STORE8_DEFINITIONS
