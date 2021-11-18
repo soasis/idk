@@ -28,4 +28,34 @@
 //
 // ============================================================================>
 
-#include <ztd/idk/detail/unicode.hpp>
+#pragma once
+
+#ifndef ZTD_IDK_DETAIL_UNICODE_HPP
+#define ZTD_IDK_DETAIL_UNICODE_HPP
+
+#include <ztd/idk/version.hpp>
+
+#include <ztd/idk/detail/unicode.h>
+#include <ztd/idk/charN_t.h>
+
+#include <ztd/prologue.hpp>
+
+namespace ztd {
+	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
+	namespace __idk_detail {
+		template <bool _IsOverlong>
+		inline constexpr int __utf8_decode_length(ztd_char32_t __value) noexcept {
+			if constexpr (_IsOverlong) {
+				return __ztd_idk_detail_utf8_decode_length_overlong(__value);
+			}
+			else {
+				return __ztd_idk_detail_utf8_decode_length(__value);
+			}
+		}
+	} // namespace __idk_detail
+	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
+} // namespace ztd
+
+#include <ztd/epilogue.hpp>
+
+#endif // ZTD_IDK_DETAIL_UNICODE_HPP
