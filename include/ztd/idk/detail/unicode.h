@@ -165,7 +165,7 @@ inline ZTD_CONSTEXPR_IF_CXX_I_ int __ztd_idk_detail_utf8_sequence_length(ztd_cha
 	                                                                                                  : 4;
 }
 
-inline ZTD_CONSTEXPR_IF_CXX_I_ int __utf8_sequence_length_extended(ztd_char8_t __value) noexcept {
+inline ZTD_CONSTEXPR_IF_CXX_I_ int __ztd_idk_detail_utf8_sequence_length_overlong(ztd_char8_t __value) noexcept {
 	return (__value & __ztd_idk_detail_start_1byte_mask) == __ztd_idk_detail_start_1byte_continuation ? 1
 	     : (__value & __ztd_idk_detail_start_3byte_mask) != __ztd_idk_detail_start_3byte_continuation ? 2
 	     : (__value & __ztd_idk_detail_start_4byte_mask) != __ztd_idk_detail_start_4byte_continuation ? 3
