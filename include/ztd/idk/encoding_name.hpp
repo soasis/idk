@@ -154,8 +154,7 @@ namespace ztd {
 			size_t __target_size = __target.size();
 			for (size_t __idx = 0; __idx < __target_size;) {
 				ztd_char8_t __c0 = __target[__idx];
-				int __seq_len    = __ztd_idk_detail_utf8_sequence_length(__c0);
-				bool __is_ascii  = __seq_len < 2 && ((__c0 & 0x7F) == 0);
+				bool __is_ascii  = ((__c0 & 0x7F) == 0);
 				if (__is_ascii) {
 					if (__c0 == '-' || __c0 == '_' || __c0 == ' ' || __c0 == '\r' || __c0 == '\n'
 					     || __c0 == '\t') {
@@ -168,7 +167,7 @@ namespace ztd {
 					continue;
 				}
 
-				__idx += __seq_len;
+				__idx += 1;
 			}
 		}
 	} // namespace __idk_detail
