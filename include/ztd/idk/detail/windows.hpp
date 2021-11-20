@@ -37,9 +37,11 @@
 
 #if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
 
+#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_)
 #pragma push_macro("NOMINMAX")
 #pragma push_macro("WIN32_LEAN_AND_MEAN")
 #pragma push_macro("VC_EXTRALEAN")
+#endif
 
 #define NOMINMAX 1
 #define WIN32_LEAN_AND_MEAN 1
@@ -59,17 +61,51 @@ ZTD_EXTERN_C_CLOSE_I_
 
 #include <ztd/prologue.hpp>
 
-namespace ztd { namespace idk {
+namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
 	namespace __idk_detail { namespace __windows {
 
+		inline int __determine_active_code_page() noexcept {
+#if defined(_STL_LANG) || defined(_YVALS_CORE_H) || defined(_STDEXT)
+			// Removed in later versions of VC++
+			if (___lc_codepage_func() == CP_UTF8) {
+				return CP_UTF8;
+			}
+#endif // VC++ stuff
+
+#if !defined(_KERNELX) && !defined(_ONECORE)
+			if (!::AreFileApisANSI()) {
+				return CP_OEMCP;
+			}
+#endif // !defined(_KERNELX) && !defined(_ONECORE)
+
+			return CP_ACP;
+		}
+
+		inline bool __is_unicode_code_page(int __codepage_id) {
+			switch (__codepage_id) {
+			case CP_UTF7:
+			case CP_UTF8:
+			case 1200:  // UTF-16, Little Endian ("utf-16")
+			case 1201:  // UTF-16, Big Endian ("unicodeFFFE")
+			case 12000: // UTF-16, Little Endian ("utf-32")
+			case 12001: // UTF-16, Big Endian ("utf-32BE")
+			case 54936: // GB18030, 4 bytes long
+				return true;
+			default:
+				return false;
+			}
+		}
+
 	}} // namespace __idk_detail::__windows
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
-}} // namespace ztd::idk
+} // namespace ztd
 
+#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_)
 #pragma pop_macro("VC_EXTRALEAN")
 #pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #pragma pop_macro("NOMINMAX")
+#endif
 
 #endif // Windows nightmare
 

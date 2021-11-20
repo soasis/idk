@@ -134,6 +134,43 @@ namespace ztd {
 				return "unknown";
 			}
 		}
+
+		inline ztd_char8_t __normalize_ascii_letter(ztd_char8_t __c0) {
+			if (__c0 <= 'Z' && __c0 >= 'A') {
+				// A is equivalent to a, etc. etc.
+				// ASCII character, make sure lowercase
+				// add to 5th bit (0-based) to get lowercase
+				__c0 &= static_cast<ztd_char8_t>(0x20);
+			}
+			return __c0;
+		}
+
+		template <typename _Target>
+		void __inplace_id_normalize(_Target& __target) {
+			// FIXME: full unicode case folding at some point in my short,
+			// miserable existence
+			// FIXME: full normalization form D case folding at some point in my
+			// pathetic mortality
+			size_t __target_size = __target.size();
+			for (size_t __idx = 0; __idx < __target_size;) {
+				ztd_char8_t __c0 = __target[__idx];
+				int __seq_len    = __ztd_idk_detail_utf8_sequence_length(__c0);
+				bool __is_ascii  = __seq_len < 2 && ((__c0 & 0x7F) == 0);
+				if (__is_ascii) {
+					if (__c0 == '-' || __c0 == '_' || __c0 == ' ' || __c0 == '\r' || __c0 == '\n'
+					     || __c0 == '\t') {
+						// skip dash, underscore, related whitespace
+						__target.erase(__target.begin() + __idx);
+						continue;
+					}
+					__target[__idx] = __normalize_ascii_letter(__c0);
+					++__idx;
+					continue;
+				}
+
+				__idx += __seq_len;
+			}
+		}
 	} // namespace __idk_detail
 
 	template <typename _Left, typename _Right>

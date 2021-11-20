@@ -401,6 +401,8 @@
 	#endif
 #elif ZTD_HAS_INCLUDE_I_(<uchar.h>)
 	#define ZTD_UCHAR_I_ ZTD_DEFAULT_ON
+#elif ZTD_IS_OFF(ZTD_LIBCXX_I_)
+	#define ZTD_UCHAR_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_UCHAR_I_ ZTD_DEFAULT_OFF
 #endif
@@ -411,7 +413,9 @@
 	#else
 		#define ZTD_CUCHAR_I_ ZTD_OFF
 	#endif
-#elif ZTD_HAS_INCLUDE_I_(<cuchar>)
+#elif ZTD_IS_ON(ZTD_CXX_I_) && ZTD_HAS_INCLUDE_I_(<cuchar>)
+	#define ZTD_CUCHAR_I_ ZTD_DEFAULT_ON
+#elif ZTD_IS_ON(ZTD_CXX_I_) && ZTD_IS_OFF(ZTD_LIBCXX_I_)
 	#define ZTD_CUCHAR_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_CUCHAR_I_ ZTD_DEFAULT_OFF
@@ -425,6 +429,8 @@
 	#endif
 #elif ZTD_HAS_INCLUDE_I_(<wchar.h>)
 	#define ZTD_WCHAR_I_ ZTD_DEFAULT_ON
+#elif ZTD_IS_OFF(ZTD_LIBCXX_I_)
+	#define ZTD_WCHAR_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_WCHAR_I_ ZTD_DEFAULT_OFF
 #endif
@@ -435,7 +441,9 @@
 	#else
 		#define ZTD_CWCHAR_I_ ZTD_OFF
 	#endif
-#elif ZTD_HAS_INCLUDE_I_(<cwchar>)
+#elif ZTD_IS_ON(ZTD_CXX_I_) && ZTD_HAS_INCLUDE_I_(<cwchar>)
+	#define ZTD_CWCHAR_I_ ZTD_DEFAULT_ON
+#elif ZTD_IS_ON(ZTD_CXX_I_) && ZTD_IS_OFF(ZTD_LIBCXX_I_)
 	#define ZTD_CWCHAR_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_CWCHAR_I_ ZTD_DEFAULT_OFF

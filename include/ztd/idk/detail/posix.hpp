@@ -30,33 +30,62 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_VERSION_H
-#define ZTD_IDK_VERSION_H
+#ifndef ZTD_IDK_DETAIL_POSIX_HPP
+#define ZTD_IDK_DETAIL_POSIX_HPP
 
-#include <ztd/version.h>
+#include <ztd/idk/version.hpp>
 
-#if defined(ZTD_IDK_API_LINKAGE)
-#define ZTD_IDK_API_LINKAGE_I_ ZTD_IDK_API_LINKAGE
-#else
-#define ZTD_IDK_API_LINKAGE_I_ ZTD_API_LINKAGE_I_
+#include <ztd/idk/encoding_name.hpp>
+
+#if ZTD_IS_ON(ZTD_PLATFORM_UNIX_I_) || ZTD_IS_ON(ZTD_PLATFORM_POSIX_I_)
+
+// clang-format off
+#include <clocale>
+#if ZTD_IS_ON(ZTD_LANGINFO_I_)
+	extern "C" {
+		#include <langinfo.h>
+	}
+#elif ZTD_IS_ON(ZTD_NL_LANGINFO_I_)
+	// IBM-specific??
+	extern "C" {
+		#include <nl_langinfo.h>
+	}
 #endif
 
-#if defined(ZTD_IDK_C_LANGUAGE_LINKAGE)
-#define ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_C_LANGUAGE_LINKAGE
-#else
-#define ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_C_LANGUAGE_LINKAGE_I_
+#if ZTD_IS_ON(ZTD_LIBICONV_LOAD_I_)
+	#if ZTD_IS_ON(ZTD_PLATFORM_POSIX_I_) && ZTD_IS_ON(ZTD_DLFCN_H_I_)
+		#include <dlfcn.h>
+	#endif
 #endif
+// clang-format on
 
-#if defined(ZTD_IDK_CXX_LANGUAGE_LINKAGE)
-#define ZTD_IDK_CXX_LANGUAGE_LINKAGE_I_ ZTD_IDK_CXX_LANGUAGE_LINKAGE
+#include <ztd/prologue.hpp>
+
+namespace ztd {
+
+	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
+
+	namespace __idk_detail { namespace __posix {
+
+		inline __idk_detail::__encoding_id __determine_active_code_page() noexcept {
+#if ZTD_IS_ON(ZTD_LANGINFO_I_) || ZTD_IS_ON(ZTD_NL_LANGINFO_I_)
+			const char* __name = nl_langinfo(LC_CTYPE);
+			return __idk_detail::__to_encoding_id(__name);
 #else
-#define ZTD_IDK_CXX_LANGUAGE_LINKAGE_I_ ZTD_CXX_LANGUAGE_LINKAGE_I_
+			// fallback to stdlib I guess?
+			const char* __ctype_name = setlocale(LC_CTYPE, nullptr);
+			return __idk_detail::__to_encoding_id(__ctype_name);
 #endif
+		}
 
-#define ZTD_IDK_VERSION_MAJOR 0
-#define ZTD_IDK_VERSION_MINOR 0
-#define ZTD_IDK_VERSION_PATCH 0
-#define ZTD_IDK_VERSION_STRING "0.0.0"
-#define ZTD_IDK_VERSION ((ZTD_IDK_VERSION_MAJOR * 100000) + (ZTD_IDK_VERSION_MINOR * 100) + (ZTD_IDK_VERSION_PATCH))
+	}} // namespace __idk_detail::__posix
 
-#endif // ZTD_IDK_VERSION_H
+	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
+
+} // namespace ztd
+
+#endif // POSIX
+
+#include <ztd/epilogue.hpp>
+
+#endif // ZTD_IDK_DETAIL_POSIX_HPP

@@ -47,6 +47,7 @@
 /// @{
 //////
 
+typedef char ztd_char_t;
 typedef ZTD_CHAR8_T_I_ ztd_char8_t;
 
 // clang-format off
@@ -91,6 +92,15 @@ typedef ZTD_CHAR8_T_I_ ztd_char8_t;
 #endif
 // clang-format on
 
+
+//////
+/// @typedef ztd_char_t
+///
+/// @brief An alias to `char`.
+///
+/// @remarks This is simply for consistency with the other character types in ztd. It's not strictly necessary, but it's
+/// nice!
+//////
 
 //////
 /// @typedef ztd_wchar_t
