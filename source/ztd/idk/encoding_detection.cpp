@@ -68,10 +68,27 @@ ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_enco
 
 ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_unicode(
      void) ZTD_NOEXCEPT_IF_CXX_I_ {
-	if (!ztdc_is_execution_encoding_unicode()) {
-		return false;
-	}
-#if ZTD_IS_ON(ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_)
+#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
+	return true;
+#elif ZTD_IS_ON(ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_)
+	// TODO: implement!
+	return false;
+#elif ZTD_IS_ON(ZTD_WCHAR_T_UTF16_COMPATIBLE_I_) || ZTD_IS_ON(ZTD_WCHAR_T_UTF32_COMPATIBLE_I_)
+	return true;
+#else
+	return false;
+#endif
+}
+
+
+ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding_utf8(void) ZTD_NOEXCEPT_IF_CXX_I_ {
+#if ZTD_IS_ON(ZTD_LIBVCXX_I_)
+	return MB_CUR_MAX == 4;
+#elif ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
+	return __idk_detail::__windows::__determine_active_code_page() == CP_UTF8;
+#elif ZTD_IS_ON(ZTD_PLATFORM_MAC_OS_I_)
+	return true;
+#else
 #if ZTD_IS_ON(ZTD_NL_LANGINFO_I_) || ZTD_IS_ON(ZTD_LANGINFO_I_)
 	const char* __ctype_name = nl_langinfo(CODESET);
 #else
@@ -82,8 +99,34 @@ ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution
 	if (__index != ::std::string_view::npos) {
 		__adjusted_ctype_name = __adjusted_ctype_name.substr(__index);
 	}
-	return ::ztd::is_unicode_encoding_name(__adjusted_ctype_name);
-#else
+	return ::ztd::is_encoding_name_equal(__adjusted_ctype_name, "UTF-8");
+#endif
+}
+
+ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_utf16(
+     void) ZTD_NOEXCEPT_IF_CXX_I_ {
+#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
 	return true;
+#elif ZTD_IS_ON(ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_)
+	// TODO: implement!
+	return false;
+#elif ZTD_IS_ON(ZTD_WCHAR_T_UTF16_COMPATIBLE_I_)
+	return true;
+#else
+	return false;
+#endif
+}
+
+ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_utf32(
+     void) ZTD_NOEXCEPT_IF_CXX_I_ {
+#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
+	return false;
+#elif ZTD_IS_ON(ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_)
+	// TODO: implement!
+	return false;
+#elif ZTD_IS_ON(ZTD_WCHAR_T_UTF32_COMPATIBLE_I_)
+	return true;
+#else
+	return false;
 #endif
 }
