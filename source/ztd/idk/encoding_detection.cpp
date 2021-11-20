@@ -85,7 +85,7 @@ ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_enco
 #if ZTD_IS_ON(ZTD_LIBVCXX_I_)
 	return MB_CUR_MAX == 4;
 #elif ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
-	return __idk_detail::__windows::__determine_active_code_page() == CP_UTF8;
+	return ::ztd::__idk_detail::__windows::__determine_active_code_page() == CP_UTF8;
 #elif ZTD_IS_ON(ZTD_PLATFORM_MAC_OS_I_)
 	return true;
 #else
