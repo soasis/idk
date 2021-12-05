@@ -84,7 +84,7 @@ namespace ztd {
 			}
 #else
 			if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
-				return;
+				return ztdc_count_onesuc(static_cast<unsigned char>(__value));
 			}
 			else if constexpr (::std::is_same_v<_Value, unsigned short>) {
 				return ztdc_count_onesus(__value);
