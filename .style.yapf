@@ -32,6 +32,7 @@
 based_on_style = pep8
 use_tabs = true
 indent_width = 5
+column_limit = 100
 
 spaces_before_comment = 1
 spaces_around_power_operator = true

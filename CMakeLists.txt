@@ -29,7 +29,7 @@
 # ============================================================================>
 
 cmake_minimum_required(VERSION 3.21.0)
-cmake_policy(VERSION 3.16)
+cmake_policy(VERSION 3.21)
 # # Project kickstart
 # Includes a bunch of basic flags and utilities shared across projects
 # See more at the github repository link below
@@ -80,18 +80,13 @@ option(ZTD_IDK_DOCUMENTATION_NO_SPHINX "Turn off Sphinx usage (useful for ReadTh
 option(ZTD_IDK_EXAMPLES "Enable build of examples" OFF)
 option(ZTD_IDK_BENCHMARKS "Enable build of benchmarks" OFF)
 option(ZTD_IDK_GENERATE_SINGLE "Enable generation of a single header and its target" OFF)
+set(ZTD_IDK_BENCHMARKS_REPETITIONS 50 CACHE STRING "Number of repetitions to perform. Each repetition has a number of iterations: higher means a lot more time is spent benchmarking.")
 
 # Modify bad flags / change defaults if we are the top level
 if (ZTD_IDK_IS_TOP_LEVEL_PROJECT)
-	if (CMAKE_SIZEOF_VOID_P EQUAL 4)
-		set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/x86/${CMAKE_BUILD_TYPE}/lib")
-		set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/x86/${CMAKE_BUILD_TYPE}/bin")
-		set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/x86/${CMAKE_BUILD_TYPE}/bin")
-	else()
-		set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/x64/${CMAKE_BUILD_TYPE}/lib")
-		set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/x64/${CMAKE_BUILD_TYPE}/bin")
-		set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/x64/${CMAKE_BUILD_TYPE}/bin")
-	endif()
+	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/lib")
+	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/bin")
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/bin")
 
 	if (NOT DEFINED CMAKE_CXX_STANDARD)
 		set(CMAKE_CXX_STANDARD 17)
@@ -114,17 +109,12 @@ if (ZTD_IDK_IS_TOP_LEVEL_PROJECT)
 		check_compiler_flag(extra-constexpr-depth MSVC /constexpr:depth2147483647 GCC -fconstexpr-depth=2147483647 CLANG -fconstexpr-depth=2147483647)
 		check_compiler_flag(extra-constexpr-steps MSVC /constexpr:steps2147483647 GCC -fconstexpr-ops-limit=2147483647 CLANG -fconstexpr-steps=2147483647)
 		check_compiler_flag(template-debugging-mode GCC -ftemplate-backtrace-limit=0)
+		check_compiler_diagnostic(microsoft-enum-value)
 	endif()
 endif()
 
 # # Main library declarations
 # ztd.version
-file(GLOB_RECURSE ztd.version.includes
-	CONFIGURE_DEPENDS
-	include/tag_invoke**.hpp
-	include/tag_invoke**.h
-)
-
 add_library(ztd.version INTERFACE)
 add_library(ztd::version ALIAS ztd.version)
 target_include_directories(ztd.version

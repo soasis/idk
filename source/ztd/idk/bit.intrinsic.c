@@ -35,6 +35,7 @@
 #include <ztd/idk/endian.h>
 #include <ztd/idk/static_assert.h>
 #include <ztd/idk/assume_aligned.hpp>
+#include <ztd/idk/detail/bit.intrinsic.impl.h>
 
 #if ZTD_IS_ON(ZTD_C_I_)
 #include <string.h>
@@ -47,14 +48,7 @@
 #endif
 
 #if ZTD_IS_ON(ZTD_BUILTIN_POPCOUNT_I_)
-#define _ZTDC_COUNT_ONES_BODY_I_(_TYPE, _VALUE)                \
-	return _Generic((_VALUE), char                            \
-	                : __builtin_popcount, unsigned char       \
-	                : __builtin_popcount, unsigned short      \
-	                : __builtin_popcount, unsigned int        \
-	                : __builtin_popcount, unsigned long       \
-	                : __builtin_popcountl, unsigned long long \
-	                : __builtin_popcountll)(_VALUE)
+#define _ZTDC_COUNT_ONES_BODY_I_(_TYPE, _VALUE) return _ZTDC_COUNT_ONES_GENERIC_I_(_VALUE)
 #else
 #define _ZTDC_COUNT_ONES_BODY_I_(_TYPE, _VALUE)                                             \
 	int __num = 0;                                                                         \

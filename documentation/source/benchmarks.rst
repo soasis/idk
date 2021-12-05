@@ -28,13 +28,17 @@
 ..
 .. =============================================================================>
 
-🔨 Benchmarks (In Progress)
-===========================
+Benchmarks
+==========
 
-.. warning::
+As benchmarks are crafted, they will be added to this repository for the relevant materials! Benchmarks are meant to explore various scenarios, and typical are used to improve the quality of code in various places where it can matter most or prove a point to those who are curious.
 
-	|unfinished_warning|
+Unless it is relevant to the benchmark, we program in the most efficient way for the given benchmark for the given tools. For example
 
-It's probably fine for now.
+Browse the categories of benchmarks:
 
-Probably!
+.. toctree::
+	:maxdepth: 1
+	:glob:
+	
+	benchmarks/*

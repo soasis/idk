@@ -32,9 +32,7 @@ release: str = '0.0.0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 #
-extensions: typing.List[str] = [
-    'breathe', 'sphinx.ext.autosectionlabel', 'myst_parser'
-]
+extensions: typing.List[str] = ['breathe', 'sphinx.ext.autosectionlabel', 'myst_parser']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path: typing.List[str] = ['_templates']
@@ -79,6 +77,8 @@ rst_prolog: str = """
 .. |unfinished_warning| replace:: 🔨 This isn't finished yet! Come check back by the next major or minor version update.
 
 .. |generic_type| replace:: ``ztd_generic_type`` is a name used as a placeholder. When it appears as a name (or within a name) or a type, it can be substituted out for another type name!
+
+.. |benchmark_warning| replace:: 🤔 This is not an exhaustive benchmark suite, nor is it representative of all machines or architectures. All numbers should be taken in the context of the reported environment and standard library below, as well as any additional caveats listed.
 """
 
 # C++ Index Configuration
@@ -120,9 +120,7 @@ def run_cmake_doxygen():
 		return
 
 	try:
-		retcode = subprocess.call("cmake --build .",
-		                          shell=True,
-		                          cwd=cmake_dir)
+		retcode = subprocess.call("cmake --build .", shell=True, cwd=cmake_dir)
 	except OSError as e:
 		sys.stderr.write("cmake generation execution failed: %s\n" % e)
 		return

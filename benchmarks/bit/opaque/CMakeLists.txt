@@ -28,28 +28,35 @@
 #
 # ============================================================================>
 
-# # Dependencies
-# google benchmark
-if (NOT TARGET benchmark)
-	FetchContent_Declare(
-		google_benchmark
-		GIT_REPOSITORY https://github.com/google/benchmark.git
-		GIT_TAG fd258bbd131552beb2483b960a5e4b69553fdacf
-	)
-	# Benchmark variables, internal setup
-	set(BENCHMARK_ENABLE_EXCEPTIONS ON)
-	set(BENCHMARK_ENABLE_TESTING OFF)
-	set(BENCHMARK_DOWNLOAD_DEPENDENCIES OFF)
-	set(BENCHMARK_ENABLE_GTEST_TESTS OFF)
-	set(BENCHMARK_ENABLE_GTEST_TESTS OFF)
-	set(BENCHMARK_ENABLE_WERROR OFF)
-	set(BENCHMARK_FORCE_WERROR OFF)
+# # Opaque Library
+file(GLOB_RECURSE ztd.idk.benchmarks.opaque.sources
+	CONFIGURE_DEPENDS
+	source/**.cpp source/**.c)
 
-	FetchContent_MakeAvailable(google_benchmark)
-endif()
-
-# # Benchmarks
-# Bit benchmarks
-add_subdirectory(bit)
-# # Benchmark Tools
-add_subdirectory(tools)
+add_library(ztd.idk.benchmarks.opaque SHARED ${ztd.idk.benchmarks.opaque.sources})
+add_library(ztd::idk::benchmarks::opaque ALIAS ztd.idk.benchmarks.opaque)
+target_include_directories(ztd.idk.benchmarks.opaque
+	PUBLIC
+	include/
+)
+target_link_libraries(ztd.idk.benchmarks.opaque PRIVATE
+	ztd::idk
+	${CMAKE_DL_LIBS}
+)
+target_compile_definitions(ztd.idk.benchmarks.opaque
+	PRIVATE
+	ZTD_OPAQUE_BUILD=1
+)
+target_compile_definitions(ztd.idk.benchmarks.opaque
+	PUBLIC
+	ZTD_OPAQUE_DLL=1
+)
+target_compile_options(ztd.idk.benchmarks.opaque PRIVATE 
+	${--utf8-literal-encoding}
+	${--utf8-source-encoding}
+	${--disable-permissive}
+	${--warn-pedantic}
+	${--warn-default}
+	${--warn-extra}
+	${--warn-errors}
+)

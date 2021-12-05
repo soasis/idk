@@ -39,6 +39,7 @@
 #include <ztd/idk/detail/bit.load_store.h>
 #include <ztd/idk/detail/bit.memreverse.h>
 #include <ztd/idk/detail/bit.intrinsic.h>
+#include <ztd/idk/detail/bit.intrinsic.generic.h>
 
 //////
 /// @addtogroup ztd_idk_bit_endian Endian Functions

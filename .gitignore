@@ -10,3 +10,4 @@ CMakeSettings.json
 
 /main.cpp
 /*.hex
+__pycache__/

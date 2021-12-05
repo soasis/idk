@@ -29,27 +29,31 @@
 # ============================================================================>
 
 # # Dependencies
-# google benchmark
-if (NOT TARGET benchmark)
-	FetchContent_Declare(
-		google_benchmark
-		GIT_REPOSITORY https://github.com/google/benchmark.git
-		GIT_TAG fd258bbd131552beb2483b960a5e4b69553fdacf
-	)
-	# Benchmark variables, internal setup
-	set(BENCHMARK_ENABLE_EXCEPTIONS ON)
-	set(BENCHMARK_ENABLE_TESTING OFF)
-	set(BENCHMARK_DOWNLOAD_DEPENDENCIES OFF)
-	set(BENCHMARK_ENABLE_GTEST_TESTS OFF)
-	set(BENCHMARK_ENABLE_GTEST_TESTS OFF)
-	set(BENCHMARK_ENABLE_WERROR OFF)
-	set(BENCHMARK_FORCE_WERROR OFF)
+# opaque library
+add_subdirectory(opaque)
 
-	FetchContent_MakeAvailable(google_benchmark)
-endif()
+# # Benchmark Executable
+file(GLOB_RECURSE ztd.idk.benchmarks.bit.sources CONFIGURE_DEPENDS source/**)
 
-# # Benchmarks
-# Bit benchmarks
-add_subdirectory(bit)
-# # Benchmark Tools
-add_subdirectory(tools)
+add_executable(ztd.idk.benchmarks.bit ${ztd.idk.benchmarks.bit.sources})
+target_include_directories(ztd.idk.benchmarks.bit PRIVATE
+	include
+)
+target_link_libraries(ztd.idk.benchmarks.bit PRIVATE
+	ztd::idk
+	ztd::idk::benchmarks::opaque
+	benchmark
+	${CMAKE_DL_LIBS}
+)
+
+target_compile_options(ztd.idk.benchmarks.bit
+	PRIVATE
+	${--utf8-literal-encoding}
+	${--utf8-source-encoding}
+	${--disable-permissive}
+	${--warn-pedantic}
+	${--warn-default}
+	${--warn-extra}
+	${--warn-errors}
+	${--allow-microsoft-enum-value}
+)
