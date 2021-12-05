@@ -57,6 +57,7 @@ There are 4 benchmarks, and about 7 kinds of categories for each. Each one repre
 - **cpp_std_vector_bool**: Using the analogous ``std::`` algorithm (such as ``std::find``) on a ``std::vector<bool>``, or one of its custom methods to perform the desired operation.
 - **cpp_std_bitset**: Using the analogous ``std::`` algorithm (such as ``std::find``) on a ``std::bitset<...>`` or one of its custom methods to perform the desired operation.
 
+Each individual bar on the bar graph includes an error bar demonstrating the standard deviation of that measurement. The transparent circles around each bar display individual samples. Each sample can have anything from ten thousand to a million iterations in it, and for these graphs there's 50 samples, resulting in anywhere from hundreds of thousands to tens of millions of iterations.
 
 
 Details
@@ -64,12 +65,19 @@ Details
 
 As of December 5th, 2021, many standard libraries (including the one tested) use 32-bit integers for their ``bitset`` and ``vector<bool>`` implementations. This means that, or many of these, we can beat out their implementations (even if they employ the exact same bit manipulation operations we do) by virtue of using larger integer types.
 
-For example, we are faster for the ``count`` operation despite Michael Schellenberg Costa optimizing MSVC's ``std::vector<bool>`` iterators in conjunction with its ``count`` operation, simply because we work on 64-bit integers (and roughly, the graph shows us as twice as fast).
+For example, we are faster for the ``count`` operation despite Michael Schellenberger Costa optimizing MSVC's ``std::vector<bool>`` iterators in conjunction with its ``count`` operation, simply because we work on 64-bit integers (and roughly, the graph shows us as twice as fast).
 
 .. note::
 
 	This is a consequence of having a permanently fixed ABI for standard library types, meaning that even if theoretically MSVC could be faster, a person can always beat out the standard library every single time **if** that standard library has long-lasting ABI compatibility requirements.
 
+
+There are further optimizations that can be done in quite a few algorithms when comparisons are involved. For example, ``std::find`` can be implemented in terms of ``memchr`` for pointers to fundamental types: this is what makes the "find" for ``cpp_std_array_bool`` so fast compared to even the bit-intrinsic-improved ``ztdc_packed``.
+
+
+.. note::
+	
+	Therefore, despite the last note, standard libraries still perform more optimizations than what a regular user or librarian can do! The Standard Library is not all depressing. 😁
 
 
 Benchmarks
