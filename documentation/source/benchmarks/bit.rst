@@ -52,7 +52,7 @@ There are 4 benchmarks, and about 7 kinds of categories for each. Each one repre
 
 - **naive**: Writing a loop over a ``std::array`` of ``bool`` objects.
 - **naive_packed**: Writing a loop over a ``std::array`` of ``std::size_t`` objects and using masking / OR / AND operations to achieve the desired effect.
-- **ztdc_packed** (this library): Writing a loop over a ``std::array`` of ``bool`` objects.
+- **ztdc_packed** (this library): Writing a loop over a ``std::array`` of ``std::size_t`` objects and using bit operations to search for the bit.
 - **cpp_std_array_bool**: Using the analogous ``std::`` algorithm (such as ``std::find``) on a ``std::array`` of ``bool`` objects.
 - **cpp_std_vector_bool**: Using the analogous ``std::`` algorithm (such as ``std::find``) on a ``std::vector<bool>``, or one of its custom methods to perform the desired operation.
 - **cpp_std_bitset**: Using the analogous ``std::`` algorithm (such as ``std::find``) on a ``std::bitset<...>`` or one of its custom methods to perform the desired operation.
