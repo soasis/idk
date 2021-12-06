@@ -57,7 +57,7 @@ There are 4 benchmarks, and about 7 kinds of categories for each. Each one repre
 - **cpp_std_vector_bool**: Using the analogous ``std::`` algorithm (such as ``std::find``) on a ``std::vector<bool>``, or one of its custom methods to perform the desired operation.
 - **cpp_std_bitset**: Using the analogous ``std::`` algorithm (such as ``std::find``) on a ``std::bitset<...>`` or one of its custom methods to perform the desired operation.
 
-Each individual bar on the bar graph includes an error bar demonstrating the standard deviation of that measurement. The transparent circles around each bar display individual samples. Each sample can have anything from ten thousand to a million iterations in it, and for these graphs there's 50 samples, resulting in anywhere from hundreds of thousands to tens of millions of iterations.
+Each individual bar on the graph includes an error bar demonstrating the standard deviation of that measurement. The transparent circles around each bar display individual samples, so the spread can be accurately seen. Each sample can have anything from ten thousand to a million iterations in it, and for these graphs there's 50 samples, resulting in anywhere from hundreds of thousands to tens of millions of iterations.
 
 
 Details
