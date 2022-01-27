@@ -50,7 +50,8 @@ def draw_graph(benchmark: visualize.benchmark):
 	 ('#f5f5f5', '..'),
 	 ('#1f78b4', '||'),
 	 ('#b2df8a', '**'),
-	 ('#cc33cc', '--')
+	 ('#cc33cc', '--'),
+	 ('#eeeeee', None)
 	]
 	#yapf: enable
 
