@@ -49,7 +49,8 @@
 namespace ztd { namespace tests {
 
 	inline constexpr bool wide_is_utf32
-		= ::ztd::is_encoding_name_equal(ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_(), "UTF-32");
+		= ::ztd::is_encoding_name_equal(ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_(), "UTF-32")
+		|| ::ztd::is_encoding_name_equal(ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_(), "UTF-32LE");
 	inline constexpr bool wide_is_utf16
 		= ::ztd::is_encoding_name_equal(ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_(), "UTF-16");
 	inline constexpr bool wide_is_utf8
