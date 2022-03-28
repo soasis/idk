@@ -48,13 +48,12 @@
 
 namespace ztd { namespace tests {
 
-	inline constexpr bool wide_is_utf32
-		= ::ztd::is_encoding_name_equal(ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_(), "UTF-32")
-		|| ::ztd::is_encoding_name_equal(ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_(), "UTF-32LE");
-	inline constexpr bool wide_is_utf16
-		= ::ztd::is_encoding_name_equal(ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_(), "UTF-16");
-	inline constexpr bool wide_is_utf8
-		= ::ztd::is_encoding_name_equal(ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_(), "UTF-8");
+	inline constexpr ::ztd::__idk_detail::__encoding_id wide_enocding
+		= ::ztd::__idk_detail::__to_normalized_unicode_encoding_idl(ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_());
+
+	inline constexpr bool wide_is_utf32 = wide_enocding == ::ztd::__idk_detail::__encoding_id::__utf32;
+	inline constexpr bool wide_is_utf16 = wide_enocding == ::ztd::__idk_detail::__encoding_id::__utf16;
+	inline constexpr bool wide_is_utf8  = wide_enocding == ::ztd::__idk_detail::__encoding_id::__utf8;
 
 	template <typename Container>
 	inline ::ztd::span<const std::byte> range_to_bytes(Container& c) {
