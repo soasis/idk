@@ -49,7 +49,7 @@
 namespace ztd { namespace tests {
 
 	inline constexpr ::ztd::__idk_detail::__encoding_id wide_enocding
-		= ::ztd::__idk_detail::__to_normalized_unicode_encoding_idl(ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_());
+		= ::ztd::__idk_detail::__to_normalized_unicode_encoding_id(ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_());
 
 	inline constexpr bool wide_is_utf32 = wide_enocding == ::ztd::__idk_detail::__encoding_id::__utf32;
 	inline constexpr bool wide_is_utf16 = wide_enocding == ::ztd::__idk_detail::__encoding_id::__utf16;
