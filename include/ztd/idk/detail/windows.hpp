@@ -52,7 +52,6 @@
 #include <ciso646>
 #include <cwchar>
 #include <locale>
-#else
 #endif
 
 ZTD_EXTERN_C_OPEN_I_
@@ -63,14 +62,10 @@ ZTD_EXTERN_C_CLOSE_I_
 #include <ztd/prologue.hpp>
 
 #if !defined(_KERNELX) && !defined(_ONECORE)
-#if defined(WINAPI_FAMILY_PARTITION) && defined(WINAPI_FAMILY_DESKTOP_APP)
-#if WINAPI_FAMILY_PARTITION(WINAPI_FAMILY_DESKTOP_APP)
+#if defined(WINAPI_FAMILY) || defined(WINAPI_FAMILY_APP)
+#define ZTD_FILEAPISAREANSI_I_ ZTD_OFF
+#else
 #define ZTD_FILEAPISAREANSI_I_ ZTD_ON
-#else
-#define ZTD_FILEAPISAREANSI_I_ ZTD_OFF
-#endif
-#else
-#define ZTD_FILEAPISAREANSI_I_ ZTD_OFF
 #endif
 #else
 #define ZTD_FILEAPISAREANSI_I_ ZTD_OFF
