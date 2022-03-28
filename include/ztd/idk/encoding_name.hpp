@@ -302,32 +302,19 @@ namespace ztd {
 		}
 
 		inline constexpr __encoding_id __to_normalized_unicode_encoding_id(::std::string_view __name) {
-			if (::ztd::is_encoding_name_equal(__name, "UTF-8")) {
+			const __encoding_id __id = __to_encoding_id(__name);
+			switch (__id) {
+			case __encoding_id::__utf8:
 				return __encoding_id::__utf8;
-			}
-			else if (::ztd::is_encoding_name_equal(__name, "UTF-16")
-			     || ::ztd::is_encoding_name_equal(__name, "UCS-2-INTERNAL")
-			     || ::ztd::is_encoding_name_equal(__name, "UCS-2")
-			     || ::ztd::is_encoding_name_equal(__name, "UTF-16LE")
-			     || ::ztd::is_encoding_name_equal(__name, "UCS-2LE-INTERNAL")
-			     || ::ztd::is_encoding_name_equal(__name, "UCS-2LE")
-			     || ::ztd::is_encoding_name_equal(__name, "UTF-16BE")
-			     || ::ztd::is_encoding_name_equal(__name, "UCS-2BE-INTERNAL")
-			     || ::ztd::is_encoding_name_equal(__name, "UCS-2BE")) {
+			case __encoding_id::__utf16:
+			case __encoding_id::__utf16le:
+			case __encoding_id::__utf16be:
 				return __encoding_id::__utf16;
-			}
-			else if (::ztd::is_encoding_name_equal(__name, "UTF-32")
-			     || ::ztd::is_encoding_name_equal(__name, "UCS-4-INTERNAL")
-			     || ::ztd::is_encoding_name_equal(__name, "UCS-4")
-			     || ::ztd::is_encoding_name_equal(__name, "UTF-32LE")
-			     || ::ztd::is_encoding_name_equal(__name, "UCS-4LE-INTERNAL")
-			     || ::ztd::is_encoding_name_equal(__name, "UCS-4LE")
-			     || ::ztd::is_encoding_name_equal(__name, "UTF-32BE")
-			     || ::ztd::is_encoding_name_equal(__name, "UCS-4BE-INTERNAL")
-			     || ::ztd::is_encoding_name_equal(__name, "UCS-4BE")) {
+			case __encoding_id::__utf32:
+			case __encoding_id::__utf32le:
+			case __encoding_id::__utf32be:
 				return __encoding_id::__utf32;
-			}
-			else {
+			default:
 				return __encoding_id::__unknown;
 			}
 		}

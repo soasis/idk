@@ -58,8 +58,23 @@
 ZTD_EXTERN_C_OPEN_I_
 #include <Windows.h>
 ZTD_EXTERN_C_CLOSE_I_
+#include <winapifamily.h>
 
 #include <ztd/prologue.hpp>
+
+#if !defined(_KERNELX) && !defined(_ONECORE)
+#if defined(WINAPI_FAMILY_PARTITION) && defined(WINAPI_FAMILY_DESKTOP_APP)
+#if WINAPI_FAMILY_PARTITION(WINAPI_FAMILY_DESKTOP_APP)
+#define ZTD_FILEAPISAREANSI_I_ ZTD_ON
+#else
+#define ZTD_FILEAPISAREANSI_I_ ZTD_OFF
+#endif
+#else
+#define ZTD_FILEAPISAREANSI_I_ ZTD_OFF
+#endif
+#else
+#define ZTD_FILEAPISAREANSI_I_ ZTD_OFF
+#endif
 
 namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
@@ -73,7 +88,7 @@ namespace ztd {
 			}
 #endif // VC++ stuff
 
-#if !defined(_KERNELX) && !defined(_ONECORE)
+#if ZTD_IS_ON(ZTD_FILEAPISAREANSI_I_)
 			if (!::AreFileApisANSI()) {
 				return CP_OEMCP;
 			}

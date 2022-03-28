@@ -34,7 +34,7 @@ if (NOT TARGET benchmark)
 	FetchContent_Declare(
 		google_benchmark
 		GIT_REPOSITORY https://github.com/google/benchmark.git
-		GIT_TAG fd258bbd131552beb2483b960a5e4b69553fdacf
+		GIT_TAG main
 	)
 	# Benchmark variables, internal setup
 	set(BENCHMARK_ENABLE_EXCEPTIONS ON)
