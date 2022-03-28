@@ -1,6 +1,6 @@
 name: Ubuntu
 
-on: [push]
+on: [push, pull_request]
 
 env:
   CTEST_OUTPUT_ON_FAILURE: 1
@@ -9,12 +9,12 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v2
       with:
         submodules: recursive
-    
+
     - name: configure
       run: |
         cmake -B build/debug   -D ZTD_IDK_TESTS=ON -D ZTD_IDK_EXAMPLES=ON -D ZTD_IDK_GENERATE_SINGLE=ON
