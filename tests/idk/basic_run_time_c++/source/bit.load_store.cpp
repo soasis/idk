@@ -32,7 +32,7 @@
 #include <ztd/idk/endian.h>
 #include <ztd/idk/type_traits.hpp>
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 
 #include <cstring>
 

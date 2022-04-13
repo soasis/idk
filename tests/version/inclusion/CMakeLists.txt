@@ -29,16 +29,16 @@
 # ============================================================================>
 
 # # Tests
-file(GLOB_RECURSE ztd.version.tests.inclusion.sources
+file(GLOB_RECURSE ztd.idk.version.tests.inclusion.sources
 	LIST_DIRECTORIES FALSE
 	CONFIGURE_DEPENDS
 	source/*.cpp)
 
-add_executable(ztd.version.tests.inclusion ${ztd.version.tests.inclusion.sources})
-target_include_directories(ztd.version.tests.inclusion
+add_executable(ztd.idk.version.tests.inclusion ${ztd.idk.version.tests.inclusion.sources})
+target_include_directories(ztd.idk.version.tests.inclusion
 	PRIVATE
 	../../shared/include)
-target_compile_options(ztd.version.tests.inclusion
+target_compile_options(ztd.idk.version.tests.inclusion
 	PRIVATE
 	${--utf8-literal-encoding}
 	${--utf8-source-encoding}
@@ -47,10 +47,10 @@ target_compile_options(ztd.version.tests.inclusion
 	${--warn-default}
 	${--warn-extra}
 	${--warn-errors})
-target_link_libraries(ztd.version.tests.inclusion
+target_link_libraries(ztd.idk.version.tests.inclusion
 	PRIVATE
 	ztd::version
 	Catch2::Catch2
 	${CMAKE_DL_LIBS}
 )
-add_test(NAME ztd.version.tests.inclusion COMMAND ztd.version.tests.inclusion)
+add_test(NAME ztd.idk.version.tests.inclusion COMMAND ztd.idk.version.tests.inclusion)

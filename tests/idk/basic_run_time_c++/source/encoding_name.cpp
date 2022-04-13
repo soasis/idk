@@ -30,7 +30,7 @@
 
 #include <ztd/idk/encoding_name.hpp>
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 
 TEST_CASE("text/is_unicode_encoding_name", "Ensure that basic usages of the is_unicode_encoding_name predicate work") {
 	static_assert(ztd::is_unicode_encoding_name("UTF-8"));

@@ -35,6 +35,8 @@
 
 #include <ztd/idk/version.hpp>
 
+#include <ztd/ranges/adl.hpp>
+
 #include <type_traits>
 
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_SPAN_I_)
@@ -82,15 +84,24 @@ namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd
 
-#if (ZTD_IS_ON(ZTD_LIBSTDCXX_I_) && ZTD_IS_ON(ZTD_STD_LIBRARY_CONCEPTS_I_)) \
-     || (ZTD_IS_ON(ZTD_LIBVCXX_I_) && ZTD_IS_ON(ZTD_STD_LIBRARY_CONCEPTS_I_)) || ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES_I_)
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_BORROWED_RANGE_I_)
 
 namespace std {
 
-	template <typename _Ty, decltype(ztd::ranges::dynamic_extent) _Sen>
+	template <typename _Ty, decltype(::ztd::dynamic_extent) _Extent>
 	inline constexpr bool enable_borrowed_range<::ztd::span<_Ty, _Extent>> = true;
 
 } // namespace std
+
+#else
+
+namespace ztd { namespace ranges {
+
+	template <typename _Ty, decltype(::ztd::dynamic_extent) _Extent>
+	inline constexpr bool enable_borrowed_range<::ztd::span<_Ty, _Extent>> = true;
+
+}} // namespace ztd::ranges
+
 #endif
 
 #endif

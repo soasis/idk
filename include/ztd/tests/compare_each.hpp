@@ -33,7 +33,7 @@
 #ifndef ZTD_IDK_TESTS_RESULT_COMPARE_HPP
 #define ZTD_IDK_TESTS_RESULT_COMPARE_HPP
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 
 namespace ztd { namespace tests {
 

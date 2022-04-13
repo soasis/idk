@@ -30,7 +30,7 @@
 
 #include <ztd/idk/bit.h>
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 
 #include <limits>
 #include <cstring>

@@ -28,17 +28,6 @@
 #
 # ============================================================================>
 
-# # Fetch dependencies
-# Catch2
-if (NOT TARGET Catch2::Catch2)
-	FetchContent_Declare(
-		catch2
-		GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-		GIT_TAG        v2.13.4
-	)
-	FetchContent_MakeAvailable(catch2)
-endif()
-
 # # Test Subdirectories
 add_subdirectory(inclusion)
 add_subdirectory(basic_run_time_c++)

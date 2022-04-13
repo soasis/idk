@@ -29,13 +29,13 @@
 # ============================================================================>
 
 # # Tests
-file(GLOB_RECURSE ztd.tag_invoke.tests.inclusion.sources
+file(GLOB_RECURSE ztd.idk.tag_invoke.tests.inclusion.sources
 	LIST_DIRECTORIES FALSE
 	CONFIGURE_DEPENDS
 	source/*.cpp)
 
-add_executable(ztd.tag_invoke.tests.inclusion ${ztd.tag_invoke.tests.inclusion.sources})
-target_compile_options(ztd.tag_invoke.tests.inclusion
+add_executable(ztd.idk.tag_invoke.tests.inclusion ${ztd.idk.tag_invoke.tests.inclusion.sources})
+target_compile_options(ztd.idk.tag_invoke.tests.inclusion
 	PRIVATE
 	${--utf8-literal-encoding}
 	${--utf8-source-encoding}
@@ -44,10 +44,10 @@ target_compile_options(ztd.tag_invoke.tests.inclusion
 	${--warn-default}
 	${--warn-extra}
 	${--warn-errors})
-target_link_libraries(ztd.tag_invoke.tests.inclusion
+target_link_libraries(ztd.idk.tag_invoke.tests.inclusion
 	PRIVATE
 	ztd::tag_invoke
 	Catch2::Catch2
 	${CMAKE_DL_LIBS}
 )
-add_test(NAME ztd.tag_invoke.tests.inclusion COMMAND ztd.tag_invoke.tests.inclusion)
+add_test(NAME ztd.idk.tag_invoke.tests.inclusion COMMAND ztd.idk.tag_invoke.tests.inclusion)

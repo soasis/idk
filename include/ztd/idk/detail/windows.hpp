@@ -37,10 +37,13 @@
 
 #if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
 
-#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_)
+#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_) || ZTD_IS_ON(ZTD_COMPILER_GCC_I_)
 #pragma push_macro("NOMINMAX")
 #pragma push_macro("WIN32_LEAN_AND_MEAN")
 #pragma push_macro("VC_EXTRALEAN")
+#undef NOMINMAX
+#undef WIN32_LEAN_AND_MEAN
+#undef VC_EXTRALEAN
 #endif
 
 #define NOMINMAX 1
