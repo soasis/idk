@@ -32,6 +32,11 @@
 #include <catch2/catch_all.hpp>
 
 int main(int argc, char* argv[]) {
+	std::cout << "=== Encoding Names ===" << std::endl;
+	std::cout << "Literal Encoding: " << ztd::literal_encoding_name() << std::endl;
+	std::cout << "Wide Literal Encoding: " << ztd::wide_literal_encoding_name() << std::endl;
+	std::cout << "Execution Encoding: " << ztd::execution_encoding_name() << std::endl;
+	std::cout << "Wide Execution Encoding: " << ztd::wide_execution_encoding_name() << std::endl;
 	int result = Catch::Session().run(argc, argv);
 	return result;
 }

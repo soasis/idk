@@ -162,6 +162,20 @@ ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_execution_
 	return __adjusted_ctype_name.data();
 }
 
+ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_wide_execution_encoding_name(
+     void) ZTD_NOEXCEPT_IF_CXX_I_ {
+#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
+	return "UTF-16";
+#elif ZTD_IS_ON(ZTD_WCHAR_T_UTF16_COMPATIBLE_I_)
+	return "UTF-16"
+#elif ZTD_IS_ON(ZTD_WCHAR_T_UTF32_COMPATIBLE_I_)
+	return "UTF-32";
+#elif ZTD_IS_ON(ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_)
+	// TODO: implement!
+	return "Unknown";
+#endif
+}
+
 ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_literal_execution_encoding_name(
      void) ZTD_NOEXCEPT_IF_CXX_I_ {
 	return ZTD_COMPILE_TIME_ENCODING_NAME_GET_I_();
