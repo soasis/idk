@@ -31,6 +31,10 @@
 #define CATCH_CONFIG_RUNNER
 #include <catch2/catch_all.hpp>
 
+#include <ztd/idk/encoding_detection.hpp>
+
+#include <iostream>
+
 int main(int argc, char* argv[]) {
 	std::cout << "=== Encoding Names ===" << std::endl;
 	std::cout << "Literal Encoding: " << ztd::literal_encoding_name() << std::endl;
