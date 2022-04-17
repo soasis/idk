@@ -28,4 +28,4 @@
 //
 // ============================================================================>
 
-#include <ztd/idk/encoding_detection.h>
+#include <ztd/idk/encoding_detection.hpp>

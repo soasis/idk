@@ -108,7 +108,7 @@ TEST_CASE("text/is_unicode_encoding_name", "Ensure that basic usages of the is_u
 	REQUIRE(!ztd::is_unicode_encoding_name("UTF69"));
 }
 
-TEST_CASE("text/is)encoding_name_equals", "Ensure that basic usages of the encoding_name comparison works") {
+TEST_CASE("text/is_encoding_name_equals", "Ensure that basic usages of the encoding_name comparison works") {
 	static_assert(ztd::is_encoding_name_equal("UTF-8", "UTF-8"));
 	static_assert(ztd::is_encoding_name_equal("UTF-16", "UTF-16"));
 	static_assert(ztd::is_encoding_name_equal("UTF-32", "UTF-32"));

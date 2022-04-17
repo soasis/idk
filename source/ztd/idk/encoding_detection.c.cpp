@@ -136,40 +136,6 @@ ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution
 #endif
 }
 
-ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding_unicode(
-     void) ZTD_NOEXCEPT_IF_CXX_I_ {
-#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
-	int __codepage_id = ::ztd::__idk_detail::__windows::__determine_active_code_page();
-	return ::ztd::__idk_detail::__windows::__is_unicode_code_page(__codepage_id);
-#else
-#if ZTD_IS_ON(ZTD_NL_LANGINFO_I_) || ZTD_IS_ON(ZTD_LANGINFO_I_)
-	const char* __ctype_name = nl_langinfo(CODESET);
-#else
-	const char* __ctype_name = setlocale(LC_CTYPE, nullptr);
-#endif
-	::std::string_view __adjusted_ctype_name(__ctype_name);
-	::std::size_t __index = __adjusted_ctype_name.find_first_of(".");
-	if (__index != ::std::string_view::npos) {
-		__adjusted_ctype_name = __adjusted_ctype_name.substr(__index);
-	}
-	return ::ztd::is_unicode_encoding_name(__adjusted_ctype_name);
-#endif
-}
-
-ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_unicode(
-     void) ZTD_NOEXCEPT_IF_CXX_I_ {
-#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
-	return true;
-#elif ZTD_IS_ON(ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_)
-	// TODO: implement!
-	return false;
-#elif ZTD_IS_ON(ZTD_WCHAR_T_UTF16_COMPATIBLE_I_) || ZTD_IS_ON(ZTD_WCHAR_T_UTF32_COMPATIBLE_I_)
-	return true;
-#else
-	return false;
-#endif
-}
-
 ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_execution_encoding_name(
      void) ZTD_NOEXCEPT_IF_CXX_I_ {
 #if ZTD_IS_ON(ZTD_LIBVCXX_I_)
