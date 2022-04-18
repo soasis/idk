@@ -170,7 +170,7 @@ ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_wide_execu
 	return "UTF-16"
 #elif ZTD_IS_ON(ZTD_WCHAR_T_UTF32_COMPATIBLE_I_)
 	return "UTF-32";
-#elif ZTD_IS_ON(ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_)
+#else
 	// TODO: implement!
 	return "Unknown";
 #endif

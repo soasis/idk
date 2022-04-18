@@ -35,27 +35,10 @@
 
 #include <ztd/idk/version.h>
 
-#if ZTD_IS_ON(ZTD_CXX_I_)
-#include <clocale>
-#else
-#include <locale.h>
+#if ZTD_IS_ON(ZTD_C_I_)
+#include <stdbool.h>
 #endif
 
-ZTD_EXTERN_C_OPEN_I_
-
-extern "C" inline int ztd_idk_attempt_utf8_locale(void) {
-	char* __result;
-	__result = std::setlocale(LC_ALL, ".65001");
-	if (__result != nullptr) {
-		return 1;
-	}
-	__result = std::setlocale(LC_ALL, "en_US.utf8");
-	if (__result != nullptr) {
-		return 1;
-	}
-	return 0;
-}
-
-ZTD_EXTERN_C_CLOSE_I_
+ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztd_idk_attempt_utf8_locale(void);
 
 #endif // ZTD_IDK_UTF8_LOCALE_H
