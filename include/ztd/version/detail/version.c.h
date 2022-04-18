@@ -340,6 +340,20 @@
 	#define ZTD_DEBUG_I_ ZTD_DEFAULT_OFF
 #endif // We are in a debug mode of some sort
 
+#if defined(ZTD_NL_LANGINFO)
+	#if (ZTD_NL_LANGINFO != 0)
+		#define ZTD_NL_LANGINFO_I_ ZTD_ON
+	#else
+		#define ZTD_NL_LANGINFO_I_ ZTD_OFF
+	#endif
+#else
+	#if ZTD_HAS_INCLUDE_I_(<nl_langinfo.h>)
+		#define ZTD_NL_LANGINFO_I_ ZTD_ON
+	#else
+		#define ZTD_NL_LANGINFO_I_ ZTD_DEFAULT_OFF
+	#endif
+#endif // nl_langinfo POSIX
+
 #if defined(ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION)
 	#if (ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION != 0)
 		#define ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_ ZTD_ON
@@ -518,20 +532,6 @@
 		#define ZTD_LANGINFO_I_ ZTD_DEFAULT_OFF
 	#endif
 #endif // langinfo POSIX
-
-#if defined(ZTD_NL_LANGINFO)
-	#if (ZTD_NL_LANGINFO != 0)
-		#define ZTD_NL_LANGINFO_I_ ZTD_ON
-	#else
-		#define ZTD_NL_LANGINFO_I_ ZTD_OFF
-	#endif
-#else
-	#if ZTD_HAS_INCLUDE_I_(<nl_langinfo.h>)
-		#define ZTD_NL_LANGINFO_I_ ZTD_ON
-	#else
-		#define ZTD_NL_LANGINFO_I_ ZTD_DEFAULT_OFF
-	#endif
-#endif // nl_langinfo POSIX
 
 #if (ZTD_HAS_ATTRIBUTE_I_(nodiscard) != 0L)
 	#if ZTD_IS_ON(ZTD_CXX_I_)
