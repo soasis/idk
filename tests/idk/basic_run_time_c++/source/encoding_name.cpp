@@ -118,6 +118,11 @@ TEST_CASE("text/is_encoding_name_equals", "Ensure that basic usages of the encod
 	static_assert(ztd::is_encoding_name_equal("utf8", "utf8"));
 	static_assert(ztd::is_encoding_name_equal("utf16", "utf16"));
 	static_assert(ztd::is_encoding_name_equal("utf32", "utf32"));
+	static_assert(ztd::is_encoding_name_equal("utf--ebcdic", "utf\t\t\t\n\r\n\r\nebcdic"));
+	static_assert(ztd::is_encoding_name_equal("GB18030", "gb18030"));
+	static_assert(ztd::is_encoding_name_equal("GB18_0-30", "g    B     18  ____0 30"));
+	static_assert(ztd::is_encoding_name_equal("CESU-8", "cesu8"));
+	static_assert(ztd::is_encoding_name_equal("UTF-1", "UTF---------1"));
 
 	static_assert(!ztd::is_encoding_name_equal("xD", "UTF-8"));
 	static_assert(!ztd::is_encoding_name_equal("UTF-16", "UTF-16meow"));
