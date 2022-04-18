@@ -30,6 +30,8 @@
 
 #include <ztd/idk/utf8_locale.h>
 
+#include <ztd/idk/size.h>
+
 #if ZTD_IS_ON(ZTD_CXX_I_)
 #include <clocale>
 #else
@@ -38,65 +40,48 @@
 #endif
 
 ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztd_idk_attempt_utf8_locale(void) {
-	char* __result;
-	__result = std::setlocale(LC_ALL, ".65001");
-	if (__result != nullptr) {
-		return true;
-	}
-	__result = std::setlocale(LC_CTYPE, "65001");
-	if (__result != nullptr) {
-		return true;
-	}
-
-	__result = std::setlocale(LC_CTYPE, "utf8");
-	if (__result != nullptr) {
-		return true;
-	}
-	__result = std::setlocale(LC_CTYPE, "UTF8");
-	if (__result != nullptr) {
-		return true;
-	}
-	__result = std::setlocale(LC_CTYPE, "utf-8");
-	if (__result != nullptr) {
-		return true;
-	}
-	__result = std::setlocale(LC_CTYPE, "UTF-8");
-	if (__result != nullptr) {
-		return true;
-	}
-
-	__result = std::setlocale(LC_ALL, "C.utf8");
-	if (__result != nullptr) {
-		return true;
-	}
-	__result = std::setlocale(LC_ALL, "C.UTF8");
-	if (__result != nullptr) {
-		return true;
-	}
-	__result = std::setlocale(LC_ALL, "C.utf-8");
-	if (__result != nullptr) {
-		return true;
-	}
-	__result = std::setlocale(LC_ALL, "C.UTF-8");
-	if (__result != nullptr) {
-		return true;
-	}
-
-	__result = std::setlocale(LC_ALL, "en_US.utf8");
-	if (__result != nullptr) {
-		return true;
-	}
-	__result = std::setlocale(LC_ALL, "en_US.UTF8");
-	if (__result != nullptr) {
-		return true;
-	}
-	__result = std::setlocale(LC_ALL, "en_US.utf-8");
-	if (__result != nullptr) {
-		return true;
-	}
-	__result = std::setlocale(LC_ALL, "en_US.UTF-8");
-	if (__result != nullptr) {
-		return true;
+	typedef struct category_locale_attempt {
+		int category;
+		const char* specifier;
+	} category_locale_attempt;
+	const category_locale_attempt __attempts[] = {
+	// Specifiers from Windows Codepage stuff
+#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
+		{ LC_ALL, ".65001" },
+		{ LC_CTYPE, "65001" },
+#endif
+		{ LC_CTYPE, "utf8" },
+		{ LC_CTYPE, "Utf8" },
+		{ LC_CTYPE, "UTF8" },
+		{ LC_CTYPE, "utf-8" },
+		{ LC_CTYPE, "Utf-8" },
+		{ LC_CTYPE, "UTF-8" },
+		// okay, now we're just trying WHATEVER we possibly can. this can break downstream software, which is why this
+		// is ONLY used in tests, and not beyond that.
+		{ LC_ALL, "C.utf8" },
+		{ LC_ALL, "C.Utf8" },
+		{ LC_ALL, "C.UTF8" },
+		{ LC_ALL, "C-utf8" },
+		{ LC_ALL, "C-Utf8" },
+		{ LC_ALL, "C-UTF8" },
+		{ LC_ALL, "en_US.utf8" },
+		{ LC_ALL, "en_US.Utf8" },
+		{ LC_ALL, "en_US.UTF8" },
+		{ LC_ALL, "en_US-utf8" },
+		{ LC_ALL, "en_US-Utf8" },
+		{ LC_ALL, "en_US-UTF8" },
+		{ LC_ALL, "US.utf8" },
+		{ LC_ALL, "US.Utf8" },
+		{ LC_ALL, "US.UTF8" },
+		{ LC_ALL, "US-utf8" },
+		{ LC_ALL, "US-Utf8" },
+		{ LC_ALL, "US-UTF8" },
+	};
+	for (std::size_t __i = 0; __i < ztd_c_array_size(__attempts); ++__i) {
+		char* __result = std::setlocale(__attempts[__i].category, __attempts[__i].specifier);
+		if (__result != nullptr) {
+			return true;
+		}
 	}
 
 	return false;
