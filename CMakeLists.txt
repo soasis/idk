@@ -200,7 +200,7 @@ target_link_libraries(ztd.idk
 		ztd::version
 		ztd::tag_invoke
 )
-if (ZTD_IDK_IS_TOP_LEVEL_PROJECT) 
+if (ZTD_IDK_IS_TOP_LEVEL_PROJECT)
 	target_compile_options(ztd.idk
 		PRIVATE
 			${--utf8-literal-encoding}
@@ -230,6 +230,11 @@ write_basic_package_version_file(
 export(TARGETS ztd.idk
 	FILE
 	"${CMAKE_CURRENT_BINARY_DIR}/cmake/ztd.idk/ztd.idk-targets.cmake"
+)
+
+install(
+	DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/cmake"
+	TYPE DATA
 )
 
 if (ZTD_IDK_GENERATE_SINGLE)
