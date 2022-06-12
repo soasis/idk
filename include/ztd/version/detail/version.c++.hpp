@@ -84,6 +84,20 @@
 	#define ZTD_STD_DESIGNATED_INITIALIZERS_I_ ZTD_DEFAULT_OFF
 #endif
 
+
+
+#if defined(ZTD_STD_SPACESHIP_COMPARE)
+	#if (ZTD_STD_SPACESHIP_COMPARE != 0)
+		#define ZTD_STD_SPACESHIP_COMPARE_I_ ZTD_ON
+	#else
+		#define ZTD_STD_SPACESHIP_COMPARE_I_ ZTD_OFF
+	#endif
+#elif defined(__cpp_impl_three_way_comparison)
+	#define ZTD_STD_SPACESHIP_COMPARE_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_STD_SPACESHIP_COMPARE_I_ ZTD_DEFAULT_OFF
+#endif
+
 #if defined(ZTD_STD_TEXT_ENCODING_ID)
 	#if (ZTD_STD_TEXT_ENCODING_ID != 0)
 		#define ZTD_STD_TEXT_ENCODING_ID_I_ ZTD_ON
