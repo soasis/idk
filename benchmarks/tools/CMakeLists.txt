@@ -1,7 +1,7 @@
 # =============================================================================
 #
 # ztd.idk
-# Copyright © 2021 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
+# Copyright © 2022 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
 # Contact: opensource@soasis.org
 #
 # Commercial License Usage
@@ -86,4 +86,3 @@ endif()
 function (make_benchmark_targets)
 
 endfunction()
-
