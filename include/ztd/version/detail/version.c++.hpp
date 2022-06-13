@@ -1,7 +1,7 @@
 // =============================================================================
 //
 // ztd.idk
-// Copyright © 2021 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
+// Copyright © 2022 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
 // Contact: opensource@soasis.org
 //
 // Commercial License Usage
@@ -26,7 +26,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-// ============================================================================>
+// ============================================================================ //
 
 #pragma once
 
@@ -82,6 +82,20 @@
 	#define ZTD_STD_DESIGNATED_INITIALIZERS_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_STD_DESIGNATED_INITIALIZERS_I_ ZTD_DEFAULT_OFF
+#endif
+
+
+
+#if defined(ZTD_STD_SPACESHIP_COMPARE)
+	#if (ZTD_STD_SPACESHIP_COMPARE != 0)
+		#define ZTD_STD_SPACESHIP_COMPARE_I_ ZTD_ON
+	#else
+		#define ZTD_STD_SPACESHIP_COMPARE_I_ ZTD_OFF
+	#endif
+#elif defined(__cpp_impl_three_way_comparison)
+	#define ZTD_STD_SPACESHIP_COMPARE_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_STD_SPACESHIP_COMPARE_I_ ZTD_DEFAULT_OFF
 #endif
 
 #if defined(ZTD_STD_TEXT_ENCODING_ID)

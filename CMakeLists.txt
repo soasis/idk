@@ -1,7 +1,7 @@
 # =============================================================================
 #
 # ztd.idk
-# Copyright © 2021 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
+# Copyright © 2022 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
 # Contact: opensource@soasis.org
 #
 # Commercial License Usage
@@ -103,11 +103,11 @@ if (ZTD_IDK_IS_TOP_LEVEL_PROJECT)
 		check_compiler_flag(warn-pedantic MSVC /permissive- GCC -pedantic)
 		check_compiler_flag(warn-all MSVC /W4 GCC -Wall)
 		check_compiler_flag(warn-errors MSVC /WX GCC -Werror)
-		check_compiler_flag(warn-extra CLANG -Wextra)
+		check_compiler_flag(warn-extra GCC -Wextra Clang -Wextra)
 		check_compiler_flag(utf8-literal-encoding MSVC /execution-charset:utf-8 GCC -fexec-charset=utf-8)
 		check_compiler_flag(utf8-source-encoding MSVC /source-charset:utf-8 GCC -finput-charset=utf-8)
-		check_compiler_flag(extra-constexpr-depth MSVC /constexpr:depth2147483647 GCC -fconstexpr-depth=2147483647 CLANG -fconstexpr-depth=2147483647)
-		check_compiler_flag(extra-constexpr-steps MSVC /constexpr:steps2147483647 GCC -fconstexpr-ops-limit=2147483647 CLANG -fconstexpr-steps=2147483647)
+		check_compiler_flag(extra-constexpr-depth MSVC /constexpr:depth2147483647 GCC -fconstexpr-depth=2147483647 Clang -fconstexpr-depth=2147483647)
+		check_compiler_flag(extra-constexpr-steps MSVC /constexpr:steps2147483647 GCC -fconstexpr-ops-limit=2147483647 Clang -fconstexpr-steps=2147483647)
 		check_compiler_flag(template-debugging-mode GCC -ftemplate-backtrace-limit=0)
 		check_compiler_diagnostic(microsoft-enum-value)
 	endif()
@@ -123,7 +123,8 @@ target_include_directories(ztd.version
 		$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 install(DIRECTORY include/
-	DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+	DESTINATION
+		${CMAKE_INSTALL_INCLUDEDIR}
 )
 
 configure_package_config_file(
@@ -199,6 +200,15 @@ target_link_libraries(ztd.idk
 	PUBLIC
 		ztd::version
 		ztd::tag_invoke
+)
+target_compile_definitions(ztd.idk
+	PRIVATE
+		$<$<STREQUAL:$<TARGET_PROPERTY:ztd.idk,TYPE>,SHARED_LIBRARY>:ZTD_DLL=1>
+	PUBLIC
+		ZTD_BUILD=1
+		ZTD_HEADER_ONLY=0 # TODO: the build is not header-only anymore
+		ZTD_INLINE_BUILD=0 # TODO: the settings for inline
+		                   # build have not been implemented yet
 )
 if (ZTD_IDK_IS_TOP_LEVEL_PROJECT)
 	target_compile_options(ztd.idk

@@ -19,7 +19,7 @@ import typing
 # -- Project information -----------------------------------------------------
 
 project: str = 'ztd.idk'
-copyright: str = "2021, ThePhD & Shepherd's Oasis, LLC"
+copyright: str = "2022, ThePhD & Shepherd's Oasis, LLC"
 author: str = "ThePhD & Shepherd's Oasis, LLC"
 
 # The full version, including alpha/beta/rc tags
