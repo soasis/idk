@@ -49,6 +49,14 @@ namespace ztd { namespace ranges {
 	template <typename _Type>
 	class wrapped_pointer {
 	private:
+		template <typename>
+		friend class ::ztd::ranges::wrapped_pointer;
+
+		template <typename _RightType>
+		inline static constexpr bool __is_non_const_other_v
+			= !::std::is_same_v<wrapped_pointer<_Type>,
+			       wrapped_pointer<_RightType>> && ::std::is_const_v<_Type> && !::std::is_const_v<_RightType>;
+
 		using __unwrapped_type = decltype(ztd::unwrap(::std::declval<_Type&>()));
 
 	public:
@@ -62,6 +70,16 @@ namespace ztd { namespace ranges {
 		constexpr wrapped_pointer() : wrapped_pointer(nullptr) {
 		}
 		constexpr wrapped_pointer(pointer __ptr) : _M_ptr(__ptr) {
+		}
+		template <typename _RightType,
+			::std::enable_if_t<__is_non_const_other_v<_RightType>, ::std::nullptr_t> = nullptr>
+		constexpr wrapped_pointer(const wrapped_pointer<_RightType>& __right) noexcept : _M_ptr(__right._M_ptr) {
+		}
+		template <typename _RightType,
+			::std::enable_if_t<::std::is_const_v<_Type> && !::std::is_const_v<_RightType>,
+			     ::std::nullptr_t> = nullptr>
+		constexpr wrapped_pointer(wrapped_pointer<_RightType>&& __right) noexcept
+		: _M_ptr(::std::move(__right._M_ptr)) {
 		}
 		constexpr wrapped_pointer(const wrapped_pointer&)            = default;
 		constexpr wrapped_pointer(wrapped_pointer&&)                 = default;
@@ -90,7 +108,7 @@ namespace ztd { namespace ranges {
 		}
 
 		constexpr wrapped_pointer& operator++() noexcept {
-			++this->_M_ptr;
+			++(this->_M_ptr);
 			return *this;
 		}
 
@@ -101,7 +119,7 @@ namespace ztd { namespace ranges {
 		}
 
 		constexpr wrapped_pointer& operator--() noexcept {
-			--this->_M_ptr;
+			--(this->_M_ptr);
 			return *this;
 		}
 
@@ -127,10 +145,6 @@ namespace ztd { namespace ranges {
 
 		constexpr wrapped_pointer operator-(difference_type __right) const noexcept {
 			return wrapped_pointer(this->_M_ptr - __right);
-		}
-
-		constexpr difference_type operator-(const wrapped_pointer& __right) const noexcept {
-			return __right.base() - this->_M_ptr;
 		}
 
 		friend constexpr pointer to_address(const wrapped_pointer& __wrapped) noexcept {
@@ -169,6 +183,12 @@ namespace ztd { namespace ranges {
 	template <typename _LeftType>
 	constexpr bool operator!=(const wrapped_pointer<_LeftType>& __left, ::std::nullptr_t __right) {
 		return __left.base() != __right;
+	}
+
+	template <typename _LeftType, typename _RightType>
+	constexpr typename wrapped_pointer<_LeftType>::difference_type operator-(
+		const wrapped_pointer<_LeftType>& __left, const wrapped_pointer<_RightType>& __right) noexcept {
+		return __right.base() - __left.base();
 	}
 
 	ZTD_RANGES_INLINE_ABI_NAMESPACE_CLOSE_I_

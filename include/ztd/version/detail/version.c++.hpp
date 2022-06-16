@@ -158,6 +158,30 @@
 	#define ZTD_STD_LIBRARY_CONSTEXPR_ALGORITHMS_I_ ZTD_DEFAULT_OFF
 #endif
 
+#if defined(ZTD_STD_LIBRARY_CONSTRUCT_AT)
+	#if (ZTD_STD_LIBRARY_CONSTRUCT_AT != 0)
+		#define ZTD_STD_LIBRARY_CONSTRUCT_AT_I_ ZTD_ON
+	#else
+		#define ZTD_STD_LIBRARY_CONSTRUCT_AT_I_ ZTD_OFF
+	#endif
+#elif defined(__cpp_lib_constexpr_dynamic_alloc)
+	#define ZTD_STD_LIBRARY_CONSTRUCT_AT_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_STD_LIBRARY_CONSTRUCT_AT_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_STD_LIBRARY_DESTROY_AT)
+	#if (ZTD_STD_LIBRARY_DESTROY_AT != 0)
+		#define ZTD_STD_LIBRARY_DESTROY_AT_I_ ZTD_ON
+	#else
+		#define ZTD_STD_LIBRARY_DESTROY_AT_I_ ZTD_OFF
+	#endif
+#elif defined(__cpp_lib_constexpr_dynamic_alloc)
+	#define ZTD_STD_LIBRARY_DESTROY_AT_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_STD_LIBRARY_DESTROY_AT_I_ ZTD_DEFAULT_OFF
+#endif
+
 #if defined(ZTD_STD_LIBRARY_RANGES)
 	#if (ZTD_STD_LIBRARY_RANGES != 0)
 		#define ZTD_STD_LIBRARY_RANGES_I_ ZTD_ON
