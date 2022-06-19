@@ -188,7 +188,7 @@ namespace ztd { namespace ranges {
 	template <typename _LeftType, typename _RightType>
 	constexpr typename wrapped_pointer<_LeftType>::difference_type operator-(
 		const wrapped_pointer<_LeftType>& __left, const wrapped_pointer<_RightType>& __right) noexcept {
-		return __right.base() - __left.base();
+		return __left.base() - __right.base();
 	}
 
 	template <typename _Type>
