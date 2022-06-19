@@ -53,7 +53,7 @@ namespace ztd {
 	}
 
 	inline constexpr std::string_view wide_literal_encoding_name(void) noexcept {
-		return ZTD_CXX_COMPILE_TIME_ENCODING_NAME_GET_I_();
+		return ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_();
 	}
 
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
