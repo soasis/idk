@@ -483,10 +483,10 @@ namespace ztd::tests {
 #endif
 	     char16_t, char32_t, wchar_t>;
 
-	using scalar_types_list = type_list<bool, // boolean type
-	     char, signed char, unsigned char,    // character types
+	using scalar_types_list = type_list<char, signed char, unsigned char, // character types
 	     short, unsigned short, int, unsigned int, long, unsigned long, long long, unsigned long long, // integer types
 	     float, double, long double,                                              // floating types
+	     bool,                                                                    // boolean type
 	     empty_enum, empty_enum_class,                                            // enumerations
 	     empty_struct, empty_union,                                               // structures/unions
 	     void*, int*, empty_struct*, empty_union*, double*, unsigned char*, char* // pointers

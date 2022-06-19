@@ -191,6 +191,18 @@ namespace ztd { namespace ranges {
 		return __right.base() - __left.base();
 	}
 
+	template <typename _Type>
+	constexpr auto to_mutable_iter(const wrapped_pointer<const _Type>& __value) noexcept {
+		using _Ptr = typename wrapped_pointer<_Type>::pointer;
+		return wrapped_pointer<_Type>(const_cast<_Ptr>(__value.base()));
+	}
+
+	template <typename _Type>
+	constexpr auto to_mutable_iter(wrapped_pointer<const _Type>& __value) noexcept {
+		using _Ptr = typename wrapped_pointer<_Type>::pointer;
+		return wrapped_pointer<_Type>(const_cast<_Ptr>(__value.base()));
+	}
+
 	ZTD_RANGES_INLINE_ABI_NAMESPACE_CLOSE_I_
 
 }} // namespace ztd::ranges
