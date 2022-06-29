@@ -77,7 +77,7 @@ namespace ztd {
 	/// @tparam _Ty The type of the pointer to destroy.
 	/// @tparam _Args The arguments, if any, to use to construct the pointer type.
 	///
-	/// @param[in] _ptr Location
+	/// @param[in] _ptr Location for the value to be constructed.
 	///
 	/// @remarks There is currently no way to specify default-init with this paradigm, potentially resulting in lost
 	/// performace for niche use cases (such as indeterminate initialization and partial setting for integral types
@@ -106,7 +106,7 @@ namespace ztd {
 	///
 	/// @tparam _Ty The type of the pointer to destroy.
 	///
-	/// @param[in] _ptr Location
+	/// @param[in] _ptr Location for the value to be destroyed.
 	///
 	/// @remarks For arrays, each element will be destroyed, including recursively into other C-array types.
 	//////

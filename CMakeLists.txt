@@ -18,7 +18,7 @@
 # file except in compliance with the License. You may obtain a copy of the
 # License at
 #
-#		http://www.apache.org/licenses/LICENSE-2.0
+# http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,6 +30,7 @@
 
 cmake_minimum_required(VERSION 3.21.0)
 cmake_policy(VERSION 3.21)
+
 # # Project kickstart
 # Includes a bunch of basic flags and utilities shared across projects
 # See more at the github repository link below
@@ -49,7 +50,7 @@ project(ztd.idk
 	HOMEPAGE_URL "https://ztdidk.rtfd.io/"
 	LANGUAGES CXX C)
 
-if (ZTD_IDK_READTHEDOCS)
+if(ZTD_IDK_READTHEDOCS)
 	# ReadTheDocs seems unable to handle the include at the project level: something must be going wrong?
 	include(CheckCXXCompilerFlag)
 	include(CheckCCompilerFlag)
@@ -83,22 +84,24 @@ option(ZTD_IDK_GENERATE_SINGLE "Enable generation of a single header and its tar
 set(ZTD_IDK_BENCHMARKS_REPETITIONS 50 CACHE STRING "Number of repetitions to perform. Each repetition has a number of iterations: higher means a lot more time is spent benchmarking.")
 
 # Modify bad flags / change defaults if we are the top level
-if (ZTD_IDK_IS_TOP_LEVEL_PROJECT)
+if(ZTD_IDK_IS_TOP_LEVEL_PROJECT)
 	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/lib")
 	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/bin")
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/bin")
 
-	if (NOT DEFINED CMAKE_CXX_STANDARD)
+	if(NOT DEFINED CMAKE_CXX_STANDARD)
 		set(CMAKE_CXX_STANDARD 17)
 	endif()
 
-	if (NOT DEFINED CMAKE_C_STANDARD)
+	if(NOT DEFINED CMAKE_C_STANDARD)
 		set(CMAKE_C_STANDARD 11)
 	endif()
 
-	if (ZTD_IDK_BENCHMARKS OR ZTD_IDK_EXAMPLES OR ZTD_IDK_TESTS OR ZTD_IDK_SCRATCH)
+	if(ZTD_IDK_BENCHMARKS OR ZTD_IDK_EXAMPLES OR ZTD_IDK_TESTS OR ZTD_IDK_SCRATCH)
 		# normal flags
 		check_compiler_flag(disable-permissive MSVC /permissive- GCC -pedantic)
+		check_compiler_flag(disable-aliasing GCC -fno-strict-aliasing)
+
 		# Warning flags
 		check_compiler_flag(warn-pedantic MSVC /permissive- GCC -pedantic)
 		check_compiler_flag(warn-all MSVC /W4 GCC -Wall)
@@ -110,6 +113,7 @@ if (ZTD_IDK_IS_TOP_LEVEL_PROJECT)
 		check_compiler_flag(extra-constexpr-steps MSVC /constexpr:steps2147483647 GCC -fconstexpr-ops-limit=2147483647 Clang -fconstexpr-steps=2147483647)
 		check_compiler_flag(template-debugging-mode GCC -ftemplate-backtrace-limit=0)
 		check_compiler_diagnostic(microsoft-enum-value)
+		check_compiler_diagnostic(gnu-zero-variadic-macro-arguments)
 	endif()
 endif()
 
@@ -119,12 +123,12 @@ add_library(ztd.version INTERFACE)
 add_library(ztd::version ALIAS ztd.version)
 target_include_directories(ztd.version
 	INTERFACE
-		$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-		$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+	$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+	$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 install(DIRECTORY include/
 	DESTINATION
-		${CMAKE_INSTALL_INCLUDEDIR}
+	${CMAKE_INSTALL_INCLUDEDIR}
 )
 
 configure_package_config_file(
@@ -153,11 +157,11 @@ add_library(ztd.tag_invoke INTERFACE)
 add_library(ztd::tag_invoke ALIAS ztd.tag_invoke)
 target_include_directories(ztd.tag_invoke
 	INTERFACE
-		$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-		$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+	$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+	$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 target_link_libraries(ztd.tag_invoke
 	INTERFACE
-		ztd::version
+	ztd::version
 )
 install(DIRECTORY include/
 	DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
@@ -194,34 +198,40 @@ add_library(ztd.idk ${ztd.idk.sources})
 add_library(ztd::idk ALIAS ztd.idk)
 target_include_directories(ztd.idk
 	PUBLIC
-		$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-		$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+	$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+	$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+	PRIVATE
+	$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/source/include>
+)
 target_link_libraries(ztd.idk
 	PUBLIC
-		ztd::version
-		ztd::tag_invoke
+	ztd::version
+	ztd::tag_invoke
 )
 target_compile_definitions(ztd.idk
 	PRIVATE
-		$<$<STREQUAL:$<TARGET_PROPERTY:ztd.idk,TYPE>,SHARED_LIBRARY>:ZTD_DLL=1>
+	$<$<STREQUAL:$<TARGET_PROPERTY:ztd.idk,TYPE>,SHARED_LIBRARY>:ZTD_DLL=1>
 	PUBLIC
-		ZTD_BUILD=1
-		ZTD_HEADER_ONLY=0 # TODO: the build is not header-only anymore
-		ZTD_INLINE_BUILD=0 # TODO: the settings for inline
-		                   # build have not been implemented yet
+	ZTD_BUILD=1
+	ZTD_HEADER_ONLY=0 # TODO: the build is not header-only anymore
+	ZTD_INLINE_BUILD=0 # TODO: the settings for inline
+
+	# build have not been implemented yet
 )
-if (ZTD_IDK_IS_TOP_LEVEL_PROJECT)
+
+if(ZTD_IDK_IS_TOP_LEVEL_PROJECT)
 	target_compile_options(ztd.idk
 		PRIVATE
-			${--utf8-literal-encoding}
-			${--utf8-source-encoding}
-			${--disable-permissive}
-			${--warn-pedantic}
-			${--warn-default}
-			${--warn-extra}
-			${--warn-errors}
+		${--utf8-literal-encoding}
+		${--utf8-source-encoding}
+		${--disable-permissive}
+		${--warn-pedantic}
+		${--warn-default}
+		${--warn-extra}
+		${--warn-errors}
 	)
 endif()
+
 install(TARGETS ztd.idk)
 install(DIRECTORY include/
 	DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
@@ -247,30 +257,32 @@ install(
 	TYPE DATA
 )
 
-if (ZTD_IDK_GENERATE_SINGLE)
+if(ZTD_IDK_GENERATE_SINGLE)
 	add_subdirectory(single)
 endif()
 
-
 # # Benchmarks, Tests, Examples and Documentation
-if (ZTD_IDK_TESTS)
+if(ZTD_IDK_TESTS)
 	include(CTest)
 	add_subdirectory(tests)
 endif()
 
-if (ZTD_IDK_DOCUMENTATION)
+if(ZTD_IDK_DOCUMENTATION)
 	add_subdirectory(documentation)
 endif()
-if (ZTD_IDK_BENCHMARKS)
+
+if(ZTD_IDK_BENCHMARKS)
 	add_subdirectory(benchmarks)
 endif()
-if (ZTD_IDK_EXAMPLES)
+
+if(ZTD_IDK_EXAMPLES)
 	add_subdirectory(examples)
 endif()
 
 # For quick debugging and development only: don't peek! 🙈
 mark_as_advanced(ZTD_IDK_SCRATCH)
-if (ZTD_IDK_SCRATCH)
+
+if(ZTD_IDK_SCRATCH)
 	add_executable(scratch main.cpp)
 	target_link_libraries(scratch PRIVATE ztd::idk)
 	target_include_directories(scratch PRIVATE tests/shared/include)

@@ -38,33 +38,20 @@
 #include <string.h>
 #include <stdint.h>
 #include <stddef.h>
+#include <limits.h>
 #else
 #include <cstring>
 #include <cstdint>
 #include <cstddef>
+#include <climits>
 #endif
 
+#include <ztd/idk/detail/bit.memreverse.impl.h>
+
 #if (CHAR_BIT % 8 == 0)
+
 void ztdc_memreverse8(size_t __n, unsigned char __ptr[ZTD_PTR_EXTENT(__n)]) ZTD_CXX_NOEXCEPT_I_ {
-	const size_t __mid_n = __n / 2;
-	for (size_t __ptr_index = 0; __ptr_index < __mid_n; ++__ptr_index) {
-		const size_t __reverse_ptr_index = __n - 1 - __ptr_index;
-		unsigned char* __p               = __ptr + __ptr_index;
-		unsigned char* __reverse_p       = __ptr + __reverse_ptr_index;
-		// exchange 8-bits exactly
-		unsigned char __bytep         = 0;
-		unsigned char __reverse_bytep = 0;
-		for (size_t __byte8_bit_index = 0; __byte8_bit_index < CHAR_BIT; __byte8_bit_index += 8) {
-			const size_t __reverse_byte8_bit_index = CHAR_BIT - 8 - __byte8_bit_index;
-			const unsigned char __byte8_mask       = (unsigned char)(((unsigned char)0xFFu) << __byte8_bit_index);
-			const unsigned char __reverse_byte8_mask
-			     = (unsigned char)(((unsigned char)0xFFu) << __reverse_byte8_bit_index);
-			__bytep |= (unsigned char)((unsigned char)(*__reverse_p) << (__reverse_byte8_bit_index));
-			__reverse_bytep |= (unsigned char)((unsigned char)(*__p) << (__byte8_bit_index));
-		}
-		*__p         = __bytep;
-		*__reverse_p = __reverse_bytep;
-	}
+	__ZTDC_MEMREVERSE8_IMPL(unsigned char, __n, __ptr);
 }
 
 #if defined(UINT8_MAX)

@@ -18,7 +18,7 @@
 # file except in compliance with the License. You may obtain a copy of the
 # License at
 #
-#		http://www.apache.org/licenses/LICENSE-2.0
+# http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,6 +33,10 @@ file(GLOB_RECURSE ztd.idk.tests.basic_run_time_c++.sources
 	LIST_DIRECTORIES FALSE
 	CONFIGURE_DEPENDS
 	source/*.cpp)
+file(GLOB_RECURSE ztd.idk.tests.basic_run_time_c++.sources.no-aliasing
+	LIST_DIRECTORIES FALSE
+	CONFIGURE_DEPENDS
+	source/*.no-alias.cpp)
 
 add_executable(ztd.idk.tests.basic_run_time_c++ ${ztd.idk.tests.basic_run_time_c++.sources})
 target_compile_options(ztd.idk.tests.basic_run_time_c++
@@ -43,11 +47,18 @@ target_compile_options(ztd.idk.tests.basic_run_time_c++
 	${--warn-pedantic}
 	${--warn-default}
 	${--warn-extra}
-	${--warn-errors})
+	${--warn-errors}
+	${--allow-gnu-zero-variadic-macro-arguments})
 target_link_libraries(ztd.idk.tests.basic_run_time_c++
 	PRIVATE
 	ztd::idk
 	Catch2::Catch2
 	${CMAKE_DL_LIBS}
 )
+
+# turn off aliasing for select tests
+set_source_files_properties(${ztd.idk.tests.basic_run_time_c++.sources.no-aliasing}
+	PROPERTIES
+	COMPILE_OPTIONS ${--disable-aliasing})
+
 add_test(NAME ztd.idk.tests.basic_run_time_c++ COMMAND ztd.idk.tests.basic_run_time_c++)
