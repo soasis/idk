@@ -66,7 +66,7 @@ namespace ztd {
 	template <typename _Range, typename _Predicate>
 	::std::size_t fnv1a_hash_if(::std::size_t __initial_seed, _Range&& __range, _Predicate&& __predicate) noexcept {
 		constexpr ::std::size_t __fnv1a_prime =
-#if ZTD_IS_ON(ZTD_SIZE_64_BITS_I_)
+#if ZTD_IS_ON(ZTD_SIZE_64_BITS)
 		     static_cast<std::size_t>(1099511628211ULL)
 #else
 		     static_cast<std::size_t>(16777619UL)
@@ -109,7 +109,7 @@ namespace ztd {
 	template <typename _Range, typename _Predicate>
 	::std::size_t fnv1a_hash_if(_Range&& __range, _Predicate&& __predicate) noexcept {
 		constexpr ::std::size_t __fnv1a_offset_basis =
-#if ZTD_IS_ON(ZTD_SIZE_64_BITS_I_)
+#if ZTD_IS_ON(ZTD_SIZE_64_BITS)
 		     static_cast<std::size_t>(14695981039346656037ULL)
 #else
 		     static_cast<std::size_t>(2166136261UL)

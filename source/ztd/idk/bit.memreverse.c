@@ -34,7 +34,7 @@
 
 #include <ztd/idk/extent.h>
 
-#if ZTD_IS_ON(ZTD_C_I_)
+#if ZTD_IS_ON(ZTD_C)
 #include <string.h>
 #include <stdint.h>
 #include <stddef.h>

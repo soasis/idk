@@ -59,6 +59,6 @@ target_link_libraries(ztd.idk.tests.basic_run_time_c++
 # turn off aliasing for select tests
 set_source_files_properties(${ztd.idk.tests.basic_run_time_c++.sources.no-aliasing}
 	PROPERTIES
-	COMPILE_OPTIONS ${--disable-aliasing})
+	COMPILE_OPTIONS "${--disable-aliasing};${--allow-type-limits}")
 
 add_test(NAME ztd.idk.tests.basic_run_time_c++ COMMAND ztd.idk.tests.basic_run_time_c++)

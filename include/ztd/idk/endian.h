@@ -35,7 +35,7 @@
 
 #include <ztd/idk/version.h>
 
-#if ZTD_IS_ON(ZTD_STDBIT_H_I_)
+#if ZTD_IS_ON(ZTD_STDBIT_H)
 #include <stdbit.h>
 #endif
 
@@ -48,8 +48,8 @@
 	#define ZTD_CSTD_LIBRARY_ENDIAN_I_ ZTD_DEFAULT_OFF
 #endif
 
-#if ZTD_IS_OFF(ZTD_CSTD_LIBRARY_ENDIAN_I_)
-	#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
+#if ZTD_IS_OFF(ZTD_CSTD_LIBRARY_ENDIAN)
+	#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 		#define ZTDC_LITTLE_ENDIAN 0
 		#define ZTDC_BIG_ENDIAN 1
 		#if defined(REG_DWORD)

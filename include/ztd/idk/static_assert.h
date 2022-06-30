@@ -35,10 +35,10 @@
 
 #include <ztd/idk/version.h>
 
-#if ZTD_IS_ON(ZTD_CXX_I_)
+#if ZTD_IS_ON(ZTD_CXX)
 #define ztd_static_assert(...) static_assert(__VA_ARGS__)
 #else
-#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_)
+#if ZTD_IS_ON(ZTD_COMPILER_VCXX)
 #include <assert.h>
 #define ztd_static_assert(...) static_assert(__VA_ARGS__)
 #else

@@ -39,7 +39,7 @@
 #include <ztd/idk/detail/bit.intrinsic.h>
 #include <ztd/idk/detail/bit.intrinsic.impl.h>
 
-#if ZTD_IS_ON(ZTD_C_I_)
+#if ZTD_IS_ON(ZTD_C)
 
 #if defined(_ZTDC_COUNT_ONES_GENERIC_I_)
 #define _ZTDC_COUNT_ONES_I_(...) _ZTDC_COUNT_ONES_GENERIC_I_(__VA_ARGS__)

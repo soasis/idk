@@ -38,7 +38,7 @@
 #include <ztd/idk/extent.h>
 #include <ztd/idk/static_assert.h>
 
-#if ZTD_IS_ON(ZTD_C_I_)
+#if ZTD_IS_ON(ZTD_C)
 #include <stddef.h>
 #include <limits.h>
 #include <stdint.h>

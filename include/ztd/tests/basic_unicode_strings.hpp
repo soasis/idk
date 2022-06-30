@@ -41,7 +41,7 @@
 #include <ztd/idk/type_traits.hpp>
 #include <ztd/idk/encoding_name.hpp>
 
-#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_)
+#if ZTD_IS_ON(ZTD_COMPILER_VCXX)
 #pragma warning(push)
 #pragma warning(disable : 4310)
 #endif
@@ -86,7 +86,7 @@ namespace ztd { namespace tests {
 				std::copy(std::begin(bscs), std::end(bscs) - 1, arr.begin());
 				return arr;
 			}
-#if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T_I_)
+#if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T)
 			else if constexpr (std::is_same_v<Char, char8_t>) {
 				const auto& bscs
 					= u8"\f\v\t "
@@ -1732,7 +1732,7 @@ namespace ztd { namespace tests {
 		u16_basic_source_character_set_size);
 	inline constexpr const std::size_t u8_basic_source_character_set_size = 97;
 	inline constexpr const ztd::uchar8_t u8_basic_source_character_set_storage[]
-#if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T_I_)
+#if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T)
 		= u8"\f\v\t "
 		  u8"\nabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_{}[]#()<>%:;.?*+-/^&|~!=,\\\"'\0";
 #else
@@ -1811,7 +1811,7 @@ namespace ztd { namespace tests {
 
 }} // namespace ztd::tests
 
-#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_)
+#if ZTD_IS_ON(ZTD_COMPILER_VCXX)
 #pragma warning(pop)
 #endif
 

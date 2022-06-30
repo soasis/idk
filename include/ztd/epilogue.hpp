@@ -38,7 +38,7 @@
 	#undef ZTD_PROLOGUE_I_
 #endif
 
-#if ZTD_IS_ON(ZTD_CXX_I_)
+#if ZTD_IS_ON(ZTD_CXX)
 	#undef _FWD
 	#undef _MOVE
 #endif

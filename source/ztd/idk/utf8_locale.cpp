@@ -32,7 +32,7 @@
 
 #include <ztd/idk/size.h>
 
-#if ZTD_IS_ON(ZTD_CXX_I_)
+#if ZTD_IS_ON(ZTD_CXX)
 #include <clocale>
 #else
 #include <locale.h>
@@ -46,7 +46,7 @@ ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztd_idk_attempt_utf8_l
 	} category_locale_attempt;
 	const category_locale_attempt __attempts[] = {
 	// Specifiers from Windows Codepage stuff
-#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
+#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 		{ LC_ALL, ".65001" },
 		{ LC_CTYPE, "65001" },
 #endif

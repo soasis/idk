@@ -37,7 +37,7 @@
 
 #include <ztd/idk/size.h>
 
-#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_)
+#if ZTD_IS_ON(ZTD_COMPILER_VCXX)
 #pragma warning(push)
 // cast truncates (cast truncation is intended)
 #pragma warning(disable : 4310)
@@ -1786,7 +1786,7 @@ const ztd_char32_t ztd_tests_u32_unicode_sequence[]
 const size_t ztd_tests_u32_unicode_sequence_size = ztd_c_string_array_size(ztd_tests_u32_unicode_sequence);
 
 
-#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_)
+#if ZTD_IS_ON(ZTD_COMPILER_VCXX)
 #pragma warning(pop)
 #endif
 

@@ -49,7 +49,7 @@ namespace ztd {
 	namespace __idk_detail {
 		template <typename _Ty, typename... _Args>
 		constexpr bool __construct_at_noexcept() noexcept {
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_CONSTRUCT_AT_I_)
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_CONSTRUCT_AT)
 			return noexcept(::std::construct_at(::std::declval<_Ty*>(), ::std::declval<_Args>()...));
 #else
 			return ::std::is_nothrow_constructible_v<_Ty, _Args...>;
@@ -58,7 +58,7 @@ namespace ztd {
 
 		template <typename _Ty>
 		constexpr bool __destroy_at_noexcept() noexcept {
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_DESTROY_AT_I_)
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_DESTROY_AT)
 			return noexcept(::std::destroy_at(::std::declval<_Ty*>()));
 #else
 			if constexpr (::std::is_array_v<_Ty>) {
@@ -75,9 +75,10 @@ namespace ztd {
 	/// @brief Constructs an element of `_Ty` and the given `__ptr` location, using forwarded `__args...`.
 	///
 	/// @tparam _Ty The type of the pointer to destroy.
-	/// @tparam _Args The arguments, if any, to use to construct the pointer type.
+	/// @tparam _Args The argument types, if any, to use to construct the pointed-to type.
 	///
-	/// @param[in] _ptr Location for the value to be constructed.
+	/// @param[in] __ptr Location for the value to be constructed.
+	/// @param[in] __args The arguments, if any, to use to cosntruct the pointed-to type.
 	///
 	/// @remarks There is currently no way to specify default-init with this paradigm, potentially resulting in lost
 	/// performace for niche use cases (such as indeterminate initialization and partial setting for integral types
@@ -86,7 +87,7 @@ namespace ztd {
 	template <typename _Ty, typename... _Args>
 	constexpr _Ty* construct_at(_Ty* __ptr, _Args&&... __args) noexcept(
 	     __idk_detail::__construct_at_noexcept<_Ty, _Args...>()) {
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_CONSTRUCT_AT_I_)
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_CONSTRUCT_AT)
 		return ::std::construct_at(__ptr, ::std::forward<_Args>(__args)...);
 #else
 		if constexpr (::std::is_trivial_v<_Ty>) {
@@ -106,13 +107,13 @@ namespace ztd {
 	///
 	/// @tparam _Ty The type of the pointer to destroy.
 	///
-	/// @param[in] _ptr Location for the value to be destroyed.
+	/// @param[in] __ptr Location for the value to be destroyed.
 	///
 	/// @remarks For arrays, each element will be destroyed, including recursively into other C-array types.
 	//////
 	template <typename _Ty>
 	constexpr void destroy_at(_Ty* __ptr) noexcept(__idk_detail::__destroy_at_noexcept<_Ty>()) {
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_DESTROY_AT_I_)
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_DESTROY_AT)
 		return ::std::destroy_at(__ptr);
 #else
 		if constexpr (::std::is_array_v<_Ty>) {

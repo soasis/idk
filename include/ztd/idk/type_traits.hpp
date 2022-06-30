@@ -123,7 +123,7 @@ namespace ztd {
 	template <typename _Type>
 	class is_character : public ::std::integral_constant<bool,
 		::std::is_same_v<_Type, char> || ::std::is_same_v<_Type, wchar_t> ||
-#if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T_I_)
+#if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T)
 		::std::is_same_v<_Type, char8_t> ||
 #endif
 		::std::is_same_v<_Type, unsigned char> ||
@@ -137,7 +137,7 @@ namespace ztd {
 	template <typename _Type>
 	class is_char_traitable : public ::std::integral_constant<bool,
 		::std::is_same_v<_Type, char> || ::std::is_same_v<_Type, wchar_t> ||
-#if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T_I_)
+#if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T)
 		::std::is_same_v<_Type, char8_t> ||
 #else
 		// for the less fortunate
@@ -261,7 +261,7 @@ namespace ztd {
 
 	template <typename _From, typename _To>
 	using is_nothrow_convertible =
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_NOTHROW_CONVERTIBLE_I_)
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_NOTHROW_CONVERTIBLE)
 	     ::std::is_nothrow_convertible<_From, _To>;
 #else
 	     ::std::integral_constant<bool, noexcept(static_cast<_To>(::std::declval<_From>()))>;
@@ -269,7 +269,7 @@ namespace ztd {
 
 	template <typename _From, typename _To>
 	inline constexpr bool is_nothrow_convertible_v =
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_NOTHROW_CONVERTIBLE_I_)
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_NOTHROW_CONVERTIBLE)
 	     ::std::is_nothrow_convertible_v<_From, _To>;
 #else
 	     is_nothrow_convertible<_From, _To>::value;

@@ -31,243 +31,221 @@
 #include <ztd/idk/bit.h>
 #include <ztd/idk/endian.h>
 #include <ztd/idk/type_traits.hpp>
+#include <ztd/tests/bit_constant.hpp>
 
 #include <catch2/catch_all.hpp>
 
 #include <cstring>
 
-template <typename TYPE>
-constexpr TYPE pick_constant() noexcept {
-	if constexpr (std::is_unsigned_v<TYPE>) {
-		if constexpr (std::is_same_v<TYPE, char>)
-			return 0x12U;
-		if constexpr (std::is_same_v<TYPE, unsigned char>)
-			return 0x12U;
-		else if constexpr (std::is_same_v<TYPE, unsigned short>)
-			return 0x1234U;
-		else if constexpr (std::is_same_v<TYPE, unsigned int>)
-			return 0x1234U;
-		else if constexpr (std::is_same_v<TYPE, unsigned long>)
-			return 0x12345678UL;
-		else if constexpr (std::is_same_v<TYPE, unsigned long long>)
-			return 0x0123456789ABCDEFULL;
-		else
-			static_assert(ztd::always_false_v<TYPE>);
-	}
-	else {
-		if constexpr (std::is_same_v<TYPE, char>)
-			return -0x12;
-		if constexpr (std::is_same_v<TYPE, signed char>)
-			return -0x12;
-		else if constexpr (std::is_same_v<TYPE, short>)
-			return -0x1234;
-		else if constexpr (std::is_same_v<TYPE, int>)
-			return -0x1234U;
-		else if constexpr (std::is_same_v<TYPE, long>)
-			return -0x12345678L;
-		else if constexpr (std::is_same_v<TYPE, long long>)
-			return -0x0123456789ABCDEFLL;
-		else
-			static_assert(ztd::always_false_v<TYPE>);
-	}
-}
-
-TEST_CASE("bit/load-store", "Ensure that the 8-bit load and store work properly for all array sizes.") {
-#define SECTION_CASE(N)                                                                                     \
-	SECTION("uint_least" #N "_t, little") {                                                                \
-		SECTION("unaligned") {                                                                            \
-			unsigned char arr[N / CHAR_BIT] {};                                                          \
-			uint_least##N##_t data = static_cast<uint_least##N##_t>(pick_constant<uint_least##N##_t>()); \
-			ztdc_store8_leu##N(data, arr);                                                               \
-			uint_least##N##_t result = ztdc_load8_leu##N(arr);                                           \
-			if (N > 8) {                                                                                 \
-				if (ZTDC_NATIVE_ENDIAN == ZTDC_LITTLE_ENDIAN) {                                         \
-					REQUIRE(std::memcmp(arr, &data, sizeof(arr)) == 0);                                \
-				}                                                                                       \
-				else {                                                                                  \
-					REQUIRE(std::memcmp(arr, &data, sizeof(arr)) != 0);                                \
-				}                                                                                       \
-			}                                                                                            \
-			REQUIRE(result == data);                                                                     \
-		}                                                                                                 \
-		SECTION("aligned") {                                                                              \
-			alignas(N / CHAR_BIT) uint_least##N##_t arr {};                                              \
-			uint_least##N##_t data = static_cast<uint_least##N##_t>(pick_constant<uint_least##N##_t>()); \
-			ztdc_store8_leu##N(data, (unsigned char*)&arr);                                              \
-			uint_least##N##_t result = ztdc_load8_aligned_leu##N((unsigned char*)&arr);                  \
-			if (N > 8) {                                                                                 \
-				if (ZTDC_NATIVE_ENDIAN == ZTDC_LITTLE_ENDIAN) {                                         \
-					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) == 0);                               \
-				}                                                                                       \
-				else {                                                                                  \
-					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) != 0);                               \
-				}                                                                                       \
-			}                                                                                            \
-			REQUIRE(result == data);                                                                     \
-		}                                                                                                 \
-	}                                                                                                      \
-	SECTION("int_least" #N "_t, little, negative") {                                                       \
-		SECTION("unaligned") {                                                                            \
-			unsigned char arr[N / CHAR_BIT] {};                                                          \
-			int_least##N##_t data = static_cast<int_least##N##_t>(pick_constant<int_least##N##_t>());    \
-			ztdc_store8_les##N(data, (unsigned char*)&arr);                                              \
-			int_least##N##_t result = ztdc_load8_les##N((unsigned char*)&arr);                           \
-			if (N > 8) {                                                                                 \
-				if (ZTDC_NATIVE_ENDIAN == ZTDC_LITTLE_ENDIAN) {                                         \
-					REQUIRE(std::memcmp(arr, &data, sizeof(arr)) == 0);                                \
-				}                                                                                       \
-				else {                                                                                  \
-					REQUIRE(std::memcmp(arr, &data, sizeof(arr)) != 0);                                \
-				}                                                                                       \
-			}                                                                                            \
-			REQUIRE(result == data);                                                                     \
-		}                                                                                                 \
-		SECTION("aligned") {                                                                              \
-			alignas(N / CHAR_BIT) int_least##N##_t arr {};                                               \
-			int_least##N##_t data = static_cast<int_least##N##_t>(pick_constant<int_least##N##_t>());    \
-			ztdc_store8_les##N(data, (unsigned char*)&arr);                                              \
-			int_least##N##_t result = ztdc_load8_les##N((unsigned char*)&arr);                           \
-			if (N > 8) {                                                                                 \
-				if (ZTDC_NATIVE_ENDIAN == ZTDC_LITTLE_ENDIAN) {                                         \
-					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) == 0);                               \
-				}                                                                                       \
-				else {                                                                                  \
-					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) != 0);                               \
-				}                                                                                       \
-			}                                                                                            \
-			REQUIRE(result == data);                                                                     \
-		}                                                                                                 \
-	}                                                                                                      \
-	SECTION("int_least" #N "_t, little, positive") {                                                       \
-		SECTION("unaligned") {                                                                            \
-			unsigned char arr[N / CHAR_BIT] {};                                                          \
-			int_least##N##_t data = static_cast<int_least##N##_t>(pick_constant<uint_least##N##_t>());   \
-			ztdc_store8_les##N(data, arr);                                                               \
-			int_least##N##_t result = ztdc_load8_les##N(arr);                                            \
-			if (N > 8) {                                                                                 \
-				if (ZTDC_NATIVE_ENDIAN == ZTDC_LITTLE_ENDIAN) {                                         \
-					REQUIRE(std::memcmp(arr, &data, sizeof(arr)) == 0);                                \
-				}                                                                                       \
-				else {                                                                                  \
-					REQUIRE(std::memcmp(arr, &data, sizeof(arr)) != 0);                                \
-				}                                                                                       \
-			}                                                                                            \
-			REQUIRE(result == data);                                                                     \
-		}                                                                                                 \
-		SECTION("aligned") {                                                                              \
-			alignas(N / CHAR_BIT) int_least##N##_t arr {};                                               \
-			int_least##N##_t data = static_cast<int_least##N##_t>(pick_constant<uint_least##N##_t>());   \
-			ztdc_store8_les##N(data, (unsigned char*)&arr);                                              \
-			int_least##N##_t result = ztdc_load8_les##N((unsigned char*)&arr);                           \
-			if (N > 8) {                                                                                 \
-				if (ZTDC_NATIVE_ENDIAN == ZTDC_LITTLE_ENDIAN) {                                         \
-					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) == 0);                               \
-				}                                                                                       \
-				else {                                                                                  \
-					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) != 0);                               \
-				}                                                                                       \
-			}                                                                                            \
-			REQUIRE(result == data);                                                                     \
-		}                                                                                                 \
-	}                                                                                                      \
-	SECTION("uint_least" #N "_t, big") {                                                                   \
-		SECTION("unaligned") {                                                                            \
-			unsigned char arr[N / CHAR_BIT] {};                                                          \
-			uint_least##N##_t data = static_cast<uint_least##N##_t>(pick_constant<uint_least##N##_t>()); \
-			ztdc_store8_beu##N(data, arr);                                                               \
-			uint_least##N##_t result = ztdc_load8_beu##N(arr);                                           \
-			if (N > 8) {                                                                                 \
-				if (ZTDC_NATIVE_ENDIAN == ZTDC_BIG_ENDIAN) {                                            \
-					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) == 0);                               \
-				}                                                                                       \
-				else {                                                                                  \
-					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) != 0);                               \
-				}                                                                                       \
-			}                                                                                            \
-			REQUIRE(result == data);                                                                     \
-		}                                                                                                 \
-		SECTION("aligned") {                                                                              \
-			alignas(N / CHAR_BIT) uint_least##N##_t arr {};                                              \
-			uint_least##N##_t data = static_cast<uint_least##N##_t>(pick_constant<uint_least##N##_t>()); \
-			ztdc_store8_beu##N(data, (unsigned char*)&arr);                                              \
-			uint_least##N##_t result = ztdc_load8_beu##N((unsigned char*)&arr);                          \
-			if (N > 8) {                                                                                 \
-				if (ZTDC_NATIVE_ENDIAN == ZTDC_BIG_ENDIAN) {                                            \
-					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) == 0);                               \
-				}                                                                                       \
-				else {                                                                                  \
-					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) != 0);                               \
-				}                                                                                       \
-			}                                                                                            \
-			REQUIRE(result == data);                                                                     \
-		}                                                                                                 \
-	}                                                                                                      \
-	SECTION("int_least" #N "_t, big, negative") {                                                          \
-		SECTION("unaligned") {                                                                            \
-			unsigned char arr[N / CHAR_BIT] {};                                                          \
-			int_least##N##_t data = static_cast<int_least##N##_t>(pick_constant<int_least##N##_t>());    \
-			ztdc_store8_bes##N(data, arr);                                                               \
-			int_least##N##_t result = ztdc_load8_bes##N(arr);                                            \
-			if (N > 8) {                                                                                 \
-				if (ZTDC_NATIVE_ENDIAN == ZTDC_BIG_ENDIAN) {                                            \
-					REQUIRE(std::memcmp(arr, &data, sizeof(arr)) == 0);                                \
-				}                                                                                       \
-				else {                                                                                  \
-					REQUIRE(std::memcmp(arr, &data, sizeof(arr)) != 0);                                \
-				}                                                                                       \
-				REQUIRE(result == data);                                                                \
-			}                                                                                            \
-		}                                                                                                 \
-		SECTION("aligned") {                                                                              \
-			alignas(N / CHAR_BIT) int_least##N##_t arr {};                                               \
-			int_least##N##_t data = static_cast<int_least##N##_t>(pick_constant<int_least##N##_t>());    \
-			ztdc_store8_bes##N(data, (unsigned char*)&arr);                                              \
-			int_least##N##_t result = ztdc_load8_aligned_bes##N((unsigned char*)&arr);                   \
-			if (N > 8) {                                                                                 \
-				if (ZTDC_NATIVE_ENDIAN == ZTDC_BIG_ENDIAN) {                                            \
-					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) == 0);                               \
-				}                                                                                       \
-				else {                                                                                  \
-					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) != 0);                               \
-				}                                                                                       \
-			}                                                                                            \
-			REQUIRE(result == data);                                                                     \
-		}                                                                                                 \
-	}                                                                                                      \
-	SECTION("int_least" #N "_t, big, positive") {                                                          \
-		SECTION("unaligned") {                                                                            \
-			unsigned char arr[N / CHAR_BIT] {};                                                          \
-			int_least##N##_t data = static_cast<int_least##N##_t>(pick_constant<uint_least##N##_t>());   \
-			ztdc_store8_bes##N(data, arr);                                                               \
-			int_least##N##_t result = ztdc_load8_bes##N(arr);                                            \
-			if (N > 8) {                                                                                 \
-				if (ZTDC_NATIVE_ENDIAN == ZTDC_BIG_ENDIAN) {                                            \
-					REQUIRE(std::memcmp(arr, &data, sizeof(arr)) == 0);                                \
-				}                                                                                       \
-				else {                                                                                  \
-					REQUIRE(std::memcmp(arr, &data, sizeof(arr)) != 0);                                \
-				}                                                                                       \
-			}                                                                                            \
-			REQUIRE(result == data);                                                                     \
-		}                                                                                                 \
-		SECTION("aligned") {                                                                              \
-			alignas(N / CHAR_BIT) int_least##N##_t arr {};                                               \
-			int_least##N##_t data = static_cast<int_least##N##_t>(pick_constant<uint_least##N##_t>());   \
-			ztdc_store8_bes##N(data, (unsigned char*)&arr);                                              \
-			int_least##N##_t result = ztdc_load8_aligned_bes##N((unsigned char*)&arr);                   \
-			if (N > 8) {                                                                                 \
-				if (ZTDC_NATIVE_ENDIAN == ZTDC_BIG_ENDIAN) {                                            \
-					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) == 0);                               \
-				}                                                                                       \
-				else {                                                                                  \
-					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) != 0);                               \
-				}                                                                                       \
-			}                                                                                            \
-			REQUIRE(result == data);                                                                     \
-		}                                                                                                 \
-	}                                                                                                      \
+TEST_CASE("Ensure that the 8-bit load and store work properly for all array sizes.", "[bit][load.store]") {
+#define SECTION_CASE(N)                                                                                           \
+	SECTION("uint_least" #N "_t, little") {                                                                      \
+		SECTION("unaligned") {                                                                                  \
+			unsigned char arr[N / CHAR_BIT] {};                                                                \
+			const uint_least##N##_t data                                                                       \
+			     = static_cast<uint_least##N##_t>(ztd::tests::get_distinct_bit_constant<uint_least##N##_t>()); \
+			ztdc_store8_leu##N(data, arr);                                                                     \
+			uint_least##N##_t result = ztdc_load8_leu##N(arr);                                                 \
+			if (N > width) {                                                                                   \
+				if (ZTDC_NATIVE_ENDIAN == ZTDC_LITTLE_ENDIAN) {                                               \
+					REQUIRE(std::memcmp(arr, &data, sizeof(arr)) == 0);                                      \
+				}                                                                                             \
+				else {                                                                                        \
+					REQUIRE(std::memcmp(arr, &data, sizeof(arr)) != 0);                                      \
+				}                                                                                             \
+			}                                                                                                  \
+			REQUIRE(result == data);                                                                           \
+		}                                                                                                       \
+		SECTION("aligned") {                                                                                    \
+			alignas(N / CHAR_BIT) uint_least##N##_t arr {};                                                    \
+			const uint_least##N##_t data                                                                       \
+			     = static_cast<uint_least##N##_t>(ztd::tests::get_distinct_bit_constant<uint_least##N##_t>()); \
+			ztdc_store8_aligned_leu##N(data, (unsigned char*)&arr);                                            \
+			uint_least##N##_t result = ztdc_load8_aligned_leu##N((unsigned char*)&arr);                        \
+			if (N > width) {                                                                                   \
+				if (ZTDC_NATIVE_ENDIAN == ZTDC_LITTLE_ENDIAN) {                                               \
+					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) == 0);                                     \
+				}                                                                                             \
+				else {                                                                                        \
+					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) != 0);                                     \
+				}                                                                                             \
+			}                                                                                                  \
+			REQUIRE(result == data);                                                                           \
+		}                                                                                                       \
+	}                                                                                                            \
+	SECTION("int_least" #N "_t, little, negative") {                                                             \
+		SECTION("unaligned") {                                                                                  \
+			unsigned char arr[N / CHAR_BIT] {};                                                                \
+			const int_least##N##_t data = static_cast<int_least##N##_t>(                                       \
+			     ztd::tests::get_distinct_bit_constant_negative<int_least##N##_t>());                          \
+			ztdc_store8_les##N(data, (unsigned char*)&arr);                                                    \
+			int_least##N##_t result = ztdc_load8_les##N((unsigned char*)&arr);                                 \
+			if (N > width) {                                                                                   \
+				if (ZTDC_NATIVE_ENDIAN == ZTDC_LITTLE_ENDIAN) {                                               \
+					REQUIRE(std::memcmp(arr, &data, sizeof(arr)) == 0);                                      \
+				}                                                                                             \
+				else {                                                                                        \
+					REQUIRE(std::memcmp(arr, &data, sizeof(arr)) != 0);                                      \
+				}                                                                                             \
+			}                                                                                                  \
+			REQUIRE(result == data);                                                                           \
+		}                                                                                                       \
+		SECTION("aligned") {                                                                                    \
+			alignas(N / CHAR_BIT) int_least##N##_t arr {};                                                     \
+			const int_least##N##_t data = static_cast<int_least##N##_t>(                                       \
+			     ztd::tests::get_distinct_bit_constant_negative<int_least##N##_t>());                          \
+			ztdc_store8_aligned_les##N(data, (unsigned char*)&arr);                                            \
+			int_least##N##_t result = ztdc_load8_aligned_les##N((unsigned char*)&arr);                         \
+			if (N > width) {                                                                                   \
+				if (ZTDC_NATIVE_ENDIAN == ZTDC_LITTLE_ENDIAN) {                                               \
+					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) == 0);                                     \
+				}                                                                                             \
+				else {                                                                                        \
+					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) != 0);                                     \
+				}                                                                                             \
+			}                                                                                                  \
+			REQUIRE(result == data);                                                                           \
+		}                                                                                                       \
+	}                                                                                                            \
+	SECTION("int_least" #N "_t, little, positive") {                                                             \
+		SECTION("unaligned") {                                                                                  \
+			unsigned char arr[N / CHAR_BIT] {};                                                                \
+			const int_least##N##_t data = static_cast<int_least##N##_t>(                                       \
+			     ztd::tests::get_distinct_bit_constant_positive<int_least##N##_t>());                          \
+			ztdc_store8_les##N(data, arr);                                                                     \
+			int_least##N##_t result = ztdc_load8_les##N(arr);                                                  \
+			if (N > width) {                                                                                   \
+				if (ZTDC_NATIVE_ENDIAN == ZTDC_LITTLE_ENDIAN) {                                               \
+					REQUIRE(std::memcmp(arr, &data, sizeof(arr)) == 0);                                      \
+				}                                                                                             \
+				else {                                                                                        \
+					REQUIRE(std::memcmp(arr, &data, sizeof(arr)) != 0);                                      \
+				}                                                                                             \
+			}                                                                                                  \
+			REQUIRE(result == data);                                                                           \
+		}                                                                                                       \
+		SECTION("aligned") {                                                                                    \
+			alignas(N / CHAR_BIT) int_least##N##_t arr {};                                                     \
+			const int_least##N##_t data = static_cast<int_least##N##_t>(                                       \
+			     ztd::tests::get_distinct_bit_constant_positive<int_least##N##_t>());                          \
+			ztdc_store8_aligned_les##N(data, (unsigned char*)&arr);                                            \
+			int_least##N##_t result = ztdc_load8_aligned_les##N((unsigned char*)&arr);                         \
+			if (N > width) {                                                                                   \
+				if (ZTDC_NATIVE_ENDIAN == ZTDC_LITTLE_ENDIAN) {                                               \
+					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) == 0);                                     \
+				}                                                                                             \
+				else {                                                                                        \
+					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) != 0);                                     \
+				}                                                                                             \
+			}                                                                                                  \
+			REQUIRE(result == data);                                                                           \
+		}                                                                                                       \
+	}                                                                                                            \
+	SECTION("uint_least" #N "_t, big") {                                                                         \
+		SECTION("unaligned") {                                                                                  \
+			unsigned char arr[N / CHAR_BIT] {};                                                                \
+			const uint_least##N##_t data                                                                       \
+			     = static_cast<uint_least##N##_t>(ztd::tests::get_distinct_bit_constant<uint_least##N##_t>()); \
+			ztdc_store8_beu##N(data, arr);                                                                     \
+			uint_least##N##_t result = ztdc_load8_beu##N(arr);                                                 \
+			if (N > width) {                                                                                   \
+				if (ZTDC_NATIVE_ENDIAN == ZTDC_BIG_ENDIAN) {                                                  \
+					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) == 0);                                     \
+				}                                                                                             \
+				else {                                                                                        \
+					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) != 0);                                     \
+				}                                                                                             \
+			}                                                                                                  \
+			REQUIRE(result == data);                                                                           \
+		}                                                                                                       \
+		SECTION("aligned") {                                                                                    \
+			alignas(N / CHAR_BIT) uint_least##N##_t arr {};                                                    \
+			const uint_least##N##_t data                                                                       \
+			     = static_cast<uint_least##N##_t>(ztd::tests::get_distinct_bit_constant<uint_least##N##_t>()); \
+			ztdc_store8_aligned_beu##N(data, (unsigned char*)&arr);                                            \
+			uint_least##N##_t result = ztdc_load8_aligned_beu##N((unsigned char*)&arr);                        \
+			if (N > width) {                                                                                   \
+				if (ZTDC_NATIVE_ENDIAN == ZTDC_BIG_ENDIAN) {                                                  \
+					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) == 0);                                     \
+				}                                                                                             \
+				else {                                                                                        \
+					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) != 0);                                     \
+				}                                                                                             \
+			}                                                                                                  \
+			REQUIRE(result == data);                                                                           \
+		}                                                                                                       \
+	}                                                                                                            \
+	SECTION("int_least" #N "_t, big, negative") {                                                                \
+		SECTION("unaligned") {                                                                                  \
+			unsigned char arr[N / CHAR_BIT] {};                                                                \
+			const int_least##N##_t data = static_cast<int_least##N##_t>(                                       \
+			     ztd::tests::get_distinct_bit_constant_negative<int_least##N##_t>());                          \
+			ztdc_store8_bes##N(data, arr);                                                                     \
+			int_least##N##_t result = ztdc_load8_bes##N(arr);                                                  \
+			if (N > width) {                                                                                   \
+				if (ZTDC_NATIVE_ENDIAN == ZTDC_BIG_ENDIAN) {                                                  \
+					REQUIRE(std::memcmp(arr, &data, sizeof(arr)) == 0);                                      \
+				}                                                                                             \
+				else {                                                                                        \
+					REQUIRE(std::memcmp(arr, &data, sizeof(arr)) != 0);                                      \
+				}                                                                                             \
+				REQUIRE(result == data);                                                                      \
+			}                                                                                                  \
+		}                                                                                                       \
+		SECTION("aligned") {                                                                                    \
+			alignas(N / CHAR_BIT) int_least##N##_t arr {};                                                     \
+			const int_least##N##_t data = static_cast<int_least##N##_t>(                                       \
+			     ztd::tests::get_distinct_bit_constant_negative<int_least##N##_t>());                          \
+			ztdc_store8_aligned_bes##N(data, (unsigned char*)&arr);                                            \
+			int_least##N##_t result = ztdc_load8_aligned_bes##N((unsigned char*)&arr);                         \
+			if (N > width) {                                                                                   \
+				if (ZTDC_NATIVE_ENDIAN == ZTDC_BIG_ENDIAN) {                                                  \
+					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) == 0);                                     \
+				}                                                                                             \
+				else {                                                                                        \
+					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) != 0);                                     \
+				}                                                                                             \
+			}                                                                                                  \
+			REQUIRE(result == data);                                                                           \
+		}                                                                                                       \
+	}                                                                                                            \
+	SECTION("int_least" #N "_t, big, positive") {                                                                \
+		SECTION("unaligned") {                                                                                  \
+			unsigned char arr[N / CHAR_BIT] {};                                                                \
+			const int_least##N##_t data = static_cast<int_least##N##_t>(                                       \
+			     ztd::tests::get_distinct_bit_constant_positive<int_least##N##_t>());                          \
+			ztdc_store8_bes##N(data, arr);                                                                     \
+			int_least##N##_t result = ztdc_load8_bes##N(arr);                                                  \
+			if (N > width) {                                                                                   \
+				if (ZTDC_NATIVE_ENDIAN == ZTDC_BIG_ENDIAN) {                                                  \
+					REQUIRE(std::memcmp(arr, &data, sizeof(arr)) == 0);                                      \
+				}                                                                                             \
+				else {                                                                                        \
+					REQUIRE(std::memcmp(arr, &data, sizeof(arr)) != 0);                                      \
+				}                                                                                             \
+			}                                                                                                  \
+			REQUIRE(result == data);                                                                           \
+		}                                                                                                       \
+		SECTION("aligned") {                                                                                    \
+			alignas(N / CHAR_BIT) int_least##N##_t arr {};                                                     \
+			const int_least##N##_t data = static_cast<int_least##N##_t>(                                       \
+			     ztd::tests::get_distinct_bit_constant_positive<int_least##N##_t>());                          \
+			ztdc_store8_aligned_bes##N(data, (unsigned char*)&arr);                                            \
+			int_least##N##_t result = ztdc_load8_aligned_bes##N((unsigned char*)&arr);                         \
+			if (N > width) {                                                                                   \
+				if (ZTDC_NATIVE_ENDIAN == ZTDC_BIG_ENDIAN) {                                                  \
+					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) == 0);                                     \
+				}                                                                                             \
+				else {                                                                                        \
+					REQUIRE(std::memcmp(&arr, &data, sizeof(arr)) != 0);                                     \
+				}                                                                                             \
+			}                                                                                                  \
+			REQUIRE(result == data);                                                                           \
+		}                                                                                                       \
+	}                                                                                                            \
 	static_assert(true, "👍")
 
+	const size_t width = CHAR_BIT;
 	SECTION_CASE(8);
 	SECTION_CASE(16);
 	SECTION_CASE(32);

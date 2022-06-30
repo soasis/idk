@@ -114,7 +114,7 @@ namespace ztd { namespace ranges {
 
 		template <typename _It, typename = void>
 		struct __iterator_value_type_interception {
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES_I_)
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
 			//////
 			/// @brief Deliberately undocumented.
 			using type = ::std::iter_value_t<_It>;
@@ -133,7 +133,7 @@ namespace ztd { namespace ranges {
 		};
 	} // namespace __rng_detail
 
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES_I_)
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
 	template <typename _It>
 	using iterator_reference_t = ::std::iter_reference_t<_It>;
 
@@ -155,7 +155,7 @@ namespace ztd { namespace ranges {
 	template <typename _It>
 	using iterator_size_type_t = ::std::make_signed_t<iterator_difference_type_t<::std::remove_reference_t<_It>>>;
 
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES_I_)
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
 	namespace ranges_adl {
 		template <typename _Range>
 		constexpr auto adl_begin(_Range&& __range) noexcept(
@@ -618,7 +618,7 @@ namespace ztd { namespace ranges {
 }} // namespace ztd::ranges
 
 
-#if ZTD_IS_OFF(ZTD_STD_LIBRARY_BORROWED_RANGE_I_)
+#if ZTD_IS_OFF(ZTD_STD_LIBRARY_BORROWED_RANGE)
 
 namespace ztd { namespace ranges {
 	// NOTE: we do not open the ABI namespace here because this is meant to be specialized without it.
@@ -649,7 +649,7 @@ namespace ztd { namespace ranges {
 	//////
 	template <typename _Range>
 	inline constexpr bool borrowed_range_v =
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_BORROWED_RANGE_I_)
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_BORROWED_RANGE)
 		::std::ranges::borrowed_range<_Range>
 #else
 		::ztd::ranges::is_range_v<_Range> // must have begin/end, at least!

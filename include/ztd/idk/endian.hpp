@@ -37,7 +37,7 @@
 
 #include <ztd/idk/endian.h>
 
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_ENDIAN_I_)
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_ENDIAN)
 #include <bit>
 #endif
 
@@ -46,7 +46,7 @@
 namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
 
-#if ZTD_IS_OFF(ZTD_STD_LIBRARY_ENDIAN_I_)
+#if ZTD_IS_OFF(ZTD_STD_LIBRARY_ENDIAN)
 	namespace __idk_detail {
 		enum class __endian { little = ZTDC_LITTLE_ENDIAN, big = ZTDC_BIG_ENDIAN, native = ZTDC_NATIVE_ENDIAN };
 	} // namespace __idk_detail
@@ -61,7 +61,7 @@ namespace ztd {
 	/// middle-endian, though.
 	//////
 	using endian =
-#if ZTD_IS_OFF(ZTD_STD_LIBRARY_ENDIAN_I_)
+#if ZTD_IS_OFF(ZTD_STD_LIBRARY_ENDIAN)
 	     __idk_detail::__endian;
 #else
 	     ::std::endian;

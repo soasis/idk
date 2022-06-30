@@ -81,7 +81,7 @@
 #if defined(ZTD_EXTERN_C)
 	#define ZTD_EXTERN_C_I_ ZTD_EXTERN_C
 #else
-	#if ZTD_IS_ON(ZTD_CXX_I_)
+	#if ZTD_IS_ON(ZTD_CXX)
 		// C++
 		#define ZTD_EXTERN_C_I_ extern "C"
 	#else
@@ -93,7 +93,7 @@
 #if defined(ZTD_EXTERN_IF_CXX)
 	#define ZTD_EXTERN_IF_CXX_I_ ZTD_EXTERN_IF_CXX
 #else
-	#if ZTD_IS_ON(ZTD_CXX_I_)
+	#if ZTD_IS_ON(ZTD_CXX)
 		#define ZTD_EXTERN_IF_CXX_I_ extern
 	#else
 		#define ZTD_EXTERN_IF_CXX_I_
@@ -103,7 +103,7 @@
 #if defined(ZTD_EXTERN_IF_C)
 	#define ZTD_EXTERN_IF_C_I_ ZTD_EXTERN_IF_C
 #else
-	#if ZTD_IS_ON(ZTD_CXX_I_)
+	#if ZTD_IS_ON(ZTD_CXX)
 		#define ZTD_EXTERN_IF_C_I_
 	#else
 		#define ZTD_EXTERN_IF_C_I_ extern
@@ -119,7 +119,7 @@
 #if defined(ZTD_C_FUNCTION_INLINE)
 	#define ZTD_C_FUNCTION_INLINE_I_ ZTD_C_FUNCTION_INLINE
 #else
-	#if ZTD_IS_ON(ZTD_CXX_I_)
+	#if ZTD_IS_ON(ZTD_CXX)
 		// C++
 		#define ZTD_C_FUNCTION_INLINE_I_ inline
 	#else
@@ -131,7 +131,7 @@
 #if defined(ZTD_C_STRUCT_LINKAGE)
 	#define ZTD_C_STRUCT_LINKAGE_I_ ZTD_C_STRUCT_LINKAGE
 #else
-	#if ZTD_IS_ON(ZTD_CXX_I_)
+	#if ZTD_IS_ON(ZTD_CXX)
 		// C++
 		#define ZTD_C_STRUCT_LINKAGE_I_ extern "C"
 	#else
@@ -143,12 +143,12 @@
 #if defined(ZTD_API_LINKAGE)
 	#define ZTD_API_LINKAGE_I_ ZTD_API_LINKAGE
 #else
-	#if ZTD_IS_ON(ZTD_DLL_I_)
-		#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_) || ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_) || ZTD_IS_ON(ZTD_PLATFORM_CYGWIN_I_)
+	#if ZTD_IS_ON(ZTD_DLL)
+		#if ZTD_IS_ON(ZTD_COMPILER_VCXX) || ZTD_IS_ON(ZTD_PLATFORM_WINDOWS) || ZTD_IS_ON(ZTD_PLATFORM_CYGWIN)
 			// MSVC Compiler; or, Windows, or Cygwin platforms
-			#if ZTD_IS_ON(ZTD_BUILD_I_)
+			#if ZTD_IS_ON(ZTD_BUILD)
 				// Building the library
-				#if ZTD_IS_ON(ZTD_COMPILER_GCC_I_)
+				#if ZTD_IS_ON(ZTD_COMPILER_GCC)
 					// Using GCC
 					#define ZTD_API_LINKAGE_I_ __attribute__((dllexport))
 				#else
@@ -156,7 +156,7 @@
 					#define ZTD_API_LINKAGE_I_ __declspec(dllexport)
 				#endif
 			#else
-				#if ZTD_IS_ON(ZTD_COMPILER_GCC_I_)
+				#if ZTD_IS_ON(ZTD_COMPILER_GCC)
 					#define ZTD_API_LINKAGE_I_ __attribute__((dllimport))
 				#else
 					#define ZTD_API_LINKAGE_I_ __declspec(dllimport)
@@ -165,9 +165,9 @@
 		#else
 			#define ZTD_API_LINKAGE_I_
 		#endif
-	#elif ZTD_IS_ON(ZTD_INLINE_BUILD_I_)
+	#elif ZTD_IS_ON(ZTD_INLINE_BUILD)
 		// Built-in library, like how stb typical works
-		#if ZTD_IS_ON(ZTD_HEADER_ONLY_I_)
+		#if ZTD_IS_ON(ZTD_HEADER_ONLY)
 			// Header only, so functions are defined "inline"
 			#define ZTD_API_LINKAGE_I_ inline
 		#else
@@ -182,7 +182,7 @@
 #if defined(ZTD_C_LANGUAGE_LINKAGE)
 	#define ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_C_LANGUAGE_LINKAGE
 #else
-	#if ZTD_IS_ON(ZTD_CXX_I_)
+	#if ZTD_IS_ON(ZTD_CXX)
 		#define ZTD_C_LANGUAGE_LINKAGE_I_ extern "C"
 	#else
 		#define ZTD_C_LANGUAGE_LINKAGE_I_ extern

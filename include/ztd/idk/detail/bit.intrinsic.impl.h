@@ -35,9 +35,9 @@
 
 #include <ztd/idk/version.h>
 
-#if ZTD_IS_ON(ZTD_C_I_)
+#if ZTD_IS_ON(ZTD_C)
 // clang-format off
-	#if ZTD_IS_ON(ZTD_BUILTIN_POPCOUNT_I_)
+	#if ZTD_IS_ON(ZTD_BUILTIN_POPCOUNT)
 		#define _ZTDC_COUNT_ONES_GENERIC_I_(...)             \
 			_Generic((__VA_ARGS__), char                                   \
 			                : __builtin_popcount, unsigned char       \
@@ -50,7 +50,7 @@
 // clang-format on
 #endif
 
-#if ZTD_IS_ON(ZTD_CXX_I_)
+#if ZTD_IS_ON(ZTD_CXX)
 #include <ztd/idk/type_traits.hpp>
 
 #include <limits>
@@ -60,7 +60,7 @@ namespace ztd {
 	namespace __idk_detail {
 		template <typename _Value>
 		int __count_ones(_Value __value) noexcept {
-#if ZTD_IS_ON(ZTD_BUILTIN_POPCOUNT_I_)
+#if ZTD_IS_ON(ZTD_BUILTIN_POPCOUNT)
 			if constexpr (::std::is_unsigned_v<_Value>) {
 				if constexpr (::std::numeric_limits<_Value>::digits <= (sizeof(unsigned int) * CHAR_BIT)) {
 					return __builtin_popcount(__value);

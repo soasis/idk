@@ -114,6 +114,7 @@ if(ZTD_IDK_IS_TOP_LEVEL_PROJECT)
 		check_compiler_flag(template-debugging-mode GCC -ftemplate-backtrace-limit=0)
 		check_compiler_diagnostic(microsoft-enum-value)
 		check_compiler_diagnostic(gnu-zero-variadic-macro-arguments)
+		check_compiler_diagnostic(type-limits)
 	endif()
 endif()
 

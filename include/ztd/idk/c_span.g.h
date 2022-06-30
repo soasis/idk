@@ -31,7 +31,7 @@
 #include <ztd/idk/version.h>
 #include <ztd/idk/assert.h>
 
-#if ZTD_IS_ON(ZTD_CXX_I_)
+#if ZTD_IS_ON(ZTD_CXX)
 #include <cstddef>
 #include <cstring>
 #else
@@ -104,7 +104,7 @@
 // clang-format on
 
 ZTD_C_STRUCT_LINKAGE_I_ typedef struct ZTD_IDK_C_SPAN_FULL_NAME_I_ {
-#if ZTD_IS_ON(ZTD_IDK_C_SPAN_SIZE_FIRST_I_)
+#if ZTD_IS_ON(ZTD_IDK_C_SPAN_SIZE_FIRST)
 	ZTD_IDK_C_SPAN_SIZE_TYPE_I_ ZTD_CONST_IF_NOT_BROKEN_CXX_I_ size;
 	ZTD_IDK_C_SPAN_CONST_TYPE_I_* ZTD_CONST_IF_NOT_BROKEN_CXX_I_ data;
 #else
@@ -123,7 +123,7 @@ ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ void ZTD_IDK_C_SPAN_PREFIX_I_
 ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_FULL_NAME_I_ ZTD_IDK_C_SPAN_PREFIX_I_(make_)(
      ZTD_IDK_C_SPAN_CONST_TYPE_I_* __first, ZTD_IDK_C_SPAN_CONST_TYPE_I_* __last) {
 	ZTD_IDK_C_SPAN_FULL_NAME_I_ __result =
-#if ZTD_IS_ON(ZTD_IDK_C_SPAN_SIZE_FIRST_I_)
+#if ZTD_IS_ON(ZTD_IDK_C_SPAN_SIZE_FIRST)
 	     { (ZTD_IDK_C_SPAN_SIZE_TYPE_I_)(__last - __first), __first }
 #else
 	     { __first, (ZTD_IDK_C_SPAN_SIZE_TYPE_I_)(__last - __first) }
@@ -135,7 +135,7 @@ ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_FULL_NAME_I_ Z
 ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_FULL_NAME_I_ ZTD_IDK_C_SPAN_PREFIX_I_(make_sized_)(
      ZTD_IDK_C_SPAN_CONST_TYPE_I_* __first, ZTD_IDK_C_SPAN_SIZE_TYPE_I_ __size) {
 	ZTD_IDK_C_SPAN_FULL_NAME_I_ __result =
-#if ZTD_IS_ON(ZTD_IDK_C_SPAN_SIZE_FIRST_I_)
+#if ZTD_IS_ON(ZTD_IDK_C_SPAN_SIZE_FIRST)
 	     { __size, __first }
 #else
 	     { __first, __size }
@@ -178,7 +178,7 @@ ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_TYPE_I_ ZTD_ID
 	return __span.data[__index];
 }
 
-#if ZTD_IS_OFF(ZTD_IDK_C_SPAN_TYPE_IS_CONST_I_)
+#if ZTD_IS_OFF(ZTD_IDK_C_SPAN_TYPE_IS_CONST)
 // need: https://thephd.dev/_vendor/future_cxx/papers/C%20-%20typeof.html
 // to make it non-conditional and instead assert/toss when the function is called
 ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ void ZTD_IDK_C_SPAN_SUFFIX_I_(_set)(

@@ -51,7 +51,7 @@ namespace ztd {
 	///
 	//////
 	using contiguous_iterator_tag =
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_CONTIGUOUS_ITERATOR_TAG_I_)
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_CONTIGUOUS_ITERATOR_TAG)
 	     ::std::contiguous_iterator_tag
 #else
 	     __idk_detail::__contiguous_iterator_tag

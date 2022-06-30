@@ -37,23 +37,23 @@
 
 #include <ztd/idk/encoding_name.hpp>
 
-#if ZTD_IS_ON(ZTD_PLATFORM_UNIX_I_) || ZTD_IS_ON(ZTD_PLATFORM_POSIX_I_)
+#if ZTD_IS_ON(ZTD_PLATFORM_UNIX) || ZTD_IS_ON(ZTD_PLATFORM_POSIX)
 
 // clang-format off
 #include <clocale>
-#if ZTD_IS_ON(ZTD_LANGINFO_I_)
+#if ZTD_IS_ON(ZTD_LANGINFO)
 	extern "C" {
 		#include <langinfo.h>
 	}
-#elif ZTD_IS_ON(ZTD_NL_LANGINFO_I_)
+#elif ZTD_IS_ON(ZTD_NL_LANGINFO)
 	// IBM-specific??
 	extern "C" {
 		#include <nl_langinfo.h>
 	}
 #endif
 
-#if ZTD_IS_ON(ZTD_LIBICONV_LOAD_I_)
-	#if ZTD_IS_ON(ZTD_PLATFORM_POSIX_I_) && ZTD_IS_ON(ZTD_DLFCN_H_I_)
+#if ZTD_IS_ON(ZTD_LIBICONV_LOAD)
+	#if ZTD_IS_ON(ZTD_PLATFORM_POSIX) && ZTD_IS_ON(ZTD_DLFCN_H)
 		#include <dlfcn.h>
 	#endif
 #endif
@@ -68,7 +68,7 @@ namespace ztd {
 	namespace __idk_detail { namespace __posix {
 
 		inline __idk_detail::__encoding_id __determine_active_code_page() noexcept {
-#if ZTD_IS_ON(ZTD_LANGINFO_I_) || ZTD_IS_ON(ZTD_NL_LANGINFO_I_)
+#if ZTD_IS_ON(ZTD_LANGINFO) || ZTD_IS_ON(ZTD_NL_LANGINFO)
 			const char* __name = nl_langinfo(LC_CTYPE);
 			return __idk_detail::__to_encoding_id(__name);
 #else

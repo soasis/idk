@@ -37,7 +37,7 @@
 #include <ztd/idk/assume_aligned.hpp>
 #include <ztd/idk/detail/bit.intrinsic.impl.h>
 
-#if ZTD_IS_ON(ZTD_C_I_)
+#if ZTD_IS_ON(ZTD_C)
 #include <string.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -47,7 +47,7 @@
 #include <cstdint>
 #endif
 
-#if ZTD_IS_ON(ZTD_BUILTIN_POPCOUNT_I_)
+#if ZTD_IS_ON(ZTD_BUILTIN_POPCOUNT)
 #define _ZTDC_COUNT_ONES_BODY_I_(_TYPE, _VALUE) return _ZTDC_COUNT_ONES_GENERIC_I_(_VALUE)
 #else
 #define _ZTDC_COUNT_ONES_BODY_I_(_TYPE, _VALUE)                                             \
@@ -111,7 +111,7 @@ bool ztdc_has_single_bitull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
 	return ztdc_count_ones(__value) == 1;
 }
 
-#if ZTD_IS_ON(ZTD_BUILTIN_CLZ_I_)
+#if ZTD_IS_ON(ZTD_BUILTIN_CLZ)
 #define _ZTDC_COUNT_LEADING_ZEROES_BODY_I_(_TYPE, _VALUE, _BUILTIN_SUFFIX, _BUILTIN_ADJUSTMENT) \
 	if (_VALUE == 0)                                                                           \
 		return sizeof(_VALUE) * CHAR_BIT;                                                     \
@@ -131,7 +131,7 @@ bool ztdc_has_single_bitull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
 	return __num
 #endif
 
-#if ZTD_IS_ON(ZTD_BUILTIN_CTZ_I_)
+#if ZTD_IS_ON(ZTD_BUILTIN_CTZ)
 #define _ZTDC_COUNT_TRAILING_ZEROES_BODY_I_(_TYPE, _VALUE, _BUILTIN_SUFFIX, _BUILTIN_ADJUSTMENT) \
 	if (_VALUE == 0)                                                                            \
 		return sizeof(_VALUE) * CHAR_BIT;                                                      \
@@ -298,10 +298,10 @@ unsigned long long ztdc_bit_floorull(unsigned long long __value) ZTD_CXX_NOEXCEP
 
 #undef _ZTDC_BIT_FLOOR_BODY_I_
 
-#if ZTD_IS_ON(ZTD_COMPILER_GCC_I_) || ZTD_IS_ON(ZTD_COMPILER_CLANG_I_)
+#if ZTD_IS_ON(ZTD_COMPILER_GCC) || ZTD_IS_ON(ZTD_COMPILER_CLANG)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wshift-count-overflow"
-#elif ZTD_IS_ON(ZTD_COMPILER_VCXX_I_)
+#elif ZTD_IS_ON(ZTD_COMPILER_VCXX)
 #pragma warning(push)
 #pragma warning(disable : 4333 4293)
 #endif
@@ -352,9 +352,9 @@ unsigned long long ztdc_bit_ceilull(unsigned long long __value) ZTD_CXX_NOEXCEPT
 #undef _ZTDC_BIT_CEIL_BODY_PROMOTED_I_
 #undef _ZTDC_BIT_CEIL_BODY_I_
 
-#if ZTD_IS_ON(ZTD_COMPILER_GCC_I_) || ZTD_IS_ON(ZTD_COMPILER_CLANG_I_)
+#if ZTD_IS_ON(ZTD_COMPILER_GCC) || ZTD_IS_ON(ZTD_COMPILER_CLANG)
 #pragma GCC diagnostic pop
-#elif ZTD_IS_ON(ZTD_COMPILER_VCXX_I_)
+#elif ZTD_IS_ON(ZTD_COMPILER_VCXX)
 #pragma warning(pop)
 #endif
 
@@ -374,7 +374,7 @@ unsigned long long ztdc_bit_widthull(unsigned long long __value) ZTD_CXX_NOEXCEP
 	return ztdc_bit_width(__value);
 }
 
-#if ZTD_IS_ON(ZTD_BUILTIN_CLZ_I_)
+#if ZTD_IS_ON(ZTD_BUILTIN_CLZ)
 #define _ZTD_FIRST_LEADING_ONE_BODY_I_(_TYPE, _VALUE, _BUILTIN_SUFFIX, _BUILTIN_ADJUSTMENT) \
 	if (_VALUE == 0) {                                                                     \
 		return 0;                                                                         \
@@ -411,7 +411,7 @@ int ztdc_first_leading_oneull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
 
 #undef _ZTD_FIRST_LEADING_ONE_BODY_I_
 
-#if ZTD_IS_ON(ZTD_BUILTIN_FFS_I_)
+#if ZTD_IS_ON(ZTD_BUILTIN_FFS)
 #define _ZTD_FIRST_TRAILING_ONE_BODY_I_(_TYPE, _VALUE, _BUILTIN_SUFFIX) return __builtin_ffs##_BUILTIN_SUFFIX(_VALUE)
 #else
 #define _ZTD_FIRST_TRAILING_ONE_BODY_I_(_TYPE, _VALUE, _BUILTIN_SUFFIX)                       \

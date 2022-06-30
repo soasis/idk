@@ -51,18 +51,18 @@ typedef char ztd_char_t;
 typedef ZTD_CHAR8_T_I_ ztd_char8_t;
 
 // clang-format off
-#if ZTD_IS_ON(ZTD_CXX_I_)
+#if ZTD_IS_ON(ZTD_CXX)
 		typedef wchar_t ztd_wchar_t;
 		typedef char16_t ztd_char16_t;
 		typedef char32_t ztd_char32_t;
 #else
-	#if ZTD_IS_ON(ZTD_UCHAR_I_)
+	#if ZTD_IS_ON(ZTD_UCHAR)
 		#include <uchar.h>
 
 		typedef char16_t ztd_char16_t;
 		typedef char32_t ztd_char32_t;
 	#else
-		#if ZTD_IS_ON(ZTD_CXX_I_)
+		#if ZTD_IS_ON(ZTD_CXX)
 			#include <cstdint>
 		#else
 			#include <stdint.h>
@@ -72,18 +72,18 @@ typedef ZTD_CHAR8_T_I_ ztd_char8_t;
 		typedef uint_least32_t ztd_char32_t;
 	#endif
 
-	#if ZTD_IS_ON(ZTD_WCHAR_I_)
+	#if ZTD_IS_ON(ZTD_WCHAR)
 		#include <wchar.h>
 
 		typedef wchar_t ztd_wchar_t;
 	#else
-		#if ZTD_IS_ON(ZTD_CXX_I_)
+		#if ZTD_IS_ON(ZTD_CXX)
 			#include <cstdint>
 		#else
 			#include <stdint.h>
 		#endif
 
-		#if ZTD_IS_ON(ZTD_TEXT_PLATFORM_WINDOWS_I_)
+		#if ZTD_IS_ON(ZTD_TEXT_PLATFORM_WINDOWS)
 			typedef uint_least16_t ztd_wchar_t;
 		#else
 			typedef uint_least32_t ztd_wchar_t;

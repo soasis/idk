@@ -38,7 +38,7 @@
 
 // clang-format off
 
-#if ZTD_IS_ON(ZTD_CXX_I_)
+#if ZTD_IS_ON(ZTD_CXX)
 	#include <cstddef>
 	#include <cstdint>
 	#include <climits>
@@ -70,7 +70,7 @@
 	#define ZTD_COMPILER_VCXX_I_ ZTD_OFF
 #endif
 
-#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_) && ZTD_IS_ON(ZTD_COMPILER_CLANG_I_)
+#if ZTD_IS_ON(ZTD_COMPILER_VCXX) && ZTD_IS_ON(ZTD_COMPILER_CLANG)
 	#define ZTD_COMPILER_VCXX_CLANG_I_ ZTD_ON
 #else
 	#define ZTD_COMPILER_VCXX_CLANG_I_ ZTD_OFF
@@ -148,11 +148,11 @@
 	#else
 		#define ZTD_LIBICONV_I_ ZTD_OFF
 	#endif
-#elif ZTD_IS_ON(ZTD_LIBICONV_LOAD_I_)
+#elif ZTD_IS_ON(ZTD_LIBICONV_LOAD)
 	#define ZTD_LIBICONV_I_ ZTD_ON
-#elif ZTD_IS_ON(ZTD_LIBICONV_STATIC_I_)
+#elif ZTD_IS_ON(ZTD_LIBICONV_STATIC)
 	#define ZTD_LIBICONV_I_ ZTD_LIBICONV_STATIC_I_
-#elif ZTD_IS_ON(ZTD_LIBICONV_DYNAMIC_I_)
+#elif ZTD_IS_ON(ZTD_LIBICONV_DYNAMIC)
 	#define ZTD_LIBICONV_I_ ZTD_LIBICONV_DYNAMIC_I_
 #else
 	#define ZTD_LIBICONV_I_ ZTD_DEFAULT_OFF
@@ -330,9 +330,9 @@
 	#else
 		#define ZTD_DEBUG_I_ ZTD_OFF
 	#endif
-#elif ZTD_IS_ON(ZTD_COMPILER_VCXX_I_) && defined(_DEBUG)
+#elif ZTD_IS_ON(ZTD_COMPILER_VCXX) && defined(_DEBUG)
 	#define ZTD_DEBUG_I_ ZTD_DEFAULT_ON
-#elif (ZTD_IS_ON(ZTD_COMPILER_CLANG_I_) || ZTD_IS_ON(ZTD_COMPILER_GCC_I_)) && !defined(__OPTIMIZE__)
+#elif (ZTD_IS_ON(ZTD_COMPILER_CLANG) || ZTD_IS_ON(ZTD_COMPILER_GCC)) && !defined(__OPTIMIZE__)
 	#define ZTD_DEBUG_I_ ZTD_DEFAULT_ON
 #elif !defined(NDEBUG)
 	#define ZTD_DEBUG_I_ ZTD_DEFAULT_ON
@@ -360,7 +360,7 @@
 	#else
 		#define ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_ ZTD_OFF
 	#endif
-#elif ZTD_IS_ON(ZTD_NL_LANGINFO_I_) && (ZTD_IS_ON(ZTD_PLATFORM_ZEDOS_I_) || ZTD_IS_ON(ZTD_PLATFORM_AIX_I_))
+#elif ZTD_IS_ON(ZTD_NL_LANGINFO) && (ZTD_IS_ON(ZTD_PLATFORM_ZEDOS) || ZTD_IS_ON(ZTD_PLATFORM_AIX))
 	#define ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_ ZTD_ON
 #else
 	#define ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_ ZTD_DEFAULT_OFF
@@ -372,7 +372,7 @@
 	#else
 		#define ZTD_WCHAR_T_UTF16_COMPATIBLE_I_ ZTD_OFF
 	#endif
-#elif (WCHAR_MAX >= 0xFFFF) && ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
+#elif (WCHAR_MAX >= 0xFFFF) && ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 	#define ZTD_WCHAR_T_UTF16_COMPATIBLE_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_WCHAR_T_UTF16_COMPATIBLE_I_ ZTD_DEFAULT_OFF
@@ -386,13 +386,13 @@
 	#endif
 #elif defined(__STDC_ISO_10646__) && (__STDC_ISO_10646__ != 0)
 	#define ZTD_WCHAR_T_UTF32_COMPATIBLE_I_ ZTD_DEFAULT_ON
-#elif (WCHAR_MAX >= 0x0010FFFF) && ZTD_IS_OFF(ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_) && ZTD_IS_OFF(ZTD_WCHAR_T_UTF16_COMPATIBLE_I_)
+#elif (WCHAR_MAX >= 0x0010FFFF) && ZTD_IS_OFF(ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION) && ZTD_IS_OFF(ZTD_WCHAR_T_UTF16_COMPATIBLE)
 	#define ZTD_WCHAR_T_UTF32_COMPATIBLE_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_WCHAR_T_UTF32_COMPATIBLE_I_ ZTD_DEFAULT_OFF
 #endif
 
-#if ZTD_IS_ON(ZTD_WCHAR_T_UTF32_COMPATIBLE_I_) && ZTD_IS_ON(ZTD_WCHAR_T_UTF16_COMPATIBLE_I_)
+#if ZTD_IS_ON(ZTD_WCHAR_T_UTF32_COMPATIBLE) && ZTD_IS_ON(ZTD_WCHAR_T_UTF16_COMPATIBLE)
 	#error Both ZTD_WCHAR_T_UTF32_COMPATIBLE_I_ and ZTD_WCHAR_T_UTF32_COMPATIBLE_I_ are on, meaning that the wchar_t encoding is both UTF-32 and UTF-16 compatible. This cannot be right: please check your build macros for WCHAR_T-related ZTD defines, or file a bug report!
 #endif
 
@@ -402,7 +402,7 @@
 	#else
 		#define ZTD_NATIVE_CHAR8_T_I_ ZTD_OFF
 	#endif
-#elif ZTD_IS_ON(ZTD_CXX_I_) && defined(__cpp_char8_t)
+#elif ZTD_IS_ON(ZTD_CXX) && defined(__cpp_char8_t)
 	#define ZTD_NATIVE_CHAR8_T_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_NATIVE_CHAR8_T_I_ ZTD_DEFAULT_OFF
@@ -411,7 +411,7 @@
 #if defined(ZTD_CHAR8_T)
 	#define ZTD_USE_USER_CHAR8_T_I_ ZTD_ON
 	#define ZTD_CHAR8_T_I_ ZTD_CHAR8_T
-#elif ZTD_IS_ON(ZTD_NATIVE_CHAR8_T_I_)
+#elif ZTD_IS_ON(ZTD_NATIVE_CHAR8_T)
 	#define ZTD_USE_USER_CHAR8_T_I_ ZTD_DEFAULT_OFF
 	#define ZTD_CHAR8_T_I_ char8_t
 #else
@@ -425,7 +425,7 @@
 	#else
 		#define ZTD_UCHAR_I_ ZTD_OFF
 	#endif
-#elif ZTD_IS_OFF(ZTD_PLATFORM_MAC_OS_I_)
+#elif ZTD_IS_OFF(ZTD_PLATFORM_MAC_OS)
 	#define ZTD_UCHAR_I_ ZTD_DEFAULT_ON
 #elif ZTD_HAS_INCLUDE_I_(<uchar.h>)
 	#define ZTD_UCHAR_I_ ZTD_DEFAULT_ON
@@ -439,9 +439,9 @@
 	#else
 		#define ZTD_CUCHAR_I_ ZTD_OFF
 	#endif
-#elif ZTD_IS_ON(ZTD_CXX_I_) && ZTD_HAS_INCLUDE_I_(<cuchar>)
+#elif ZTD_IS_ON(ZTD_CXX) && ZTD_HAS_INCLUDE_I_(<cuchar>)
 	#define ZTD_CUCHAR_I_ ZTD_DEFAULT_ON
-#elif ZTD_IS_ON(ZTD_CXX_I_) && ZTD_IS_OFF(ZTD_LIBCXX_I_)
+#elif ZTD_IS_ON(ZTD_CXX) && ZTD_IS_OFF(ZTD_LIBCXX)
 	#define ZTD_CUCHAR_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_CUCHAR_I_ ZTD_DEFAULT_OFF
@@ -455,7 +455,7 @@
 	#endif
 #elif ZTD_HAS_INCLUDE_I_(<wchar.h>)
 	#define ZTD_WCHAR_I_ ZTD_DEFAULT_ON
-#elif ZTD_IS_OFF(ZTD_LIBCXX_I_)
+#elif ZTD_IS_OFF(ZTD_LIBCXX)
 	#define ZTD_WCHAR_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_WCHAR_I_ ZTD_DEFAULT_OFF
@@ -467,9 +467,9 @@
 	#else
 		#define ZTD_CWCHAR_I_ ZTD_OFF
 	#endif
-#elif ZTD_IS_ON(ZTD_CXX_I_) && ZTD_HAS_INCLUDE_I_(<cwchar>)
+#elif ZTD_IS_ON(ZTD_CXX) && ZTD_HAS_INCLUDE_I_(<cwchar>)
 	#define ZTD_CWCHAR_I_ ZTD_DEFAULT_ON
-#elif ZTD_IS_ON(ZTD_CXX_I_) && ZTD_IS_OFF(ZTD_PLATFORM_MAC_OS_I_)
+#elif ZTD_IS_ON(ZTD_CXX) && ZTD_IS_OFF(ZTD_PLATFORM_MAC_OS)
 	#define ZTD_CWCHAR_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_CWCHAR_I_ ZTD_DEFAULT_OFF
@@ -499,8 +499,8 @@
 	#define ZTD_STDBIT_H_I_ ZTD_DEFAULT_OFF
 #endif
 
-#if ZTD_IS_ON(ZTD_CXX_I_)
-	#if ZTD_IS_ON(ZTD_CUCHAR_I_)
+#if ZTD_IS_ON(ZTD_CXX)
+	#if ZTD_IS_ON(ZTD_CUCHAR)
 		#define ZTD_UCHAR_ACCESSOR_I_ ::std::
 	#else
 		#define ZTD_UCHAR_ACCESSOR_I_ ::
@@ -509,8 +509,8 @@
 	#define ZTD_UCHAR_ACCESSOR_I_
 #endif
 
-#if ZTD_IS_ON(ZTD_CXX_I_)
-	#if ZTD_IS_ON(ZTD_CWCHAR_I_)
+#if ZTD_IS_ON(ZTD_CXX)
+	#if ZTD_IS_ON(ZTD_CWCHAR)
 		#define ZTD_WCHAR_ACCESSOR_I_ ::std::
 	#else
 		#define ZTD_WCHAR_ACCESSOR_I_ ::
@@ -534,7 +534,7 @@
 #endif // langinfo POSIX
 
 #if (ZTD_HAS_ATTRIBUTE_I_(nodiscard) != 0L)
-	#if ZTD_IS_ON(ZTD_CXX_I_)
+	#if ZTD_IS_ON(ZTD_CXX)
 		#if ZTD_HAS_ATTRIBUTE_I_(nodiscard) >= 201907L
 			#define ZTD_NODISCARD_MESSAGE_I_(__message) [[nodiscard(__message)]]
 			#define ZTD_NODISCARD_I_ [[nodiscard]]
@@ -547,10 +547,10 @@
 		#define ZTD_NODISCARD_I_ [[nodiscard]]
 	#endif
 #else
-	#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_) && defined(_Check_return_)
+	#if ZTD_IS_ON(ZTD_COMPILER_VCXX) && defined(_Check_return_)
 		#define ZTD_NODISCARD_MESSAGE_I_(__message) _Check_return_
 		#define ZTD_NODISCARD_I_ _Check_return_
-	#elif ZTD_IS_ON(ZTD_COMPILER_CLANG_I_) || ZTD_IS_ON(ZTD_COMPILER_GCC_I_)
+	#elif ZTD_IS_ON(ZTD_COMPILER_CLANG) || ZTD_IS_ON(ZTD_COMPILER_GCC)
 		#define ZTD_NODISCARD_MESSAGE_I_(__message) __attribute__((warn_unused_result))
 		#define ZTD_NODISCARD_I_ __attribute__((warn_unused_result))
 	#else
@@ -562,7 +562,7 @@
 
 #if (ZTD_HAS_ATTRIBUTE_I_(no_unique_address) != 0L)
 	#define ZTD_NO_UNIQUE_ADDRESS_I_ [[no_unique_address]]
-#elif ZTD_IS_ON(ZTD_CXX_I_) && ZTD_IS_ON(ZTD_COMPILER_VCXX_I_) && _MSC_VER >= 1929L
+#elif ZTD_IS_ON(ZTD_CXX) && ZTD_IS_ON(ZTD_COMPILER_VCXX) && _MSC_VER >= 1929L
 	#define ZTD_NO_UNIQUE_ADDRESS_I_ [[msvc::no_unique_address]]
 #else
 	#define ZTD_NO_UNIQUE_ADDRESS_I_
@@ -571,9 +571,9 @@
 #if (ZTD_HAS_ATTRIBUTE_I_(deprecated) != 0L)
 	#define ZTD_DEPRECATED_I_(__message) [[deprecated(__message)]]
 #else
-	#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_)
+	#if ZTD_IS_ON(ZTD_COMPILER_VCXX)
 		#define ZTD_DEPRECATED_I_(__message) declspec(deprecated)
-	#elif ZTD_IS_ON(ZTD_COMPILER_CLANG_I_) || ZTD_IS_ON(ZTD_COMPILER_GCC_I_)
+	#elif ZTD_IS_ON(ZTD_COMPILER_CLANG) || ZTD_IS_ON(ZTD_COMPILER_GCC)
 		#define ZTD_DEPRECATED_I_(__message) __attribute__((warn_unused_result))
 	#else
 		// :c
@@ -583,9 +583,9 @@
 
 #if defined(ZTD_TYPE_ALIGN_ATTRIBUTE)
 	#define ZTD_TYPE_ALIGN_ATTRIBUTE_I_(...) ZTD_TYPE_ALIGN_ATTRIBUTE(__VA__ARGS__)
-#elif ZTD_IS_ON(ZTD_COMPILER_VCXX_I_)
+#elif ZTD_IS_ON(ZTD_COMPILER_VCXX)
 	#define ZTD_TYPE_ALIGN_ATTRIBUTE_I_(...) __declspec(align(__VA_ARGS__))
-#elif ZTD_IS_ON(ZTD_COMPILER_CLANG_I_) || ZTD_IS_ON(ZTD_COMPILER_GCC_I_)
+#elif ZTD_IS_ON(ZTD_COMPILER_CLANG) || ZTD_IS_ON(ZTD_COMPILER_GCC)
 	#define ZTD_TYPE_ALIGN_ATTRIBUTE_I_(...) __attribute__((aligned(__VA_ARGS__)))
 #else
 	#define ZTD_TYPE_ALIGN_ATTRIBUTE_I_(...)
@@ -594,7 +594,7 @@
 #if defined(ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE)
 	#define ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE_I_ ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE
 #else
-	#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_)
+	#if ZTD_IS_ON(ZTD_COMPILER_VCXX)
 		// "The reserve value specifies the total stack allocation in virtual memory. 
 		// For ARM, x86 and x64 machines, the default stack size is 1 MB."
 		// ...
@@ -602,7 +602,7 @@
 		// https://docs.microsoft.com/en-us/cpp/build/reference/stack-stack-allocations?view=vs-2019
 		// Uses: (1024 * 64)
 		#define ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE_I_ (65536)
-	#elif ZTD_IS_ON(ZTD_PLATFORM_MAC_OS_I_)
+	#elif ZTD_IS_ON(ZTD_PLATFORM_MAC_OS)
 		// "  -stack_size size
 		//     Specifies the maximum stack size for the main thread in a program.  Without this option a
 		//     program has a 8MB stack.  The argument size is a hexadecimal number with an optional lead-
@@ -610,7 +610,7 @@
 		// ld(1) manpage on Mac OS
 		// Uses: ((1024 * 64) * 8)
 		#define ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE_I_ (524288)
-	#elif ZTD_IS_ON(ZTD_PLATFORM_LINUX_I_) || ZTD_IS_ON(ZTD_PLATFORM_UNIX_I_)
+	#elif ZTD_IS_ON(ZTD_PLATFORM_LINUX) || ZTD_IS_ON(ZTD_PLATFORM_UNIX)
 		// "Here is the vale for a few architectures:"
 		//
 		//    │Architecture │ Default stack size │
@@ -684,11 +684,11 @@
 	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_()         __clang_wide_literal_encoding__
 	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_DESCRIPTION_I_() ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_()
 	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_I_               ZTD_DEFAULT_ON
-#elif ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
+#elif ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_()         "UTF-16"
 	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_DESCRIPTION_I_() "UTF-16"
 	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_I_               ZTD_DEFAULT_ON
-#elif (WCHAR_MAX >= 0x001FFFFF) && ZTD_IS_ON(ZTD_WCHAR_T_UTF32_COMPATIBLE_I_)
+#elif (WCHAR_MAX >= 0x001FFFFF) && ZTD_IS_ON(ZTD_WCHAR_T_UTF32_COMPATIBLE)
 	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_()         "UTF-32"
 	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_DESCRIPTION_I_() "UTF-32"
 	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_I_               ZTD_DEFAULT_ON
@@ -706,7 +706,7 @@
 	#define ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_I_               ZTD_DEFAULT_OFF
 #endif
 
-#if ZTD_IS_ON(ZTD_CXX_I_) || ZTD_IS_ON(ZTD_COMPILER_VCXX_I_)
+#if ZTD_IS_ON(ZTD_CXX) || ZTD_IS_ON(ZTD_COMPILER_VCXX)
 	#define ZTD_STATIC_PTR_EXTENT_I_(...)
 #else
 	#define ZTD_STATIC_PTR_EXTENT_I_(...) static (__VA_ARGS__)
@@ -724,25 +724,25 @@
 
 #if defined(ZTD_CONST_IF_NOT_BROKEN_CXX)
 	#define ZTD_CONST_IF_NOT_BROKEN_CXX_I_ ZTD_CONST_IF_NOT_BROKEN_CXX
-#elif ZTD_IS_ON(ZTD_CXX_I_) && ZTD_IS_ON(ZTD_COMPILER_VCXX_I_)
+#elif ZTD_IS_ON(ZTD_CXX) && ZTD_IS_ON(ZTD_COMPILER_VCXX)
 	#define ZTD_CONST_IF_NOT_BROKEN_CXX_I_
 #else
 	#define ZTD_CONST_IF_NOT_BROKEN_CXX_I_ const
 #endif
 
-#if ZTD_IS_ON(ZTD_CXX_I_)
+#if ZTD_IS_ON(ZTD_CXX)
 	#define ZTD_CONSTEXPR_IF_CXX_I_ constexpr
 #else
 	#define ZTD_CONSTEXPR_IF_CXX_I_
 #endif
 
-#if ZTD_IS_ON(ZTD_CXX_I_)
+#if ZTD_IS_ON(ZTD_CXX)
 	#define ZTD_INLINE_IF_CXX_I_ inline
 #else
 	#define ZTD_INLINE_IF_CXX_I_
 #endif
 
-#if ZTD_IS_ON(ZTD_CXX_I_)
+#if ZTD_IS_ON(ZTD_CXX)
 	#define ZTD_NOEXCEPT_IF_CXX_I_ noexcept
 #else
 	#define ZTD_NOEXCEPT_IF_CXX_I_
@@ -756,7 +756,7 @@
 	#endif
 #elif ZTD_HAS_BUILTIN_I_(__builtin_popcount)
 	#define ZTD_BUILTIN_POPCOUNT_I_ ZTD_DEFAULT_ON
-#elif ZTD_IS_ON(ZTD_COMPILER_GCC_I_) || ZTD_IS_ON(ZTD_COMPILER_CLANG_I_)
+#elif ZTD_IS_ON(ZTD_COMPILER_GCC) || ZTD_IS_ON(ZTD_COMPILER_CLANG)
 	#define ZTD_BUILTIN_POPCOUNT_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_BUILTIN_POPCOUNT_I_ ZTD_DEFAULT_OFF
@@ -770,7 +770,7 @@
 	#endif
 #elif ZTD_HAS_BUILTIN_I_(__builtin_return_address)
 	#define ZTD_BUILTIN_RETURN_ADDRESS_I_ ZTD_DEFAULT_ON
-#elif ZTD_IS_ON(ZTD_COMPILER_GCC_I_) || ZTD_IS_ON(ZTD_COMPILER_CLANG_I_)
+#elif ZTD_IS_ON(ZTD_COMPILER_GCC) || ZTD_IS_ON(ZTD_COMPILER_CLANG)
 	#define ZTD_BUILTIN_RETURN_ADDRESS_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_BUILTIN_RETURN_ADDRESS_I_ ZTD_DEFAULT_OFF
@@ -784,7 +784,7 @@
 	#endif
 #elif ZTD_HAS_BUILTIN_I_(__builtin_frame_address)
 	#define ZTD_BUILTIN_FRAME_ADDRESS_I_ ZTD_DEFAULT_ON
-#elif ZTD_IS_ON(ZTD_COMPILER_GCC_I_) || ZTD_IS_ON(ZTD_COMPILER_CLANG_I_)
+#elif ZTD_IS_ON(ZTD_COMPILER_GCC) || ZTD_IS_ON(ZTD_COMPILER_CLANG)
 	#define ZTD_BUILTIN_FRAME_ADDRESS_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_BUILTIN_FRAME_ADDRESS_I_ ZTD_DEFAULT_OFF
@@ -798,7 +798,7 @@
 	#endif
 #elif ZTD_HAS_BUILTIN_I_(__builtin_ctz)
 	#define ZTD_BUILTIN_CTZ_I_ ZTD_DEFAULT_ON
-#elif ZTD_IS_ON(ZTD_COMPILER_GCC_I_) || ZTD_IS_ON(ZTD_COMPILER_CLANG_I_)
+#elif ZTD_IS_ON(ZTD_COMPILER_GCC) || ZTD_IS_ON(ZTD_COMPILER_CLANG)
 	#define ZTD_BUILTIN_CTZ_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_BUILTIN_CTZ_I_ ZTD_DEFAULT_OFF
@@ -812,7 +812,7 @@
 	#endif
 #elif ZTD_HAS_BUILTIN_I_(__builtin_clz)
 	#define ZTD_BUILTIN_CLZ_I_ ZTD_DEFAULT_ON
-#elif ZTD_IS_ON(ZTD_COMPILER_GCC_I_) || ZTD_IS_ON(ZTD_COMPILER_CLANG_I_)
+#elif ZTD_IS_ON(ZTD_COMPILER_GCC) || ZTD_IS_ON(ZTD_COMPILER_CLANG)
 	#define ZTD_BUILTIN_CLZ_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_BUILTIN_CLZ_I_ ZTD_DEFAULT_OFF
@@ -826,7 +826,7 @@
 	#endif
 #elif ZTD_HAS_BUILTIN_I_(__builtin_ffs)
 	#define ZTD_BUILTIN_FFS_I_ ZTD_DEFAULT_ON
-#elif ZTD_IS_ON(ZTD_COMPILER_GCC_I_) || ZTD_IS_ON(ZTD_COMPILER_CLANG_I_)
+#elif ZTD_IS_ON(ZTD_COMPILER_GCC) || ZTD_IS_ON(ZTD_COMPILER_CLANG)
 	#define ZTD_BUILTIN_FFS_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_BUILTIN_FFS_I_ ZTD_DEFAULT_OFF
@@ -834,7 +834,7 @@
 
 #define ZTD_INLINE_CONSTEXPR_IF_CXX_I_ ZTD_INLINE_IF_CXX_I_ ZTD_CONSTEXPR_IF_CXX_I_
 
-#if ZTD_IS_ON(ZTD_CXX_I_)
+#if ZTD_IS_ON(ZTD_CXX)
 	#define ZTD_EXTERN_C_OPEN_I_ extern "C" {
 	#define ZTD_EXTERN_C_CLOSE_I_ }
 #else
@@ -842,7 +842,7 @@
 	#define ZTD_EXTERN_C_CLOSE_I_
 #endif
 
-#if ZTD_IS_ON(ZTD_CXX_I_)
+#if ZTD_IS_ON(ZTD_CXX)
 	#define ZTD_CXX_NOEXCEPT_I_ noexcept
 	#define ZTD_CXX_NOEXCEPT_IF_I_(...) noexcept(__VA_ARGS__)
 #else

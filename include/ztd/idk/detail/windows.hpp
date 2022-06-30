@@ -35,9 +35,9 @@
 
 #include <ztd/idk/version.hpp>
 
-#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
+#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 
-#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_) || ZTD_IS_ON(ZTD_COMPILER_GCC_I_)
+#if ZTD_IS_ON(ZTD_COMPILER_VCXX) || ZTD_IS_ON(ZTD_COMPILER_GCC)
 #pragma push_macro("NOMINMAX")
 #pragma push_macro("WIN32_LEAN_AND_MEAN")
 #pragma push_macro("VC_EXTRALEAN")
@@ -86,7 +86,7 @@ namespace ztd {
 			}
 #endif // VC++ stuff
 
-#if ZTD_IS_ON(ZTD_FILEAPISAREANSI_I_)
+#if ZTD_IS_ON(ZTD_FILEAPISAREANSI)
 			if (!::AreFileApisANSI()) {
 				return CP_OEMCP;
 			}
@@ -114,7 +114,7 @@ namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd
 
-#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_)
+#if ZTD_IS_ON(ZTD_COMPILER_VCXX)
 #pragma pop_macro("VC_EXTRALEAN")
 #pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #pragma pop_macro("NOMINMAX")

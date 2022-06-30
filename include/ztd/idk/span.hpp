@@ -39,7 +39,7 @@
 
 #include <type_traits>
 
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_SPAN_I_)
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_SPAN)
 
 #include <span>
 
@@ -84,7 +84,7 @@ namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd
 
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_BORROWED_RANGE_I_)
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_BORROWED_RANGE)
 
 namespace std {
 

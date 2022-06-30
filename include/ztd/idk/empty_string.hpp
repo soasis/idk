@@ -77,7 +77,7 @@ namespace ztd {
 		return L"";
 	}
 
-#if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T_I_)
+#if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T)
 	template <>
 	inline constexpr decltype(auto) empty_string<char8_t>() noexcept {
 		return u8"";

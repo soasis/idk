@@ -38,8 +38,8 @@
 
 #include <string_view>
 
-#if ZTD_IS_ON(ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_)
-#if ZTD_IS_ON(ZTD_CXX_I_)
+#if ZTD_IS_ON(ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION)
+#if ZTD_IS_ON(ZTD_CXX)
 #include <clocale>
 #else
 #include <locale.h>
@@ -48,11 +48,11 @@
 
 ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding_unicode(
      void) ZTD_NOEXCEPT_IF_CXX_I_ {
-#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
+#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 	int __codepage_id = ::ztd::__idk_detail::__windows::__determine_active_code_page();
 	return ::ztd::__idk_detail::__windows::__is_unicode_code_page(__codepage_id);
 #else
-#if ZTD_IS_ON(ZTD_NL_LANGINFO_I_) || ZTD_IS_ON(ZTD_LANGINFO_I_)
+#if ZTD_IS_ON(ZTD_NL_LANGINFO) || ZTD_IS_ON(ZTD_LANGINFO)
 	const char* __ctype_name = nl_langinfo(CODESET);
 #else
 	const char* __ctype_name = setlocale(LC_CTYPE, nullptr);
@@ -68,12 +68,12 @@ ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_enco
 
 ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_unicode(
      void) ZTD_NOEXCEPT_IF_CXX_I_ {
-#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
+#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 	return true;
-#elif ZTD_IS_ON(ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_)
+#elif ZTD_IS_ON(ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION)
 	// TODO: implement!
 	return false;
-#elif ZTD_IS_ON(ZTD_WCHAR_T_UTF16_COMPATIBLE_I_) || ZTD_IS_ON(ZTD_WCHAR_T_UTF32_COMPATIBLE_I_)
+#elif ZTD_IS_ON(ZTD_WCHAR_T_UTF16_COMPATIBLE) || ZTD_IS_ON(ZTD_WCHAR_T_UTF32_COMPATIBLE)
 	return true;
 #else
 	return false;
@@ -82,14 +82,14 @@ ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution
 
 
 ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding_utf8(void) ZTD_NOEXCEPT_IF_CXX_I_ {
-#if ZTD_IS_ON(ZTD_LIBVCXX_I_)
+#if ZTD_IS_ON(ZTD_LIBVCXX)
 	return MB_CUR_MAX == 4;
-#elif ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
+#elif ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 	return ::ztd::__idk_detail::__windows::__determine_active_code_page() == CP_UTF8;
-#elif ZTD_IS_ON(ZTD_PLATFORM_MAC_OS_I_)
+#elif ZTD_IS_ON(ZTD_PLATFORM_MAC_OS)
 	return true;
 #else
-#if ZTD_IS_ON(ZTD_NL_LANGINFO_I_) || ZTD_IS_ON(ZTD_LANGINFO_I_)
+#if ZTD_IS_ON(ZTD_NL_LANGINFO) || ZTD_IS_ON(ZTD_LANGINFO)
 	const char* __ctype_name = nl_langinfo(CODESET);
 #else
 	const char* __ctype_name = setlocale(LC_CTYPE, nullptr);
@@ -105,9 +105,9 @@ ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_enco
 
 ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_utf8(
      void) ZTD_NOEXCEPT_IF_CXX_I_ {
-#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
+#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 	return false;
-#elif ZTD_IS_ON(ZTD_WCHAR_T_UTF16_COMPATIBLE_I_)
+#elif ZTD_IS_ON(ZTD_WCHAR_T_UTF16_COMPATIBLE)
 	return false;
 #else
 	return ::ztd::is_encoding_name_equal(ztdc_wide_execution_encoding_name(), "UTF-8");
@@ -116,9 +116,9 @@ ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution
 
 ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_utf16(
      void) ZTD_NOEXCEPT_IF_CXX_I_ {
-#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
+#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 	return true;
-#elif ZTD_IS_ON(ZTD_WCHAR_T_UTF16_COMPATIBLE_I_)
+#elif ZTD_IS_ON(ZTD_WCHAR_T_UTF16_COMPATIBLE)
 	return true;
 #else
 	return ::ztd::is_encoding_name_equal(ztdc_wide_execution_encoding_name(), "UTF-16");
@@ -127,9 +127,9 @@ ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution
 
 ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_utf32(
      void) ZTD_NOEXCEPT_IF_CXX_I_ {
-#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
+#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 	return false;
-#elif ZTD_IS_ON(ZTD_WCHAR_T_UTF32_COMPATIBLE_I_)
+#elif ZTD_IS_ON(ZTD_WCHAR_T_UTF32_COMPATIBLE)
 	return true;
 #else
 	return ::ztd::is_encoding_name_equal(ztdc_wide_execution_encoding_name(), "UTF-32");
@@ -138,17 +138,17 @@ ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution
 
 ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_execution_encoding_name(
      void) ZTD_NOEXCEPT_IF_CXX_I_ {
-#if ZTD_IS_ON(ZTD_LIBVCXX_I_)
+#if ZTD_IS_ON(ZTD_LIBVCXX)
 	if (MB_CUR_MAX == 4) {
 		return "UTF-8";
 	}
 #endif
-#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
+#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 	if (::ztd::__idk_detail::__windows::__determine_active_code_page() == CP_UTF8) {
 		return "UTF-8";
 	}
 #endif
-#if ZTD_IS_ON(ZTD_NL_LANGINFO_I_) || ZTD_IS_ON(ZTD_LANGINFO_I_)
+#if ZTD_IS_ON(ZTD_NL_LANGINFO) || ZTD_IS_ON(ZTD_LANGINFO)
 	const char* __ctype_name = nl_langinfo(CODESET);
 #else
 	const char* __ctype_name = setlocale(LC_CTYPE, nullptr);
@@ -164,11 +164,11 @@ ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_execution_
 
 ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_wide_execution_encoding_name(
      void) ZTD_NOEXCEPT_IF_CXX_I_ {
-#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_)
+#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 	return "UTF-16";
-#elif ZTD_IS_ON(ZTD_WCHAR_T_UTF16_COMPATIBLE_I_)
+#elif ZTD_IS_ON(ZTD_WCHAR_T_UTF16_COMPATIBLE)
 	return "UTF-16"
-#elif ZTD_IS_ON(ZTD_WCHAR_T_UTF32_COMPATIBLE_I_)
+#elif ZTD_IS_ON(ZTD_WCHAR_T_UTF32_COMPATIBLE)
 	return "UTF-32";
 #else
 	// TODO: implement!

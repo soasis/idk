@@ -34,7 +34,7 @@
 
 #include <ztd/idk/c_span.h>
 
-#if ZTD_IS_ON(ZTD_STD_DESIGNATED_INITIALIZERS_I_)
+#if ZTD_IS_ON(ZTD_STD_DESIGNATED_INITIALIZERS)
 #define C_SPAN_BASIC_TEST_DESIGNATED_INITIALIZERS(TYPE, TYPE_NAME)                          \
 	SECTION("designated initializers") {                                                   \
 		size_t expected_size       = 0;                                                   \

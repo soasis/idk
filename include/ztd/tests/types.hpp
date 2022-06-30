@@ -40,7 +40,7 @@
 #include <limits>
 #include <vector>
 #include <string>
-#if ZTD_IS_ON(ZTD_STD_SPACESHIP_COMPARE_I_)
+#if ZTD_IS_ON(ZTD_STD_SPACESHIP_COMPARE)
 #include <compare>
 #endif
 
@@ -70,7 +70,7 @@ namespace ztd::tests {
 		regular_struct(regular_struct&&)                 = default;
 		regular_struct& operator=(const regular_struct&) = default;
 		regular_struct& operator=(regular_struct&&)      = default;
-#if ZTD_IS_ON(ZTD_STD_SPACESHIP_COMPARE_I_)
+#if ZTD_IS_ON(ZTD_STD_SPACESHIP_COMPARE)
 		friend auto operator<=>(const regular_struct&, const regular_struct&) = default;
 #endif
 		int a;
@@ -112,7 +112,7 @@ namespace ztd::tests {
 			return *this;
 		}
 
-#if ZTD_IS_ON(ZTD_STD_SPACESHIP_COMPARE_I_)
+#if ZTD_IS_ON(ZTD_STD_SPACESHIP_COMPARE)
 		friend auto operator<=>(const self_referential_detection&, const self_referential_detection&) = default;
 #endif
 		int a;
@@ -478,7 +478,7 @@ namespace ztd::tests {
 	};
 
 	using character_types_list = type_list<char, signed char, unsigned char,
-#if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T_I_)
+#if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T)
 	     char8_t,
 #endif
 	     char16_t, char32_t, wchar_t>;

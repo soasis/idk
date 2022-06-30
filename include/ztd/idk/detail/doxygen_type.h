@@ -41,7 +41,7 @@
 /// @{
 //////
 
-#if ZTD_IS_ON(ZTD_DOXYGEN_PREPROCESSING_I_)
+#if ZTD_IS_ON(ZTD_DOXYGEN_PREPROCESSING)
 //////
 /// @brief A type that represents generic code.
 //////

@@ -41,67 +41,135 @@
 
 namespace ztd { namespace tests {
 
-	template <typename T>
-	T get_distinct_bit_constant() noexcept {
-		constexpr std::size_t N = sizeof(T) * CHAR_BIT;
+	template <typename _Type>
+	_Type get_distinct_bit_constant_positive() noexcept {
+		constexpr std::size_t N = sizeof(_Type) * CHAR_BIT;
 		if constexpr (N == 8) {
-			return static_cast<T>(0x10);
+			return static_cast<_Type>(0x10);
 		}
 		else if constexpr (N == 16) {
-			return static_cast<T>(0x1023);
+			return static_cast<_Type>(0x1023);
 		}
 		else if constexpr (N == 24) {
-			return static_cast<T>(0x102345);
+			return static_cast<_Type>(0x102345);
 		}
 		else if constexpr (N == 32) {
-			return static_cast<T>(0x10234567);
+			return static_cast<_Type>(0x10234567);
 		}
 		else if constexpr (N == 40) {
-			return static_cast<T>(0x1023456789);
+			return static_cast<_Type>(0x1023456789);
 		}
 		else if constexpr (N == 48) {
-			return static_cast<T>(0x1023456789AB);
+			return static_cast<_Type>(0x1023456789AB);
 		}
 		else if constexpr (N == 56) {
-			return static_cast<T>(0x1023456789ABCD);
+			return static_cast<_Type>(0x1023456789ABCD);
 		}
 		else if constexpr (N == 64) {
-			return static_cast<T>(0x1023456789ABCDEF);
+			return static_cast<_Type>(0x1023456789ABCDEF);
 		}
 		else {
-			static_assert(ztd::always_false_v<T>, "unusable bit size for the given type");
+			static_assert(ztd::always_false_v<_Type>, "unusable bit size for the given type");
 		}
 	}
 
-	template <typename T>
-	T get_distinct_bit_constant_reverse() noexcept {
-		constexpr std::size_t N = sizeof(T) * CHAR_BIT;
-		if constexpr (N == 8) {
-			return static_cast<T>(0x10);
-		}
-		else if constexpr (N == 16) {
-			return static_cast<T>(0x2310);
-		}
-		else if constexpr (N == 24) {
-			return static_cast<T>(0x452310);
-		}
-		else if constexpr (N == 32) {
-			return static_cast<T>(0x67452310);
-		}
-		else if constexpr (N == 40) {
-			return static_cast<T>(0x8967452310);
-		}
-		else if constexpr (N == 48) {
-			return static_cast<T>(0xAB8967452310);
-		}
-		else if constexpr (N == 56) {
-			return static_cast<T>(0xCDAB8967452310);
-		}
-		else if constexpr (N == 64) {
-			return static_cast<T>(0xEFCDAB8967452310);
+	template <typename _Type>
+	_Type get_distinct_bit_constant_negative() noexcept {
+		constexpr std::size_t N = sizeof(_Type) * CHAR_BIT;
+		if constexpr (::std::is_signed_v<_Type>) {
+			if constexpr (N == 8) {
+				return -static_cast<_Type>(0x10);
+			}
+			else if constexpr (N == 16) {
+				return -static_cast<_Type>(0x1023);
+			}
+			else if constexpr (N == 24) {
+				return -static_cast<_Type>(0x102345);
+			}
+			else if constexpr (N == 32) {
+				return -static_cast<_Type>(0x10234567);
+			}
+			else if constexpr (N == 40) {
+				return -static_cast<_Type>(0x1023456789);
+			}
+			else if constexpr (N == 48) {
+				return -static_cast<_Type>(0x1023456789AB);
+			}
+			else if constexpr (N == 56) {
+				return -static_cast<_Type>(0x1023456789ABCD);
+			}
+			else if constexpr (N == 64) {
+				return -static_cast<_Type>(0x1023456789ABCDEF);
+			}
+			else {
+				static_assert(ztd::always_false_v<_Type>, "unusable bit size for the given type");
+			}
 		}
 		else {
-			static_assert(ztd::always_false_v<T>, "unusable bit size for the given type");
+			if constexpr (N == 8) {
+				return static_cast<_Type>(0x10);
+			}
+			else if constexpr (N == 16) {
+				return static_cast<_Type>(0x1023);
+			}
+			else if constexpr (N == 24) {
+				return static_cast<_Type>(0x102345);
+			}
+			else if constexpr (N == 32) {
+				return static_cast<_Type>(0x10234567);
+			}
+			else if constexpr (N == 40) {
+				return static_cast<_Type>(0x1023456789);
+			}
+			else if constexpr (N == 48) {
+				return static_cast<_Type>(0x1023456789AB);
+			}
+			else if constexpr (N == 56) {
+				return static_cast<_Type>(0x1023456789ABCD);
+			}
+			else if constexpr (N == 64) {
+				return static_cast<_Type>(0x1023456789ABCDEF);
+			}
+			else {
+				static_assert(ztd::always_false_v<_Type>, "unusable bit size for the given type");
+			}
+		}
+	}
+
+	template <typename _Type>
+	_Type get_distinct_bit_constant() noexcept {
+		return get_distinct_bit_constant_negative<_Type>();
+	}
+
+	template <typename _Type>
+	_Type get_distinct_bit_constant_reverse() noexcept {
+		constexpr std::size_t N = sizeof(_Type) * CHAR_BIT;
+		if constexpr (N == 8) {
+			return static_cast<_Type>(0x10);
+		}
+		else if constexpr (N == 16) {
+			return static_cast<_Type>(0x2310);
+		}
+		else if constexpr (N == 24) {
+			return static_cast<_Type>(0x452310);
+		}
+		else if constexpr (N == 32) {
+			return static_cast<_Type>(0x67452310);
+		}
+		else if constexpr (N == 40) {
+			return static_cast<_Type>(0x8967452310);
+		}
+		else if constexpr (N == 48) {
+			return static_cast<_Type>(0xAB8967452310);
+		}
+		else if constexpr (N == 56) {
+			return static_cast<_Type>(0xCDAB8967452310);
+		}
+		else if constexpr (N == 64) {
+			return static_cast<_Type>(0xEFCDAB8967452310);
+		}
+		else {
+			static_assert(ztd::always_false_v<_Type>, "unusable bit size for the given type");
 		}
 	}
 

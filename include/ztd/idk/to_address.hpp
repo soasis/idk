@@ -128,7 +128,7 @@ namespace ztd {
 
 	namespace idk_adl {
 
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_TO_ADDRESS_I_)
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_TO_ADDRESS)
 		//////
 		/// @brief Calls to_address if it's available, or falls back to other means for pointers and other
 		/// potentially-contiguous types. This is an identity function for pointer types.
@@ -153,7 +153,7 @@ namespace ztd {
 		template <typename _Pointer, ::std::enable_if_t<!::std::is_pointer_v<_Pointer>>* = nullptr>
 		constexpr auto adl_to_address(_Pointer& p) noexcept {
 			if constexpr (::ztd::__idk_detail::__mark_contiguous_v<_Pointer>) {
-#if ZTD_IS_ON(ZTD_LIBVCXX_I_)
+#if ZTD_IS_ON(ZTD_LIBVCXX)
 				return adl_to_address(p._Unwrapped());
 #else
 				return adl_to_address(p.operator->());

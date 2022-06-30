@@ -35,7 +35,7 @@
 
 #include <ztd/idk/version.h>
 
-#if ZTD_IS_ON(ZTD_CXX_I_)
+#if ZTD_IS_ON(ZTD_CXX)
 #include <cassert>
 #else
 #include <assert.h>
@@ -45,8 +45,8 @@
 #if defined(ZTD_ASSERT_USER)
 	#define ZTD_ASSERT_I_(...) ZTD_ASSERT_USER(__VA_ARGS__)
 #else
-	#if ZTD_IS_ON(ZTD_DEBUG_I_)
-		#if ZTD_IS_ON(ZTD_CXX_I_)
+	#if ZTD_IS_ON(ZTD_DEBUG)
+		#if ZTD_IS_ON(ZTD_CXX)
 			#include <exception>
 			#include <iostream>
 			#include <cstdlib>
@@ -85,8 +85,8 @@
 #if defined(ZTD_ASSERT_USER)
 	#define ZTD_ASSERT_MESSAGE_I_(...) ZTD_ASSERT_MESSAGE_USER(__VA_ARGS__)
 #else
-	#if ZTD_IS_ON(ZTD_DEBUG_I_)
-		#if ZTD_IS_ON(ZTD_CXX_I_)
+	#if ZTD_IS_ON(ZTD_DEBUG)
+		#if ZTD_IS_ON(ZTD_CXX)
 			#include <exception>
 			#include <iostream>
 			#include <cstdlib>

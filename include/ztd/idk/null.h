@@ -35,7 +35,7 @@
 
 #include <ztd/idk/version.h>
 
-#if ZTD_IS_ON(ZTD_CXX_I_)
+#if ZTD_IS_ON(ZTD_CXX)
 #include <cstdlib>
 #else
 #include <stdlib.h>

@@ -60,12 +60,12 @@
 #if defined(ZTD_OPAQUE_API_LINKAGE)
 	#define ZTD_OPAQUE_API_LINKAGE_I_ ZTD_OPAQUE_API_LINKAGE
 #else
-	#if ZTD_IS_ON(ZTD_OPAQUE_DLL_I_)
-		#if ZTD_IS_ON(ZTD_COMPILER_VCXX_I_) || ZTD_IS_ON(ZTD_PLATFORM_WINDOWS_I_) || ZTD_IS_ON(ZTD_PLATFORM_CYGWIN_I_)
+	#if ZTD_IS_ON(ZTD_OPAQUE_DLL)
+		#if ZTD_IS_ON(ZTD_COMPILER_VCXX) || ZTD_IS_ON(ZTD_PLATFORM_WINDOWS) || ZTD_IS_ON(ZTD_PLATFORM_CYGWIN)
 			// MSVC Compiler; or, Windows, or Cygwin platforms
-			#if ZTD_IS_ON(ZTD_OPAQUE_BUILD_I_)
+			#if ZTD_IS_ON(ZTD_OPAQUE_BUILD)
 				// Building the library
-				#if ZTD_IS_ON(ZTD_COMPILER_GCC_I_)
+				#if ZTD_IS_ON(ZTD_COMPILER_GCC)
 					// Using GCC
 					#define ZTD_OPAQUE_API_LINKAGE_I_ __attribute__((dllexport))
 				#else
@@ -73,7 +73,7 @@
 					#define ZTD_OPAQUE_API_LINKAGE_I_ __declspec(dllexport)
 				#endif
 			#else
-				#if ZTD_IS_ON(ZTD_COMPILER_GCC_I_)
+				#if ZTD_IS_ON(ZTD_COMPILER_GCC)
 					#define ZTD_OPAQUE_API_LINKAGE_I_ __attribute__((dllimport))
 				#else
 					#define ZTD_OPAQUE_API_LINKAGE_I_ __declspec(dllimport)

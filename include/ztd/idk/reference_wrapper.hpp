@@ -85,7 +85,7 @@ namespace ztd {
 	//////
 	template <typename _Ty>
 	using reference_wrapper =
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_CONSTEXPR_UTILITIES_I_)
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_CONSTEXPR_UTILITIES)
 	     ::std::reference_wrapper<_Ty>
 #else
 	     ::ztd::__idk_detail::__reference_wrapper<_Ty>
