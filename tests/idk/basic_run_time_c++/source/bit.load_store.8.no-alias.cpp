@@ -44,7 +44,7 @@
 #include <climits>
 
 static void explode_and_catch() {
-	REQUIRE(FALSE);
+	REQUIRE(false);
 }
 
 #define ZTDC_GENERATE_LOAD8_STORE8_DEFINITIONS_TYPE_EMPTY(_TYPE, _N, _SUFFIX)                              \
