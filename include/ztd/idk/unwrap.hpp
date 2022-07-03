@@ -47,57 +47,84 @@ namespace ztd {
 
 	namespace __idk_detail {
 		template <typename _Type>
-		using __is_unwrappable_value_test = decltype(unwrap_value(::std::declval<_Type>()));
+		using __is_unwrappable_value_test = decltype(unwrap(::std::declval<_Type>()));
 
 		template <typename _Type>
-		using __is_unwrappable_iter_value_test = decltype(unwrap_iterator_value(::std::declval<_Type>()));
+		using __is_unwrappable_iter_value_test = decltype(unwrap_iterator(::std::declval<_Type>()));
 	} // namespace __idk_detail
 
 	//////
-	/// @brief Test whether a type can have `unwrap_value(...)` called on it.
+	/// @brief Test whether a type can have `unwrap(...)` called on it.
 	template <typename _Type>
 	inline constexpr bool is_unwrappable_value_v
 	     = ztd::is_detected_v<__idk_detail::__is_unwrappable_value_test, _Type>;
 
 	//////
-	/// @brief Test whether a type can have `unwrap_iterator_value(...)` called on it.
+	/// @brief Test whether a type can have `unwrap_iterator(...)` called on it.
 	template <typename _Type>
 	inline constexpr bool is_unwrappable_iterator_value_v
 	     = ztd::is_detected_v<__idk_detail::__is_unwrappable_iter_value_test, _Type>;
 
-	//////
-	/// @brief Unwraps a value, if possible. Otherwise, simply forwards the input value through.
-	template <typename _Type>
-	constexpr decltype(auto) unwrap(_Type&& __value) noexcept {
-		if constexpr (is_specialization_of_v<remove_cvref_t<_Type>, ::std::reference_wrapper>) {
-			return __value.get();
-		}
-		else if constexpr (is_unwrappable_value_v<_Type>) {
-			return unwrap_value(::std::forward<_Type>(__value));
-		}
-		else {
-			return ::std::forward<_Type>(__value);
-		}
-	}
+	namespace __idk_detail {
+		class __unwrap_fn {
+		public:
+			template <typename _Type>
+			constexpr decltype(auto) operator()(_Type&& __value) const noexcept {
+				if constexpr (is_specialization_of_v<remove_cvref_t<_Type>, ::std::reference_wrapper>) {
+					return __value.get();
+				}
+				else if constexpr (is_unwrappable_value_v<_Type>) {
+					return unwrap(::std::forward<_Type>(__value));
+				}
+				else {
+					return ::std::forward<_Type>(__value);
+				}
+			}
+		};
+	} // namespace __idk_detail
+
+	inline namespace __fn {
+		//////
+		/// @brief Unwraps a value, if possible. Otherwise, simply forwards the input value through.
+		///
+		/// @returns The unwrapped value.
+		//////
+		inline constexpr __idk_detail::__unwrap_fn unwrap = {};
+	} // namespace __fn
+
+
+	namespace __idk_detail {
+		class __unwrap_iterator_fn {
+		public:
+			template <typename _Type>
+			constexpr decltype(auto) operator()(_Type&& __value) const noexcept {
+				if constexpr (is_unwrappable_iterator_value_v<_Type>) {
+					return unwrap_iterator(::std::forward<_Type>(__value));
+				}
+				else {
+					return ::ztd::unwrap(*::std::forward<_Type>(__value));
+				}
+			}
+		};
+	} // namespace __idk_detail
+
+	inline namespace __fn {
+		//////
+		/// @brief Unwraps either an iterator, or unwraps the value and returns its address, or forwards the input
+		/// value through.
+		///
+		/// @returns The iterator's unwrapped value.
+		//////
+		inline constexpr __idk_detail::__unwrap_iterator_fn unwrap_iterator = {};
+	} // namespace __fn
 
 	//////
-	/// @brief Unwraps either an iterator, or unwraps the value and returns its address, or forwards teh input value
-	/// through.
+	/// @brief Retrives the unwrapped type if the object were put through a call to ztd::unwrap.
 	///
-	/// @returns The unwrapped iterator.
+	/// @remarks Typically used to get the type underlying a `std::reference_wrapper` or similar.
 	//////
 	template <typename _Type>
-	constexpr decltype(auto) unwrap_iterator(_Type&& __value) noexcept {
-		if constexpr (is_unwrappable_iterator_value_v<_Type>) {
-			return unwrap_iterator_value(::std::forward<_Type>(__value));
-		}
-		else if constexpr (is_unwrappable_value_v<_Type>) {
-			return ::std::addressof(unwrap_value(*::std::forward<_Type>(__value)));
-		}
-		else {
-			return ::std::forward<_Type>(__value);
-		}
-	}
+	using unwrap_t = decltype(::ztd::unwrap(::std::declval<_Type>()));
 
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd

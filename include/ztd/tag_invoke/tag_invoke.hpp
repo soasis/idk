@@ -72,11 +72,13 @@ namespace ztd {
 		};
 	} // namespace __tginv_detail
 
-	//////
-	/// @brief The tag invoke function.
-	///
-	//////
-	inline constexpr __tginv_detail::tag_invoke_fn tag_invoke {};
+	inline namespace __fn {
+		//////
+		/// @brief The tag invoke function.
+		///
+		//////
+		inline constexpr __tginv_detail::tag_invoke_fn tag_invoke {};
+	} // namespace __fn
 
 	namespace __tginv_detail {
 		template <bool, typename _Tag, typename... _Args>

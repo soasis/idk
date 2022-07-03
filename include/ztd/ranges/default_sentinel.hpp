@@ -28,4 +28,40 @@
 //
 // ============================================================================ //
 
-#include <ztd/ranges/adl.hpp>
+#pragma once
+
+#ifndef ZTD_RANGES_DEFAULT_SENTINEL_HPP
+#define ZTD_RANGES_DEFAULT_SENTINEL_HPP
+
+#include <ztd/ranges/version.hpp>
+
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
+#include <ranges>
+#endif
+
+#include <ztd/prologue.hpp>
+
+namespace ztd { namespace ranges {
+	ZTD_RANGES_INLINE_ABI_NAMESPACE_OPEN_I_
+
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
+	//////
+	/// @brief A sentinel that cannot compare equal to any other iterator and thus results in infinitely long ranges.
+	using default_sentinel_t = ::std::default_sentinel_t;
+#else
+	//////
+	/// @brief A sentinel that cannot compare equal to any other iterator and thus results in infinitely long ranges.
+	struct default_sentinel_t { };
+#endif
+
+
+	//////
+	/// @brief An available and usable ztd::ranges::default_sentinel for ease of use.
+	inline constexpr default_sentinel_t default_sentinel = {};
+
+	ZTD_RANGES_INLINE_ABI_NAMESPACE_CLOSE_I_
+}} // namespace ztd::ranges
+
+#include <ztd/epilogue.hpp>
+
+#endif // ZTD_RANGES_DEFAULT_SENTINEL_HPP

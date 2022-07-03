@@ -28,4 +28,46 @@
 //
 // ============================================================================ //
 
-#include <ztd/ranges/wrapped_pointer.hpp>
+#pragma once
+
+#ifndef ZTD_RANGES_FROM_RANGE_HPP
+#define ZTD_RANGES_FROM_RANGE_HPP
+
+#include <ztd/ranges/version.hpp>
+
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_FROM_RANGE_T)
+#include <ranges>
+#endif
+
+#include <ztd/prologue.hpp>
+
+namespace ztd { namespace ranges {
+	ZTD_RANGES_INLINE_ABI_NAMESPACE_OPEN_I_
+
+#if ZTD_IS_OFF(ZTD_STD_LIBRARY_FROM_RANGE_T)
+	namespace __rng_detail {
+		struct __from_range_t { };
+	} // namespace __rng_detail
+#endif
+
+
+	using from_range_t =
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_FROM_RANGE_T)
+		::std::from_range_t
+#else
+		__rng_detail::__from_range_t
+#endif
+		;
+
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_FROM_RANGE_T)
+	inline constexpr ::std::from_range_t& from_range = ::std::from_range;
+#else
+	inline constexpr from_range_t from_range = {};
+#endif
+
+	ZTD_RANGES_INLINE_ABI_NAMESPACE_CLOSE_I_
+}} // namespace ztd::ranges
+
+#include <ztd/epilogue.hpp>
+
+#endif // ZTD_RANGES_FROM_RANGE_HPP

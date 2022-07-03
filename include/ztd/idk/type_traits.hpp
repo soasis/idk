@@ -45,26 +45,11 @@ namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
 
 	namespace __idk_detail {
-		template <typename _Type, typename = ::std::remove_cv_t<::std::remove_reference_t<_Type>>>
-		struct __unwrap_impl {
-			using type = _Type;
-		};
-
-		template <typename _Dummy, typename _Type>
-		struct __unwrap_impl<_Dummy, ::std::reference_wrapper<_Type>> {
-			using type = ::std::add_lvalue_reference_t<_Type>;
-		};
-
 		template <typename T, template <typename...> class Templ>
 		struct __is_specialization_of_impl : ::std::false_type { };
 		template <typename... T, template <typename...> class Templ>
 		struct __is_specialization_of_impl<Templ<T...>, Templ> : ::std::true_type { };
 	} // namespace __idk_detail
-
-	//////
-	/// @brief Unwraps types such as @c std::reference_wrapper and similar.
-	template <typename _Type>
-	using unwrap_t = typename __idk_detail::__unwrap_impl<_Type>::type;
 
 	//////
 	/// @brief A type that accepts any template type and produces a @c std::false_type derived class.

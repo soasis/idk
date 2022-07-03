@@ -62,19 +62,19 @@ namespace ztd {
 
 		//////
 		/// @brief Extension point for returning the value inside of this uninitialized type.
-		friend _Type& unwrap_value(uninit& __wrapped_value) noexcept {
+		friend _Type& unwrap(uninit& __wrapped_value) noexcept {
 			return __wrapped_value.value;
 		}
 
 		//////
 		/// @brief Extension point for returning the value inside of this uninitialized type.
-		friend const _Type& unwrap_value(const uninit& __wrapped_value) noexcept {
+		friend const _Type& unwrap(const uninit& __wrapped_value) noexcept {
 			return __wrapped_value.value;
 		}
 
 		//////
 		/// @brief Extension point for returning the value inside of this uninitialized type.
-		friend _Type&& unwrap_value(uninit&& __wrapped_value) noexcept {
+		friend _Type&& unwrap(uninit&& __wrapped_value) noexcept {
 			return ::std::move(__wrapped_value.value);
 		}
 

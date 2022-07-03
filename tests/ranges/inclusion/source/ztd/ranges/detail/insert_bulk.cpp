@@ -28,4 +28,4 @@
 //
 // ============================================================================ //
 
-#include <ztd/ranges/wrapped_pointer.hpp>
+#include <ztd/ranges/detail/insert_bulk.hpp>

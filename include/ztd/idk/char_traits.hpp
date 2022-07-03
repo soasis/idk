@@ -1,11 +1,11 @@
 // =============================================================================
 //
-// ztd.text
+// ztd.idk
 // Copyright © 2022 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
 // Contact: opensource@soasis.org
 //
 // Commercial License Usage
-// Licensees holding valid commercial ztd.text licenses may use this file in
+// Licensees holding valid commercial ztd.idk licenses may use this file in
 // accordance with the commercial license agreement provided with the
 // Software or, alternatively, in accordance with the terms contained in
 // a written agreement between you and Shepherd's Oasis, LLC.
@@ -33,9 +33,7 @@
 #ifndef ZTD_IDK_CHAR_TRAITS_HPP
 #define ZTD_IDK_CHAR_TRAITS_HPP
 
-#if 0
-
-#include <ztd/version.hpp>
+#include <ztd/idk/version.hpp>
 
 #include <ztd/idk/charN_t.hpp>
 #include <ztd/idk/type_traits.hpp>
@@ -148,7 +146,5 @@ namespace ztd {
 } // namespace ztd
 
 #include <ztd/epilogue.hpp>
-
-#endif
 
 #endif // ZTD_IDK_CHAR_TRAITS_HPP
