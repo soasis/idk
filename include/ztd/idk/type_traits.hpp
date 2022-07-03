@@ -139,9 +139,6 @@ namespace ztd {
 		::std::is_same_v<_Type, char> || ::std::is_same_v<_Type, wchar_t> ||
 #if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T)
 		::std::is_same_v<_Type, char8_t> ||
-#else
-		// for the less fortunate
-		::std::is_same_v<_Type, uchar8_t> ||
 #endif
 		::std::is_same_v<_Type, char16_t> ||
 		::std::is_same_v<_Type, char32_t>
