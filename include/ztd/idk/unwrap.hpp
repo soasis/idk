@@ -69,7 +69,10 @@ namespace ztd {
 	/// @brief Unwraps a value, if possible. Otherwise, simply forwards the input value through.
 	template <typename _Type>
 	constexpr decltype(auto) unwrap(_Type&& __value) noexcept {
-		if constexpr (is_unwrappable_value_v<_Type>) {
+		if constexpr (is_specialization_of_v<remove_cvref_t<_Type>, ::std::reference_wrapper>) {
+			return __value.get();
+		}
+		else if constexpr (is_unwrappable_value_v<_Type>) {
 			return unwrap_value(::std::forward<_Type>(__value));
 		}
 		else {

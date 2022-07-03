@@ -107,10 +107,9 @@ namespace ztd {
 
 		template <typename _Value>
 		int __count_zeros(_Value __value) noexcept {
-			if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char> || // cf-hack
-			     ::std::is_same_v<_Value, unsigned short> || ::std::is_same_v<_Value, unsigned int> || // cf-hack
-			     ::std::is_same_v<_Value,
-			          unsigned long> || ::std::is_same_v<_Value, unsigned long long>) { // cf-hack
+			if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char> ||      // cf
+			     ::std::is_same_v<_Value, unsigned short> || ::std::is_same_v<_Value, unsigned int> ||      // cf
+			     ::std::is_same_v<_Value, unsigned long> || ::std::is_same_v<_Value, unsigned long long>) { // cf
 				return ((sizeof(_Value) * CHAR_BIT) - __count_ones(__value));
 			}
 			else {
@@ -374,10 +373,9 @@ namespace ztd {
 
 		template <typename _Value>
 		int __bit_width(_Value __value) noexcept {
-			if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char> || // cf-hack
-			     ::std::is_same_v<_Value, unsigned short> || ::std::is_same_v<_Value, unsigned int> || // cf-hack
-			     ::std::is_same_v<_Value,
-			          unsigned long> || ::std::is_same_v<_Value, unsigned long long>) { // cf-hack
+			if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char> ||      // cf
+			     ::std::is_same_v<_Value, unsigned short> || ::std::is_same_v<_Value, unsigned int> ||      // cf
+			     ::std::is_same_v<_Value, unsigned long> || ::std::is_same_v<_Value, unsigned long long>) { // cf
 				return ((sizeof(__value) * CHAR_BIT) - ztdc_count_leading_zeros(__value));
 			}
 			else {

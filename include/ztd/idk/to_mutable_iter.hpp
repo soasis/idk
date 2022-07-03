@@ -86,9 +86,9 @@ namespace ztd {
 					     ztd::ranges::ranges_adl::adl_cend(__source), ztd::ranges::ranges_adl::adl_cend(__source));
 				}
 				else if constexpr (::std::is_invocable_r_v<bool, ::std::not_equal_to<>, _ToIt,
-				                        _FromIt> // cf-hack
+				                        _FromIt> // cf
 				     && (::std::is_same_v<typename ::std::iterator_traits<_FromIt>::iterator_category,
-				              ::std::forward_iterator_tag> // cf-hack
+				              ::std::forward_iterator_tag> // cf
 				          || ::std::is_same_v<typename ::std::iterator_traits<_FromIt>::iterator_category,
 				               ::std::bidirectional_iterator_tag>)) {
 					// we can avoid 2N walk of iterators

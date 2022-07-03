@@ -159,6 +159,19 @@ namespace ztd {
 	inline constexpr bool is_char_traitable_v = is_char_traitable<_Type>::value;
 
 	//////
+	/// @brief Checks if the given type is a pointer, and that is pointers to a character type.
+	template <typename _Type>
+	class is_character_pointer : public ::std::integral_constant<bool,
+	                                  ::std::is_pointer_v<::ztd::remove_cvref_t<_Type>>&& // cf
+	                                  ::ztd::is_character_v<::std::remove_pointer_t<::ztd::remove_cvref_t<_Type>>>> {
+	};
+
+	//////
+	/// @brief An @c _v alias for ztd::is_character_pointer.
+	template <typename _Type>
+	inline constexpr bool is_character_pointer_v = is_character_pointer<_Type>::value;
+
+	//////
 	/// @brief Checks whether the given full, complete type from the first argument is related to the raw template name
 	/// provided in the second.
 	template <typename T, template <typename...> class Templ>
