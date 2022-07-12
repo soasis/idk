@@ -477,6 +477,18 @@ namespace ztd::tests {
 		MoveConsOnlyType& operator=(MoveConsOnlyType&&)      = delete;
 	};
 
+	using unsigned_integer_types_list
+	     = type_list<unsigned char, unsigned short, unsigned int, unsigned long, unsigned long long
+#if ZTD_IS_ON(ZTD___UINT128_T)
+	          ,
+	          __uint128_t
+#endif
+#if ZTD_IS_ON(ZTD___UINT256_T)
+	          ,
+	          __uint256_t
+#endif
+	          >;
+
 	using character_types_list = type_list<char, signed char, unsigned char,
 #if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T)
 	     char8_t,

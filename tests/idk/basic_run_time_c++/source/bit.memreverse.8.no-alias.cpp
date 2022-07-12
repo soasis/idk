@@ -34,6 +34,7 @@
 
 #include <ztd/tests/bit_constant.hpp>
 #include <ztd/idk/detail/bit.memreverse.impl.h>
+#include <ztd/tests/types.hpp>
 
 #include <random>
 #include <vector>
@@ -64,10 +65,25 @@ static void ztd_idk_basic_run_time_cxx_memreverse8_ullong(
 	__ZTDC_MEMREVERSE8_IMPL(unsigned long long, __n, __ptr);
 }
 
-TEMPLATE_TEST_CASE(
+#if ZTD_IS_ON(ZTD___UINT128_T)
+static void ztd_idk_basic_run_time_cxx_memreverse8_uint128_t(
+     size_t __n, __uint128_t __ptr[ZTD_PTR_EXTENT(__n)]) ZTD_CXX_NOEXCEPT_I_ {
+	__ZTDC_MEMREVERSE8_IMPL(__uint128_t, __n, __ptr);
+}
+#endif
+
+#if ZTD_IS_ON(ZTD___UINT256_T)
+static void ztd_idk_basic_run_time_cxx_memreverse8_uint256_t(
+     size_t __n, __uint256_t __ptr[ZTD_PTR_EXTENT(__n)]) ZTD_CXX_NOEXCEPT_I_ {
+	__ZTDC_MEMREVERSE8_IMPL(__uint256_t, __n, __ptr);
+}
+#endif
+
+
+TEMPLATE_LIST_TEST_CASE(
      "Ensure that the 8-bit memory reverse algorithm works even if they work over a different base unit that is a "
      "multiple of 8.",
-     "[bit][memreverse][N-bit]", unsigned char, unsigned short, unsigned int, unsigned long, unsigned long long) {
+     "[bit][memreverse][N-bit]", ztd::tests::unsigned_integer_types_list) {
 	const TestType expected_value         = ztd::tests::get_distinct_bit_constant<TestType>();
 	const TestType expected_reverse_value = ztd::tests::get_distinct_bit_constant_reverse<TestType>();
 
@@ -126,4 +142,32 @@ TEMPLATE_TEST_CASE(
 			REQUIRE(value == expected_reverse_value);
 		}
 	}
+
+#if ZTD_IS_ON(ZTD___UINT128_T)
+	if constexpr ((sizeof(TestType) % sizeof(__uint128_t)) == 0) {
+		// for all types which are a multiple of the size of unsigned short,
+		// test the unsigned short-based type, to verify the implementation is correct
+		SECTION("__uint128_t-based") {
+			TestType value = expected_value;
+			REQUIRE(value == expected_value); // quick silliness check
+			ztd_idk_basic_run_time_cxx_memreverse8_uint128_t(
+			     sizeof(value) / sizeof(__uint128_t), reinterpret_cast<__uint128_t*>(&value));
+			REQUIRE(value == expected_reverse_value);
+		}
+	}
+#endif
+
+#if ZTD_IS_ON(ZTD___UINT256_T)
+	if constexpr ((sizeof(TestType) % sizeof(__uint256_t)) == 0) {
+		// for all types which are a multiple of the size of unsigned short,
+		// test the unsigned short-based type, to verify the implementation is correct
+		SECTION("__uint128_t-based") {
+			TestType value = expected_value;
+			REQUIRE(value == expected_value); // quick silliness check
+			ztd_idk_basic_run_time_cxx_memreverse8_uint256_t(
+			     sizeof(value) / sizeof(__uint256_t), reinterpret_cast<__uint256_t*>(&value));
+			REQUIRE(value == expected_reverse_value);
+		}
+	}
+#endif
 }

@@ -126,6 +126,30 @@ namespace ztd {
 	template <typename _Type>
 	using unwrap_t = decltype(::ztd::unwrap(::std::declval<_Type>()));
 
+	//////
+	/// @brief Retrives the unwrapped type if the object were put through a call to ztd::unwrap.
+	///
+	/// @remarks Typically used to get the type underlying a `std::reference_wrapper` or similar.
+	//////
+	template <typename _Type>
+	using unwrap_iterator_t = decltype(::ztd::unwrap_iterator(::std::declval<_Type>()));
+
+	//////
+	/// @brief Retrives the unwrapped type if the object were put through a call to ztd::unwrap.
+	///
+	/// @remarks Typically used to get the type underlying a `std::reference_wrapper` or similar.
+	//////
+	template <typename _Type>
+	using unwrap_remove_cvref_t = remove_cvref_t<unwrap_t<_Type>>;
+
+	//////
+	/// @brief Retrives the unwrapped type if the object were put through a call to ztd::unwrap.
+	///
+	/// @remarks Typically used to get the type underlying a `std::reference_wrapper` or similar.
+	//////
+	template <typename _Type>
+	using unwrap_remove_reference_t = ::std::remove_reference_t<unwrap_t<_Type>>;
+
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd
 

@@ -48,10 +48,20 @@
 
 ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding_unicode(
      void) ZTD_NOEXCEPT_IF_CXX_I_ {
+#if ZTD_IS_ON(ZTD_PLATFORM_MAC_OS)
+	return true;
+#else
+#if ZTD_IS_ON(ZTD_LIBVCXX)
+	if (MB_CUR_MAX == 4) {
+		return true;
+	}
+#endif
 #if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 	int __codepage_id = ::ztd::__idk_detail::__windows::__determine_active_code_page();
-	return ::ztd::__idk_detail::__windows::__is_unicode_code_page(__codepage_id);
-#else
+	if (::ztd::__idk_detail::__windows::__is_unicode_code_page(__codepage_id)) {
+		return true;
+	}
+#endif
 #if ZTD_IS_ON(ZTD_NL_LANGINFO) || ZTD_IS_ON(ZTD_LANGINFO)
 	const char* __ctype_name = nl_langinfo(CODESET);
 #else
@@ -82,13 +92,16 @@ ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution
 
 
 ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding_utf8(void) ZTD_NOEXCEPT_IF_CXX_I_ {
-#if ZTD_IS_ON(ZTD_LIBVCXX)
-	return MB_CUR_MAX == 4;
-#elif ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
-	return ::ztd::__idk_detail::__windows::__determine_active_code_page() == CP_UTF8;
-#elif ZTD_IS_ON(ZTD_PLATFORM_MAC_OS)
+#if ZTD_IS_ON(ZTD_PLATFORM_MAC_OS)
 	return true;
+#elif ZTD_IS_ON(ZTD_LIBVCXX)
+	return MB_CUR_MAX == 4;
 #else
+#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
+	if (::ztd::__idk_detail::__windows::__determine_active_code_page() == CP_UTF8) {
+		return true;
+	}
+#endif
 #if ZTD_IS_ON(ZTD_NL_LANGINFO) || ZTD_IS_ON(ZTD_LANGINFO)
 	const char* __ctype_name = nl_langinfo(CODESET);
 #else

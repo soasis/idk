@@ -324,6 +324,54 @@
 	#define ZTD_SIZE_32_BITS_I_ ZTD_DEFAULT_OFF
 #endif
 
+#if defined(ZTD___INT128_T)
+	#if (ZTD___INT128_T != 0)
+		#define ZTD___INT128_T_I_ ZTD_ON
+	#else
+		#define ZTD___INT128_T_I_ ZTD_OFF
+	#endif
+#elif defined(__SIZEOF_INT128__)
+	#define ZTD___INT128_T_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD___INT128_T_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD___UINT128_T)
+	#if (ZTD___UINT128_T != 0)
+		#define ZTD___UINT128_T_I_ ZTD_ON
+	#else
+		#define ZTD___UINT128_T_I_ ZTD_OFF
+	#endif
+#elif defined(__SIZEOF_INT128__)
+	#define ZTD___UINT128_T_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD___UINT128_T_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD___INT256_T)
+	#if (ZTD___INT256_T != 0)
+		#define ZTD___INT256_T_I_ ZTD_ON
+	#else
+		#define ZTD___INT256_T_I_ ZTD_OFF
+	#endif
+#elif defined(__SIZEOF_INT256__)
+	#define ZTD___INT256_T_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD___INT256_T_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD___UINT256_T)
+	#if (ZTD___UINT256_T != 0)
+		#define ZTD___UINT256_T_I_ ZTD_ON
+	#else
+		#define ZTD___UINT256_T_I_ ZTD_OFF
+	#endif
+#elif defined(__SIZEOF_INT256__)
+	#define ZTD___UINT256_T_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD___UINT256_T_I_ ZTD_DEFAULT_OFF
+#endif
+
 #if defined(ZTD_DEBUG)
 	#if (ZTD_DEBUG != 0)
 		#define ZTD_DEBUG_I_ ZTD_ON

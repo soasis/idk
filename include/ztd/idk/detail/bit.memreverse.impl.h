@@ -52,26 +52,26 @@
 #include <climits>
 #endif
 
-#define __ZTDC_MEMREVERSE8_IMPL(_TYPE, _PTR_COUNT, _PTR)                                               \
-	for (size_t index = 0, limit = ((_PTR_COUNT * (sizeof(_TYPE) * CHAR_BIT)) / 2); index < limit;) { \
-		const size_t ptr_index         = index / CHAR_BIT;                                           \
-		const size_t reverse_ptr_index = _PTR_COUNT - 1 - ptr_index;                                 \
-		_TYPE* p                       = _PTR + ptr_index;                                           \
-		_TYPE* reverse_p               = _PTR + reverse_ptr_index;                                   \
-		const _TYPE b_temp             = *p;                                                         \
-		const _TYPE reverse_b_temp     = *reverse_p;                                                 \
-		*p                             = 0;                                                          \
-		*reverse_p                     = 0;                                                          \
-		for (size_t bit_index = 0, bit_limit = ((sizeof(_TYPE) * CHAR_BIT)); bit_index < bit_limit;  \
-		     bit_index += 8) {                                                                       \
-			const size_t reverse_bit_index = (sizeof(_TYPE) * CHAR_BIT) - 8 - bit_index;            \
-			const _TYPE bit_mask           = ((_TYPE)0xFF) << bit_index;                            \
-			const _TYPE reverse_bit_mask   = ((_TYPE)0xFF) << reverse_bit_index;                    \
-			*p |= (((reverse_b_temp & reverse_bit_mask) >> reverse_bit_index) << bit_index);        \
-			*reverse_p |= (((b_temp & bit_mask) >> bit_index) << reverse_bit_index);                \
-			index += 8;                                                                             \
-		}                                                                                            \
-	}                                                                                                 \
+#define __ZTDC_MEMREVERSE8_IMPL(_TYPE, _PTR_COUNT, _PTR)                                                       \
+	for (size_t __index = 0, __limit = ((_PTR_COUNT * (sizeof(_TYPE) * CHAR_BIT)) / 2); __index < __limit;) { \
+		const size_t __ptr_index         = __index / (sizeof(_TYPE) * CHAR_BIT);                             \
+		const size_t __reverse_ptr_index = _PTR_COUNT - 1 - __ptr_index;                                     \
+		_TYPE* __p                       = _PTR + __ptr_index;                                               \
+		_TYPE* __reverse_p               = _PTR + __reverse_ptr_index;                                       \
+		const _TYPE __b_temp             = *__p;                                                             \
+		const _TYPE __reverse_b_temp     = *__reverse_p;                                                     \
+		*__p                             = 0;                                                                \
+		*__reverse_p                     = 0;                                                                \
+		for (size_t __bit_index = 0, __bit_limit = ((sizeof(_TYPE) * CHAR_BIT)); __bit_index < __bit_limit;  \
+		     __bit_index += 8) {                                                                             \
+			const size_t __reverse_bit_index = (sizeof(_TYPE) * CHAR_BIT) - 8 - __bit_index;                \
+			const _TYPE __bit_mask           = ((_TYPE)0xFF) << __bit_index;                                \
+			const _TYPE __reverse_bit_mask   = ((_TYPE)0xFF) << __reverse_bit_index;                        \
+			*__p |= (((__reverse_b_temp & __reverse_bit_mask) >> __reverse_bit_index) << __bit_index);      \
+			*__reverse_p |= (((__b_temp & __bit_mask) >> __bit_index) << __reverse_bit_index);              \
+			__index += 8;                                                                                   \
+		}                                                                                                    \
+	}                                                                                                         \
 	ztd_static_assert(true, "end-of-macro")
 
 #endif // ZTD_IDK_DETAIL_BIT_MEMREVERSE_IMPL_H

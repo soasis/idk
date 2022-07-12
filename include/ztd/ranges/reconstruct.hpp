@@ -264,19 +264,18 @@ namespace ztd { namespace ranges {
 	inline constexpr bool is_nothrow_range_reconstructible_v
 		= is_nothrow_tag_invocable_v<__rng_detail::__reconstruct_fn, _It, _Sen>;
 
-	template <typename _Range, typename _It = ranges::range_iterator_t<remove_cvref_t<_Range>>,
-		typename _Sen = ranges::range_sentinel_t<remove_cvref_t<_Range>>>
-	using reconstruct_t
-		= decltype(ranges::reconstruct(::std::declval<::std::in_place_type_t<remove_cvref_t<_Range>>>(),
-		     ::std::declval<_It>(), ::std::declval<_Sen>()));
+	template <typename _Range, typename _It = ranges::range_iterator_t<unwrap_remove_reference_t<_Range>>,
+		typename _Sen = ranges::range_sentinel_t<unwrap_remove_reference_t<_Range>>>
+	using reconstruct_t = decltype(ranges::reconstruct(
+		::std::in_place_type<unwrap_remove_cvref_t<_Range>>, ::std::declval<_It>(), ::std::declval<_Sen>()));
 
 	template <typename _Range>
 	using range_reconstruct_t = decltype(ranges::reconstruct(
-		::std::declval<::std::in_place_type_t<remove_cvref_t<_Range>>>(), ::std::declval<_Range>()));
+		::std::in_place_type<unwrap_remove_cvref_t<_Range>>, ::std::declval<_Range>()));
 
 	template <typename _Tag, typename _Range = _Tag>
-	using tag_range_reconstruct_t = decltype(ranges::reconstruct(
-		::std::declval<::std::in_place_type_t<remove_cvref_t<_Tag>>>(), ::std::declval<_Range>()));
+	using tag_range_reconstruct_t
+		= decltype(ranges::reconstruct(::std::in_place_type<unwrap_remove_cvref_t<_Tag>>, ::std::declval<_Range>()));
 
 	ZTD_RANGES_INLINE_ABI_NAMESPACE_CLOSE_I_
 }} // namespace ztd::ranges

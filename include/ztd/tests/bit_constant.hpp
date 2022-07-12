@@ -36,102 +36,146 @@
 #include <ztd/version.hpp>
 
 #include <ztd/idk/type_traits.hpp>
+#include <ztd/idk/size.hpp>
 
+#include <memory>
 #include <cstddef>
+#include <cstring>
 
 namespace ztd { namespace tests {
 
+	namespace __tests_detail {
+		inline constexpr const unsigned char __distinct_bit_constant_source_bytes[] = {
+#if ZTDC_NATIVE_ENDIAN == ZTDC_LITTLE_ENDIAN
+			0xFF, 0xDD, 0xBB, 0x99, 0x77, 0x55, 0x33, 0x11, 0xEF, 0xCD, 0xAB, 0x89, 0x67, 0x45, 0x23, 0x10
+#else
+			0x10, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF, 0x11, 0x33, 0x55, 0x77, 0x99, 0xBB, 0xDD, 0xFF
+#endif
+		};
+		inline constexpr const unsigned char __distinct_bit_constant_source_bytes_reverse[] = {
+#if ZTDC_NATIVE_ENDIAN == ZTDC_LITTLE_ENDIAN
+			0x10, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF, 0x11, 0x33, 0x55, 0x77, 0x99, 0xBB, 0xDD, 0xFF
+#else
+			0xFF, 0xDD, 0xBB, 0x99, 0x77, 0x55, 0x33, 0x11, 0xEF, 0xCD, 0xAB, 0x89, 0x67, 0x45, 0x23, 0x10
+#endif
+		};
+	} // namespace __tests_detail
+
 	template <typename _Type>
 	_Type get_distinct_bit_constant_positive() noexcept {
-		constexpr std::size_t N = sizeof(_Type) * CHAR_BIT;
-		if constexpr (N == 8) {
+		constexpr std::size_t _Nbytes = sizeof(_Type) * CHAR_BIT;
+		if constexpr (_Nbytes == 8) {
 			return static_cast<_Type>(0x10);
 		}
-		else if constexpr (N == 16) {
+		else if constexpr (_Nbytes == 16) {
 			return static_cast<_Type>(0x1023);
 		}
-		else if constexpr (N == 24) {
+		else if constexpr (_Nbytes == 24) {
 			return static_cast<_Type>(0x102345);
 		}
-		else if constexpr (N == 32) {
+		else if constexpr (_Nbytes == 32) {
 			return static_cast<_Type>(0x10234567);
 		}
-		else if constexpr (N == 40) {
+		else if constexpr (_Nbytes == 40) {
 			return static_cast<_Type>(0x1023456789);
 		}
-		else if constexpr (N == 48) {
+		else if constexpr (_Nbytes == 48) {
 			return static_cast<_Type>(0x1023456789AB);
 		}
-		else if constexpr (N == 56) {
+		else if constexpr (_Nbytes == 56) {
 			return static_cast<_Type>(0x1023456789ABCD);
 		}
-		else if constexpr (N == 64) {
+		else if constexpr (_Nbytes == 64) {
 			return static_cast<_Type>(0x1023456789ABCDEF);
 		}
 		else {
-			static_assert(ztd::always_false_v<_Type>, "unusable bit size for the given type");
+			constexpr const auto& __source_bytes = __tests_detail::__distinct_bit_constant_source_bytes;
+			static_assert(ztd::always_true_v<_Type> && CHAR_BIT == 8,
+				"this branch can only be used on CHAR_BIT == 8 machines");
+			static_assert(
+				_Nbytes <= (sizeof(__source_bytes) * CHAR_BIT), "unusable (too large) bit size for the given type");
+
+			_Type __value;
+			::std::memcpy(::std::addressof(__value), __source_bytes, ztd_c_array_size(__source_bytes));
+			return __value;
 		}
 	}
 
 	template <typename _Type>
 	_Type get_distinct_bit_constant_negative() noexcept {
-		constexpr std::size_t N = sizeof(_Type) * CHAR_BIT;
+		constexpr std::size_t _Nbytes = sizeof(_Type) * CHAR_BIT;
 		if constexpr (::std::is_signed_v<_Type>) {
-			if constexpr (N == 8) {
+			if constexpr (_Nbytes == 8) {
 				return -static_cast<_Type>(0x10);
 			}
-			else if constexpr (N == 16) {
+			else if constexpr (_Nbytes == 16) {
 				return -static_cast<_Type>(0x1023);
 			}
-			else if constexpr (N == 24) {
+			else if constexpr (_Nbytes == 24) {
 				return -static_cast<_Type>(0x102345);
 			}
-			else if constexpr (N == 32) {
+			else if constexpr (_Nbytes == 32) {
 				return -static_cast<_Type>(0x10234567);
 			}
-			else if constexpr (N == 40) {
+			else if constexpr (_Nbytes == 40) {
 				return -static_cast<_Type>(0x1023456789);
 			}
-			else if constexpr (N == 48) {
+			else if constexpr (_Nbytes == 48) {
 				return -static_cast<_Type>(0x1023456789AB);
 			}
-			else if constexpr (N == 56) {
+			else if constexpr (_Nbytes == 56) {
 				return -static_cast<_Type>(0x1023456789ABCD);
 			}
-			else if constexpr (N == 64) {
+			else if constexpr (_Nbytes == 64) {
 				return -static_cast<_Type>(0x1023456789ABCDEF);
 			}
 			else {
-				static_assert(ztd::always_false_v<_Type>, "unusable bit size for the given type");
+				constexpr const auto& __source_bytes = __tests_detail::__distinct_bit_constant_source_bytes;
+				static_assert(ztd::always_true_v<_Type> && CHAR_BIT == 8,
+					"this branch can only be used on CHAR_BIT == 8 machines");
+				static_assert(_Nbytes <= (sizeof(__source_bytes) * CHAR_BIT),
+					"unusable (too large) bit size for the given type");
+
+				_Type __value;
+				::std::memcpy(::std::addressof(__value), __source_bytes, ztd_c_array_size(__source_bytes));
+				return -__value;
 			}
 		}
 		else {
-			if constexpr (N == 8) {
+			if constexpr (_Nbytes == 8) {
 				return static_cast<_Type>(0x10);
 			}
-			else if constexpr (N == 16) {
+			else if constexpr (_Nbytes == 16) {
 				return static_cast<_Type>(0x1023);
 			}
-			else if constexpr (N == 24) {
+			else if constexpr (_Nbytes == 24) {
 				return static_cast<_Type>(0x102345);
 			}
-			else if constexpr (N == 32) {
+			else if constexpr (_Nbytes == 32) {
 				return static_cast<_Type>(0x10234567);
 			}
-			else if constexpr (N == 40) {
+			else if constexpr (_Nbytes == 40) {
 				return static_cast<_Type>(0x1023456789);
 			}
-			else if constexpr (N == 48) {
+			else if constexpr (_Nbytes == 48) {
 				return static_cast<_Type>(0x1023456789AB);
 			}
-			else if constexpr (N == 56) {
+			else if constexpr (_Nbytes == 56) {
 				return static_cast<_Type>(0x1023456789ABCD);
 			}
-			else if constexpr (N == 64) {
+			else if constexpr (_Nbytes == 64) {
 				return static_cast<_Type>(0x1023456789ABCDEF);
 			}
 			else {
-				static_assert(ztd::always_false_v<_Type>, "unusable bit size for the given type");
+				constexpr const auto& __source_bytes = __tests_detail::__distinct_bit_constant_source_bytes;
+				static_assert(ztd::always_true_v<_Type> && CHAR_BIT == 8,
+					"this branch can only be used on CHAR_BIT == 8 machines");
+				static_assert(_Nbytes <= (sizeof(__source_bytes) * CHAR_BIT),
+					"unusable (too large) bit size for the given type");
+
+				_Type __value;
+				::std::memcpy(::std::addressof(__value), __source_bytes, ztd_c_array_size(__source_bytes));
+				return __value;
 			}
 		}
 	}
@@ -143,33 +187,41 @@ namespace ztd { namespace tests {
 
 	template <typename _Type>
 	_Type get_distinct_bit_constant_reverse() noexcept {
-		constexpr std::size_t N = sizeof(_Type) * CHAR_BIT;
-		if constexpr (N == 8) {
+		constexpr std::size_t _Nbytes = sizeof(_Type) * CHAR_BIT;
+		if constexpr (_Nbytes == 8) {
 			return static_cast<_Type>(0x10);
 		}
-		else if constexpr (N == 16) {
+		else if constexpr (_Nbytes == 16) {
 			return static_cast<_Type>(0x2310);
 		}
-		else if constexpr (N == 24) {
+		else if constexpr (_Nbytes == 24) {
 			return static_cast<_Type>(0x452310);
 		}
-		else if constexpr (N == 32) {
+		else if constexpr (_Nbytes == 32) {
 			return static_cast<_Type>(0x67452310);
 		}
-		else if constexpr (N == 40) {
+		else if constexpr (_Nbytes == 40) {
 			return static_cast<_Type>(0x8967452310);
 		}
-		else if constexpr (N == 48) {
+		else if constexpr (_Nbytes == 48) {
 			return static_cast<_Type>(0xAB8967452310);
 		}
-		else if constexpr (N == 56) {
+		else if constexpr (_Nbytes == 56) {
 			return static_cast<_Type>(0xCDAB8967452310);
 		}
-		else if constexpr (N == 64) {
+		else if constexpr (_Nbytes == 64) {
 			return static_cast<_Type>(0xEFCDAB8967452310);
 		}
 		else {
-			static_assert(ztd::always_false_v<_Type>, "unusable bit size for the given type");
+			constexpr const auto& __source_bytes = __tests_detail::__distinct_bit_constant_source_bytes_reverse;
+			static_assert(ztd::always_true_v<_Type> && CHAR_BIT == 8,
+				"this branch can only be used on CHAR_BIT == 8 machines");
+			static_assert(
+				_Nbytes <= (sizeof(__source_bytes) * CHAR_BIT), "unusable (too large) bit size for the given type");
+
+			_Type __value;
+			::std::memcpy(::std::addressof(__value), __source_bytes, ztd_c_array_size(__source_bytes));
+			return __value;
 		}
 	}
 
