@@ -256,6 +256,14 @@ namespace ztd { namespace ranges {
 			     ::std::forward<_ItLeft>(__left), ::std::forward<_ItRight>(__right))) {
 			::std::ranges::iter_swap(::std::forward<_ItLeft>(__left), ::std::forward<_ItRight>(__right));
 		}
+
+		template <typename _ItLeft, typename _ItRight>
+		constexpr auto adl_swap(_ItLeft&& __left, _ItRight&& __right) noexcept(
+			noexcept(::std::ranges::swap(::std::forward<_ItLeft>(__left), ::std::forward<_ItRight>(__right))))
+			-> decltype(::std::ranges::swap(
+			     ::std::forward<_ItLeft>(__left), ::std::forward<_ItRight>(__right))) {
+			::std::ranges::swap(::std::forward<_ItLeft>(__left), ::std::forward<_ItRight>(__right));
+		}
 	} // namespace ranges_adl
 #else
 	// Blessed Overload Overlord Xeo,
@@ -277,6 +285,7 @@ namespace ztd { namespace ranges {
 		using ::std::rend;
 
 		using ::std::iter_swap;
+		using ::std::swap;
 
 		template <typename _Range,
 			::std::enable_if_t<::std::is_rvalue_reference_v<_Range> && !::std::is_const_v<_Range>>* = nullptr>
@@ -593,7 +602,14 @@ namespace ztd { namespace ranges {
 			-> decltype(iter_swap(::std::forward<_ItLeft>(__left), ::std::forward<_ItRight>(__right))) {
 			iter_swap(::std::forward<_ItLeft>(__left), ::std::forward<_ItRight>(__right));
 		}
-	}                                      // namespace ranges_adl
+
+		template <typename _ItLeft, typename _ItRight>
+		constexpr auto adl_swap(_ItLeft&& __left, _ItRight&& __right) noexcept(
+			noexcept(swap(::std::forward<_ItLeft>(__left), ::std::forward<_ItRight>(__right))))
+			-> decltype(swap(::std::forward<_ItLeft>(__left), ::std::forward<_ItRight>(__right))) {
+			swap(::std::forward<_ItLeft>(__left), ::std::forward<_ItRight>(__right));
+		}
+	} // namespace ranges_adl
 #endif
 
 	template <typename _Range>

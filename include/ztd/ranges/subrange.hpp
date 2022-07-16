@@ -273,6 +273,24 @@ namespace ztd { namespace ranges {
 			}
 
 			//////
+			/// @brief The stored begin iterator, const-ified.
+			///
+			/// @remarks This must be reimplemetned at some point.
+			/////
+			constexpr iterator cbegin() const noexcept {
+				return this->_M_it;
+			}
+
+			//////
+			/// @brief The stored end iterator.
+			///
+			/// @remarks This must be reimplemetned at some point.
+			/////
+			constexpr sentinel cend() const noexcept {
+				return this->_M_sen;
+			}
+
+			//////
 			/// @brief The size of the range.
 			///
 			/// @returns @code std::distance(begin(), end()) @endcode

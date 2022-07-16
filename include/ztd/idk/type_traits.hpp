@@ -49,6 +49,13 @@ namespace ztd {
 		struct __is_specialization_of_impl : ::std::false_type { };
 		template <typename... T, template <typename...> class Templ>
 		struct __is_specialization_of_impl<Templ<T...>, Templ> : ::std::true_type { };
+
+		template<typename _It>
+		using __weakly_incrementable_test = decltype(++::std::declval<_It&>());
+
+		template<typename _It>
+		using __weakly_decrementable_test = decltype(--::std::declval<_It&>());
+
 	} // namespace __idk_detail
 
 	//////
@@ -116,6 +123,25 @@ namespace ztd {
 		::std::is_same_v<_Type, char16_t> ||
 		::std::is_same_v<_Type, char32_t>
 	> {};
+
+	//////
+	/// @brief Checks if the given type is one of the types that is used as a code unit (unnamed char, wchar_t, char8_t, char16_t, and char32_t).
+	template <typename _Type>
+	class is_code_unit : public ::std::integral_constant<bool,
+		::std::is_same_v<_Type, char> ||
+		::std::is_same_v<_Type, wchar_t> ||
+#if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T)
+		::std::is_same_v<_Type, char8_t> ||
+#endif
+		::std::is_same_v<_Type, char16_t> ||
+		::std::is_same_v<_Type, char32_t>
+	> {};
+	// clang-format on
+
+	//////
+	/// @brief An @c _v alias for ztd::is_code_unit.
+	template <typename _Type>
+	inline constexpr bool is_code_unit_v = is_code_unit<_Type>::value;
 
 	//////
 	/// @brief Checks if the given type is one of the types that is usable in the standard with the @c std::char_traits traits type that's used for @c std::string_view , @c std::string and others.
@@ -276,6 +302,16 @@ namespace ztd {
 	/// are passed in.
 	template <typename _Left, typename _Right>
 	using detect_equality_comparable = decltype(::std::declval<_Left>() == ::std::declval<_Right>());
+
+	//////
+	/// @brief Detects whether a type has a pre-increment operation.
+	template<typename _It>
+	inline constexpr bool weakly_incrementable_v = ::ztd::is_detected_v<__idk_detail::__weakly_incrementable_test, _It>;
+
+	//////
+	/// @brief Detects whether a type has a post-increment operation.
+	template<typename _It>
+	inline constexpr bool weakly_decrementable_v = ::ztd::is_detected_v<__idk_detail::__weakly_decrementable_test, _It>;
 
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd
