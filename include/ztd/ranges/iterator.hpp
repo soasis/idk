@@ -252,6 +252,14 @@ namespace ztd { namespace ranges {
 	inline constexpr bool is_iterator_input_or_output_iterator_v
 		= is_iterator_input_iterator_v<_It> || is_iterator_output_iterator_v<_It>;
 
+	template <typename _It>
+	inline constexpr bool is_iterator_forward_iterator_v
+		= ::std::is_same_v<::std::forward_iterator_tag, iterator_concept_t<_It>>;
+
+	template <typename _It>
+	inline constexpr bool is_iterator_bidirectional_iterator_v
+		= ::std::is_same_v<::std::bidirectional_iterator_tag, iterator_concept_t<_It>>;
+
 	template <typename _It, typename _Sen>
 	inline constexpr bool is_sized_sentinel_for_v = __rng_detail::__is_distance_operable_v<_It, _Sen>;
 

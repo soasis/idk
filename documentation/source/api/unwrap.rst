@@ -33,6 +33,6 @@ unwrap / unwrap_iterator
 
 Utility extension points to transform a potentially wrapped value (like :doc:`ztd::uninit <uninit>`) so that the "real" value an be used. Often used in the guts of generic code rather than anywhere truly important, but a useful little utility nonetheless.
 
-.. doxygenfunction:: ztd::unwrap_iterator
+.. doxygenvariable:: ztd::unwrap_iterator
 
-.. doxygenfunction:: ztd::unwrap
+.. doxygenvariable:: ztd::unwrap

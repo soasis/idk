@@ -37,6 +37,7 @@
 
 #include <ztd/idk/type_traits.hpp>
 #include <ztd/ranges/adl.hpp>
+#include <ztd/ranges/iterator.hpp>
 
 #include <iterator>
 #include <functional>
@@ -45,6 +46,7 @@ namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
 
 	namespace __idk_detail {
+		enum class __iter_start { __begin, __end };
 		template <typename __Iter>
 		using __to_mutable_iter_test = decltype(to_mutable_iter(::std::declval<__Iter>()));
 
@@ -62,6 +64,7 @@ namespace ztd {
 	inline constexpr bool is_to_mutable_iter_invokable_v = __idk_detail::__is_to_mutable_iter_invokable<__Iter>::value;
 
 	namespace __idk_detail {
+		template <__iter_start __from>
 		struct __tmi_invoke {
 			template <typename _FromIt, typename _Range>
 			constexpr auto operator()(_FromIt&& __from_it, _Range& __source) const noexcept {
@@ -85,35 +88,63 @@ namespace ztd {
 					return __source.insert(::std::forward<_FromIt>(__from_it),
 					     ztd::ranges::ranges_adl::adl_cend(__source), ztd::ranges::ranges_adl::adl_cend(__source));
 				}
-				else if constexpr (::std::is_invocable_r_v<bool, ::std::not_equal_to<>, _ToIt,
-				                        _FromIt> // cf
-				     && (::std::is_same_v<typename ::std::iterator_traits<_FromIt>::iterator_category,
-				              ::std::forward_iterator_tag> // cf
-				          || ::std::is_same_v<typename ::std::iterator_traits<_FromIt>::iterator_category,
-				               ::std::bidirectional_iterator_tag>)) {
+				else if constexpr (::std::is_invocable_r_v<bool, ::std::not_equal_to<>, _ToIt, _FromIt> // cf
+				     && (::ztd::ranges::is_iterator_forward_iterator_v<_FromIt>                         // cf
+				          || ::ztd::ranges::is_iterator_bidirectional_iterator_v<_FromIt>)) {
 					// we can avoid 2N walk of iterators
 					// by just moving up by them if they're
 					// comparable to one another
-					auto __begin_it = ztd::ranges::ranges_adl::adl_begin(__source);
-					while (__begin_it != __from_it) {
-						++__begin_it;
+					if constexpr (__from == __iter_start::__begin) {
+						auto __begin_it = ztd::ranges::ranges_adl::adl_begin(__source);
+						while (__begin_it != __from_it) {
+							++__begin_it;
+						}
+						return __begin_it;
 					}
-					return __begin_it;
+					else {
+						auto __end_it = ztd::ranges::ranges_adl::adl_end(__source);
+						while (__end_it != __from_it) {
+							--__end_it;
+						}
+						return __end_it;
+					}
 				}
 				else {
-					// either this is random access and O(1),
-					// or this is some other weird iterator and it's O(2N)
-					auto __begin_it = ztd::ranges::ranges_adl::adl_begin(__source);
-					auto __it_dist  = ::std::distance(_FromIt(__begin_it), ::std::forward<_FromIt>(__from_it));
-					std::advance(__begin_it, __it_dist);
-					return __begin_it;
+					if constexpr (__from == __iter_start::__begin) {
+						// either this is random access and O(1),
+						// or this is some other weird iterator and it's O(2N)
+						auto __begin_it = ztd::ranges::ranges_adl::adl_begin(__source);
+						auto __it_dist = ::std::distance(_FromIt(__begin_it), ::std::forward<_FromIt>(__from_it));
+						std::advance(__begin_it, __it_dist);
+						return __begin_it;
+					}
+					else {
+						// either this is random access and O(1),
+						// or this is some other weird iterator and it's O(2N)
+						auto __end_it  = ztd::ranges::ranges_adl::adl_end(__source);
+						auto __it_dist = ::std::distance(::std::forward<_FromIt>(__from_it), _FromIt(__end_it));
+						std::advance(__end_it, -__it_dist);
+						return __end_it;
+					}
 				}
 			}
 		};
 
 	} // namespace __idk_detail
 
-	inline constexpr __idk_detail::__tmi_invoke to_mutable_iter = {};
+	inline namespace __fn {
+		//////
+		/// @brief Uses various methods to attempt to provide a mutable iterator from a non-mutable iterator.
+		inline constexpr const __idk_detail::__tmi_invoke<__idk_detail::__iter_start::__begin>
+		     to_mutable_iter_from_begin = {};
+		//////
+		/// @brief Uses various methods to attempt to provide a mutable iterator from a non-mutable iterator.
+		inline constexpr const __idk_detail::__tmi_invoke<__idk_detail::__iter_start::__end> to_mutable_iter_from_end
+		     = {};
+		//////
+		/// @brief An alias for ztd::to_mutable_iter_from_begin.
+		inline constexpr const auto& to_mutable_iter = to_mutable_iter_from_begin;
+	} // namespace __fn
 
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd
