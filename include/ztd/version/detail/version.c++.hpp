@@ -309,6 +309,16 @@
 	#define ZTD_STD_LIBRARY_STRING_CONTAINS_I_ ZTD_DEFAULT_OFF
 #endif
 
+#if defined(__cpp_lib_bitops)
+	#if __cpp_lib_bitops != 0
+		#define ZTD_STD_LIBRARY_BIT_I_ ZTD_ON
+	#else
+		#define ZTD_STD_LIBRARY_BIT_I_ ZTD_OFF
+	#endif
+#else
+	#define ZTD_STD_LIBRARY_BIT_I_ ZTD_DEFAULT_OFF
+#endif
+
 #if defined(ZTD_STD_LIBRARY_SPAN)
 	#if (ZTD_STD_LIBRARY_SPAN != 0)
 		#define ZTD_STD_LIBRARY_SPAN_I_ ZTD_ON

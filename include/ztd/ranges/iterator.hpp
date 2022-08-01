@@ -221,8 +221,11 @@ namespace ztd { namespace ranges {
 	template <typename _It>
 	using iterator_concept_t = __rng_detail::__iterator_concept_or_fallback_t<_It>;
 
+	template <typename _Tag, typename _ActualTag>
+	inline constexpr bool is_concept_or_better_v = ::std::is_base_of_v<_Tag, _ActualTag>;
+
 	template <typename _Tag, typename _It>
-	inline constexpr bool is_iterator_concept_or_better_v = ::std::is_base_of_v<_Tag, iterator_concept_t<_It>>;
+	inline constexpr bool is_iterator_concept_or_better_v = is_concept_or_better_v<_Tag, iterator_concept_t<_It>>;
 
 	template <typename _It>
 	inline constexpr bool is_iterator_random_access_iterator_v

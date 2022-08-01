@@ -46,6 +46,7 @@
 #include <ztd/idk/endian.hpp>
 #include <ztd/idk/reference_wrapper.hpp>
 #include <ztd/idk/detail/math.hpp>
+#include <ztd/idk/to_underlying.hpp>
 
 #include <cstddef>
 #include <limits>
@@ -147,8 +148,9 @@ namespace ztd { namespace ranges {
 			using value_type = _Word;
 
 		private:
-			using __underlying_base_value_type = decltype(any_to_underlying(__base_value_type {}));
-			using __underlying_value_type      = decltype(any_to_underlying(value_type {}));
+			using __underlying_base_value_type
+				= decltype(::ztd::any_enum_or_char_to_underlying(__base_value_type {}));
+			using __underlying_value_type = decltype(::ztd::any_enum_or_char_to_underlying(value_type {}));
 			inline static constexpr __underlying_value_type __base_bits_per_element
 				= static_cast<__underlying_value_type>(sizeof(__underlying_base_value_type) * CHAR_BIT);
 			inline static constexpr __underlying_value_type __base_lowest_bit_mask
@@ -184,8 +186,9 @@ namespace ztd { namespace ranges {
 				{
 					// God's given, handwritten, bit-splittin'
 					// one-way """memcpy""". 😵
-					__underlying_value_type __bit_value = any_to_underlying(static_cast<value_type>(__val));
-					auto __write_storage_it             = __write_storage + 0;
+					__underlying_value_type __bit_value
+						= any_enum_or_char_to_undeerlying(static_cast<value_type>(__val));
+					auto __write_storage_it = __write_storage + 0;
 					for (::std::size_t __index = 0; __index < __base_values_per_word; ++__index) {
 						__underlying_value_type __bit_position
 							= static_cast<__underlying_value_type>(__index * __base_bits_per_element);
@@ -268,8 +271,8 @@ namespace ztd { namespace ranges {
 					// God's given, handwritten, bit-fusin'
 					// one-way """memcpy""". 😵
 					for (::std::size_t __index = 0; __index < __base_values_per_word; ++__index) {
-						__underlying_value_type __bit_value
-							= static_cast<__underlying_value_type>(any_to_underlying(__read_storage[__index]));
+						__underlying_value_type __bit_value = static_cast<__underlying_value_type>(
+							::ztd::any_enum_or_char_to_underlying(__read_storage[__index]));
 						__underlying_value_type __bit_position
 							= static_cast<__underlying_value_type>(__index * __base_bits_per_element);
 						__underlying_value_type __shifted_bit_value = (__bit_value << __bit_position);
