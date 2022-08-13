@@ -30,8 +30,8 @@
 
 #pragma once
 
-#ifndef ZTD_VERSION_DETAIL_BUILD_VERSION_H
-#define ZTD_VERSION_DETAIL_BUILD_VERSION_H
+#ifndef ZTD_VERSION_DETAIL_API_H
+#define ZTD_VERSION_DETAIL_API_H
 
 #include <ztd/version/detail/is.h>
 #include <ztd/version/detail/version.c.h>
@@ -198,4 +198,4 @@
 
 // clang-format on
 
-#endif // ZTD_VERSION_DETAIL_BUILD_VERSION_HPP
+#endif // ZTD_VERSION_DETAIL_API_H
