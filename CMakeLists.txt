@@ -211,13 +211,9 @@ target_link_libraries(ztd.idk
 )
 target_compile_definitions(ztd.idk
 	PRIVATE
-	$<$<STREQUAL:$<TARGET_PROPERTY:ztd.idk,TYPE>,SHARED_LIBRARY>:ZTD_DLL=1>
+		ZTD_IDK_BUILD=1
 	PUBLIC
-	ZTD_BUILD=1
-	ZTD_HEADER_ONLY=0 # TODO: the build is not header-only anymore
-	ZTD_INLINE_BUILD=0 # TODO: the settings for inline
-
-	# build have not been implemented yet
+		$<$<STREQUAL:$<TARGET_PROPERTY:ztd.idk,TYPE>,SHARED_LIBRARY>:ZTD_IDK_DLL=1>
 )
 
 if(ZTD_IDK_IS_TOP_LEVEL_PROJECT)

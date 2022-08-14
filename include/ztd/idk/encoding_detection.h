@@ -38,24 +38,20 @@
 #include <stdbool.h>
 #endif // C++
 
-ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding_utf8(void) ZTD_NOEXCEPT_IF_CXX_I_;
-ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding_unicode(
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding_utf8(void) ZTD_NOEXCEPT_IF_CXX_I_;
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding_unicode(void) ZTD_NOEXCEPT_IF_CXX_I_;
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_unicode(
      void) ZTD_NOEXCEPT_IF_CXX_I_;
-ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_unicode(
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_utf8(void) ZTD_NOEXCEPT_IF_CXX_I_;
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_utf16(
      void) ZTD_NOEXCEPT_IF_CXX_I_;
-ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_utf8(
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_utf32(
      void) ZTD_NOEXCEPT_IF_CXX_I_;
-ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_utf16(
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_literal_encoding_name(void) ZTD_NOEXCEPT_IF_CXX_I_;
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_wide_literal_encoding_name(
      void) ZTD_NOEXCEPT_IF_CXX_I_;
-ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_utf32(
-     void) ZTD_NOEXCEPT_IF_CXX_I_;
-ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_literal_encoding_name(
-     void) ZTD_NOEXCEPT_IF_CXX_I_;
-ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_wide_literal_encoding_name(
-     void) ZTD_NOEXCEPT_IF_CXX_I_;
-ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_execution_encoding_name(
-     void) ZTD_NOEXCEPT_IF_CXX_I_;
-ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_wide_execution_encoding_name(
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_execution_encoding_name(void) ZTD_NOEXCEPT_IF_CXX_I_;
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_wide_execution_encoding_name(
      void) ZTD_NOEXCEPT_IF_CXX_I_;
 
 #endif // ZTD_IDK_ENCODING_DETECTION_H

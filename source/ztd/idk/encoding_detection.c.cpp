@@ -46,8 +46,7 @@
 #endif
 #endif
 
-ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding_unicode(
-     void) ZTD_NOEXCEPT_IF_CXX_I_ {
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding_unicode(void) ZTD_NOEXCEPT_IF_CXX_I_ {
 #if ZTD_IS_ON(ZTD_PLATFORM_MAC_OS)
 	return true;
 #else
@@ -76,7 +75,7 @@ ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_enco
 #endif
 }
 
-ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_unicode(
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_unicode(
      void) ZTD_NOEXCEPT_IF_CXX_I_ {
 #if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 	return true;
@@ -91,7 +90,7 @@ ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution
 }
 
 
-ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding_utf8(void) ZTD_NOEXCEPT_IF_CXX_I_ {
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding_utf8(void) ZTD_NOEXCEPT_IF_CXX_I_ {
 #if ZTD_IS_ON(ZTD_PLATFORM_MAC_OS)
 	return true;
 #elif ZTD_IS_ON(ZTD_LIBVCXX)
@@ -116,7 +115,7 @@ ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_enco
 #endif
 }
 
-ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_utf8(
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_utf8(
      void) ZTD_NOEXCEPT_IF_CXX_I_ {
 #if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 	return false;
@@ -127,7 +126,7 @@ ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution
 #endif
 }
 
-ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_utf16(
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_utf16(
      void) ZTD_NOEXCEPT_IF_CXX_I_ {
 #if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 	return true;
@@ -138,7 +137,7 @@ ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution
 #endif
 }
 
-ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_utf32(
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_encoding_utf32(
      void) ZTD_NOEXCEPT_IF_CXX_I_ {
 #if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 	return false;
@@ -149,8 +148,7 @@ ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution
 #endif
 }
 
-ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_execution_encoding_name(
-     void) ZTD_NOEXCEPT_IF_CXX_I_ {
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_execution_encoding_name(void) ZTD_NOEXCEPT_IF_CXX_I_ {
 #if ZTD_IS_ON(ZTD_LIBVCXX)
 	if (MB_CUR_MAX == 4) {
 		return "UTF-8";
@@ -175,7 +173,7 @@ ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_execution_
 	return __adjusted_ctype_name.data();
 }
 
-ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_wide_execution_encoding_name(
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_wide_execution_encoding_name(
      void) ZTD_NOEXCEPT_IF_CXX_I_ {
 #if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 	return "UTF-16";
@@ -189,12 +187,11 @@ ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_wide_execu
 #endif
 }
 
-ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_literal_execution_encoding_name(
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_literal_execution_encoding_name(
      void) ZTD_NOEXCEPT_IF_CXX_I_ {
 	return ZTD_COMPILE_TIME_ENCODING_NAME_GET_I_();
 }
 
-ZTD_IDK_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_literal_encoding_name(
-     void) ZTD_NOEXCEPT_IF_CXX_I_ {
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_literal_encoding_name(void) ZTD_NOEXCEPT_IF_CXX_I_ {
 	return ZTD_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_();
 }

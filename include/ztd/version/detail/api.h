@@ -38,24 +38,24 @@
 
 // clang-format off
 
-#if defined(ZTD_BUILD)
-	#if (ZTD_BUILD != 0)
-		#define ZTD_BUILD_I_ ZTD_ON
+#if defined(ZTD_IDK_BUILD)
+	#if (ZTD_IDK_BUILD != 0)
+		#define ZTD_IDK_BUILD_I_ ZTD_ON
 	#else
-		#define ZTD_BUILD_I_ ZTD_OFF
+		#define ZTD_IDK_BUILD_I_ ZTD_OFF
 	#endif
 #else
-	#define ZTD_BUILD_I_ ZTD_DEFAULT_OFF
+	#define ZTD_IDK_BUILD_I_ ZTD_DEFAULT_OFF
 #endif // Building or not
 
-#if defined(ZTD_DLL)
-	#if (ZTD_DLL != 0)
-		#define ZTD_DLL_I_ ZTD_ON
+#if defined(ZTD_IDK_DLL)
+	#if (ZTD_IDK_DLL != 0)
+		#define ZTD_IDK_DLL_I_ ZTD_ON
 	#else
-		#define ZTD_DLL_I_ ZTD_ON
+		#define ZTD_IDK_DLL_I_ ZTD_ON
 	#endif
 #else
-	#define ZTD_DLL_I_ ZTD_OFF
+	#define ZTD_IDK_DLL_I_ ZTD_OFF
 #endif // Building or not
 
 #if defined(ZTD_HEADER_ONLY)
@@ -143,10 +143,10 @@
 #if defined(ZTD_API_LINKAGE)
 	#define ZTD_API_LINKAGE_I_ ZTD_API_LINKAGE
 #else
-	#if ZTD_IS_ON(ZTD_DLL)
+	#if ZTD_IS_ON(ZTD_IDK_DLL)
 		#if ZTD_IS_ON(ZTD_COMPILER_VCXX) || ZTD_IS_ON(ZTD_PLATFORM_WINDOWS) || ZTD_IS_ON(ZTD_PLATFORM_CYGWIN)
 			// MSVC Compiler; or, Windows, or Cygwin platforms
-			#if ZTD_IS_ON(ZTD_BUILD)
+			#if ZTD_IS_ON(ZTD_IDK_BUILD)
 				// Building the library
 				#if ZTD_IS_ON(ZTD_COMPILER_GCC)
 					// Using GCC
@@ -178,22 +178,6 @@
 		#define ZTD_API_LINKAGE_I_
 	#endif // DLL or not
 #endif // Build definitions
-
-#if defined(ZTD_C_LANGUAGE_LINKAGE)
-	#define ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_C_LANGUAGE_LINKAGE
-#else
-	#if ZTD_IS_ON(ZTD_CXX)
-		#define ZTD_C_LANGUAGE_LINKAGE_I_ extern "C"
-	#else
-		#define ZTD_C_LANGUAGE_LINKAGE_I_ extern
-	#endif
-#endif // C language linkage
-
-#if defined(ZTD_CXX_LANGUAGE_LINKAGE)
-	#define ZTD_CXX_LANGUAGE_LINKAGE_I_ ZTD_CXX_LANGUAGE_LINKAGE
-#else
-	#define ZTD_CXX_LANGUAGE_LINKAGE_I_ extern
-#endif // C++ language linkage
 
 
 // clang-format on

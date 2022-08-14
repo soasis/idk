@@ -919,6 +919,22 @@
 	#define ZTD_CXX_NOEXCEPT_IF_I_(...)
 #endif
 
+#if defined(ZTD_C_LANGUAGE_LINKAGE)
+	#define ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_C_LANGUAGE_LINKAGE
+#else
+	#if ZTD_IS_ON(ZTD_CXX)
+		#define ZTD_C_LANGUAGE_LINKAGE_I_ extern "C"
+	#else
+		#define ZTD_C_LANGUAGE_LINKAGE_I_ extern
+	#endif
+#endif // C language linkage
+
+#if defined(ZTD_CXX_LANGUAGE_LINKAGE)
+	#define ZTD_CXX_LANGUAGE_LINKAGE_I_ ZTD_CXX_LANGUAGE_LINKAGE
+#else
+	#define ZTD_CXX_LANGUAGE_LINKAGE_I_ extern
+#endif // C++ language linkage
+
 
 // clang-format on
 

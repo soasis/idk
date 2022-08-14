@@ -37,7 +37,7 @@
 
 #if ZTD_HAS_BUILTIN_I_(__builtin_unreachable)
 #define ZTD_UNREACHABLE() __builtin_unreachable();
-#elif ZTD_IS_ON(ZTD_COMPILER_MSVC)
+#elif ZTD_IS_ON(ZTD_COMPILER_VCXX)
 #define ZTD_UNREACHABLE() __assume(false);
 #else
 #define ZTD_UNREACHABLE() __builtin_unreachable();
