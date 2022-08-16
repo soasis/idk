@@ -100,64 +100,6 @@
 	#define ZTD_LIBVCXX_I_ ZTD_OFF
 #endif
 
-#if defined(ZTD_LIBICONV_STATIC)
-	#if (ZTD_LIBICONV_STATIC != 0)
-		#define ZTD_LIBICONV_STATIC_I_ ZTD_ON
-	#else
-		#define ZTD_LIBICONV_STATIC_I_ ZTD_OFF
-	#endif
-#else
-	#define ZTD_LIBICONV_STATIC_I_ ZTD_DEFAULT_OFF
-#endif
-
-#if defined(ZTD_LIBICONV_DYNAMIC)
-	#if (ZTD_LIBICONV_DYNAMIC != 0)
-		#define ZTD_LIBICONV_DYNAMIC_I_ ZTD_ON
-	#else
-		#define ZTD_LIBICONV_DYNAMIC_I_ ZTD_OFF
-	#endif
-#else
-	#define ZTD_LIBICONV_DYNAMIC_I_ ZTD_DEFAULT_OFF
-#endif
-
-#if defined(ZTD_ICONV_H)
-	#if (ZTD_ICONV_H != 0)
-		#define ZTD_ICONV_H_I_ ZTD_ON
-	#else
-		#define ZTD_ICONV_H_I_ ZTD_OFF
-	#endif
-#elif ZTD_HAS_INCLUDE_I_(<iconv.h>)
-	#define ZTD_ICONV_H_I_ ZTD_DEFAULT_ON
-#else
-	#define ZTD_ICONV_H_I_ ZTD_DEFAULT_OFF
-#endif
-
-#if defined(ZTD_LIBICONV_LOAD)
-	#if (ZTD_LIBICONV_LOAD != 0)
-		#define ZTD_LIBICONV_LOAD_I_ ZTD_ON
-	#else
-		#define ZTD_LIBICONV_LOAD_I_ ZTD_OFF
-	#endif
-#else
-	#define ZTD_LIBICONV_LOAD_I_ ZTD_DEFAULT_OFF
-#endif
-
-#if defined(ZTD_LIBICONV)
-	#if (ZTD_LIBICONV != 0)
-		#define ZTD_LIBICONV_I_ ZTD_ON
-	#else
-		#define ZTD_LIBICONV_I_ ZTD_OFF
-	#endif
-#elif ZTD_IS_ON(ZTD_LIBICONV_LOAD)
-	#define ZTD_LIBICONV_I_ ZTD_ON
-#elif ZTD_IS_ON(ZTD_LIBICONV_STATIC)
-	#define ZTD_LIBICONV_I_ ZTD_LIBICONV_STATIC_I_
-#elif ZTD_IS_ON(ZTD_LIBICONV_DYNAMIC)
-	#define ZTD_LIBICONV_I_ ZTD_LIBICONV_DYNAMIC_I_
-#else
-	#define ZTD_LIBICONV_I_ ZTD_DEFAULT_OFF
-#endif
-
 #if defined(ZTD_PLATFORM_WINDOWS)
 	#if (ZTD_PLATFORM_WINDOWS != 0)
 		#define ZTD_PLATFORM_WINDOWS_I_ ZTD_ON
