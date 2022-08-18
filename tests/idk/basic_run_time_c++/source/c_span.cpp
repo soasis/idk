@@ -165,7 +165,7 @@
 			     TYPE_NAME##_begin(value3), TYPE_NAME##_end(value3), expected_pointer, expected_pointer_end));     \
 		}                                                                                                           \
 	}                                                                                                                \
-	static_assert(true, "👍")
+	static_assert(true, "")
 
 C_SPAN_BASIC_TEST(char, c_span_char);
 C_SPAN_BASIC_TEST(unsigned char, c_span_uchar);

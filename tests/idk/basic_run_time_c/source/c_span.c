@@ -153,7 +153,7 @@
 			REQUIRE(TYPE_NAME##_back(value3) == *(expected_pointer_end - 1));                                     \
 		}                                                                                                          \
 	}                                                                                                               \
-	static_assert(true, "👍")
+	static_assert(true, "")
 
 extern int c_span_tests(void) {
 	C_SPAN_BASIC_TEST(char, c_span_char);

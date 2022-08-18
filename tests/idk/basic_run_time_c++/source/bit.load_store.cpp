@@ -243,7 +243,7 @@ TEST_CASE("Ensure that the 8-bit load and store work properly for all array size
 			REQUIRE(result == data);                                                                           \
 		}                                                                                                       \
 	}                                                                                                            \
-	static_assert(true, "👍")
+	static_assert(true, "")
 
 	const size_t width = CHAR_BIT;
 	SECTION_CASE(8);

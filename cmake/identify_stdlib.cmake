@@ -28,10 +28,12 @@
 #
 # ============================================================================>
 
-include_guard()
-
+include_guard(GLOBAL)
+#[[
+Gets the name of the current C++ standard library, or "unknown" if it cannot detect such a standard library.
+]]
 function (identify_stdlib STDLIBNAME)
-	set(idstl_test_dir "${CMAKE_BINARY_DIR}/identify_stdlib")
+	set(idstl_test_dir "${CMAKE_BINARY_DIR}/.identify_stdlib")
 	set(idstl_libc++_file "${idstl_test_dir}/test_libc++_file.cpp")
 	set(idstl_libstdc++_file "${idstl_test_dir}/test_libstdc++_file.cpp")
 	set(idstl_vc++_file "${idstl_test_dir}/test_vc++_file.cpp")

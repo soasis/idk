@@ -121,7 +121,7 @@ static void explode_and_catch() {
 	     [[maybe_unused]] _TYPE __unaligned_ptr[ZTD_PTR_EXTENT(_N / (sizeof(_TYPE) * CHAR_BIT))]) {       \
 		explode_and_catch();                                                                             \
 	}                                                                                                     \
-	ztd_static_assert((((_N) % 8) == 0), "👍")
+	ztd_static_assert((((_N) % 8) == 0), "N must be a multiple of 8")
 
 #if CHAR_BIT <= 8
 ZTDC_GENERATE_LOAD8_STORE8_DEFINITIONS_TYPE(unsigned char, 8, uc);
@@ -409,7 +409,7 @@ TEMPLATE_TEST_CASE(
 			REQUIRE(result == data);                                                                             \
 		}                                                                                                         \
 	}                                                                                                              \
-	static_assert(true, "👍")
+	static_assert(true, "")
 
 #define SECTION_CASE_OF(_N)                                             \
 	if constexpr (std::is_same_v<TestType, unsigned char>) {           \
@@ -427,7 +427,7 @@ TEMPLATE_TEST_CASE(
 	else if constexpr (std::is_same_v<TestType, unsigned long long>) { \
 		SECTION_CASE(TestType, _N, ull);                              \
 	}                                                                  \
-	static_assert("true", "👍")
+	static_assert("true", "")
 
 
 	if constexpr ((sizeof(TestType) * CHAR_BIT) <= 8) {

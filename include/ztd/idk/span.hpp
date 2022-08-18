@@ -64,9 +64,31 @@ namespace ztd {
 #else
 
 // Use home-grown span from Martin Moene
+#define span_FEATURE_MAKE_SPAN 1
 #include <ztd/idk/detail/span.implementation.hpp>
 
 #include <ztd/prologue.hpp>
+
+namespace nonstd { namespace span_lite {
+	template <typename _Ty, ::std::size_t _LeftExtent, ::std::size_t _RightExtent>
+	constexpr bool operator==(const ::nonstd::span_lite::span<_Ty, _LeftExtent>& __left,
+		const ::nonstd::span_lite::span<_Ty, _RightExtent>& __right) noexcept {
+		auto __left_size  = __left.size();
+		auto __right_size = __right.size();
+		if (__left_size < __right_size) {
+			return ::std::equal(__left.cbegin(), __left.cend(), __right.cbegin());
+		}
+		else {
+			return ::std::equal(__right.cbegin(), __right.cend(), __left.cbegin());
+		}
+	}
+
+	template <typename _Ty, ::std::size_t _LeftExtent, ::std::size_t _RightExtent>
+	constexpr bool operator!=(const ::nonstd::span_lite::span<_Ty, _LeftExtent>& __left,
+		const ::nonstd::span_lite::span<_Ty, _RightExtent>& __right) noexcept {
+		return !(__left == __right);
+	}
+}} // namespace nonstd::span_lite
 
 namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
@@ -79,6 +101,7 @@ namespace ztd {
 
 	using ::nonstd::as_bytes;
 	using ::nonstd::as_writable_bytes;
+	using ::nonstd::make_span;
 	using ::nonstd::span;
 
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
