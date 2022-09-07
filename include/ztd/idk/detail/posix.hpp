@@ -52,10 +52,8 @@
 	}
 #endif
 
-#if ZTD_IS_ON(ZTD_LIBICONV_LOAD)
-	#if ZTD_IS_ON(ZTD_PLATFORM_POSIX) && ZTD_IS_ON(ZTD_DLFCN_H)
-		#include <dlfcn.h>
-	#endif
+#if ZTD_IS_ON(ZTD_PLATFORM_POSIX) && ZTD_IS_ON(ZTD_DLFCN_H)
+	#include <dlfcn.h>
 #endif
 // clang-format on
 
