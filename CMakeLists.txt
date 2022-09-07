@@ -214,6 +214,7 @@ target_compile_definitions(ztd.idk
 		ZTD_IDK_BUILD=1
 	PUBLIC
 		$<$<STREQUAL:$<TARGET_PROPERTY:ztd.idk,TYPE>,SHARED_LIBRARY>:ZTD_IDK_DLL=1>
+		${CMAKE_DL_LIBS}
 )
 
 if(ZTD_IDK_IS_TOP_LEVEL_PROJECT)
