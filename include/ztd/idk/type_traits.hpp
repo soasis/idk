@@ -50,10 +50,10 @@ namespace ztd {
 		template <typename... T, template <typename...> class Templ>
 		struct __is_specialization_of_impl<Templ<T...>, Templ> : ::std::true_type { };
 
-		template<typename _It>
+		template <typename _It>
 		using __weakly_incrementable_test = decltype(++::std::declval<_It&>());
 
-		template<typename _It>
+		template <typename _It>
 		using __weakly_decrementable_test = decltype(--::std::declval<_It&>());
 
 	} // namespace __idk_detail
@@ -144,16 +144,16 @@ namespace ztd {
 	inline constexpr bool is_code_unit_v = is_code_unit<_Type>::value;
 
 	//////
-	/// @brief Checks if the given type is one of the types that is usable in the standard with the @c std::char_traits traits type that's used for @c std::string_view , @c std::string and others.
+	/// @brief Checks if the given type is one of the types that is usable in the standard with the @c std::char_traits
+	/// traits type that's used for @c std::string_view , @c std::string and others.
 	template <typename _Type>
 	class is_char_traitable : public ::std::integral_constant<bool,
-		::std::is_same_v<_Type, char> || ::std::is_same_v<_Type, wchar_t> ||
+	                               ::std::is_same_v<_Type, char> || ::std::is_same_v<_Type, wchar_t> ||
 #if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T)
-		::std::is_same_v<_Type, char8_t> ||
+	                                    ::std::is_same_v<_Type, char8_t> ||
 #endif
-		::std::is_same_v<_Type, char16_t> ||
-		::std::is_same_v<_Type, char32_t>
-	> {};
+	                                    ::std::is_same_v<_Type, char16_t> || ::std::is_same_v<_Type, char32_t>> {
+	};
 	// clang-format on
 
 	//////
@@ -305,13 +305,21 @@ namespace ztd {
 
 	//////
 	/// @brief Detects whether a type has a pre-increment operation.
-	template<typename _It>
-	inline constexpr bool weakly_incrementable_v = ::ztd::is_detected_v<__idk_detail::__weakly_incrementable_test, _It>;
+	template <typename _It>
+	inline constexpr bool weakly_incrementable_v
+	     = ::ztd::is_detected_v<__idk_detail::__weakly_incrementable_test, _It>;
 
 	//////
 	/// @brief Detects whether a type has a post-increment operation.
-	template<typename _It>
-	inline constexpr bool weakly_decrementable_v = ::ztd::is_detected_v<__idk_detail::__weakly_decrementable_test, _It>;
+	template <typename _It>
+	inline constexpr bool weakly_decrementable_v
+	     = ::ztd::is_detected_v<__idk_detail::__weakly_decrementable_test, _It>;
+
+	//////
+	/// @brief Detects whether two types have the same sizeof() and alignof() values.
+	template <typename _Left, typename _Right>
+	inline constexpr bool is_same_sizeof_alignof_v
+	     = (sizeof(_Left) == sizeof(_Right)) && (alignof(_Left) == alignof(_Right));
 
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd
