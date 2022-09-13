@@ -65,7 +65,7 @@ namespace ztd {
 
 	namespace __idk_detail { namespace __posix {
 
-		inline __idk_detail::__encoding_id __determine_active_code_page() noexcept {
+		inline text_encoding_id __determine_active_code_page() noexcept {
 #if ZTD_IS_ON(ZTD_LANGINFO) || ZTD_IS_ON(ZTD_NL_LANGINFO)
 			const char* __name = nl_langinfo(LC_CTYPE);
 			return __idk_detail::__to_encoding_id(__name);

@@ -48,12 +48,12 @@
 
 namespace ztd { namespace tests {
 
-	inline constexpr ::ztd::__idk_detail::__encoding_id wide_enocding
+	inline constexpr ::ztd::text_encoding_id wide_enocding
 		= ::ztd::__idk_detail::__to_normalized_unicode_encoding_id(ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_());
 
-	inline constexpr bool wide_is_utf32 = wide_enocding == ::ztd::__idk_detail::__encoding_id::__utf32;
-	inline constexpr bool wide_is_utf16 = wide_enocding == ::ztd::__idk_detail::__encoding_id::__utf16;
-	inline constexpr bool wide_is_utf8  = wide_enocding == ::ztd::__idk_detail::__encoding_id::__utf8;
+	inline constexpr bool wide_is_utf32 = wide_enocding == ::ztd::text_encoding_id::utf32;
+	inline constexpr bool wide_is_utf16 = wide_enocding == ::ztd::text_encoding_id::utf16;
+	inline constexpr bool wide_is_utf8  = wide_enocding == ::ztd::text_encoding_id::utf8;
 
 	template <typename Container>
 	inline ::ztd::span<const std::byte> range_to_bytes(Container& c) {

@@ -45,6 +45,26 @@
 namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
 
+	enum class text_encoding_id {
+		unknown = 0,
+		utf7imap,
+		utf7,
+		utfebcdic,
+		utf8,
+		mutf8,
+		wtf8,
+		utf16,
+		utf16le,
+		utf16be,
+		utf32,
+		utf32le,
+		utf32be,
+		gb18030,
+		utf1,
+		cesu8,
+		ascii
+	};
+
 	namespace __idk_detail {
 		template <typename _Char>
 		inline constexpr ::std::array<_Char, 62> __readable_characters_storage_v = { 'A', 'B', 'C', 'D', 'E', 'F',
@@ -74,61 +94,41 @@ namespace ztd {
 			       "UTF-EBCDIC", "UTF-8-EBCDIC", "MUTF-8", "WTF-8", "GB18030", "CESU-8", "UTF-1" };
 		inline constexpr ::std::size_t __unicode_names_count = sizeof(__unicode_names) / sizeof(__unicode_names[0]);
 
-		enum class __encoding_id {
-			__unknown = 0,
-			__utf7imap,
-			__utf7,
-			__utfebcdic,
-			__utf8,
-			__mutf8,
-			__wtf8,
-			__utf16,
-			__utf16le,
-			__utf16be,
-			__utf32,
-			__utf32le,
-			__utf32be,
-			__gb18030,
-			__utf1,
-			__cesu8,
-			__ascii
-		};
-
-		inline constexpr std::string_view to_name(__encoding_id __id) noexcept {
+		inline constexpr std::string_view to_name(text_encoding_id __id) noexcept {
 			switch (__id) {
-			case __encoding_id::__unknown:
+			case text_encoding_id::unknown:
 				return "unknown";
-			case __encoding_id::__utf7imap:
+			case text_encoding_id::utf7imap:
 				return "utf7imap";
-			case __encoding_id::__utf7:
+			case text_encoding_id::utf7:
 				return "utf7";
-			case __encoding_id::__utfebcdic:
+			case text_encoding_id::utfebcdic:
 				return "utfebcdic";
-			case __encoding_id::__utf8:
+			case text_encoding_id::utf8:
 				return "utf8";
-			case __encoding_id::__mutf8:
+			case text_encoding_id::mutf8:
 				return "mutf8";
-			case __encoding_id::__wtf8:
+			case text_encoding_id::wtf8:
 				return "wtf8";
-			case __encoding_id::__utf16:
+			case text_encoding_id::utf16:
 				return "utf16";
-			case __encoding_id::__utf16le:
+			case text_encoding_id::utf16le:
 				return "utf16le";
-			case __encoding_id::__utf16be:
+			case text_encoding_id::utf16be:
 				return "utf16be";
-			case __encoding_id::__utf32:
+			case text_encoding_id::utf32:
 				return "utf32";
-			case __encoding_id::__utf32le:
+			case text_encoding_id::utf32le:
 				return "utf32le";
-			case __encoding_id::__utf32be:
+			case text_encoding_id::utf32be:
 				return "utf32be";
-			case __encoding_id::__gb18030:
+			case text_encoding_id::gb18030:
 				return "gb18030";
-			case __encoding_id::__utf1:
+			case text_encoding_id::utf1:
 				return "utf1";
-			case __encoding_id::__cesu8:
+			case text_encoding_id::cesu8:
 				return "cesu8";
-			case __encoding_id::__ascii:
+			case text_encoding_id::ascii:
 				return "ascii";
 			default:
 				return "unknown";
@@ -242,109 +242,109 @@ namespace ztd {
 
 	namespace __idk_detail {
 
-		inline constexpr __encoding_id __to_encoding_id(::std::string_view __name) {
+		inline constexpr text_encoding_id __to_encoding_id(::std::string_view __name) {
 			if (::ztd::is_encoding_name_equal(__name, "UTF-8")) {
-				return __encoding_id::__utf8;
+				return text_encoding_id::utf8;
 			}
 			else if (::ztd::is_encoding_name_equal(__name, "UTF-16")
 			     || ::ztd::is_encoding_name_equal(__name, "UCS-2-INTERNAL")
 			     || ::ztd::is_encoding_name_equal(__name, "UCS-2")) {
-				return __encoding_id::__utf16;
+				return text_encoding_id::utf16;
 			}
 			else if (::ztd::is_encoding_name_equal(__name, "UTF-16LE")
 			     || ::ztd::is_encoding_name_equal(__name, "UCS-2LE-INTERNAL")
 			     || ::ztd::is_encoding_name_equal(__name, "UCS-2LE")) {
-				return __encoding_id::__utf16le;
+				return text_encoding_id::utf16le;
 			}
 			else if (::ztd::is_encoding_name_equal(__name, "UTF-16BE")
 			     || ::ztd::is_encoding_name_equal(__name, "UCS-2BE-INTERNAL")
 			     || ::ztd::is_encoding_name_equal(__name, "UCS-2BE")) {
-				return __encoding_id::__utf16be;
+				return text_encoding_id::utf16be;
 			}
 			else if (::ztd::is_encoding_name_equal(__name, "UTF-32")
 			     || ::ztd::is_encoding_name_equal(__name, "UCS-4-INTERNAL")
 			     || ::ztd::is_encoding_name_equal(__name, "UCS-4")) {
-				return __encoding_id::__utf32;
+				return text_encoding_id::utf32;
 			}
 			else if (::ztd::is_encoding_name_equal(__name, "UTF-32LE")
 			     || ::ztd::is_encoding_name_equal(__name, "UCS-4LE-INTERNAL")
 			     || ::ztd::is_encoding_name_equal(__name, "UCS-4LE")) {
-				return __encoding_id::__utf32le;
+				return text_encoding_id::utf32le;
 			}
 			else if (::ztd::is_encoding_name_equal(__name, "UTF-32BE")
 			     || ::ztd::is_encoding_name_equal(__name, "UCS-4BE-INTERNAL")
 			     || ::ztd::is_encoding_name_equal(__name, "UCS-4BE")) {
-				return __encoding_id::__utf32be;
+				return text_encoding_id::utf32be;
 			}
 			else if (::ztd::is_encoding_name_equal(__name, "ASCII")
 			     || ::ztd::is_encoding_name_equal(__name, "ANSI_X3.4-1968")) {
-				return __encoding_id::__ascii;
+				return text_encoding_id::ascii;
 			}
 			else if (::ztd::is_encoding_name_equal(__name, "UTF-EBCDIC")
 			     || ::ztd::is_encoding_name_equal(__name, "UTF-8-EBCDIC")) {
-				return __encoding_id::__utfebcdic;
+				return text_encoding_id::utfebcdic;
 			}
 			else if (::ztd::is_encoding_name_equal(__name, "WTF-8")) {
-				return __encoding_id::__wtf8;
+				return text_encoding_id::wtf8;
 			}
 			else if (::ztd::is_encoding_name_equal(__name, "MUTF-8")) {
-				return __encoding_id::__mutf8;
+				return text_encoding_id::mutf8;
 			}
 			else if (::ztd::is_encoding_name_equal(__name, "UTF-7")) {
-				return __encoding_id::__utf7;
+				return text_encoding_id::utf7;
 			}
 			else if (::ztd::is_encoding_name_equal(__name, "UTF-7-IMAP")) {
-				return __encoding_id::__utf7imap;
+				return text_encoding_id::utf7imap;
 			}
 			else {
-				return __encoding_id::__unknown;
+				return text_encoding_id::unknown;
 			}
 		}
 
-		inline constexpr __encoding_id __to_normalized_unicode_encoding_id(::std::string_view __name) {
-			const __encoding_id __id = __to_encoding_id(__name);
+		inline constexpr text_encoding_id __to_normalized_unicode_encoding_id(::std::string_view __name) {
+			const text_encoding_id __id = __to_encoding_id(__name);
 			switch (__id) {
-			case __encoding_id::__utf8:
-				return __encoding_id::__utf8;
-			case __encoding_id::__utf16:
-			case __encoding_id::__utf16le:
-			case __encoding_id::__utf16be:
-				return __encoding_id::__utf16;
-			case __encoding_id::__utf32:
-			case __encoding_id::__utf32le:
-			case __encoding_id::__utf32be:
-				return __encoding_id::__utf32;
+			case text_encoding_id::utf8:
+				return text_encoding_id::utf8;
+			case text_encoding_id::utf16:
+			case text_encoding_id::utf16le:
+			case text_encoding_id::utf16be:
+				return text_encoding_id::utf16;
+			case text_encoding_id::utf32:
+			case text_encoding_id::utf32le:
+			case text_encoding_id::utf32be:
+				return text_encoding_id::utf32;
 			default:
-				return __encoding_id::__unknown;
-			}
-		}
-
-		inline constexpr bool __is_unicode_encoding_id(__encoding_id __id) noexcept {
-			switch (__id) {
-			case __encoding_id::__utf7:
-			case __encoding_id::__utf7imap:
-			case __encoding_id::__utfebcdic:
-			case __encoding_id::__utf8:
-			case __encoding_id::__utf16:
-			case __encoding_id::__utf16le:
-			case __encoding_id::__utf16be:
-			case __encoding_id::__utf32:
-			case __encoding_id::__utf32le:
-			case __encoding_id::__utf32be:
-			case __encoding_id::__gb18030:
-			case __encoding_id::__wtf8:
-			case __encoding_id::__mutf8:
-			case __encoding_id::__utf1:
-			case __encoding_id::__cesu8:
-				return true;
-			case __encoding_id::__ascii:
-			case __encoding_id::__unknown:
-			default:
-				return false;
+				return text_encoding_id::unknown;
 			}
 		}
 
 	} // namespace __idk_detail
+
+	inline constexpr bool is_unicode_encoding_id(text_encoding_id __id) noexcept {
+		switch (__id) {
+		case text_encoding_id::utf7:
+		case text_encoding_id::utf7imap:
+		case text_encoding_id::utfebcdic:
+		case text_encoding_id::utf8:
+		case text_encoding_id::utf16:
+		case text_encoding_id::utf16le:
+		case text_encoding_id::utf16be:
+		case text_encoding_id::utf32:
+		case text_encoding_id::utf32le:
+		case text_encoding_id::utf32be:
+		case text_encoding_id::gb18030:
+		case text_encoding_id::wtf8:
+		case text_encoding_id::mutf8:
+		case text_encoding_id::utf1:
+		case text_encoding_id::cesu8:
+			return true;
+		case text_encoding_id::ascii:
+		case text_encoding_id::unknown:
+		default:
+			return false;
+		}
+	}
 
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd
