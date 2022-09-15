@@ -320,7 +320,7 @@ namespace ztd { namespace ranges {
 			template <typename _Strawman                                           = _It,
 				::std::enable_if_t<is_iterator_contiguous_iterator_v<_Strawman>>* = nullptr>
 			constexpr pointer data() const noexcept {
-				return idk_adl::adl_to_address(this->_M_it);
+				return ::ztd::to_address(this->_M_it);
 			}
 
 			//////

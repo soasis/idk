@@ -87,25 +87,44 @@ namespace ztd {
 		     = decltype(::std::pointer_traits<_Type>::to_address(::std::declval<_Type&>()));
 	} // namespace __idk_detail
 
+	//////
+	/// @brief The type of the operator arrow function.
+	///
+	/// @tparam _Type  The pointer or iterator to attempt to operator arrow type within.
+	//////
 	template <typename _Type>
 	using operator_arrow_t = typename __idk_detail::__operator_arrow<_Type>::type;
 
+	//////
+	/// @brief Whether or not the given type can have the operator arrow used on it.
+	///
+	/// @tparam _Type The type to check.
+	//////
 	template <typename _Type, typename = void>
-	struct is_operator_arrowable : public ::std::integral_constant<bool, ::std::is_pointer_v<_Type>> { };
+	class is_operator_arrowable : public ::std::integral_constant<bool, ::std::is_pointer_v<_Type>> { };
 
+	//////
+	/// @brief Whether or not the given type can have the operator arrow used on it. This is a partial specialized for
+	/// overloaded class types.
+	///
+	/// @tparam _Type The type to check.
+	//////
 	template <typename _Type>
-	struct is_operator_arrowable<_Type, ::std::void_t<decltype(::std::declval<_Type&>().operator->())>>
+	class is_operator_arrowable<_Type, ::std::void_t<decltype(::std::declval<_Type&>().operator->())>>
 	: public ::std::integral_constant<bool,
 	       is_operator_arrowable<decltype(::std::declval<_Type&>().operator->())>::value> { };
 
+	//////
+	/// @brief A `::value` alias for ztd::is_operator_arrowable.
 	template <typename _Type>
 	inline constexpr bool is_operator_arrowable_v = is_operator_arrowable<_Type>::value;
 
 	//////
 	/// @brief Whether or not the given type is can have to_address (std::pointer_traits<Type>::to_address) called on
 	/// it.
+	//////
 	template <typename _Type, typename = void>
-	struct is_to_addressable
+	class is_to_addressable
 	: public ::std::integral_constant<bool,
 	       (::std::is_pointer_v<
 	             _Type> && !::std::is_function_v<::std::remove_reference_t<::std::remove_pointer_t<_Type>>>)
@@ -114,8 +133,9 @@ namespace ztd {
 	//////
 	/// @brief Whether or not the given type is can have to_address (std::pointer_traits<Type>::to_address) called on
 	/// it.
+	//////
 	template <typename _Type>
-	struct is_to_addressable<_Type, ::std::enable_if_t<__idk_detail::__is_maybe_std_pointer_traitable_v<_Type>>>
+	class is_to_addressable<_Type, ::std::enable_if_t<__idk_detail::__is_maybe_std_pointer_traitable_v<_Type>>>
 	: public ::std::integral_constant<bool,
 	       is_detected_v<__idk_detail::__detect_std_pointer_traits_to_address,
 	            _Type> || (!::std::is_function_v<::std::remove_reference_t<_Type>> && is_operator_arrowable_v<::std::remove_reference_t<_Type>>)> {
@@ -126,51 +146,60 @@ namespace ztd {
 	template <typename _Type>
 	inline constexpr bool is_to_addressable_v = is_to_addressable<_Type>::value;
 
-	namespace idk_adl {
+	namespace __idk_detail {
 
+		struct __to_address_fn {
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_TO_ADDRESS)
+			template <typename _Type>
+			constexpr auto operator()(_Type&& __ptr_like) const
+			     noexcept(noexcept(::std::to_address(::std::forward<_Type>(__ptr_like))))
+			          -> decltype(::std::to_address(::std::forward<_Type>(__ptr_like))) {
+				return ::std::to_address(::std::forward<_Type>(__ptr_like));
+			}
+#else
+			//////
+			/// @brief Identity: returns the pointer value that was input.
+			template <typename _Type>
+			constexpr _Type* operator()(_Type* __ptr) const noexcept {
+				static_assert(!::std::is_function_v<_Type>, "the pointer shall not be function pointer type");
+				return __ptr;
+			}
+
+			//////
+			/// @brief Calls to_address if it's available, or falls back to other means for pointers and other
+			/// potentially-contiguous types.
+			template <typename _Pointer, ::std::enable_if_t<!::std::is_pointer_v<_Pointer>>* = nullptr>
+			constexpr auto operator()(_Pointer& p) const noexcept {
+				if constexpr (::ztd::__idk_detail::__mark_contiguous_v<_Pointer>) {
+#if ZTD_IS_ON(ZTD_LIBVCXX)
+					return (*this)(p._Unwrapped());
+#else
+					return (*this)(p.operator->());
+#endif
+				}
+				else {
+					if constexpr (is_detected_v<__idk_detail::__detect_std_pointer_traits_to_address, _Pointer>) {
+						return ::std::pointer_traits<_Pointer>::to_address(p);
+					}
+					else {
+						return (*this)(p.operator->());
+					}
+				}
+			}
+#endif
+		};
+
+	} // namespace __idk_detail
+
+	inline namespace __fn {
 		//////
 		/// @brief Calls to_address if it's available, or falls back to other means for pointers and other
 		/// potentially-contiguous types. This is an identity function for pointer types.
-		template <typename _Type>
-		constexpr auto adl_to_address(_Type&& __ptr_like) noexcept(
-		     noexcept(::std::to_address(::std::forward<_Type>(__ptr_like))))
-		     -> decltype(::std::to_address(::std::forward<_Type>(__ptr_like))) {
-			return ::std::to_address(::std::forward<_Type>(__ptr_like));
-		}
-#else
+		///
+		/// @returns A pointer type representing the pointer or iterator passed in, if at all possible.
 		//////
-		/// @brief Identity: returns the pointer value that was input.
-		template <typename _Type>
-		constexpr _Type* adl_to_address(_Type* __ptr) noexcept {
-			static_assert(!::std::is_function_v<_Type>, "the pointer shall not be function pointer type");
-			return __ptr;
-		}
-
-		//////
-		/// @brief Calls to_address if it's available, or falls back to other means for pointers and other
-		/// potentially-contiguous types.
-		template <typename _Pointer, ::std::enable_if_t<!::std::is_pointer_v<_Pointer>>* = nullptr>
-		constexpr auto adl_to_address(_Pointer& p) noexcept {
-			if constexpr (::ztd::__idk_detail::__mark_contiguous_v<_Pointer>) {
-#if ZTD_IS_ON(ZTD_LIBVCXX)
-				return adl_to_address(p._Unwrapped());
-#else
-				return adl_to_address(p.operator->());
-#endif
-			}
-			else {
-				if constexpr (is_detected_v<__idk_detail::__detect_std_pointer_traits_to_address, _Pointer>) {
-					return ::std::pointer_traits<_Pointer>::to_address(p);
-				}
-				else {
-					return adl_to_address(p.operator->());
-				}
-			}
-		}
-#endif
-
-	} // namespace idk_adl
+		inline constexpr __idk_detail::__to_address_fn to_address = {};
+	} // namespace __fn
 
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd

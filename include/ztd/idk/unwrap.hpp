@@ -38,6 +38,7 @@
 #include <ztd/idk/type_traits.hpp>
 #include <ztd/idk/to_address.hpp>
 #include <ztd/idk/contiguous_iterator_tag.hpp>
+#include <ztd/idk/hijack.hpp>
 
 #include <utility>
 #include <iterator>
@@ -66,7 +67,7 @@ namespace ztd {
 	     = ztd::is_detected_v<__idk_detail::__is_unwrappable_iter_value_test, _Type>;
 
 	namespace __idk_detail {
-		class __unwrap_fn {
+		class __unwrap_fn : public ::ztd::hijack::token<__unwrap_fn>, public ::ztd_hijack_global_token<__unwrap_fn> {
 		public:
 			template <typename _Type>
 			constexpr decltype(auto) operator()(_Type&& __value) const noexcept {
@@ -94,7 +95,8 @@ namespace ztd {
 
 
 	namespace __idk_detail {
-		class __unwrap_iterator_fn {
+		class __unwrap_iterator_fn : public ::ztd::hijack::token<__unwrap_iterator_fn>,
+		                             public ::ztd_hijack_global_token<__unwrap_iterator_fn> {
 		public:
 			template <typename _Type>
 			constexpr decltype(auto) operator()(_Type&& __value) const noexcept {

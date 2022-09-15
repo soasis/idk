@@ -47,6 +47,7 @@ namespace ztd {
 
 	namespace __idk_detail {
 		enum class __iter_start { __begin, __end };
+
 		template <typename __Iter>
 		using __to_mutable_iter_test = decltype(to_mutable_iter(::std::declval<__Iter>()));
 
@@ -65,7 +66,8 @@ namespace ztd {
 
 	namespace __idk_detail {
 		template <__iter_start __from>
-		struct __tmi_invoke {
+		struct __tmi_fn : public ::ztd::hijack::token<__tmi_fn<__from>>,
+		                  public ::ztd_hijack_global_token<__tmi_fn<__from>> {
 			template <typename _FromIt, typename _Range>
 			constexpr auto operator()(_FromIt&& __from_it, _Range& __source) const noexcept {
 				using _URange = ::ztd::remove_cvref_t<_Range>;
@@ -135,11 +137,11 @@ namespace ztd {
 	inline namespace __fn {
 		//////
 		/// @brief Uses various methods to attempt to provide a mutable iterator from a non-mutable iterator.
-		inline constexpr const __idk_detail::__tmi_invoke<__idk_detail::__iter_start::__begin>
-		     to_mutable_iter_from_begin = {};
+		inline constexpr const __idk_detail::__tmi_fn<__idk_detail::__iter_start::__begin> to_mutable_iter_from_begin
+		     = {};
 		//////
 		/// @brief Uses various methods to attempt to provide a mutable iterator from a non-mutable iterator.
-		inline constexpr const __idk_detail::__tmi_invoke<__idk_detail::__iter_start::__end> to_mutable_iter_from_end
+		inline constexpr const __idk_detail::__tmi_fn<__idk_detail::__iter_start::__end> to_mutable_iter_from_end
 		     = {};
 		//////
 		/// @brief An alias for ztd::to_mutable_iter_from_begin.

@@ -30,12 +30,14 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_DETAIL_ENCODING_NAME_HPP
-#define ZTD_IDK_DETAIL_ENCODING_NAME_HPP
+#ifndef ZTD_IDK_ENCODING_NAME_HPP
+#define ZTD_IDK_ENCODING_NAME_HPP
 
 #include <ztd/idk/version.hpp>
 
 #include <ztd/idk/charN_t.hpp>
+#include <ztd/idk/char_traits.hpp>
+#include <ztd/idk/text_encoding_id.hpp>
 
 #include <string_view>
 #include <array>
@@ -44,26 +46,6 @@
 
 namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
-
-	enum class text_encoding_id {
-		unknown = 0,
-		utf7imap,
-		utf7,
-		utfebcdic,
-		utf8,
-		mutf8,
-		wtf8,
-		utf16,
-		utf16le,
-		utf16be,
-		utf32,
-		utf32le,
-		utf32be,
-		gb18030,
-		utf1,
-		cesu8,
-		ascii
-	};
 
 	namespace __idk_detail {
 		template <typename _Char>
@@ -175,7 +157,7 @@ namespace ztd {
 	template <typename _Left, typename _Right>
 	inline constexpr bool is_encoding_name_equal_for(const _Left& __left, const _Right& __right) noexcept {
 		using _LeftChar             = typename _Left::value_type;
-		using _RightChar            = typename _Left::value_type;
+		using _RightChar            = typename _Right::value_type;
 		::std::size_t __left_size   = __left.size();
 		::std::size_t __right_size  = __right.size();
 		auto __left_ptr             = __left.data();
@@ -234,6 +216,16 @@ namespace ztd {
 		for (::std::size_t __index = 0; __index < __idk_detail::__unicode_names_count; ++__index) {
 			::std::string_view __unicode_name = __idk_detail::__unicode_names[__index];
 			if (is_encoding_name_equal(__encoding_name, __unicode_name)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	inline constexpr bool is_unicode_encoding_name(::std::basic_string_view<ztd_char8_t> __encoding_name) noexcept {
+		for (::std::size_t __index = 0; __index < __idk_detail::__unicode_names_count; ++__index) {
+			::std::string_view __unicode_name = __idk_detail::__unicode_names[__index];
+			if (is_encoding_name_equal_for(__encoding_name, __unicode_name)) {
 				return true;
 			}
 		}
@@ -321,34 +313,9 @@ namespace ztd {
 
 	} // namespace __idk_detail
 
-	inline constexpr bool is_unicode_encoding_id(text_encoding_id __id) noexcept {
-		switch (__id) {
-		case text_encoding_id::utf7:
-		case text_encoding_id::utf7imap:
-		case text_encoding_id::utfebcdic:
-		case text_encoding_id::utf8:
-		case text_encoding_id::utf16:
-		case text_encoding_id::utf16le:
-		case text_encoding_id::utf16be:
-		case text_encoding_id::utf32:
-		case text_encoding_id::utf32le:
-		case text_encoding_id::utf32be:
-		case text_encoding_id::gb18030:
-		case text_encoding_id::wtf8:
-		case text_encoding_id::mutf8:
-		case text_encoding_id::utf1:
-		case text_encoding_id::cesu8:
-			return true;
-		case text_encoding_id::ascii:
-		case text_encoding_id::unknown:
-		default:
-			return false;
-		}
-	}
-
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_IDK_DETAIL_ENCODING_NAME_HPP
+#endif // ZTD_IDK_ENCODING_NAME_HPP

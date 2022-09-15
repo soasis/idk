@@ -102,7 +102,8 @@ namespace ztd { namespace ranges {
 			}
 		}
 
-		class __reconstruct_fn : public ::ztd::hijack::token {
+		class __reconstruct_fn : public ::ztd::hijack::token<__reconstruct_fn>,
+			                    public ::ztd_hijack_global_token<__reconstruct_fn> {
 		public:
 			template <typename _InPlaceTag, typename _It, typename _Sen>
 			constexpr auto operator()(
@@ -191,12 +192,12 @@ namespace ztd { namespace hijack {
 	constexpr ::ztd::span<_Ty> tag_invoke(ztd::tag_t<::ztd::ranges::reconstruct>,
 		::std::in_place_type_t<::ztd::span<_Ty, _Extent>>, _It __iterator, _Sen __sentinel) noexcept {
 		if constexpr (!::std::is_integral_v<_Sen>) {
-			auto __iterator_address = ::ztd::idk_adl::adl_to_address(__iterator);
-			auto __sentinel_address = ::ztd::idk_adl::adl_to_address(__sentinel);
+			auto __iterator_address = ::ztd::to_address(__iterator);
+			auto __sentinel_address = ::ztd::to_address(__sentinel);
 			return ::ztd::span<_Ty>(__iterator_address, __sentinel_address - __iterator_address);
 		}
 		else {
-			auto __iterator_address = ::ztd::idk_adl::adl_to_address(__iterator);
+			auto __iterator_address = ::ztd::to_address(__iterator);
 			return ::ztd::span<_Ty>(__iterator_address, __sentinel);
 		}
 	}
@@ -214,7 +215,7 @@ namespace ztd { namespace hijack {
 				return ::std::basic_string_view<_Ty, _Traits>(__empty_str + 0, 0);
 			}
 #endif
-			return ::std::basic_string_view<_Ty, _Traits>(::ztd::idk_adl::adl_to_address(__iterator), __ptr_size);
+			return ::std::basic_string_view<_Ty, _Traits>(::ztd::to_address(__iterator), __ptr_size);
 		}
 		else {
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_DEBUG_ITERATORS)
@@ -224,7 +225,7 @@ namespace ztd { namespace hijack {
 			}
 #endif
 			return ::std::basic_string_view<_Ty, _Traits>(
-				::ztd::idk_adl::adl_to_address(__iterator), static_cast<_SizeType>(__sentinel));
+				::ztd::to_address(__iterator), static_cast<_SizeType>(__sentinel));
 		}
 	}
 

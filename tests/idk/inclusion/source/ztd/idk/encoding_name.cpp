@@ -28,48 +28,4 @@
 //
 // ============================================================================ //
 
-#pragma once
-
-#ifndef ZTD_IDK_ENDIAN_HPP
-#define ZTD_IDK_ENDIAN_HPP
-
-#include <ztd/idk/version.hpp>
-
-#include <ztd/idk/endian.h>
-
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_ENDIAN)
-#include <bit>
-#endif
-
-#include <ztd/prologue.hpp>
-
-namespace ztd {
-	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
-
-#if ZTD_IS_OFF(ZTD_STD_LIBRARY_ENDIAN)
-	namespace __idk_detail {
-		enum class __endian { little = ZTDC_LITTLE_ENDIAN, big = ZTDC_BIG_ENDIAN, native = ZTDC_NATIVE_ENDIAN };
-	} // namespace __idk_detail
-#endif
-
-	//////
-	/// @brief An endian enumeration.
-	///
-	/// @remarks It may include little, big, or native values. The native value can be the same as the little or big
-	/// values, but if on a middle-endian machine it may be an implementation-defined "middle endian" value that is not
-	/// equal to either little or big (as on the PDP-11). We don't expect many relevant architectures to be using
-	/// middle-endian, though.
-	//////
-	using endian =
-#if ZTD_IS_OFF(ZTD_STD_LIBRARY_ENDIAN)
-	     __idk_detail::__endian;
-#else
-	     ::std::endian;
-#endif
-
-	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
-} // namespace ztd
-
-#include <ztd/epilogue.hpp>
-
-#endif // ZTD_IDK_ENDIAN_HPP
+#include <ztd/idk/encoding_name.hpp>

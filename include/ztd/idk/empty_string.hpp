@@ -51,44 +51,86 @@ namespace ztd {
 		inline constexpr const __schar_one_t __s_shim = {};
 	} // namespace __idk_detail
 
-	template <typename C>
+	//////
+	/// @brief Returns an array representing an empty c-style string
+	///
+	/// @tparam _CharTy The character type.
+	///
+	/// @return An empty c-string.
+	//////
+	template <typename _CharTy>
 	inline constexpr decltype(auto) empty_string() noexcept {
-		static_assert(always_false_v<C>, "unrecognized character type");
+		static_assert(always_false_v<_CharTy>, "unrecognized character type");
 		return "";
 	}
 
+	//////
+	/// @brief Returns an array representing an empty c-style string
+	///
+	/// @return An empty c-string.
+	//////
 	template <>
 	inline constexpr decltype(auto) empty_string<char>() noexcept {
 		return "";
 	}
 
+	//////
+	/// @brief Returns an array representing an empty c-style string
+	///
+	/// @return An empty c-string.
+	//////
 	template <>
 	inline constexpr decltype(auto) empty_string<unsigned char>() noexcept {
 		return (__idk_detail::__u_shim);
 	}
 
+	//////
+	/// @brief Returns an array representing an empty c-style string
+	///
+	/// @return An empty c-string.
+	//////
 	template <>
 	inline constexpr decltype(auto) empty_string<signed char>() noexcept {
 		return (__idk_detail::__s_shim);
 	}
 
+	//////
+	/// @brief Returns an array representing an empty c-style string
+	///
+	/// @return An empty c-string.
+	//////
 	template <>
 	inline constexpr decltype(auto) empty_string<wchar_t>() noexcept {
 		return L"";
 	}
 
 #if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T)
+	//////
+	/// @brief Returns an array representing an empty c-style string
+	///
+	/// @return An empty c-string.
+	//////
 	template <>
 	inline constexpr decltype(auto) empty_string<char8_t>() noexcept {
 		return u8"";
 	}
 #endif
 
+	//////
+	/// @brief Returns an array representing an empty c-style string
+	///
+	/// @return An empty c-string.
+	//////
 	template <>
 	inline constexpr decltype(auto) empty_string<char16_t>() noexcept {
 		return u"";
 	}
 
+	//////
+	/// @brief Returns an array representing an empty c-style string
+	///
+	/// @return An empty c-string.
+	//////
 	template <>
 	inline constexpr decltype(auto) empty_string<char32_t>() noexcept {
 		return U"";

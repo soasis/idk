@@ -30,46 +30,64 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_ENDIAN_HPP
-#define ZTD_IDK_ENDIAN_HPP
+#ifndef ZTD_IDK_TEXT_ENCODING_ID_HPP
+#define ZTD_IDK_TEXT_ENCODING_ID_HPP
 
 #include <ztd/idk/version.hpp>
-
-#include <ztd/idk/endian.h>
-
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_ENDIAN)
-#include <bit>
-#endif
 
 #include <ztd/prologue.hpp>
 
 namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
 
-#if ZTD_IS_OFF(ZTD_STD_LIBRARY_ENDIAN)
-	namespace __idk_detail {
-		enum class __endian { little = ZTDC_LITTLE_ENDIAN, big = ZTDC_BIG_ENDIAN, native = ZTDC_NATIVE_ENDIAN };
-	} // namespace __idk_detail
-#endif
+	enum class text_encoding_id {
+		unknown = 0,
+		utf7imap,
+		utf7,
+		utfebcdic,
+		utf8,
+		mutf8,
+		wtf8,
+		utf16,
+		utf16le,
+		utf16be,
+		utf32,
+		utf32le,
+		utf32be,
+		gb18030,
+		utf1,
+		cesu8,
+		ascii
+	};
 
-	//////
-	/// @brief An endian enumeration.
-	///
-	/// @remarks It may include little, big, or native values. The native value can be the same as the little or big
-	/// values, but if on a middle-endian machine it may be an implementation-defined "middle endian" value that is not
-	/// equal to either little or big (as on the PDP-11). We don't expect many relevant architectures to be using
-	/// middle-endian, though.
-	//////
-	using endian =
-#if ZTD_IS_OFF(ZTD_STD_LIBRARY_ENDIAN)
-	     __idk_detail::__endian;
-#else
-	     ::std::endian;
-#endif
+	inline constexpr bool is_unicode_encoding_id(text_encoding_id __id) noexcept {
+		switch (__id) {
+		case text_encoding_id::utf7:
+		case text_encoding_id::utf7imap:
+		case text_encoding_id::utfebcdic:
+		case text_encoding_id::utf8:
+		case text_encoding_id::utf16:
+		case text_encoding_id::utf16le:
+		case text_encoding_id::utf16be:
+		case text_encoding_id::utf32:
+		case text_encoding_id::utf32le:
+		case text_encoding_id::utf32be:
+		case text_encoding_id::gb18030:
+		case text_encoding_id::wtf8:
+		case text_encoding_id::mutf8:
+		case text_encoding_id::utf1:
+		case text_encoding_id::cesu8:
+			return true;
+		case text_encoding_id::ascii:
+		case text_encoding_id::unknown:
+		default:
+			return false;
+		}
+	}
 
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_IDK_ENDIAN_HPP
+#endif // ZTD_IDK_TEXT_ENCODING_ID_HPP

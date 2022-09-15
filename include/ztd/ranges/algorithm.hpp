@@ -182,11 +182,11 @@ namespace ztd { namespace ranges {
 				if constexpr (
 					is_iterator_contiguous_iterator_v<
 					     _First> && is_iterator_contiguous_iterator_v<_OutFirst> && ::std::has_unique_object_representations_v<_ValueType> && ::std::has_unique_object_representations_v<_OutValueType>) {
-					auto __first_ptr              = idk_adl::adl_to_address(__first);
+					auto __first_ptr              = ::ztd::to_address(__first);
 					auto __distance               = __size;
 					::std::size_t __byte_distance = sizeof(_ValueType) * __distance;
 					::std::size_t __out_distance  = __byte_distance / sizeof(_OutValueType);
-					::std::memcpy(idk_adl::adl_to_address(__out_first), __first_ptr, __byte_distance);
+					::std::memcpy(::ztd::to_address(__out_first), __first_ptr, __byte_distance);
 					return _Result { _InRange(_ResultInIt(::std::move(__first) + __distance, 0), default_sentinel),
 						_OutRange(::std::move(__out_first) + __out_distance) };
 				}
@@ -216,11 +216,11 @@ namespace ztd { namespace ranges {
 				if constexpr (
 					is_iterator_contiguous_iterator_v<
 					     _First> && is_iterator_contiguous_iterator_v<_OutFirst> && ::std::has_unique_object_representations_v<_ValueType> && ::std::has_unique_object_representations_v<_OutValueType>) {
-					auto __first_ptr              = idk_adl::adl_to_address(__first);
+					auto __first_ptr              = ::ztd::to_address(__first);
 					auto __distance               = __last - __first;
 					::std::size_t __byte_distance = sizeof(_ValueType) * __distance;
 					::std::size_t __out_distance  = __byte_distance / sizeof(_OutValueType);
-					::std::memcpy(idk_adl::adl_to_address(__out_first), __first_ptr, __byte_distance);
+					::std::memcpy(::ztd::to_address(__out_first), __first_ptr, __byte_distance);
 					return _Result { _InRange(::std::move(__first) + __distance, ::std::move(__last)),
 						_OutRange(::std::move(__out_first) + __out_distance) };
 				}
