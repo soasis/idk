@@ -28,19 +28,4 @@
 //
 // ============================================================================ //
 
-#pragma once
-
-#ifndef ZTD_IDK_H
-#define ZTD_IDK_H
-
-#include <ztd/idk/version.h>
-
-#include <ztd/idk/assert.h>
-#include <ztd/idk/align.h>
-#include <ztd/idk/c_span.h>
-#include <ztd/idk/endian.h>
-#include <ztd.idk/extent.h>
-#include <ztd/idk/static_assert.h>
-#include <ztd/idk/unreachable.h>
-
-#endif // ZTD_IDK_H
+#include <ztd/idk/tag.hpp>

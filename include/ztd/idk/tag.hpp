@@ -30,17 +30,33 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_H
-#define ZTD_IDK_H
+#ifndef ZTD_IDK_TAG_HPP
+#define ZTD_IDK_TAG_HPP
 
-#include <ztd/idk/version.h>
+#include <ztd/idk/version.hpp>
 
-#include <ztd/idk/assert.h>
-#include <ztd/idk/align.h>
-#include <ztd/idk/c_span.h>
-#include <ztd/idk/endian.h>
-#include <ztd.idk/extent.h>
-#include <ztd/idk/static_assert.h>
-#include <ztd/idk/unreachable.h>
+#include <ztd/prologue.hpp>
 
-#endif // ZTD_IDK_H
+//////
+/// @addtogroup ztd_idk_tags Tags
+/// @{
+//////
+
+namespace ztd {
+
+	//////
+	/// @brief A tag type which can hold arbitrarily many types. Useful as an anchor for overload resolution on
+	/// specific entities, extension point anchors, and more. Not related to the ztd::tag_invoke infrastructure.
+	//////
+	template <typename...>
+	class tag { };
+
+} // namespace ztd
+
+/// @}
+//////
+
+
+#include <ztd/epilogue.hpp>
+
+#endif // ZTD_IDK_TAG_HPP

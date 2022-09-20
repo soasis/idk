@@ -47,7 +47,7 @@ namespace ztd {
 	} // namespace __idk_detail
 
 	//////
-	/// @brief Either a typedef or a polyfill of the contiguous iterator text_tag, only standardized in C++20.
+	/// @brief Either a typedef or a polyfill of the contiguous iterator tag, only standardized in C++20.
 	///
 	//////
 	using contiguous_iterator_tag =

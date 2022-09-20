@@ -30,17 +30,26 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_H
-#define ZTD_IDK_H
+#ifndef ZTD_IDK_CKD_INT_H
+#define ZTD_IDK_CKD_INT_H
 
 #include <ztd/idk/version.h>
 
-#include <ztd/idk/assert.h>
-#include <ztd/idk/align.h>
-#include <ztd/idk/c_span.h>
-#include <ztd/idk/endian.h>
-#include <ztd.idk/extent.h>
-#include <ztd/idk/static_assert.h>
-#include <ztd/idk/unreachable.h>
+#include <ztd/prologue.hpp>
 
-#endif // ZTD_IDK_H
+#define ZTD_DIV_OVERFLOW(_LEFT, _RIGHT, _PTR)
+
+
+#if ZTD_IS_ON(ZTD_COMPILER_CLANG) || ZTD_IS_ON(ZTD_COMPILER_GC)
+#define ztdc_ckd_add(_PTR, _LEFT, _RIGHT) __builtin_add_overflow(_LEFT, _RIGHT, _PTR)
+#define ztdc_ckd_sub(_PTR, _LEFT, _RIGHT) __builtin_sub_overflow(_LEFT, _RIGHT, _PTR)
+#define ztdc_ckd_mul(_PTR, _LEFT, _RIGHT) __builtin_mul_overflow(_LEFT, _RIGHT, _PTR)
+#else
+#define ztdc_ckd_add(_PTR, _LEFT, _RIGHT)
+#define ztdc_ckd_add(_PTR, _LEFT, _RIGHT)
+#define ztdc_ckd_add(_PTR, _LEFT, _RIGHT)
+#endif
+
+#include <ztd/epilogue.hpp>
+
+#endif // ZTD_IDK_CKD_INT_H

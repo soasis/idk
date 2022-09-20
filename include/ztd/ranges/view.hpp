@@ -60,7 +60,7 @@ namespace ztd { namespace ranges {
 	template <typename _Ty>
 	struct is_view
 	: ::std::integral_constant<bool,
-		  (__rng_detail::__enable_view<_Ty> && is_range_v<_Ty> // clang-format hack
+		  (__rng_detail::__enable_view<_Ty> && is_range_v<_Ty> // cf
 		       && ::std::is_move_constructible_v<_Ty> && ::std::is_move_assignable_v<_Ty>)
 		       || (is_range_v<_Ty> && !::std::is_const_v<_Ty> && ::std::is_lvalue_reference_v<_Ty>) // clang-format
 		                                                                                            // hack

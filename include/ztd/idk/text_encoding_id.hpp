@@ -35,6 +35,10 @@
 
 #include <ztd/idk/version.hpp>
 
+#include <ztd/idk/endian.hpp>
+
+#include <cstddef>
+
 #include <ztd/prologue.hpp>
 
 namespace ztd {
@@ -42,12 +46,14 @@ namespace ztd {
 
 	enum class text_encoding_id {
 		unknown = 0,
+		ascii,
 		utf7imap,
 		utf7,
 		utfebcdic,
 		utf8,
 		mutf8,
 		wtf8,
+		cesu8,
 		utf16,
 		utf16le,
 		utf16be,
@@ -56,8 +62,6 @@ namespace ztd {
 		utf32be,
 		gb18030,
 		utf1,
-		cesu8,
-		ascii
 	};
 
 	inline constexpr bool is_unicode_encoding_id(text_encoding_id __id) noexcept {
@@ -82,6 +86,39 @@ namespace ztd {
 		case text_encoding_id::unknown:
 		default:
 			return false;
+		}
+	}
+
+	inline constexpr text_encoding_id to_byte_text_encoding_id(
+	     text_encoding_id __id, endian __endianness, ::std::size_t __character_size) noexcept {
+		if (__character_size == sizeof(unsigned char)) {
+			switch (__id) {
+			case text_encoding_id::utf7:
+			case text_encoding_id::utf7imap:
+			case text_encoding_id::utfebcdic:
+			case text_encoding_id::utf8:
+			case text_encoding_id::ascii:
+			case text_encoding_id::utf1:
+			case text_encoding_id::cesu8:
+			case text_encoding_id::mutf8:
+			case text_encoding_id::wtf8:
+			case text_encoding_id::gb18030:
+				return __id;
+			default:
+				break;
+			}
+		}
+		switch (__id) {
+		case text_encoding_id::utf16:
+			return (__endianness == endian::big
+			          ? text_encoding_id::utf16be
+			          : (__endianness == endian::little ? text_encoding_id::utf16le : text_encoding_id::unknown));
+		case text_encoding_id::utf32:
+			return (__endianness == endian::big
+			          ? text_encoding_id::utf32be
+			          : (__endianness == endian::little ? text_encoding_id::utf32le : text_encoding_id::unknown));
+		default:
+			return text_encoding_id::unknown;
 		}
 	}
 
