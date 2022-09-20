@@ -37,13 +37,9 @@
 
 #include <ztd/idk/align.h>
 
-#if ZTD_IS_ON(ZTD_C)
-#include <stddef.h>
-#include <stdint.h>
-#else
 #include <cstddef>
 #include <cstdint>
-#endif
+#include <type_traits>
 
 namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
