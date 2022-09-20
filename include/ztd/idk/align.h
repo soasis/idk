@@ -123,6 +123,7 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ inline ztdc_aligned_mutable_poi
 	return { aligned_ptr, required_space, leftover_space };
 }
 
+#if ZTD_IS_ON(ZTD_C)
 //////
 /// @brief Aligns a pointer according to the given `alignment` and `size`, within the available `space` bytes.
 ///
@@ -132,6 +133,26 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ inline ztdc_aligned_mutable_poi
 /// @param _SPACE The amount of available space within which this alignment pay be performed, in bytes.
 #define ztdc_align(_ALIGN, _SIZE, _PTR, _SPACE) \
 	_Generic(_PTR, const void* : ztdc_align_const, void* : ztdc_align_mutable)(_ALIGN, _SIZE, _PTR, _SPACE)
+#else
+
+//////
+/// @brief Aligns a pointer according to the given `alignment` and `size`, within the available `space` bytes.
+///
+/// @param _ALIGN The desired alignment for object that will be put at the (new aligned) pointer's location.
+/// @param _SIZE The size of the object that will be put at the (newly aligned) pointer's location, in bytes.
+/// @param _PTR The pointer to align.
+/// @param _SPACE The amount of available space within which this alignment pay be performed, in bytes.
+template <typename _Type>
+auto ztdc_align(::std::size_t __alignment, ::std::size_t __size, _Type* __ptr, ::std::size_t __space) {
+	if constexpr (::std::is_const_v<_Type>) {
+		return ztdc_align_const(__alignment, __size, __ptr, __space);
+	}
+	else {
+		return ztdc_align_mutable(__alignment, __size, __ptr, __space);
+	}
+}
+#endif
+
 
 //////
 /// @}
