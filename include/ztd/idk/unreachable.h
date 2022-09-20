@@ -33,7 +33,7 @@
 #ifndef ZTD_IDK_UNREACHABLE_H
 #define ZTD_IDK_UNREACHABLE_H
 
-#include <ztd/version.h>
+#include <ztd/idk/version.h>
 
 #if ZTD_HAS_BUILTIN_I_(__builtin_unreachable)
 #define ZTD_UNREACHABLE() __builtin_unreachable();

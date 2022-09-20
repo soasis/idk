@@ -37,4 +37,6 @@
 
 #include <ztd/idk/unreachable.h>
 
+// Nothing to do here, yet, since there's no C++-specific tech for unreachable that is needed.
+
 #endif // ZTD_IDK_UNREACHABLE_HPP
