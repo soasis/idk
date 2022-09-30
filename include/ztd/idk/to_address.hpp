@@ -115,7 +115,7 @@ namespace ztd {
 	       is_operator_arrowable<decltype(::std::declval<_Type&>().operator->())>::value> { };
 
 	//////
-	/// @brief A `::value` alias for ztd::is_operator_arrowable.
+	/// @brief An alias of the inner `value` for ztd::is_operator_arrowable.
 	template <typename _Type>
 	inline constexpr bool is_operator_arrowable_v = is_operator_arrowable<_Type>::value;
 
