@@ -138,11 +138,11 @@ namespace ztd { namespace ranges {
 				return this->_M_count;
 			}
 
-			constexpr decltype(auto) operator*() noexcept(noexcept(*this->_M_it)) {
+			constexpr decltype(auto) operator*() noexcept(noexcept(*::std::declval<_It&>())) {
 				return *this->_M_it;
 			}
 
-			constexpr decltype(auto) operator*() const noexcept(noexcept(*this->_M_it)) {
+			constexpr decltype(auto) operator*() const noexcept(noexcept(*::std::declval<const _It&>())) {
 				return *this->_M_it;
 			}
 
