@@ -54,7 +54,6 @@ namespace ztd {
 	/// @remarks The only reason this class continues to be necessary is because of Microsoft Visual C++. Every other
 	/// compiler respects the new C++20 attribute [[no_unique_address]] - it is only Microsoft that explicitly decided
 	/// that our opt-in indication that we care more about the object's size is not important.
-	//////
 	template <typename _Type, ::std::size_t _Tag = 0, typename = void>
 	class alignas(_Type) ebco {
 	private:
@@ -64,44 +63,36 @@ namespace ztd {
 		//////
 		/// @brief Default construction.
 		///
-		//////
 		ebco() = default;
 		//////
 		/// @brief Copy construction.
 		///
-		//////
 		ebco(const ebco&) = default;
 		//////
 		/// @brief Move construction.
 		///
-		//////
 		ebco(ebco&&) = default;
 		//////
 		/// @brief Copy assignment operator.
 		///
-		//////
 		ebco& operator=(const ebco&) = default;
 		//////
 		/// @brief Move assignment operator.
 		///
-		//////
 		ebco& operator=(ebco&&) = default;
 		//////
 		/// @brief Copies the object into storage.
 		///
-		//////
 		constexpr ebco(const _Type& __value) noexcept(::std::is_nothrow_copy_constructible_v<_Type>)
 		: _M_value(__value) {};
 		//////
 		/// @brief Moves the object into storage.
 		///
-		//////
 		constexpr ebco(_Type&& __value) noexcept(::std::is_nothrow_move_constructible_v<_Type>)
 		: _M_value(::std::move(__value)) {};
 		//////
 		/// @brief Copy assigns into the previous object into storage.
 		///
-		//////
 		constexpr ebco& operator=(const _Type& __value) noexcept(::std::is_nothrow_copy_assignable_v<_Type>) {
 			this->_M_value = __value;
 			return *this;
@@ -109,7 +100,6 @@ namespace ztd {
 		//////
 		/// @brief Move assigns into the previous object into storage.
 		///
-		//////
 		constexpr ebco& operator=(_Type&& __value) noexcept(::std::is_nothrow_move_assignable_v<_Type>) {
 			this->_M_value = ::std::move(__value);
 			return *this;
@@ -117,7 +107,6 @@ namespace ztd {
 		//////
 		/// @brief Constructs the object in storage from the given arguments.
 		///
-		//////
 		template <typename _Arg, typename... _Args,
 		     typename = ::std::enable_if_t<
 		          !::std::is_same_v<::std::remove_reference_t<::std::remove_cv_t<_Arg>>,
@@ -130,7 +119,6 @@ namespace ztd {
 		//////
 		/// @brief Gets the wrapped value.
 		///
-		//////
 		constexpr _Type& get_value() & noexcept {
 			return static_cast<_Type&>(this->_M_value);
 		}
@@ -138,7 +126,6 @@ namespace ztd {
 		//////
 		/// @brief Gets the wrapped value.
 		///
-		//////
 		constexpr _Type const& get_value() const& noexcept {
 			return static_cast<_Type const&>(this->_M_value);
 		}
@@ -146,7 +133,6 @@ namespace ztd {
 		//////
 		/// @brief Gets the wrapped value.
 		///
-		//////
 		constexpr _Type&& get_value() && noexcept {
 			return static_cast<_Type&&>(this->_M_value);
 		}
@@ -163,34 +149,28 @@ namespace ztd {
 		//////
 		/// @brief Default construction.
 		///
-		//////
 		ebco() = default;
 		//////
 		/// @brief Copy construction.
 		///
-		//////
 		ebco(const ebco&) = default;
 		//////
 		/// @brief Move construction.
 		///
-		//////
 		ebco(ebco&&) = default;
 		//////
 		/// @brief Copy constructs the object in storage.
 		///
-		//////
 		constexpr ebco(const _Type& __value) noexcept(::std::is_nothrow_copy_constructible_v<_Type>)
 		: _Type(__value) {};
 		//////
 		/// @brief Move constructs the object in storage.
 		///
-		//////
 		constexpr ebco(_Type&& __value) noexcept(::std::is_nothrow_move_constructible_v<_Type>)
 		: _Type(::std::move(__value)) {};
 		//////
 		/// @brief Constructs the object in storage from the given arguments.
 		///
-		//////
 		template <typename _Arg, typename... _Args,
 		     typename = ::std::enable_if_t<
 		          !::std::is_same_v<::std::remove_reference_t<::std::remove_cv_t<_Arg>>,
@@ -203,17 +183,14 @@ namespace ztd {
 		//////
 		/// @brief Copy assignment operator.
 		///
-		//////
 		ebco& operator=(const ebco&) = default;
 		//////
 		/// @brief Move assignment operator.
 		///
-		//////
 		ebco& operator=(ebco&&) = default;
 		//////
 		/// @brief Copy assigns into the previous object into storage.
 		///
-		//////
 		constexpr ebco& operator=(const _Type& __value) noexcept(::std::is_nothrow_copy_assignable_v<_Type>) {
 			static_cast<_Type&>(*this) = __value;
 			return *this;
@@ -221,7 +198,6 @@ namespace ztd {
 		//////
 		/// @brief Move assigns into the previous object into storage.
 		///
-		//////
 		constexpr ebco& operator=(_Type&& __value) noexcept(::std::is_nothrow_move_assignable_v<_Type>) {
 			static_cast<_Type&>(*this) = ::std::move(__value);
 			return *this;
@@ -230,7 +206,6 @@ namespace ztd {
 		//////
 		/// @brief Gets the wrapped value.
 		///
-		//////
 		constexpr _Type& get_value() & noexcept {
 			return static_cast<_Type&>(*this);
 		}
@@ -238,7 +213,6 @@ namespace ztd {
 		//////
 		/// @brief Gets the wrapped value.
 		///
-		//////
 		constexpr _Type const& get_value() const& noexcept {
 			return static_cast<_Type const&>(*this);
 		}
@@ -246,7 +220,6 @@ namespace ztd {
 		//////
 		/// @brief Gets the wrapped value.
 		///
-		//////
 		constexpr _Type&& get_value() && noexcept {
 			return static_cast<_Type&&>(*this);
 		}
@@ -255,7 +228,6 @@ namespace ztd {
 	//////
 	/// @brief A partial specialization for l-value reference types.
 	///
-	//////
 	template <typename _Type, ::std::size_t _Tag>
 	class alignas(_Type*) ebco<_Type&, _Tag> {
 	private:
@@ -265,22 +237,18 @@ namespace ztd {
 		//////
 		/// @brief Default construction.
 		///
-		//////
 		ebco() = default;
 		//////
 		/// @brief Default construction.
 		///
-		//////
 		ebco(const ebco&) = default;
 		//////
 		/// @brief Default construction.
 		///
-		//////
 		ebco(ebco&&) = default;
 		//////
 		/// @brief Copy assignment.
 		///
-		//////
 		constexpr ebco& operator=(const ebco& __value) noexcept {
 			*(this->_M_p_value) = *(__value._M_p_value);
 			return *this;
@@ -288,7 +256,6 @@ namespace ztd {
 		//////
 		/// @brief Move assignment.
 		///
-		//////
 		constexpr ebco& operator=(ebco&& __value) noexcept {
 			*(this->_M_p_value) = ::std::move(*(__value._M_p_value));
 			return *this;
@@ -296,12 +263,10 @@ namespace ztd {
 		//////
 		/// @brief Holds onto @p __value 's reference
 		///
-		//////
 		constexpr ebco(_Type& __value) noexcept : _M_p_value(::std::addressof(__value)) {};
 		//////
 		/// @brief Assigns into the underlying stored reference.
 		///
-		//////
 		constexpr ebco& operator=(_Type& __value) noexcept {
 			*(this->_M_p_value) = __value;
 			return *this;
@@ -310,7 +275,6 @@ namespace ztd {
 		//////
 		/// @brief Gets the wrapped value.
 		///
-		//////
 		constexpr _Type& get_value() & noexcept {
 			return *(this->_M_p_value);
 		}
@@ -318,7 +282,6 @@ namespace ztd {
 		//////
 		/// @brief Gets the wrapped value.
 		///
-		//////
 		constexpr _Type const& get_value() const& noexcept {
 			return *(this->_M_p_value);
 		}
@@ -326,7 +289,6 @@ namespace ztd {
 		//////
 		/// @brief Gets the wrapped value.
 		///
-		//////
 		constexpr _Type&& get_value() && noexcept {
 			return ::std::move(*(this->_M_p_value));
 		}

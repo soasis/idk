@@ -189,11 +189,9 @@
 typedef struct c_span {
 	//////
 	/// @brief A pointer to the region of data.
-	//////
 	ztd_generic_type* const data;
 	//////
 	/// @brief The size of the region of data (in number of elements).
-	//////
 	size_t const size;
 } c_span;
 

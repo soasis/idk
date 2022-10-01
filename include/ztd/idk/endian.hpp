@@ -59,7 +59,6 @@ namespace ztd {
 	/// values, but if on a middle-endian machine it may be an implementation-defined "middle endian" value that is not
 	/// equal to either little or big (as on the PDP-11). We don't expect many relevant architectures to be using
 	/// middle-endian, though.
-	//////
 	using endian =
 #if ZTD_IS_OFF(ZTD_STD_LIBRARY_ENDIAN)
 	     __idk_detail::__endian;

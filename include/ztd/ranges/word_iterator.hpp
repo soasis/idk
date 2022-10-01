@@ -366,7 +366,6 @@ namespace ztd { namespace ranges {
 		/// @brief Creates a word_iterator that will walk over the specified rage values.
 		///
 		/// @param[in] __base_range The range to use for iteration.
-		//////
 		constexpr word_iterator(const range_type& __base_range) noexcept(
 			::std::is_nothrow_constructible_v<__base_storage_t, const range_type&>)
 		: __base_storage_t(__base_range) {
@@ -375,7 +374,6 @@ namespace ztd { namespace ranges {
 		/// @brief Creates a word_iterator that will walk over the specified rage values.
 		///
 		/// @param[in] __base_range The range to use for iteration.
-		//////
 		constexpr word_iterator(range_type&& __base_range) noexcept(
 			::std::is_nothrow_constructible_v<__base_storage_t, range_type&&>)
 		: __base_storage_t(::std::move(__base_range)) {
@@ -469,7 +467,6 @@ namespace ztd { namespace ranges {
 		/// @brief Returns an iterator whose positioned is shifted over by `__by` .
 		///
 		/// @param[in] __by The amount to shift the iterator's position by.
-		//////
 		template <typename _Strawman = range_type>
 		constexpr ::std::enable_if_t<
 			is_range_iterator_concept_or_better_v<::std::random_access_iterator_tag, _Strawman>, word_iterator>
@@ -483,7 +480,6 @@ namespace ztd { namespace ranges {
 		/// @brief Shifts the iterator's position over by `__by` .
 		///
 		/// @param[in] __by The amount to shift the iterator's position by.
-		//////
 		template <typename _Strawman = range_type>
 		constexpr ::std::enable_if_t<
 			is_range_iterator_concept_or_better_v<::std::random_access_iterator_tag, _Strawman>, word_iterator&>
@@ -503,7 +499,6 @@ namespace ztd { namespace ranges {
 		/// @brief Computes the distance between two iterators.
 		///
 		/// @param[in] __right The iterator at the right hand side of the subtraction operation.
-		//////
 		template <typename _Strawman = range_type>
 		constexpr ::std::enable_if_t<
 			is_range_iterator_concept_or_better_v<::std::random_access_iterator_tag, _Strawman>, difference_type>
@@ -516,7 +511,6 @@ namespace ztd { namespace ranges {
 		/// @brief Returns an iterator whose positioned is shifted over by `__by` .
 		///
 		/// @param[in] __by The amount to decrement the iterator's position.
-		//////
 		template <typename _Strawman = range_type>
 		constexpr ::std::enable_if_t<
 			is_range_iterator_concept_or_better_v<::std::random_access_iterator_tag, _Strawman>, word_iterator>
@@ -530,7 +524,6 @@ namespace ztd { namespace ranges {
 		/// @brief Shifts the position of the iterator over by `__by` .
 		///
 		/// @param[in] __by The amount to decrement the iterator's position.
-		//////
 		template <typename _Strawman = range_type>
 		constexpr ::std::enable_if_t<
 			is_range_iterator_concept_or_better_v<::std::random_access_iterator_tag, _Strawman>, word_iterator&>
@@ -552,7 +545,6 @@ namespace ztd { namespace ranges {
 		/// @param[in] __index The offset to index into.
 		///
 		/// @remarks If this is an input range, the referenced value comes from internal storage.
-		//////
 		template <typename _Strawman = range_type>
 		constexpr ::std::enable_if_t<
 			is_range_iterator_concept_or_better_v<::std::random_access_iterator_tag, _Strawman>, reference>
@@ -568,7 +560,6 @@ namespace ztd { namespace ranges {
 		/// @param[in] __index The offset to index into.
 		///
 		/// @remarks If this is an input range, the referenced value comes from internal storage.
-		//////
 		template <typename _Strawman = range_type>
 		constexpr ::std::enable_if_t<
 			is_range_iterator_concept_or_better_v<::std::random_access_iterator_tag, _Strawman>, const_reference>
@@ -582,7 +573,6 @@ namespace ztd { namespace ranges {
 		/// @brief References to the current value.
 		///
 		/// @remarks If this is an input range, the value comes from internal storage.
-		//////
 		constexpr reference operator*() noexcept(_S_deref_noexcept()) {
 			if constexpr (_IsInput) {
 				if (this->__base_storage_t::_M_val == ::std::nullopt) {
@@ -599,7 +589,6 @@ namespace ztd { namespace ranges {
 		/// @brief References to the current value.
 		///
 		/// @remarks If this is an input range, the value comes from internal storage.
-		//////
 		constexpr const_reference operator*() const noexcept(_S_const_deref_noexcept()) {
 			if constexpr (_IsInput) {
 				if (this->__base_storage_t::_M_val == ::std::nullopt) {
@@ -616,7 +605,6 @@ namespace ztd { namespace ranges {
 		/// @brief Checks if the iterator has not reached the sentinel (the end of the range).
 		///
 		/// @param[in] __left The iterator to check.
-		//////
 		friend constexpr bool operator==(const word_iterator& __left, const word_sentinel&) noexcept(
 			noexcept(__left._M_base_is_empty())) {
 			return __left._M_base_is_empty();
@@ -626,7 +614,6 @@ namespace ztd { namespace ranges {
 		/// @brief Checks if the iterator has not reached the sentinel (the end of the range).
 		///
 		/// @param[in] __left The iterator to check.
-		//////
 		friend constexpr bool operator!=(const word_iterator& __left, const word_sentinel&) noexcept(
 			noexcept(!__left._M_base_is_empty())) {
 			return !__left._M_base_is_empty();
@@ -637,7 +624,6 @@ namespace ztd { namespace ranges {
 		///
 		/// @param[in] __left The iterator to check.
 		/// @param[in] __sen The sentinel.
-		//////
 		friend constexpr bool operator==(const word_sentinel& __sen, const word_iterator& __left) noexcept(
 			noexcept(__left == __sen)) {
 			return __left == __sen;
@@ -648,7 +634,6 @@ namespace ztd { namespace ranges {
 		///
 		/// @param[in] __left The iterator to check.
 		/// @param[in] __sen The sentinel.
-		//////
 		friend constexpr bool operator!=(const word_sentinel& __sen, const word_iterator& __left) noexcept(
 			noexcept(__left != __sen)) {
 			return __left != __sen;

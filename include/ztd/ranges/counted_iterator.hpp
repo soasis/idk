@@ -56,7 +56,6 @@ namespace ztd { namespace ranges {
 	//////
 	/// @brief A sentinel for the counted_iterator to be paired with; lets a ztd::counted_iterator compare
 	/// against this type to test if it is at the end.
-	//////
 	using counted_sentinel_t = default_sentinel_t;
 
 	namespace __rng_detail {
@@ -276,7 +275,6 @@ namespace ztd { namespace ranges {
 	///
 	/// @tparam _It The Iterator to wrap. The count is a `difference_type` that is associated with the Iterator.
 	/// (The `difference_type` is usually a signed type such as the `ptrdiff_t` type.)
-	//////
 	template <typename _It>
 	using counted_iterator =
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)

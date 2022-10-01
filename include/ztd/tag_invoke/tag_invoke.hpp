@@ -76,7 +76,6 @@ namespace ztd {
 		//////
 		/// @brief The tag invoke function.
 		///
-		//////
 		inline constexpr __tginv_detail::tag_invoke_fn tag_invoke {};
 	} // namespace __fn
 
@@ -93,14 +92,12 @@ namespace ztd {
 	//////
 	/// @brief Whether or not a given tag type and its arguments are tag invocable.
 	///
-	//////
 	template <typename _Tag, typename... _Args>
 	class is_tag_invocable : public ::std::is_invocable<decltype(tag_invoke), _Tag, _Args...> { };
 
 	//////
 	/// @brief A @c _v alias for ztd::is_tag_invocable.
 	///
-	//////
 	template <typename _Tag, typename... _Args>
 	inline constexpr bool is_tag_invocable_v = is_tag_invocable<_Tag, _Args...>::value;
 
@@ -108,7 +105,6 @@ namespace ztd {
 	/// @brief Whether or not a given tag type and its arguments are both invocable and marked as a @c noexcept
 	/// invocation.
 	///
-	//////
 	template <typename _Tag, typename... _Args>
 	class is_nothrow_tag_invocable
 	: public __tginv_detail::__is_nothrow_tag_invocable_i<is_tag_invocable_v<_Tag, _Args...>, _Tag, _Args...> { };
@@ -116,21 +112,18 @@ namespace ztd {
 	//////
 	/// @brief A @c _v alias for ztd::is_nothrow_tag_invocable.
 	///
-	//////
 	template <typename _Tag, typename... _Args>
 	inline constexpr bool is_nothrow_tag_invocable_v = is_nothrow_tag_invocable<_Tag, _Args...>::value;
 
 	//////
 	/// @brief A class representing the type that results from a tag invocation.
 	///
-	//////
 	template <typename _Tag, typename... _Args>
 	using tag_invoke_result = ::std::invoke_result<decltype(tag_invoke), _Tag, _Args...>;
 
 	//////
 	/// @brief A @c _t alias that gives the actual type that results from a tag invocation.
 	///
-	//////
 	template <typename _Tag, typename... _Args>
 	using tag_invoke_result_t = typename tag_invoke_result<_Tag, _Args...>::type;
 

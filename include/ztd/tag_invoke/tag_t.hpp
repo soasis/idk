@@ -43,7 +43,6 @@ namespace ztd {
 	//////
 	/// @brief The tag_t alias produces the type of the given reconstruction point. It's used to directly hook into the
 	/// tag_invoke infrastructure.
-	//////
 	template <auto& _Name>
 	using tag_t = ::std::remove_cv_t<::std::remove_reference_t<decltype(_Name)>>;
 

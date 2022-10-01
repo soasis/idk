@@ -260,8 +260,7 @@ namespace ztd { namespace ranges {
 		template <typename _ItLeft, typename _ItRight>
 		constexpr auto adl_swap(_ItLeft&& __left, _ItRight&& __right) noexcept(
 			noexcept(::std::ranges::swap(::std::forward<_ItLeft>(__left), ::std::forward<_ItRight>(__right))))
-			-> decltype(::std::ranges::swap(
-			     ::std::forward<_ItLeft>(__left), ::std::forward<_ItRight>(__right))) {
+			-> decltype(::std::ranges::swap(::std::forward<_ItLeft>(__left), ::std::forward<_ItRight>(__right))) {
 			::std::ranges::swap(::std::forward<_ItLeft>(__left), ::std::forward<_ItRight>(__right));
 		}
 	} // namespace ranges_adl
@@ -609,7 +608,7 @@ namespace ztd { namespace ranges {
 			-> decltype(swap(::std::forward<_ItLeft>(__left), ::std::forward<_ItRight>(__right))) {
 			swap(::std::forward<_ItLeft>(__left), ::std::forward<_ItRight>(__right));
 		}
-	} // namespace ranges_adl
+	}                                      // namespace ranges_adl
 #endif
 
 	template <typename _Range>
@@ -644,7 +643,6 @@ namespace ztd { namespace ranges {
 	/// @brief A trait specialized by downstream classes to determine whether or not the type is a borrowed range.
 	///
 	/// @tparam _Range The range type that may or may not be a borrowed range.
-	//////
 	template <typename _Range>
 	inline constexpr bool enable_borrowed_range = false;
 
@@ -663,7 +661,6 @@ namespace ztd { namespace ranges {
 	///
 	/// @remarks This is placed in the low-level IDK library because it has to be used in multiple places, including
 	/// the std::span shim if necessary.
-	//////
 	template <typename _Range>
 	inline constexpr bool borrowed_range_v =
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_BORROWED_RANGE)

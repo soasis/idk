@@ -50,7 +50,6 @@ namespace ztd { namespace ranges {
 	//////
 	/// @brief A class whose iterator and sentinel denote an infinity-range that, if iterated with a traditional for
 	/// range loop, will never cease.
-	//////
 	template <typename _It>
 	class unbounded_view {
 	private:
@@ -70,7 +69,6 @@ namespace ztd { namespace ranges {
 		/// @brief The const sentinel type.
 		///
 		/// @remarks It's just the sentinal type.
-		//////
 		using const_sentinel = sentinel;
 		//////
 		/// @brief The pointer type related to the iterator.
@@ -79,7 +77,6 @@ namespace ztd { namespace ranges {
 		/// @brief The const pointer type related to the iterator.
 		///
 		/// @remarks It's just the pointer type.
-		//////
 		using const_pointer = pointer;
 		//////
 		/// @brief The reference type for this range.
@@ -88,7 +85,6 @@ namespace ztd { namespace ranges {
 		/// @brief The const reference type for this range.
 		///
 		/// @remarks It's just the reference type.
-		//////
 		using const_reference = reference;
 		//////
 		/// @brief The value type for this range.
@@ -106,7 +102,6 @@ namespace ztd { namespace ranges {
 		/// @brief Constructs a default-constructed iterator and an infinity sentinel as the range.
 		///
 		/// @remarks Not very useful for anything other than generic programming shenanigans.
-		//////
 		constexpr unbounded_view() = default;
 
 		//////
@@ -119,7 +114,6 @@ namespace ztd { namespace ranges {
 		/// @brief The iterator the unbounded_view was constructed with.
 		///
 		/// @remarks This function copies the contained iterator.
-		//////
 		constexpr iterator begin() & noexcept {
 			if constexpr (::std::is_copy_constructible_v<iterator>) {
 				return this->_M_it;
@@ -133,7 +127,6 @@ namespace ztd { namespace ranges {
 		/// @brief The iterator the unbounded_view was constructed with.
 		///
 		/// @remarks This function copies the contained iterator.
-		//////
 		constexpr iterator begin() const& noexcept {
 			return this->_M_it;
 		}
@@ -142,7 +135,6 @@ namespace ztd { namespace ranges {
 		/// @brief The iterator the unbounded_view was constructed with.
 		///
 		/// @remarks This function moves the contained iterator out.
-		//////
 		constexpr iterator begin() && noexcept {
 			return ::std::move(this->_M_it);
 		}
@@ -152,7 +144,6 @@ namespace ztd { namespace ranges {
 		///
 		/// @remarks The sentinel is an infinity sentinel that never compares equal to any other thing: in short, any
 		/// range composed of [iterator, unreachable_sentinel) will never cease.
-		//////
 		constexpr sentinel end() const noexcept {
 			return sentinel {};
 		}
@@ -170,7 +161,6 @@ namespace ztd { namespace ranges {
 		///
 		/// @remarks This can prevent needing to call `begin()` which may be beneficial for move-only iterators. This
 		/// is always false for a ztd::ranges::unbounded_view.
-		//////
 		constexpr bool empty() const noexcept {
 			return false;
 		}
@@ -179,7 +169,6 @@ namespace ztd { namespace ranges {
 		/// @brief Produces a copy of the unbounded_view and advances the `begin()` iterator by 1.
 		///
 		/// @remarks This function call only works if the underlying iterator and sentinal types are copyable.
-		//////
 		[[nodiscard]] constexpr unbounded_view next() const& noexcept(
 			::std::is_nothrow_copy_constructible_v<iterator>&& noexcept(
 			     ranges::advance(::std::declval<iterator&>()))) {
@@ -193,7 +182,6 @@ namespace ztd { namespace ranges {
 		///
 		/// @remarks This function call can be more efficient and allows working with move-only iterators. This
 		/// function call will move the iterators underlying this object.
-		//////
 		[[nodiscard]] constexpr unbounded_view next() && noexcept(
 			::std::is_nothrow_move_constructible_v<iterator>&& noexcept(
 			     ranges::advance(::std::declval<iterator&>()))) {
@@ -208,7 +196,6 @@ namespace ztd { namespace ranges {
 		/// @param[in] __diff The amount to move this iterator by. Can be positive or negative.
 		///
 		/// @remarks This function call only works if the underlying iterator and sentinal types are copyable.
-		//////
 		[[nodiscard]] constexpr unbounded_view next(difference_type __diff) const& noexcept(
 			::std::is_nothrow_copy_constructible_v<iterator>&& noexcept(
 			     ranges::advance(::std::declval<iterator&>(), __diff))) {
@@ -224,7 +211,6 @@ namespace ztd { namespace ranges {
 		///
 		/// @remarks This function call can be more efficient and allows working with move-only iterators. This
 		/// function call will move the iterators underlying this object.
-		//////
 		[[nodiscard]] constexpr unbounded_view next(difference_type __diff) && noexcept(
 			::std::is_nothrow_move_constructible_v<iterator>&& noexcept(
 			     ranges::advance(::std::declval<iterator&>(), __diff))) {
@@ -239,7 +225,6 @@ namespace ztd { namespace ranges {
 		/// @param[in] __diff The amount to move this iterator by. Can be positive or negative.
 		///
 		/// @remarks This function call requires that the underlying iterator are bidirectional.
-		//////
 		[[nodiscard]] constexpr unbounded_view prev(difference_type __diff = 1) const
 			noexcept(::std::is_nothrow_copy_constructible_v<iterator>&& noexcept(
 			     ranges::recede(::std::declval<iterator&>(), __diff))) {
@@ -253,7 +238,6 @@ namespace ztd { namespace ranges {
 		/// the argument is not specified.
 		///
 		/// @param[in] __diff The amount to move this iterator by. Can be positive or negative.
-		//////
 		constexpr unbounded_view& advance(difference_type __diff = 1) noexcept(
 			noexcept(ranges::advance(::std::declval<iterator&>(), __diff))) {
 			ranges::advance(this->_M_it, __diff);
@@ -267,7 +251,6 @@ namespace ztd { namespace ranges {
 		/// @param[in] __diff The amount to move this iterator by. Can be positive or negative.
 		///
 		/// @remarks This function call requires that the underlying iterator are bidirectional.
-		//////
 		constexpr unbounded_view& recede(difference_type __diff = 1) noexcept(
 			noexcept(ranges::recede(::std::declval<iterator&>(), ::std::declval<difference_type>()))) {
 			ranges::recede(this->_M_it, __diff);

@@ -52,7 +52,6 @@ namespace ztd {
 	/// @brief An alias to a unsigned representation of an 8-bit (or greater) code unit type.
 	///
 	/// @remarks This alias will always point to `wchar_t`, becauuse C++ has this as a built-in type.
-	//////
 	using uwchar_t = wchar_t;
 
 	//////
@@ -61,21 +60,18 @@ namespace ztd {
 	/// @remarks This will be a type alias for the type given in the `ZTD_CHAR8_T` define if it is defined by the user.
 	/// Otherwise, it will be a type alias for char8_t if present. If neither are available, it will alias `unsigned
 	/// char` for the type.
-	//////
 	using uchar8_t = ZTD_CHAR8_T_I_;
 
 	//////
 	/// @brief An alias to a unsigned representation of an 16-bit (or greater) code unit type.
 	///
 	/// @remarks This alias will always point to `char16_t`, because C++ has this as a built-in type.
-	//////
 	using uchar16_t = char16_t;
 
 	//////
 	/// @brief An alias to a unsigned representation of an 32-bit (or greater) code unit type.
 	///
 	/// @remarks This alias will always point to `char32_t`, because C++ has this as a built-in type.
-	//////
 	using uchar32_t = char32_t;
 
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_

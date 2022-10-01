@@ -228,17 +228,14 @@ namespace ztd {
 		//////
 		/// @brief No destruction allowed.
 		///
-		//////
 		~nonesuch() = delete;
 		//////
 		/// @brief No construction allowed.
 		///
-		//////
 		nonesuch(nonesuch const&) = delete;
 		//////
 		/// @brief No assignment allowed.
 		///
-		//////
 		nonesuch& operator=(nonesuch const&) = delete;
 	};
 

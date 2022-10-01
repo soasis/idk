@@ -51,7 +51,6 @@ namespace ztd {
 	//////
 	/// @brief dynamic extent copycat
 	///
-	//////
 	inline constexpr decltype(::std::dynamic_extent) dynamic_extent = ::std::dynamic_extent;
 
 	using ::std::as_bytes;
@@ -96,7 +95,6 @@ namespace ztd {
 	//////
 	/// @brief dynamic extent copycat
 	///
-	//////
 	inline constexpr decltype(::nonstd::dynamic_extent) dynamic_extent = ::nonstd::dynamic_extent;
 
 	using ::nonstd::as_bytes;
@@ -134,7 +132,6 @@ namespace ztd {
 
 	//////
 	/// @brief Determines whether or not a given type is a @c span of some kind.
-	//////
 	template <typename _Ty>
 	class is_span : public ::std::false_type { };
 
@@ -143,7 +140,6 @@ namespace ztd {
 
 	//////
 	/// @brief A @c _v alias for ztd::is_span.
-	//////
 	template <typename _Ty>
 	inline constexpr bool is_span_v = is_span<_Ty>::value;
 

@@ -57,7 +57,6 @@ namespace ztd {
 	/// @tparam _CharTy The character type.
 	///
 	/// @return An empty c-string.
-	//////
 	template <typename _CharTy>
 	inline constexpr decltype(auto) empty_string() noexcept {
 		static_assert(always_false_v<_CharTy>, "unrecognized character type");
@@ -68,7 +67,6 @@ namespace ztd {
 	/// @brief Returns an array representing an empty c-style string
 	///
 	/// @return An empty c-string.
-	//////
 	template <>
 	inline constexpr decltype(auto) empty_string<char>() noexcept {
 		return "";
@@ -78,7 +76,6 @@ namespace ztd {
 	/// @brief Returns an array representing an empty c-style string
 	///
 	/// @return An empty c-string.
-	//////
 	template <>
 	inline constexpr decltype(auto) empty_string<unsigned char>() noexcept {
 		return (__idk_detail::__u_shim);
@@ -88,7 +85,6 @@ namespace ztd {
 	/// @brief Returns an array representing an empty c-style string
 	///
 	/// @return An empty c-string.
-	//////
 	template <>
 	inline constexpr decltype(auto) empty_string<signed char>() noexcept {
 		return (__idk_detail::__s_shim);
@@ -98,7 +94,6 @@ namespace ztd {
 	/// @brief Returns an array representing an empty c-style string
 	///
 	/// @return An empty c-string.
-	//////
 	template <>
 	inline constexpr decltype(auto) empty_string<wchar_t>() noexcept {
 		return L"";
@@ -109,7 +104,6 @@ namespace ztd {
 	/// @brief Returns an array representing an empty c-style string
 	///
 	/// @return An empty c-string.
-	//////
 	template <>
 	inline constexpr decltype(auto) empty_string<char8_t>() noexcept {
 		return u8"";
@@ -120,7 +114,6 @@ namespace ztd {
 	/// @brief Returns an array representing an empty c-style string
 	///
 	/// @return An empty c-string.
-	//////
 	template <>
 	inline constexpr decltype(auto) empty_string<char16_t>() noexcept {
 		return u"";
@@ -130,7 +123,6 @@ namespace ztd {
 	/// @brief Returns an array representing an empty c-style string
 	///
 	/// @return An empty c-string.
-	//////
 	template <>
 	inline constexpr decltype(auto) empty_string<char32_t>() noexcept {
 		return U"";

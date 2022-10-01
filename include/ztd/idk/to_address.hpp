@@ -91,7 +91,6 @@ namespace ztd {
 	/// @brief The type of the operator arrow function.
 	///
 	/// @tparam _Type  The pointer or iterator to attempt to operator arrow type within.
-	//////
 	template <typename _Type>
 	using operator_arrow_t = typename __idk_detail::__operator_arrow<_Type>::type;
 
@@ -99,7 +98,6 @@ namespace ztd {
 	/// @brief Whether or not the given type can have the operator arrow used on it.
 	///
 	/// @tparam _Type The type to check.
-	//////
 	template <typename _Type, typename = void>
 	class is_operator_arrowable : public ::std::integral_constant<bool, ::std::is_pointer_v<_Type>> { };
 
@@ -108,7 +106,6 @@ namespace ztd {
 	/// overloaded class types.
 	///
 	/// @tparam _Type The type to check.
-	//////
 	template <typename _Type>
 	class is_operator_arrowable<_Type, ::std::void_t<decltype(::std::declval<_Type&>().operator->())>>
 	: public ::std::integral_constant<bool,
@@ -122,7 +119,6 @@ namespace ztd {
 	//////
 	/// @brief Whether or not the given type is can have to_address (std::pointer_traits<Type>::to_address) called on
 	/// it.
-	//////
 	template <typename _Type, typename = void>
 	class is_to_addressable
 	: public ::std::integral_constant<bool,
@@ -133,7 +129,6 @@ namespace ztd {
 	//////
 	/// @brief Whether or not the given type is can have to_address (std::pointer_traits<Type>::to_address) called on
 	/// it.
-	//////
 	template <typename _Type>
 	class is_to_addressable<_Type, ::std::enable_if_t<__idk_detail::__is_maybe_std_pointer_traitable_v<_Type>>>
 	: public ::std::integral_constant<bool,
@@ -197,7 +192,6 @@ namespace ztd {
 		/// potentially-contiguous types. This is an identity function for pointer types.
 		///
 		/// @returns A pointer type representing the pointer or iterator passed in, if at all possible.
-		//////
 		inline constexpr __idk_detail::__to_address_fn to_address = {};
 	} // namespace __fn
 

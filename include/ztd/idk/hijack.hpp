@@ -55,7 +55,6 @@ namespace ztd { namespace hijack {
 	/// @brief A token to derive from, which in some cases allows external members to place customization points and
 	/// extension functions in the hijack namespace. Extension points would be defined in the "namespace ztd {
 	/// namespace hijack { /* here */ }}" area.
-	//////
 	template <typename...>
 	class token { };
 

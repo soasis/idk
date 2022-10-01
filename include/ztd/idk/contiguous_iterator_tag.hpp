@@ -49,7 +49,6 @@ namespace ztd {
 	//////
 	/// @brief Either a typedef or a polyfill of the contiguous iterator tag, only standardized in C++20.
 	///
-	//////
 	using contiguous_iterator_tag =
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_CONTIGUOUS_ITERATOR_TAG)
 	     ::std::contiguous_iterator_tag

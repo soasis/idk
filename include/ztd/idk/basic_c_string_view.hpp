@@ -72,7 +72,6 @@ namespace ztd {
 	/// @brief A class that is identical to std::string_view, except that it attempts to verify and guarantee that
 	/// ``.data() + .size()``, when dereferenced, is valid and gives a nullptr. The ``.size()`` does not include
 	/// the null terminator in its count.
-	//////
 	template <typename _CharType, typename _Traits = ::std::char_traits<_CharType>>
 	class basic_c_string_view : private ::std::basic_string_view<_CharType, _Traits> {
 	private:

@@ -82,7 +82,6 @@ namespace ztd {
 	/// @brief A subsitute for C++20's reference wrapper if the current @c std::reference_wrapper provided by the
 	/// standard library is not @c constexpr since it was only done then.
 	///
-	//////
 	template <typename _Ty>
 	using reference_wrapper =
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_CONSTEXPR_UTILITIES)

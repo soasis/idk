@@ -42,16 +42,13 @@
 namespace ztd {
 	//////
 	/// @brief A hook which attempts to set the locale to a UTF-8 locale of some kind.
-	//////
 	struct utf8_startup_hook {
 		//////
 		/// @brief The result of the hook.
-		//////
 		int result;
 
 		//////
 		/// @brief A constructor which attempts to set the locale to UTF-8.
-		//////
 		utf8_startup_hook() noexcept : result(0) {
 			result = ztd_idk_attempt_utf8_locale();
 			if (result == 0) {

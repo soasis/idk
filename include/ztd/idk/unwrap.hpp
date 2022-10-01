@@ -89,7 +89,6 @@ namespace ztd {
 		/// @brief Unwraps a value, if possible. Otherwise, simply forwards the input value through.
 		///
 		/// @returns The unwrapped value.
-		//////
 		inline constexpr __idk_detail::__unwrap_fn unwrap = {};
 	} // namespace __fn
 
@@ -116,7 +115,6 @@ namespace ztd {
 		/// value through.
 		///
 		/// @returns The iterator's unwrapped value.
-		//////
 		inline constexpr __idk_detail::__unwrap_iterator_fn unwrap_iterator = {};
 	} // namespace __fn
 
@@ -124,7 +122,6 @@ namespace ztd {
 	/// @brief Retrives the unwrapped type if the object were put through a call to ztd::unwrap.
 	///
 	/// @remarks Typically used to get the type underlying a `std::reference_wrapper` or similar.
-	//////
 	template <typename _Type>
 	using unwrap_t = decltype(::ztd::unwrap(::std::declval<_Type>()));
 
@@ -132,7 +129,6 @@ namespace ztd {
 	/// @brief Retrives the unwrapped type if the object were put through a call to ztd::unwrap.
 	///
 	/// @remarks Typically used to get the type underlying a `std::reference_wrapper` or similar.
-	//////
 	template <typename _Type>
 	using unwrap_iterator_t = decltype(::ztd::unwrap_iterator(::std::declval<_Type>()));
 
@@ -140,7 +136,6 @@ namespace ztd {
 	/// @brief Retrives the unwrapped type if the object were put through a call to ztd::unwrap.
 	///
 	/// @remarks Typically used to get the type underlying a `std::reference_wrapper` or similar.
-	//////
 	template <typename _Type>
 	using unwrap_remove_cvref_t = remove_cvref_t<unwrap_t<_Type>>;
 
@@ -148,7 +143,6 @@ namespace ztd {
 	/// @brief Retrives the unwrapped type if the object were put through a call to ztd::unwrap.
 	///
 	/// @remarks Typically used to get the type underlying a `std::reference_wrapper` or similar.
-	//////
 	template <typename _Type>
 	using unwrap_remove_reference_t = ::std::remove_reference_t<unwrap_t<_Type>>;
 

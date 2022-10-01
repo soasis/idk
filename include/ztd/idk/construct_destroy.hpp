@@ -83,7 +83,6 @@ namespace ztd {
 	/// @remarks There is currently no way to specify default-init with this paradigm, potentially resulting in lost
 	/// performace for niche use cases (such as indeterminate initialization and partial setting for integral types
 	/// used for bit vector implementations or similar constructs.)
-	//////
 	template <typename _Ty, typename... _Args>
 	constexpr _Ty* construct_at(_Ty* __ptr, _Args&&... __args) noexcept(
 	     __idk_detail::__construct_at_noexcept<_Ty, _Args...>()) {
@@ -110,7 +109,6 @@ namespace ztd {
 	/// @param[in] __ptr Location for the value to be destroyed.
 	///
 	/// @remarks For arrays, each element will be destroyed, including recursively into other C-array types.
-	//////
 	template <typename _Ty>
 	constexpr void destroy_at(_Ty* __ptr) noexcept(__idk_detail::__destroy_at_noexcept<_Ty>()) {
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_DESTROY_AT)

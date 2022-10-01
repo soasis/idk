@@ -62,7 +62,6 @@ namespace ztd {
 	/// @param[in] __range The range to loop over from its `begin` to its `end`.
 	/// @param[in] __predicate The predicate that will be called on each element to determine whether or not it should
 	/// be hashed as part of the range.
-	//////
 	template <typename _Range, typename _Predicate>
 	::std::size_t fnv1a_hash_if(::std::size_t __initial_seed, _Range&& __range, _Predicate&& __predicate) noexcept {
 		constexpr ::std::size_t __fnv1a_prime =
@@ -91,7 +90,6 @@ namespace ztd {
 	///
 	/// @param[in] __initial_seed The starting seed value.
 	/// @param[in] __range The range to loop over from its `begin` to its `end`.
-	//////
 	template <typename _Range>
 	::std::size_t fnv1a_hash(::std::size_t __initial_seed, _Range&& __range) noexcept {
 		return fnv1a_hash_if(
@@ -105,7 +103,6 @@ namespace ztd {
 	/// @param[in] __range The range to loop over from its `begin` to its `end`.
 	/// @param[in] __predicate The predicate that will be called on each element to determine whether or not it should
 	/// be hashed as part of the range.
-	//////
 	template <typename _Range, typename _Predicate>
 	::std::size_t fnv1a_hash_if(_Range&& __range, _Predicate&& __predicate) noexcept {
 		constexpr ::std::size_t __fnv1a_offset_basis =
@@ -123,7 +120,6 @@ namespace ztd {
 	/// @brief Computes the hash for each element of the range. Returns final combined and mixed hash value.
 	///
 	/// @param[in] __range The range to loop over from its `begin` to its `end`.
-	//////
 	template <typename _Range>
 	::std::size_t fnv1a_hash(_Range&& __range) noexcept {
 		return fnv1a_hash_if(::std::forward<_Range>(__range), __idk_detail::__always_true_predicate {});
