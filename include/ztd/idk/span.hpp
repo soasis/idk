@@ -57,8 +57,55 @@ namespace ztd {
 	using ::std::as_writable_bytes;
 	using ::std::span;
 
+	template <class T>
+	inline constexpr span<T> make_span(T* ptr, size_t count) noexcept {
+		return ::std::span<T>(ptr, count);
+	}
+
+	template <class T>
+	inline constexpr span<T> make_span(T* first, T* last) noexcept {
+		return ::std::span<T>(first, last);
+	}
+
+	template <class T, std::size_t N>
+	inline constexpr span<T, N> make_span(T (&arr)[N]) noexcept {
+		return ::std::span<T, N>(&arr[0], N);
+	}
+
+	template <class Container, class EP = decltype(std::data(std::declval<Container&>()))>
+	inline constexpr auto make_span(Container& cont) noexcept -> ::std::span<typename std::remove_pointer<EP>::type> {
+		return ::std::span<typename std::remove_pointer<EP>::type>(cont);
+	}
+
+	template <class Container, class EP = decltype(std::data(std::declval<Container&>()))>
+	inline constexpr auto make_span(
+		Container const& cont) noexcept -> ::std::span<const typename std::remove_pointer<EP>::type> {
+		return ::std::span<const typename std::remove_pointer<EP>::type>(cont);
+	}
+
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd
+
+namespace std {
+	template <typename _Ty, ::std::size_t _LeftExtent, ::std::size_t _RightExtent>
+	constexpr bool operator==(const ::std::span<_Ty, _LeftExtent>& __left,
+		const ::std::span<_Ty, _RightExtent>& __right) noexcept {
+		auto __left_size  = __left.size();
+		auto __right_size = __right.size();
+		if (__left_size < __right_size) {
+			return ::std::equal(__left.begin(), __left.end(), __right.begin());
+		}
+		else {
+			return ::std::equal(__right.begin(), __right.end(), __left.begin());
+		}
+	}
+
+	template <typename _Ty, ::std::size_t _LeftExtent, ::std::size_t _RightExtent>
+	constexpr bool operator!=(const ::std::span<_Ty, _LeftExtent>& __left,
+		const ::std::span<_Ty, _RightExtent>& __right) noexcept {
+		return !(__left == __right);
+	}
+}
 
 #else
 

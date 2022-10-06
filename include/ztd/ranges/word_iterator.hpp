@@ -143,9 +143,10 @@ namespace ztd { namespace ranges {
 
 		static inline constexpr __size_type __base_values_per_word = sizeof(__value_type) / sizeof(__base_value_type);
 
+		template <bool _IsConst>
 		class __word_reference {
 		public:
-			using value_type = _Word;
+			using value_type = ::std::conditional_t<_IsConst, const _Word, _Word>;
 
 		private:
 			using __underlying_base_value_type
@@ -305,26 +306,29 @@ namespace ztd { namespace ranges {
 		///@brief The underlying sentinel type.
 		using sentinel = __base_sentinel;
 		//////
-		///@brief The advertised iterator category.
-		using iterator_category = iterator_category_t<__base_iterator>;
-		//////
 		///@brief The advertised iterator concept.
-		using iterator_concept = iterator_concept_t<__base_iterator>;
+		using iterator_category
+			= ::std::conditional_t<::ztd::ranges::is_concept_or_better_v<::std::random_access_iterator_tag,
+			                            ::ztd::ranges::iterator_category_t<__base_iterator>>,
+			     ::std::random_access_iterator_tag, ::ztd::ranges::iterator_category_t<__base_iterator>>;
+		//////
+		///@brief The advertised iterator category.
+		using iterator_concept
+			= ::std::conditional_t<::ztd::ranges::is_concept_or_better_v<::std::random_access_iterator_tag,
+			                            ::ztd::ranges::iterator_concept_t<__base_iterator>>,
+			     ::std::random_access_iterator_tag, ::ztd::ranges::iterator_concept_t<__base_iterator>>;
 		//////
 		///@brief The difference_type for iterator distances.
 		using difference_type = __difference_type;
-		//////
-		///@brief The pointer for address-of operations.
-		using pointer = _Word*;
 		//////
 		///@brief The value_type.
 		using value_type = __value_type;
 		//////
 		///@brief The non-const-qualified reference type.
-		using reference = ::std::conditional_t<_IsInput, value_type&, __word_reference>;
+		using reference = ::std::conditional_t<_IsInput, value_type&, __word_reference<false>>;
 		//////
 		///@brief The const-qualified reference type.
-		using const_reference = ::std::conditional_t<_IsInput, const value_type&, __word_reference>;
+		using const_reference = ::std::conditional_t<_IsInput, const value_type&, __word_reference<true>>;
 
 	private:
 		static constexpr bool _S_deref_noexcept() noexcept {
@@ -419,7 +423,7 @@ namespace ztd { namespace ranges {
 
 		//////
 		///@brief Shifts the iterator over by +1.
-		constexpr word_iterator operator++(int) const noexcept(_S_copy_noexcept() && _S_advance_noexcept()) {
+		constexpr word_iterator operator++(int) noexcept(_S_copy_noexcept() && _S_advance_noexcept()) {
 			auto __copy = *this;
 			++(*this);
 			return __copy;
@@ -449,7 +453,7 @@ namespace ztd { namespace ranges {
 			is_range_iterator_concept_or_better_v<::std::bidirectional_iterator_tag, _Strawman>, word_iterator>
 		operator--(int) const noexcept(_S_copy_noexcept() && _S_recede_noexcept()) {
 			auto __copy = *this;
-			--__copy;
+			--(*this);
 			return __copy;
 		}
 
@@ -642,7 +646,7 @@ namespace ztd { namespace ranges {
 	private:
 		constexpr void _M_read_one() noexcept(_S_deref_noexcept()) {
 			if constexpr (_IsInput) {
-				_Word __read_word              = __word_reference(this->__base_storage_t::get_value());
+				_Word __read_word              = __word_reference<true>(this->__base_storage_t::get_value());
 				this->__base_storage_t::_M_val = ::std::optional<_Word>(__read_word);
 			}
 		}

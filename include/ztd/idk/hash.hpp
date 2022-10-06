@@ -54,6 +54,15 @@ namespace ztd {
 		};
 	} // namespace __idk_detail
 
+	inline constexpr ::std::size_t fnv1a_offset_basis =
+#if ZTD_IS_ON(ZTD_SIZE_64_BITS)
+	     static_cast<std::size_t>(14695981039346656037ULL)
+#else
+	     static_cast<std::size_t>(2166136261UL)
+#endif
+	     ;
+
+
 	//////
 	/// @brief Computes the hash for each element of the range, if the __predicate returns true for that element.
 	/// Returns final combined and mixed hash value.
@@ -62,8 +71,10 @@ namespace ztd {
 	/// @param[in] __range The range to loop over from its `begin` to its `end`.
 	/// @param[in] __predicate The predicate that will be called on each element to determine whether or not it should
 	/// be hashed as part of the range.
-	template <typename _Range, typename _Predicate>
-	::std::size_t fnv1a_hash_if(::std::size_t __initial_seed, _Range&& __range, _Predicate&& __predicate) noexcept {
+	/// @param[in] __element_hasher The hasher to use for each element of the range.
+	template <typename _Range, typename _Predicate, typename _ElementHasher>
+	::std::size_t fnv1a_hash_if(::std::size_t __initial_seed, _Range&& __range, _Predicate&& __predicate,
+	     _ElementHasher&& __element_hasher) noexcept {
 		constexpr ::std::size_t __fnv1a_prime =
 #if ZTD_IS_ON(ZTD_SIZE_64_BITS)
 		     static_cast<std::size_t>(1099511628211ULL)
@@ -73,7 +84,6 @@ namespace ztd {
 		     ;
 
 		::std::size_t __hash_value = __initial_seed;
-		::std::hash<remove_cvref_t<decltype(*::std::begin(__range))>> __element_hasher {};
 		for (const auto& __element : __range) {
 			if (!__predicate(__element)) {
 				continue;
@@ -86,14 +96,18 @@ namespace ztd {
 	}
 
 	//////
-	/// @brief Computes the hash for each element of the range. Returns final combined and mixed hash value.
+	/// @brief Computes the hash for each element of the range, if the __predicate returns true for that element.
+	/// Returns final combined and mixed hash value.
 	///
 	/// @param[in] __initial_seed The starting seed value.
 	/// @param[in] __range The range to loop over from its `begin` to its `end`.
-	template <typename _Range>
-	::std::size_t fnv1a_hash(::std::size_t __initial_seed, _Range&& __range) noexcept {
-		return fnv1a_hash_if(
-		     __initial_seed, ::std::forward<_Range>(__range), __idk_detail::__always_true_predicate {});
+	/// @param[in] __predicate The predicate that will be called on each element to determine whether or not it should
+	/// be hashed as part of the range.
+	template <typename _Range, typename _Predicate>
+	::std::size_t fnv1a_hash_if(::std::size_t __initial_seed, _Range&& __range, _Predicate&& __predicate) noexcept {
+		::std::hash<remove_cvref_t<decltype(*::std::begin(__range))>> __element_hasher {};
+		return ::ztd::fnv1a_hash_if(__initial_seed, ::std::forward<_Range>(__range),
+		     ::std::forward<_Predicate>(__predicate), __element_hasher);
 	}
 
 	//////
@@ -105,15 +119,32 @@ namespace ztd {
 	/// be hashed as part of the range.
 	template <typename _Range, typename _Predicate>
 	::std::size_t fnv1a_hash_if(_Range&& __range, _Predicate&& __predicate) noexcept {
-		constexpr ::std::size_t __fnv1a_offset_basis =
-#if ZTD_IS_ON(ZTD_SIZE_64_BITS)
-		     static_cast<std::size_t>(14695981039346656037ULL)
-#else
-		     static_cast<std::size_t>(2166136261UL)
-#endif
-		     ;
-		return fnv1a_hash_if(
-		     __fnv1a_offset_basis, ::std::forward<_Range>(__range), ::std::forward<_Predicate>(__predicate));
+		return ::ztd::fnv1a_hash_if(
+		     fnv1a_offset_basis, ::std::forward<_Range>(__range), ::std::forward<_Predicate>(__predicate));
+	}
+
+	//////
+	/// @brief Computes the hash for each element of the range. Returns final combined and mixed hash value.
+	///
+	/// @param[in] __initial_seed The starting seed value.
+	/// @param[in] __range The range to loop over from its `begin` to its `end`.
+	/// @param[in] __element_hasher The hasher to use for each element of the range.
+	template <typename _Range, typename _ElementHasher>
+	::std::size_t fnv1a_hash(
+	     ::std::size_t __initial_seed, _Range&& __range, _ElementHasher&& __element_hasher) noexcept {
+		return ::ztd::fnv1a_hash_if(__initial_seed, ::std::forward<_Range>(__range),
+		     __idk_detail::__always_true_predicate {}, ::std::forward<_ElementHasher>(__element_hasher));
+	}
+
+	//////
+	/// @brief Computes the hash for each element of the range. Returns final combined and mixed hash value.
+	///
+	/// @param[in] __initial_seed The starting seed value.
+	/// @param[in] __range The range to loop over from its `begin` to its `end`.
+	template <typename _Range>
+	::std::size_t fnv1a_hash(::std::size_t __initial_seed, _Range&& __range) noexcept {
+		return ::ztd::fnv1a_hash_if(
+		     __initial_seed, ::std::forward<_Range>(__range), __idk_detail::__always_true_predicate {});
 	}
 
 	//////
