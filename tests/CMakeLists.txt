@@ -30,14 +30,13 @@
 
 # # Fetch dependencies
 # Catch2
-if (NOT TARGET Catch2::Catch2)
-	FetchContent_Declare(
-		catch2
-		GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-		GIT_TAG devel
-	)
-	FetchContent_MakeAvailable(catch2)
-endif()
+FetchContent_Declare(
+	catch2
+	GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+	GIT_TAG devel
+)
+FetchContent_MakeAvailable(catch2)
+set_property(DIRECTORY "${catch2_SOURCE_DIR}" PROPERTY EXCLUDE_FROM_ALL YES)
 
 add_subdirectory(idk)
 add_subdirectory(tag_invoke)

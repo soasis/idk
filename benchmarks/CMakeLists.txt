@@ -30,7 +30,7 @@
 
 # # Dependencies
 # google benchmark
-if (NOT TARGET benchmark)
+function google_benchmark_dependency_jail ()
 	FetchContent_Declare(
 		google_benchmark
 		GIT_REPOSITORY https://github.com/google/benchmark.git
@@ -44,9 +44,19 @@ if (NOT TARGET benchmark)
 	set(BENCHMARK_ENABLE_GTEST_TESTS OFF)
 	set(BENCHMARK_ENABLE_WERROR OFF)
 	set(BENCHMARK_FORCE_WERROR OFF)
-
+	set(BENCHMARK_ENABLE_INSTALL OFF)
+	set(BENCHMARK_ENABLE_TESTING OFF)
+	set(BENCHMARK_ENABLE_GTEST_TESTS OFF)
+	set(BENCHMARK_ENABLE_WERROR OFF)
+	set(BENCHMARK_FORCE_WERROR OFF)
+	if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND WIN32)
+		# google benchmark is broken, so we need to force HAVE_STD_REGEX to be on for this.
+		set(HAVE_STD_REGEX ON)
+	endif()
 	FetchContent_MakeAvailable(google_benchmark)
-endif()
+	set_property(DIRECTORY "${google_benchmark_SOURCE_DIR}" PROPERTY EXCLUDE_FROM_ALL YES)
+endfunction()
+google_benchmark_dependency_jail()
 
 # # Benchmarks
 # Bit benchmarks
