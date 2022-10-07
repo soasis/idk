@@ -146,9 +146,10 @@ namespace ztd { namespace ranges {
 		template <bool _IsConst>
 		class __word_reference {
 		public:
-			using value_type = ::std::conditional_t<_IsConst, const _Word, _Word>;
+			using value_type = _Word;
 
 		private:
+			using __cv_value_type = ::std::conditional_t<_IsConst, const _Word, _Word>;
 			using __underlying_base_value_type
 				= decltype(::ztd::any_enum_or_char_to_underlying(__base_value_type {}));
 			using __underlying_value_type = decltype(::ztd::any_enum_or_char_to_underlying(value_type {}));
@@ -162,8 +163,8 @@ namespace ztd { namespace ranges {
 			}
 
 			template <typename _Value,
-				::std::enable_if_t<
-				     ::std::is_convertible_v<_Value, value_type> && !::std::is_const_v<__base_iterator>>* = nullptr>
+				::std::enable_if_t<::std::is_convertible_v<_Value,
+				                        value_type> && !::std::is_const_v<::std::remove_reference_t<__base_reference>>>* = nullptr>
 			constexpr __word_reference& operator=(_Value __maybe_val) noexcept {
 				if constexpr (_Endian == endian::native
 					&& (endian::native != endian::big && endian::native != endian::little)) {

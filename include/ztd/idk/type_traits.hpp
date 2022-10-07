@@ -104,9 +104,19 @@ namespace ztd {
 	using remove_cvref = ::std::remove_cv<::std::remove_reference_t<_Type>>;
 
 	//////
-	/// @brief A typename @c _t alias for ztd::remove_cvref.
+	/// @brief A typename `_t` alias for ztd::remove_cvref.
 	template <typename _Type>
 	using remove_cvref_t = typename remove_cvref<_Type>::type;
+
+	//////
+	/// @brief Removes volatile, and references (both l-value and r-value references) from the given type.
+	template <typename _Type>
+	using remove_vref = ::std::remove_volatile_t<::std::remove_reference_t<_Type>>;
+
+	//////
+	/// @brief A typename `_t` alias for ztd::remove_vref.
+	template <typename _Type>
+	using remove_vref_t = typename remove_vref<_Type>::type;
 
 	// clang-format off
 
@@ -251,7 +261,7 @@ namespace ztd {
 	inline constexpr bool is_detected_v = is_detected<_Op, _Args...>::value;
 
 	//////
-	/// @brief A @c _t shortcut for using the ztd::detector to provide either ztd::nonsuch or the given type as yielded
+	/// @brief A `_t` shortcut for using the ztd::detector to provide either ztd::nonsuch or the given type as yielded
 	/// by the operation applied to the arguments.
 	template <template <typename...> typename _Op, typename... _Args>
 	using detected_t = typename detector<nonesuch, void, _Op, _Args...>::type;
@@ -273,7 +283,7 @@ namespace ztd {
 	};
 
 	//////
-	/// @brief A @c _t typename alias for ztd::type_identity.
+	/// @brief A `_t` typename alias for ztd::type_identity.
 	template <typename _Type>
 	using type_identity_t = typename type_identity<_Type>::type;
 

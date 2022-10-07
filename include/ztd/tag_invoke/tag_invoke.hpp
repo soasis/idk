@@ -122,7 +122,7 @@ namespace ztd {
 	using tag_invoke_result = ::std::invoke_result<decltype(tag_invoke), _Tag, _Args...>;
 
 	//////
-	/// @brief A @c _t alias that gives the actual type that results from a tag invocation.
+	/// @brief A `_t` alias that gives the actual type that results from a tag invocation.
 	///
 	template <typename _Tag, typename... _Args>
 	using tag_invoke_result_t = typename tag_invoke_result<_Tag, _Args...>::type;

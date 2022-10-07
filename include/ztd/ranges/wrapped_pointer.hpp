@@ -220,8 +220,8 @@ namespace std {
 		}
 
 		static constexpr pointer to_address(const ::ztd::ranges::wrapped_pointer<_Type>& __iter) noexcept(
-		     noexcept(::ztd::to_address(__iter))) {
-			return ::ztd::to_address(__iter);
+		     noexcept(::ztd::to_address(__iter.base()))) {
+			return ::ztd::to_address(__iter.base());
 		}
 	};
 
