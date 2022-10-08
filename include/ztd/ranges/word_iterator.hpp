@@ -145,26 +145,24 @@ namespace ztd { namespace ranges {
 
 		template <bool _IsConst>
 		class __word_reference {
-		public:
-			using value_type = _Word;
-
 		private:
 			using __cv_value_type = ::std::conditional_t<_IsConst, const _Word, _Word>;
 			using __underlying_base_value_type
 				= decltype(::ztd::any_enum_or_char_to_underlying(__base_value_type {}));
-			using __underlying_value_type = decltype(::ztd::any_enum_or_char_to_underlying(value_type {}));
-			inline static constexpr __underlying_value_type __base_bits_per_element
-				= static_cast<__underlying_value_type>(sizeof(__underlying_base_value_type) * CHAR_BIT);
-			inline static constexpr __underlying_value_type __base_lowest_bit_mask
-				= static_cast<__underlying_value_type>(__idk_detail::__ce_ipow(2, __base_bits_per_element) - 1);
+			using __underlying_word_type = decltype(::ztd::any_enum_or_char_to_underlying(std::declval<_Word>()));
+			inline static constexpr __underlying_word_type __base_bits_per_element
+				= static_cast<__underlying_word_type>(sizeof(__underlying_base_value_type) * CHAR_BIT);
+			inline static constexpr __underlying_word_type __base_lowest_bit_mask
+				= static_cast<__underlying_word_type>(__idk_detail::__ce_ipow(2, __base_bits_per_element) - 1);
 
 		public:
 			constexpr __word_reference(_URange& __range) noexcept : _M_base_range_ref(__range) {
 			}
 
 			template <typename _Value,
-				::std::enable_if_t<::std::is_convertible_v<_Value,
-				                        value_type> && !::std::is_const_v<::std::remove_reference_t<__base_reference>>>* = nullptr>
+				::std::enable_if_t<
+				     ::std::is_convertible_v<_Value,
+				          _Word> && !::std::is_const_v<::std::remove_reference_t<__base_reference>>>* = nullptr>
 			constexpr __word_reference& operator=(_Value __maybe_val) noexcept {
 				if constexpr (_Endian == endian::native
 					&& (endian::native != endian::big && endian::native != endian::little)) {
@@ -188,12 +186,12 @@ namespace ztd { namespace ranges {
 				{
 					// God's given, handwritten, bit-splittin'
 					// one-way """memcpy""". 😵
-					__underlying_value_type __bit_value
+					__underlying_word_type __bit_value
 						= ::ztd::any_enum_or_char_to_underlying(static_cast<value_type>(__val));
 					auto __write_storage_it = __write_storage + 0;
 					for (::std::size_t __index = 0; __index < __base_values_per_word; ++__index) {
-						__underlying_value_type __bit_position
-							= static_cast<__underlying_value_type>(__index * __base_bits_per_element);
+						__underlying_word_type __bit_position
+							= static_cast<__underlying_word_type>(__index * __base_bits_per_element);
 						__underlying_base_value_type __shifted_bit_value
 							= static_cast<__underlying_base_value_type>(__bit_value >> __bit_position);
 						*__write_storage_it
@@ -225,7 +223,7 @@ namespace ztd { namespace ranges {
 				return *this;
 			}
 
-			constexpr value_type value() const noexcept {
+			constexpr _Word value() const noexcept {
 				if constexpr (_Endian == endian::native
 					&& (endian::native != endian::big && endian::native != endian::little)) {
 					static_assert(always_false_constant_v<endian, _Endian>,
@@ -235,7 +233,7 @@ namespace ztd { namespace ranges {
 				__base_value_type __read_storage[__base_values_per_word] {};
 				__base_value_type* __read_storage_first = __read_storage + 0;
 				::std::size_t __read_storage_size       = ranges_adl::adl_size(__read_storage);
-				value_type __val {};
+				_Word __val {};
 				if constexpr (_IsInput) {
 					// input iterator here (output iterstors cannot be used)
 					// to do this kind of work
@@ -273,18 +271,18 @@ namespace ztd { namespace ranges {
 					// God's given, handwritten, bit-fusin'
 					// one-way """memcpy""". 😵
 					for (::std::size_t __index = 0; __index < __base_values_per_word; ++__index) {
-						__underlying_value_type __bit_value = static_cast<__underlying_value_type>(
+						__underlying_word_type __bit_value = static_cast<__underlying_word_type>(
 							::ztd::any_enum_or_char_to_underlying(__read_storage[__index]));
-						__underlying_value_type __bit_position
-							= static_cast<__underlying_value_type>(__index * __base_bits_per_element);
-						__underlying_value_type __shifted_bit_value = (__bit_value << __bit_position);
+						__underlying_word_type __bit_position
+							= static_cast<__underlying_word_type>(__index * __base_bits_per_element);
+						__underlying_word_type __shifted_bit_value = (__bit_value << __bit_position);
 						__val |= __shifted_bit_value;
 					}
 				}
-				return static_cast<value_type>(__val);
+				return __val;
 			}
 
-			constexpr operator value_type() const noexcept {
+			constexpr operator _Word() const noexcept {
 				return this->value();
 			}
 

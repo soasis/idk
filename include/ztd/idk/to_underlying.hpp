@@ -65,30 +65,28 @@ namespace ztd {
 			return static_cast<_UTy>(__val);
 		}
 		else if constexpr (::std::is_same_v<_Integralish, wchar_t>) {
-			if constexpr (::std::is_signed_v<wchar_t>) {
-				if constexpr (sizeof(wchar_t) <= sizeof(::std::uint_least8_t)) {
-					using _UTy = ::std::conditional_t<::std::is_signed_v<wchar_t>, ::std::int_least8_t,
-					     ::std::uint_least8_t>;
-					return static_cast<_UTy>(__val);
-				}
-				else if constexpr (sizeof(wchar_t) <= sizeof(::std::uint_least16_t)) {
-					using _UTy = ::std::conditional_t<::std::is_signed_v<wchar_t>, ::std::int_least16_t,
-					     ::std::uint_least16_t>;
-					return static_cast<_UTy>(__val);
-				}
-				else if constexpr (sizeof(wchar_t) <= sizeof(::std::uint_least32_t)) {
-					using _UTy = ::std::conditional_t<::std::is_signed_v<wchar_t>, ::std::int_least32_t,
-					     ::std::uint_least32_t>;
-					return static_cast<_UTy>(__val);
-				}
-				else {
-					using _UTy = ::std::conditional_t<::std::is_signed_v<wchar_t>, ::std::int_least64_t,
-					     ::std::uint_least64_t>;
-					return static_cast<_UTy>(__val);
-				}
+			if constexpr (sizeof(wchar_t) <= sizeof(::std::uint_least8_t)) {
+				using _UTy
+				     = ::std::conditional_t<::std::is_signed_v<wchar_t>, ::std::int_least8_t, ::std::uint_least8_t>;
+				return static_cast<_UTy>(__val);
+			}
+			else if constexpr (sizeof(wchar_t) <= sizeof(::std::uint_least16_t)) {
+				using _UTy = ::std::conditional_t<::std::is_signed_v<wchar_t>, ::std::int_least16_t,
+				     ::std::uint_least16_t>;
+				return static_cast<_UTy>(__val);
+			}
+			else if constexpr (sizeof(wchar_t) <= sizeof(::std::uint_least32_t)) {
+				using _UTy = ::std::conditional_t<::std::is_signed_v<wchar_t>, ::std::int_least32_t,
+				     ::std::uint_least32_t>;
+				return static_cast<_UTy>(__val);
 			}
 			else {
-				return static_cast<uint_least8_t>(__val);
+				static_assert(sizeof(wchar_t) <= sizeof(::std::uint_least64_t),
+				     "[ztd.idk] The size of wchar_t exceeds what is anticiapted for "
+				     "ztd::any_enum_or_char_to_underlying(...).");
+				using _UTy = ::std::conditional_t<::std::is_signed_v<wchar_t>, ::std::int_least64_t,
+				     ::std::uint_least64_t>;
+				return static_cast<_UTy>(__val);
 			}
 		}
 #if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T)
