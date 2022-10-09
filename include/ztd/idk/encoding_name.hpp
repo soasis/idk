@@ -269,7 +269,8 @@ namespace ztd {
 				return text_encoding_id::utf32be;
 			}
 			else if (::ztd::is_encoding_name_equal(__name, "ASCII")
-			     || ::ztd::is_encoding_name_equal(__name, "ANSI_X3.4-1968")) {
+			     || ::ztd::is_encoding_name_equal(__name, "ANSI_X3.4-1968")
+			     || ::ztd::is_encoding_name_equal(__name, "US-ASCII")) {
 				return text_encoding_id::ascii;
 			}
 			else if (::ztd::is_encoding_name_equal(__name, "UTF-EBCDIC")
