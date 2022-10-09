@@ -125,12 +125,13 @@ namespace ztd { namespace ranges {
 		using __base_sentinel              = range_sentinel_t<_URange>;
 		using __base_reference             = iterator_reference_t<__base_iterator>;
 		using __maybe_void_base_value_type = iterator_value_type_t<__base_iterator>;
-		using __base_value_type            = ::std::conditional_t<
-               ::std::is_void_v<__maybe_void_base_value_type> || !::std::is_arithmetic_v<__maybe_void_base_value_type>,
-               ::std::byte, __maybe_void_base_value_type>;
-		using __difference_type               = iterator_difference_type_t<__base_iterator>;
-		using __size_type                     = iterator_size_type_t<__base_iterator>;
-		using __value_type                    = _Word;
+		using __base_value_type            = ::std::conditional_t<::std::is_void_v<__maybe_void_base_value_type> // cf
+                    || (!::std::is_arithmetic_v<__maybe_void_base_value_type>                           // cf
+                         && !::std::is_same_v<__maybe_void_base_value_type, ::std::byte>),              // cf
+               unsigned char, __maybe_void_base_value_type>;
+		using __difference_type            = iterator_difference_type_t<__base_iterator>;
+		using __size_type                  = iterator_size_type_t<__base_iterator>;
+		using __value_type                 = _Word;
 		inline constexpr static bool _IsInput = is_iterator_input_iterator_v<__base_iterator>;
 		using __base_storage_t                = __rng_detail::__word_iterator_storage<_Word, _URange, _IsInput>;
 
@@ -159,10 +160,7 @@ namespace ztd { namespace ranges {
 			constexpr __word_reference(_URange& __range) noexcept : _M_base_range_ref(__range) {
 			}
 
-			template <typename _Value,
-				::std::enable_if_t<
-				     ::std::is_convertible_v<_Value,
-				          _Word> && !::std::is_const_v<::std::remove_reference_t<__base_reference>>>* = nullptr>
+			template <typename _Value, ::std::enable_if_t<::ztd::always_true_v<_Value> && !_IsConst>* = nullptr>
 			constexpr __word_reference& operator=(_Value __maybe_val) noexcept {
 				if constexpr (_Endian == endian::native
 					&& (endian::native != endian::big && endian::native != endian::little)) {
@@ -170,9 +168,9 @@ namespace ztd { namespace ranges {
 						"read value from byte stream to native endianness that is neither little nor big "
 						"(byte order is impossible to infer from the standard)");
 				}
-				static_assert(sizeof(value_type) <= (sizeof(__base_value_type) * __base_values_per_word),
+				static_assert(sizeof(__value_type) <= (sizeof(__base_value_type) * __base_values_per_word),
 					"the size of the value type must be less than or equal to the array size");
-				value_type __val = static_cast<value_type>(__maybe_val);
+				__value_type __val = static_cast<__value_type>(__maybe_val);
 				__base_value_type __write_storage[__base_values_per_word] {};
 				auto __write_storage_first = __write_storage + 0;
 				auto __write_storage_last  = __write_storage + __base_values_per_word;
@@ -211,7 +209,7 @@ namespace ztd { namespace ranges {
 				}
 				auto& __base_range = this->_M_base_range();
 				if constexpr (_IsInput) {
-					auto __result         = __copy(__write_storage_first, __write_storage_last,
+					auto __result         = __rng_detail::__copy(__write_storage_first, __write_storage_last,
 						        ranges_adl::adl_begin(::std::move(__base_range)),
 						        ranges_adl::adl_end(::std::move(__base_range)));
 					this->_M_base_range() = reconstruct(::std::in_place_type<_URange>, ::std::move(__result.out));
@@ -223,7 +221,7 @@ namespace ztd { namespace ranges {
 				return *this;
 			}
 
-			constexpr _Word value() const noexcept {
+			constexpr __value_type value() const noexcept {
 				if constexpr (_Endian == endian::native
 					&& (endian::native != endian::big && endian::native != endian::little)) {
 					static_assert(always_false_constant_v<endian, _Endian>,
@@ -233,7 +231,7 @@ namespace ztd { namespace ranges {
 				__base_value_type __read_storage[__base_values_per_word] {};
 				__base_value_type* __read_storage_first = __read_storage + 0;
 				::std::size_t __read_storage_size       = ranges_adl::adl_size(__read_storage);
-				_Word __val {};
+				__value_type __val {};
 				if constexpr (_IsInput) {
 					// input iterator here (output iterstors cannot be used)
 					// to do this kind of work
@@ -248,7 +246,7 @@ namespace ztd { namespace ranges {
 				else {
 					// prevent feed-updating iterator through usage here
 					// just copy-and-use
-					auto __base_it_copy            = this->_M_base_range().begin();
+					auto __base_it_copy            = ranges_adl::adl_begin(this->_M_base_range());
 					[[maybe_unused]] auto __result = __rng_detail::__copy_n_unsafe(
 						::std::move(__base_it_copy), __read_storage_size, __read_storage_first);
 				}
@@ -282,7 +280,7 @@ namespace ztd { namespace ranges {
 				return __val;
 			}
 
-			constexpr operator _Word() const noexcept {
+			constexpr operator __value_type() const noexcept {
 				return this->value();
 			}
 

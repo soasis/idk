@@ -165,6 +165,10 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_execution_enco
 	const char* __ctype_name = setlocale(LC_CTYPE, nullptr);
 #endif
 	::std::string_view __adjusted_ctype_name(__ctype_name);
+	if (__adjusted_ctype_name.find_first_of("ANSI_") || __adjusted_ctype_name.find_first_of("USAS")) {
+		// this is an official ANSI/USAS name, return it as-is with no modifications...
+		return __adjusted_ctype_name.data();
+	}
 	::std::size_t __index = __adjusted_ctype_name.find_first_of(".");
 	if (__index != ::std::string_view::npos) {
 		__adjusted_ctype_name = __adjusted_ctype_name.substr(__index);
