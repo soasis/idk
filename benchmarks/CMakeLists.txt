@@ -30,7 +30,7 @@
 
 # # Dependencies
 # google benchmark
-function google_benchmark_dependency_jail ()
+function (google_benchmark_dependency_jail)
 	FetchContent_Declare(
 		google_benchmark
 		GIT_REPOSITORY https://github.com/google/benchmark.git
@@ -61,5 +61,3 @@ google_benchmark_dependency_jail()
 # # Benchmarks
 # Bit benchmarks
 add_subdirectory(bit)
-# # Benchmark Tools
-add_subdirectory(tools)

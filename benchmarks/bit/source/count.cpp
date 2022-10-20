@@ -97,7 +97,7 @@ static void count_ztdc_packed(benchmark::State& state) {
 	for (auto _ : state) {
 		auto end_it = c.cend();
 		for (auto it = c.cbegin(); it != end_it; ++it) {
-			result += __builtin_popcountll(*it);
+			result += ztdc_count_ones(*it);
 		}
 	}
 	if (result != state.iterations()) {

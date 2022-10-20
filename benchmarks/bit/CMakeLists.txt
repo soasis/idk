@@ -57,3 +57,14 @@ target_compile_options(ztd.idk.benchmarks.bit
 	${--warn-errors}
 	${--allow-microsoft-enum-value}
 )
+
+ztd_tools_add_benchmark_grapher(
+	NAME
+		bit
+	CONFIG
+		"${CMAKE_CURRENT_SOURCE_DIR}/graph_config.json"
+	TARGETS
+		ztd.idk.benchmarks.bit
+	REPETITIONS
+		${ZTD_IDK_BENCHMARKS_REPETITIONS}
+)

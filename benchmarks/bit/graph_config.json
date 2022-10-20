@@ -8,23 +8,27 @@
 		{
 			"name": "find",
 			"pattern": "find_",
-			"ascending": true
+			"ascending": true,
+			"description": "A benchmark for determining a specific set bit in a mixed set of bits, typically the first set bit in the sequence of bits."
 		},
 		{
 			"name": "count",
 			"pattern": "count_",
-			"ascending": true
+			"ascending": true,
+			"description": "A benchmark for determining the number of set bits in a sequence of bits bixed to be 1 and 0."
 		},
 		{
 			"name": "is_sorted_until",
 			"pattern": "is_sorted_until_",
-			"ascending": true
+			"ascending": true,
+			"description": "A benchmark checking for determinining whether a sequence of bits is, up to a certain point in the sequence of bits."
 		},
 		{
 			"name": "is_sorted",
 			"pattern": "is_sorted_",
 			"exclude": "_until_",
-			"ascending": true
+			"ascending": true,
+			"description": "A benchmark checking for determinining whether a sequence of bits is assorted."
 		}
 	],
 	"data_labels": [
@@ -47,22 +51,5 @@
 	"remove_prefixes": [
 		",",
 		"_"
-	],
-	"sources": [
-		{
-			"prefix": "libc++",
-			"file": "libc++.ztd.idk.benchmarks.bit.json",
-			"required": false
-		},
-		{
-			"prefix": "libstdc++",
-			"file": "libstdc++.ztd.idk.benchmarks.bit.json",
-			"required": false
-		},
-		{
-			"prefix": "vc++",
-			"file": "vc++.ztd.idk.benchmarks.bit.json",
-			"required": false
-		}
 	]
 }
