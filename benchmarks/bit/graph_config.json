@@ -15,7 +15,7 @@
 			"name": "count",
 			"pattern": "count_",
 			"ascending": true,
-			"description": "A benchmark for determining the number of set bits in a sequence of bits bixed to be 1 and 0."
+			"description": "A benchmark for determining the number of set bits in a sequence of mixed set and unset (1 and 0) bits."
 		},
 		{
 			"name": "is_sorted_until",
@@ -29,6 +29,43 @@
 			"exclude": "_until_",
 			"ascending": true,
 			"description": "A benchmark checking for determinining whether a sequence of bits is assorted."
+		}
+	],
+	"data_groups": [
+		{
+			"name": "C++ std::bitset<...>",
+			"pattern": "cpp_std_bitset",
+			"description": "Uses the C++ standard library's std::bitset<...> type to store the bits and perform the benchmark, potentially using the standard library's algorithms where applicable."
+		},
+		{
+			"name": "ztd.idk bit functions",
+			"pattern": "ztdc_",
+			"description": "Uses the ztd.idk bit C-style bit intrinsics."
+		},
+		{
+			"name": "C++ std::array<bool, ...>",
+			"pattern": "cpp_std_array_bool",
+			"description": "Uses the C++ standard library's std::array<bool, ...> type to store the bits and perform the benchmark, potentially using the standard library's algorithms where applicable."
+		},
+		{
+			"name": "Packed raw C code",
+			"pattern": "naive_packed$",
+			"description": "Uses naive C methods but packs the bits into integers to save on space (C-style arrays of size_t with hand-loop methods and bit masking)."
+		},
+		{
+			"name": "Naive raw C code",
+			"pattern": "naive$",
+			"description": "Uses naive C methods (C-style arrays of bool with hand-loop methods)."
+		},
+		{
+			"name": "C++ std::vector<bool>",
+			"pattern": "cpp_std_vector_bool",
+			"description": "Uses the C++ standard library's std::vector<bool> type to store the bits and perform the benchmark, as well as using the standard library's algorithms where applicable."
+		},
+		{
+			"name": "C++ std::bitset<...>",
+			"pattern": "cpp_std_bitset",
+			"description": "Uses the C++ standard library's std::bitset<...> type to store the bits and perform the benchmark."
 		}
 	],
 	"data_labels": [
