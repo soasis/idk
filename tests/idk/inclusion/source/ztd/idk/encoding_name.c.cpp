@@ -28,24 +28,4 @@
 //
 // ============================================================================ //
 
-#pragma once
-
-#ifndef ZTD_IDK_SIZE_H
-#define ZTD_IDK_SIZE_H
-
-#if ZTD_IS_ON(ZTD_CXX)
-#include <climits>
-#else
-#include <limits.h>
-#endif
-
-#define ztd_c_array_size(...) (sizeof((__VA_ARGS__)) / sizeof(*(__VA_ARGS__)))
-#define ztd_c_string_array_size(...) (ztd_c_array_size(__VA_ARGS__) - 1)
-
-#define ztd_c_array_byte_size(...) (ztd_c_array_size(__VA_ARGS__) * sizeof(*(__VA_ARGS__)))
-#define ztd_c_string_array_byte_size(...) (ztd_c_string_array_size(__VA_ARGS__) * sizeof(*(__VA_ARGS__)))
-
-#define ztd_c_array_bit_size(...) (ztd_c_array_byte_size(__VA_ARGS__) * CHAR_BIT)
-#define ztd_c_string_array_bit_size(...) (ztd_c_string_array_byte_size(__VA_ARGS__) * CHAR_BIT)
-
-#endif // ZTD_IDK_SIZE_H
+#include <ztd/idk/encoding_name.h>
