@@ -58,7 +58,7 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_unicode_encoding_n
      ztd_char8_t* __encoding_name) ZTD_NOEXCEPT_IF_CXX_I_;
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_unicode_encoding_name_n(
      size_t __encoding_name_size, char* __encoding_name) ZTD_NOEXCEPT_IF_CXX_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_unicode_encoding_name_n_c8(
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_unicode_encoding_name_c8n(
      size_t __encoding_name_size, ztd_char8_t* __encoding_name) ZTD_NOEXCEPT_IF_CXX_I_;
 
 #endif // ZTD_IDK_ENCODING_NAME_H
