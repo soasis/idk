@@ -37,18 +37,18 @@
 #ifndef ZTD_IDK_C_TEST_H
 #define ZTD_IDK_C_TEST_H
 
-#define REQUIRE(...)                                                                                            \
-	if (!(__VA_ARGS__)) {                                                                                      \
-		if (__c_test_section_name != NULL) {                                                                  \
-			fprintf(stderr, "Test: \"%s\"\nCase: \"%s\"\nSection:\"%s\"", __c_test_name, __c_test_case_name, \
-			     __c_test_section_name);                                                                     \
-		}                                                                                                     \
-		else {                                                                                                \
-			fprintf(stderr, "Test: \"%s\"\nCase: \"%s\"", __c_test_name, __c_test_case_name);                \
-		}                                                                                                     \
-		fprintf(stderr, "\tCondition failed: %s", #__VA_ARGS__);                                              \
-		__c_test_result_value += 1;                                                                           \
-	}                                                                                                          \
+#define REQUIRE(...)                                                                                              \
+	if (!(__VA_ARGS__)) {                                                                                        \
+		if (__c_test_section_name != NULL) {                                                                    \
+			fprintf(stderr, "Test: \"%s\"\nCase: \"%s\"\nSection:\"%s\"\n", __c_test_name, __c_test_case_name, \
+			     __c_test_section_name);                                                                       \
+		}                                                                                                       \
+		else {                                                                                                  \
+			fprintf(stderr, "Test: \"%s\"\nCase: \"%s\"\n", __c_test_name, __c_test_case_name);                \
+		}                                                                                                       \
+		fprintf(stderr, "\tCondition failed: %s\n", #__VA_ARGS__);                                              \
+		__c_test_result_value += 1;                                                                             \
+	}                                                                                                            \
 	ztd_static_assert(1, "")
 
 #define BEGIN_TEST(NAME)                            \

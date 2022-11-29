@@ -46,11 +46,11 @@ int main(int argc, char* argv[]) {
 	result += bit_rotate_tests();
 	result += bit_memreverse_tests();
 	if (result == 0) {
-		fprintf(stdout, "===========================================\nAll assertions passed!");
+		fprintf(stdout, "\n\n===========================================\nAll assertions passed!");
 		fflush(stdout);
 	}
 	else {
-		fprintf(stderr, "===========================================\n%d assertions failed.", result);
+		fprintf(stderr, "\n\n===========================================\n%d assertions failed.", result);
 		fflush(stderr);
 	}
 	return result;
