@@ -225,4 +225,4 @@ namespace ztd { namespace ranges {
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_RANGES_DETAIL_BYTE_ITERATOR_HPP
+#endif

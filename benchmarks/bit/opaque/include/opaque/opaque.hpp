@@ -45,4 +45,4 @@ ZTD_OPAQUE_API_LINKAGE_I_ bool opaque_true(void) ZTD_NOEXCEPT_IF_CXX_I_;
 
 ZTD_OPAQUE_API_LINKAGE_I_ bool opaque_false(void) ZTD_NOEXCEPT_IF_CXX_I_;
 
-#endif // ZTD_IDK_BENCHMARKS_OPAQUE_OPAQUE_HPP
+#endif

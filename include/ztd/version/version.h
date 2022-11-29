@@ -46,4 +46,4 @@
 #include <ztd/prologue.hpp>
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_VERSION_VERSION_H
+#endif

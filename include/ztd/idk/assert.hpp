@@ -37,4 +37,4 @@
 
 #include <ztd/idk/assert.h>
 
-#endif // ZTD_ASSERT_HPP
+#endif

@@ -52,4 +52,4 @@ typedef unsigned char ztd_generic_type;
 /// @}
 //////
 
-#endif // ZTD_IDK_DETAIL_DOXYGEN_TYPE_H
+#endif

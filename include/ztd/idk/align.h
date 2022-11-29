@@ -139,4 +139,4 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ inline ztdc_aligned_mutable_poi
 //////
 /// @}
 
-#endif // ZTD_IDK_ALIGN_H
+#endif

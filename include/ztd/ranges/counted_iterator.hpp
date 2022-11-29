@@ -251,15 +251,15 @@ namespace ztd { namespace ranges {
 			}
 
 			friend constexpr ranges::iterator_rvalue_reference_t<_It> iter_move(
-				const __counted_iterator& __it) noexcept(noexcept(ranges_adl::adl_iter_move(__it._M_it))) {
-				return ranges_adl::adl_iter_move(__it._M_it);
+				const __counted_iterator& __it) noexcept(noexcept(::ztd::ranges::iter_move(__it._M_it))) {
+				return ::ztd::ranges::iter_move(__it._M_it);
 			}
 
 			template <typename _RightIt>
 			friend constexpr void
 			iter_swap(const __counted_iterator& x, const __counted_iterator<_RightIt>& y) noexcept(
-				noexcept(ranges_adl::adl_iter_swap(x._M_it, y._M_it))) {
-				ranges_adl::adl_iter_swap(x._M_it, y._M_it);
+				noexcept(::ztd::ranges::iter_swap(x._M_it, y._M_it))) {
+				::ztd::ranges::iter_swap(x._M_it, y._M_it);
 			}
 
 		private:
@@ -295,4 +295,4 @@ namespace std {
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_RANGES_COUNTED_ITERATOR_HPP
+#endif

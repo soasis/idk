@@ -63,12 +63,6 @@ namespace ztd { namespace ranges {
 		template <typename _Type, typename... _Args>
 		using __detect_prev = decltype(::std::declval<_Type>().next(::std::declval<_Args>()...));
 
-		template <typename _Type, typename... _Args>
-		using __detect_advance = decltype(::std::declval<_Type>().advance(::std::declval<_Args>()...));
-
-		template <typename _Type, typename... _Args>
-		using __detect_recede = decltype(::std::declval<_Type>().recede(::std::declval<_Args>()...));
-
 		template <typename _Type>
 		using __detect_lvalue_increment = decltype(++::std::declval<_Type&>());
 
@@ -88,145 +82,11 @@ namespace ztd { namespace ranges {
 		template <typename _It, typename _Sen>
 		inline constexpr bool __is_distance_operable_v = __is_distance_operable<_It, _Sen>::value;
 
-		template <typename _It, typename = void>
-		struct __iterator_category_failure {
-			using type = ::std::conditional_t<::std::is_pointer_v<remove_cvref_t<_It>>, contiguous_iterator_tag,
-				::std::output_iterator_tag>;
-		};
-
-		template <typename _It>
-		struct __iterator_category_failure<_It,
-			::std::void_t<typename ::std::remove_reference_t<_It>::iterator_category>> {
-			using type = typename ::std::remove_reference_t<_It>::iterator_category;
-		};
-
-		template <typename _It, typename = void>
-		struct __iterator_category_or_fallback {
-			using type = typename __iterator_category_failure<_It>::type;
-		};
-
-		template <typename _It>
-		struct __iterator_category_or_fallback<_It,
-			::std::void_t<typename ::std::iterator_traits<::std::remove_reference_t<_It>>::iterator_category>> {
-			using type = typename ::std::iterator_traits<::std::remove_reference_t<_It>>::iterator_category;
-		};
-
-		template <typename _It, typename = void>
-		struct __iterator_concept_failure {
-			using type = ::std::conditional_t<::std::is_pointer_v<remove_cvref_t<_It>>, contiguous_iterator_tag,
-				::std::output_iterator_tag>;
-		};
-
-		template <typename _It>
-		struct __iterator_concept_failure<_It,
-			::std::void_t<typename ::std::remove_reference_t<_It>::iterator_concept>> {
-			using type = typename ::std::remove_reference_t<_It>::iterator_concept;
-		};
-
-		template <typename _It, typename = void>
-		struct __iterator_concept_or_fallback {
-			using type = typename __iterator_concept_failure<_It>::type;
-		};
-
-		template <typename _It>
-		struct __iterator_concept_or_fallback<_It,
-			::std::void_t<typename ::std::iterator_traits<::std::remove_reference_t<_It>>::iterator_concept>> {
-			using type = typename ::std::iterator_traits<::std::remove_reference_t<_It>>::iterator_concept;
-		};
-
-		template <typename _It, typename = void>
-		struct __iterator_category_or_concept_or_fallback {
-		private:
-			using _MaybeType = typename __iterator_category_or_fallback<_It>::type;
-
-		public:
-			using type = ::std::conditional_t<::std::is_same_v<_MaybeType, ::std::output_iterator_tag>,
-				typename __iterator_concept_or_fallback<remove_cvref_t<_It>>::type, _MaybeType>;
-		};
-
-		template <typename _It>
-		struct __iterator_category_or_concept_or_fallback<_It,
-			::std::void_t<typename ::std::iterator_traits<::std::remove_reference_t<_It>>::iterator_category>> {
-			using type = typename ::std::iterator_traits<::std::remove_reference_t<_It>>::iterator_category;
-		};
-
-		template <typename _It, typename = void>
-		struct __iterator_concept_or_category_or_fallback {
-		private:
-			using _MaybeType = typename __iterator_concept_or_fallback<_It>::type;
-
-		public:
-			using type = ::std::conditional_t<::std::is_same_v<_MaybeType, ::std::output_iterator_tag>,
-				typename __iterator_category_or_fallback<remove_cvref_t<_It>>::type, _MaybeType>;
-		};
-
-		template <typename _It>
-		struct __iterator_concept_or_category_or_fallback<_It,
-			::std::void_t<typename ::std::iterator_traits<::std::remove_reference_t<_It>>::iterator_concept>> {
-			using type = typename ::std::iterator_traits<::std::remove_reference_t<_It>>::iterator_concept;
-		};
-
-		template <typename _It, typename = void>
-		struct __iterator_pointer_or_fallback {
-		private:
-			using _Reference = iterator_reference_t<::std::remove_reference_t<_It>>;
-
-		public:
-			using type = ::std::conditional_t<::std::is_reference_v<_Reference>,
-				::std::add_pointer_t<::std::remove_reference_t<_Reference>>, void>;
-		};
-
-		template <typename _It>
-		struct __iterator_pointer_or_fallback<_It,
-			::std::void_t<typename ::std::iterator_traits<::std::remove_reference_t<_It>>::pointer>> {
-			using type = typename ::std::iterator_traits<::std::remove_reference_t<_It>>::pointer;
-		};
-
-		template <typename _It>
-		using __iterator_concept_or_fallback_t =
-			typename __iterator_concept_or_category_or_fallback<::std::remove_reference_t<_It>>::type;
-
-		template <typename _It, typename... _Args>
-		constexpr bool __advance_noexcept() noexcept {
-			if constexpr (is_detected_v<__detect_advance, _It, _Args...>) {
-				return noexcept(::std::declval<_It>().advance(::std::declval<_Args>()...));
-			}
-			else {
-				return noexcept(++::std::declval<::std::add_lvalue_reference_t<::std::remove_reference_t<_It>>>());
-			}
-		}
-
-		template <typename _It, typename... _Args>
-		constexpr bool __recede_noexcept() noexcept {
-			if constexpr (is_detected_v<__detect_recede, _It, _Args...>) {
-				return noexcept(::std::declval<_It>().recede(::std::declval<_Args>()...));
-			}
-			else {
-				return noexcept(--::std::declval<::std::add_lvalue_reference_t<::std::remove_reference_t<_It>>>());
-			}
-		}
 	} // namespace __rng_detail
-
-	template <typename _It>
-	using iterator_rvalue_reference_t = decltype(ranges_adl::adl_iter_move(::std::declval<_It&>()));
 
 	template <typename _It>
 	using iterator_pointer_t =
 		typename __rng_detail::__iterator_pointer_or_fallback<::std::remove_reference_t<_It>>::type;
-
-	template <typename _It>
-	using iterator_category_t =
-		typename __rng_detail::__iterator_category_or_concept_or_fallback<::std::remove_reference_t<_It>>::type;
-
-	template <typename _It>
-	using iterator_concept_t = __rng_detail::__iterator_concept_or_fallback_t<_It>;
-
-	template <typename _Tag, typename _ActualTag>
-	inline constexpr bool is_concept_or_better_v = ::std::is_base_of_v<_Tag, _ActualTag>;
-
-	template <typename _Tag, typename _It>
-	inline constexpr bool is_iterator_concept_or_better_v = is_concept_or_better_v<_Tag, iterator_concept_t<_It>>;
-
 	template <typename _It>
 	inline constexpr bool is_iterator_random_access_iterator_v
 		= is_iterator_concept_or_better_v<::std::random_access_iterator_tag, _It>;
@@ -266,73 +126,9 @@ namespace ztd { namespace ranges {
 	template <typename _It, typename _Sen>
 	inline constexpr bool is_sized_sentinel_for_v = __rng_detail::__is_distance_operable_v<_It, _Sen>;
 
-	template <typename _It>
-	constexpr auto dereference(_It&& __it) noexcept(noexcept(*::std::forward<_It>(__it)))
-		-> decltype(*::std::forward<_It>(__it)) {
-		return *::std::forward<_It>(__it);
-	}
-
-	template <typename _It>
-	constexpr _It&& advance(_It&& __it) noexcept(__rng_detail::__advance_noexcept<_It>()) {
-		if constexpr (is_detected_v<__rng_detail::__detect_advance, _It>) {
-			::std::forward<_It>(__it).advance();
-		}
-		else {
-			++__it;
-		}
-		return ::std::forward<_It>(__it);
-	}
-
-	template <typename _It, typename _Diff>
-	constexpr _It&& advance(_It&& __it, _Diff __diff) noexcept(__rng_detail::__advance_noexcept<_It, _Diff>()) {
-		if constexpr (is_detected_v<__rng_detail::__detect_advance, _It, _Diff>) {
-			::std::forward<_It>(__it).advance(__diff);
-		}
-		else {
-			if constexpr (is_iterator_concept_or_better_v<::std::random_access_iterator_tag, remove_cvref_t<_It>>) {
-				__it += __diff;
-			}
-			else {
-				for (; __diff > 0; --__diff) {
-					++__it;
-				}
-			}
-		}
-		return ::std::forward<_It>(__it);
-	}
-
-	template <typename _It>
-	constexpr _It&& recede(_It&& __it) noexcept(__rng_detail::__recede_noexcept<_It>()) {
-		if constexpr (is_detected_v<__rng_detail::__detect_recede, _It>) {
-			::std::forward<_It>(__it).recede();
-		}
-		else {
-			--__it;
-		}
-		return ::std::forward<_It>(__it);
-	}
-
-	template <typename _It, typename _Diff>
-	constexpr _It&& recede(_It&& __it, _Diff __diff) noexcept(__rng_detail::__recede_noexcept<_It, _Diff>()) {
-		if constexpr (is_detected_v<__rng_detail::__detect_recede, _It, _Diff>) {
-			::std::forward<_It>(__it).recede(__diff);
-		}
-		else {
-			if constexpr (is_iterator_concept_or_better_v<::std::random_access_iterator_tag, remove_cvref_t<_It>>) {
-				__it -= __diff;
-			}
-			else {
-				for (; __diff > 0; --__diff) {
-					--__it;
-				}
-			}
-			return ::std::forward<_It>(__it);
-		}
-	}
-
 	ZTD_RANGES_INLINE_ABI_NAMESPACE_CLOSE_I_
 }} // namespace ztd::ranges
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_RANGES_ITERATOR_HPP
+#endif

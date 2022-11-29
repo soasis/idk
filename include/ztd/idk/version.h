@@ -43,4 +43,4 @@
 
 #include <ztd/idk/detail/api.h>
 
-#endif // ZTD_IDK_VERSION_H
+#endif

@@ -506,4 +506,4 @@ namespace ztd::tests {
 
 } // namespace ztd::tests
 
-#endif // ZTD_IDK_TESTS_TYPES_HPP
+#endif

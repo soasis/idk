@@ -436,4 +436,4 @@ namespace ztd {
 
 // clang-format on
 
-#endif // ZTD_IDK_DETAIL_BIT_INTRINSIC_IMPL_H
+#endif

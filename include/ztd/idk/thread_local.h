@@ -30,20 +30,15 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_HPP
-#define ZTD_IDK_HPP
+#ifndef ZTD_STATIC_ASSERT_H
+#define ZTD_STATIC_ASSERT_H
 
-#include <ztd/idk/version.hpp>
+#include <ztd/idk/version.h>
 
-#include <ztd/idk/ebco.hpp>
-#include <ztd/idk/empty_string.hpp>
-#include <ztd/idk/charN_t.hpp>
-#include <ztd/idk/hijack.hpp>
-#include <ztd/idk/to_address.hpp>
-#include <ztd/idk/to_underlying.hpp>
-#include <ztd/idk/reference_wrapper.hpp>
-#include <ztd/idk/span.hpp>
-#include <ztd/idk/tag.hpp>
-#include <ztd/idk/type_traits.hpp>
+#if ZTD_IS_ON(ZTD_CXX)
+#define ztd_thread_local thread_local
+#else
+#define ztd_thread_local _Thread_local
+#endif
 
 #endif

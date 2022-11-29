@@ -37,4 +37,4 @@
 
 #include <ztd/idk/assume_aligned.h>
 
-#endif // ZTD_IDK_ASSUME_ALIGNED_HPP
+#endif

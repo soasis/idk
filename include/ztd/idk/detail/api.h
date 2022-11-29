@@ -89,4 +89,4 @@
 
 // clang-format on
 
-#endif // ZTD_IDK_DETAIL_API_H
+#endif

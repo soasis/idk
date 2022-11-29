@@ -218,4 +218,4 @@
 
 #endif // C vs. C++ only
 
-#endif // ZTD_IDK_DETAIL_BIT_INTRINSIC_GENERIC_H
+#endif

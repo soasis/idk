@@ -81,4 +81,4 @@ namespace ztd { namespace ranges {
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_RANGES_UNREACHABLE_SENTINEL_HPP
+#endif

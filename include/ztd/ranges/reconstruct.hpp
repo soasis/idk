@@ -148,8 +148,7 @@ namespace ztd { namespace ranges {
 					else {
 						return (*this)(::std::forward<_InPlaceOrIt>(__inplace_or_iterator),
 							::std::forward<_RangeOrSen>(__range_or_sentinel),
-							ranges_adl::adl_begin(__range_or_sentinel),
-							ranges_adl::adl_end(__range_or_sentinel));
+							::ztd::ranges::begin(__range_or_sentinel), ::ztd::ranges::end(__range_or_sentinel));
 					}
 				}
 				else if constexpr (((::std::is_class_v<_InPlaceOrIt> || ::std::is_enum_v<_InPlaceOrIt>)
@@ -283,4 +282,4 @@ namespace ztd { namespace ranges {
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_RANGES_RECONSTRUCT_HPP
+#endif

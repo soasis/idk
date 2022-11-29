@@ -56,4 +56,4 @@ namespace ztd { namespace tests {
 
 }} // namespace ztd::tests
 
-#endif // ZTD_IDK_TESTS_RESULT_COMPARE_HPP
+#endif

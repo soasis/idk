@@ -58,4 +58,4 @@
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_RANGES_VERSION_HPP
+#endif

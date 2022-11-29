@@ -78,8 +78,8 @@ namespace ztd {
 	}
 
 	template <class Container, class EP = decltype(std::data(std::declval<Container&>()))>
-	inline constexpr auto make_span(
-		Container const& cont) noexcept -> ::std::span<const typename std::remove_pointer<EP>::type> {
+	inline constexpr auto make_span(Container const& cont) noexcept
+	     -> ::std::span<const typename std::remove_pointer<EP>::type> {
 		return ::std::span<const typename std::remove_pointer<EP>::type>(cont);
 	}
 
@@ -88,8 +88,8 @@ namespace ztd {
 
 namespace std {
 	template <typename _Ty, ::std::size_t _LeftExtent, ::std::size_t _RightExtent>
-	constexpr bool operator==(const ::std::span<_Ty, _LeftExtent>& __left,
-		const ::std::span<_Ty, _RightExtent>& __right) noexcept {
+	constexpr bool operator==(
+	     const ::std::span<_Ty, _LeftExtent>& __left, const ::std::span<_Ty, _RightExtent>& __right) noexcept {
 		auto __left_size  = __left.size();
 		auto __right_size = __right.size();
 		if (__left_size < __right_size) {
@@ -101,11 +101,11 @@ namespace std {
 	}
 
 	template <typename _Ty, ::std::size_t _LeftExtent, ::std::size_t _RightExtent>
-	constexpr bool operator!=(const ::std::span<_Ty, _LeftExtent>& __left,
-		const ::std::span<_Ty, _RightExtent>& __right) noexcept {
+	constexpr bool operator!=(
+	     const ::std::span<_Ty, _LeftExtent>& __left, const ::std::span<_Ty, _RightExtent>& __right) noexcept {
 		return !(__left == __right);
 	}
-}
+} // namespace std
 
 #else
 
@@ -195,4 +195,4 @@ namespace ztd {
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_IDK_SPAN_HPP
+#endif

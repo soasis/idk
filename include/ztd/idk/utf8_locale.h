@@ -41,4 +41,4 @@
 
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztd_idk_attempt_utf8_locale(void);
 
-#endif // ZTD_IDK_UTF8_LOCALE_H
+#endif

@@ -28,23 +28,9 @@
 //
 // ============================================================================ //
 
+#include "c_test.h"
+
 #include <ztd/idk/c_span.h>
-
-#include <ztd/idk/assert.h>
-
-#include <stddef.h>
-#include <stdlib.h>
-#include <stdio.h>
-
-#define REQUIRE(...)                               \
-	if (!(__VA_ARGS__)) {                         \
-		puts("Condition failed: " #__VA_ARGS__); \
-		exit(1);                                 \
-	}                                             \
-	static_assert(1, "😋")
-
-#define TEST_CASE(...)
-#define SECTION(...)
 
 #define C_SPAN_BASIC_TEST(TYPE, TYPE_NAME)                                                                           \
 	TEST_CASE("c_span/basic/" #TYPE_NAME, "basic usages of c_span do not explode") {                                \
@@ -153,13 +139,14 @@
 			REQUIRE(TYPE_NAME##_back(value3) == *(expected_pointer_end - 1));                                     \
 		}                                                                                                          \
 	}                                                                                                               \
-	static_assert(true, "")
+	ztd_static_assert(1, "")
 
 extern int c_span_tests(void) {
+	BEGIN_TEST("c_span");
 	C_SPAN_BASIC_TEST(char, c_span_char);
 	C_SPAN_BASIC_TEST(unsigned char, c_span_uchar);
 	C_SPAN_BASIC_TEST(wchar_t, c_span_wchar_t);
 	C_SPAN_BASIC_TEST(ztd_char16_t, c_span_char16_t);
 	C_SPAN_BASIC_TEST(ztd_char32_t, c_span_char32_t);
-	return 0;
+	END_TEST();
 }

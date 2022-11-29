@@ -299,4 +299,4 @@ namespace ztd {
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_IDK_EBCO_HPP
+#endif

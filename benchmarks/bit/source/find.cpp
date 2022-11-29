@@ -60,7 +60,7 @@ static void find_naive(benchmark::State& state) {
 		}
 		result_index &= index;
 	}
-	if (result_index != opaque_hardcoded_index() && result == state.iterations()) {
+	if (result_index != opaque_hardcoded_index() || result != static_cast<std::size_t>(state.iterations())) {
 		state.SkipWithError("bad benchmark result");
 	}
 }
@@ -96,7 +96,7 @@ static void find_naive_packed(benchmark::State& state) {
 		}
 		result_index &= index;
 	}
-	if (result_index != opaque_hardcoded_index() && result == state.iterations()) {
+	if (result_index != opaque_hardcoded_index() || result != static_cast<std::size_t>(state.iterations())) {
 		state.SkipWithError("bad benchmark result");
 	}
 }
@@ -130,7 +130,7 @@ static void find_ztdc_packed(benchmark::State& state) {
 		}
 		result_index &= index;
 	}
-	if (result_index != opaque_hardcoded_index() && result == state.iterations()) {
+	if (result_index != opaque_hardcoded_index() || result != static_cast<std::size_t>(state.iterations())) {
 		state.SkipWithError("bad benchmark result");
 	}
 }
@@ -150,7 +150,7 @@ static void find_cpp_std_array_bool(benchmark::State& state) {
 			result += 1;
 		}
 	}
-	if (result_index != opaque_hardcoded_index() && result == state.iterations()) {
+	if (result_index != opaque_hardcoded_index() || result != static_cast<std::size_t>(state.iterations())) {
 		state.SkipWithError("bad benchmark result");
 	}
 }
@@ -170,7 +170,7 @@ static void find_cpp_std_vector_bool(benchmark::State& state) {
 			result += 1;
 		}
 	}
-	if (result_index != opaque_hardcoded_index() && result == state.iterations()) {
+	if (result_index != opaque_hardcoded_index() || result != static_cast<std::size_t>(state.iterations())) {
 		state.SkipWithError("bad benchmark result");
 	}
 }
@@ -193,7 +193,7 @@ static void find_cpp_std_bitset(benchmark::State& state) {
 		}
 		result_index &= index;
 	}
-	if (result_index != opaque_hardcoded_index() && result == state.iterations()) {
+	if (result_index != opaque_hardcoded_index() || result != static_cast<std::size_t>(state.iterations())) {
 		state.SkipWithError("bad benchmark result");
 	}
 }

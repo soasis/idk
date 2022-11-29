@@ -145,4 +145,4 @@ typedef ZTD_CHAR8_T_I_ ztd_char8_t;
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_IDK_CHARN_T_H
+#endif

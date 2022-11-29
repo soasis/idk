@@ -58,4 +58,4 @@ namespace ztd {
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_IDK_TAG_HPP
+#endif

@@ -66,4 +66,4 @@ namespace ztd { namespace hijack {
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_IDK_HIJACK_HPP
+#endif

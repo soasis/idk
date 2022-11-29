@@ -227,4 +227,4 @@ namespace ztd { namespace tests {
 
 }} // namespace ztd::tests
 
-#endif // ZTD_IDK_TESTS_BIT_CONSTANT_HPP
+#endif

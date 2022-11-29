@@ -220,57 +220,51 @@ int ztdc_count_trailing_onesull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ 
 	return ztdc_count_trailing_zerosull((unsigned long long)~__value);
 }
 
-#define _ZTDC_ROTATE_LEFT_BODY_I_()                       \
-	if (__count == 0) {                                  \
-		return __value;                                 \
-	}                                                    \
-	const int __width    = sizeof(__value) * CHAR_BIT;   \
-	const int __rotation = __count % __width;            \
-	if (__rotation < 0) {                                \
-		return ztdc_rotate_right(__value, -__rotation); \
-	}                                                    \
+#define _ZTDC_ROTATE_LEFT_BODY_I_()                              \
+	if (__count == 0) {                                         \
+		return __value;                                        \
+	}                                                           \
+	const unsigned int __width    = sizeof(__value) * CHAR_BIT; \
+	const unsigned int __rotation = __count % __width;          \
 	return (__value << __rotation) | (__value >> (__width - __rotation))
 
-#define _ZTDC_ROTATE_RIGHT_BODY_I_()                     \
-	if (__count == 0) {                                 \
-		return __value;                                \
-	}                                                   \
-	const int __width    = sizeof(__value) * CHAR_BIT;  \
-	const int __rotation = __count % __width;           \
-	if (__rotation < 0) {                               \
-		return ztdc_rotate_left(__value, -__rotation); \
-	}                                                   \
+#define _ZTDC_ROTATE_RIGHT_BODY_I_()                             \
+	if (__count == 0) {                                         \
+		return __value;                                        \
+	}                                                           \
+	const unsigned int __width    = sizeof(__value) * CHAR_BIT; \
+	const unsigned int __rotation = __count % __width;          \
 	return (__value >> __rotation) | (__value << (__width - __rotation))
 
-unsigned char ztdc_rotate_leftuc(unsigned char __value, int __count) ZTD_CXX_NOEXCEPT_I_ {
+unsigned char ztdc_rotate_leftuc(unsigned char __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_ROTATE_LEFT_BODY_I_();
 }
-unsigned short ztdc_rotate_leftus(unsigned short __value, int __count) ZTD_CXX_NOEXCEPT_I_ {
+unsigned short ztdc_rotate_leftus(unsigned short __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_ROTATE_LEFT_BODY_I_();
 }
-unsigned int ztdc_rotate_leftui(unsigned int __value, int __count) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_rotate_leftui(unsigned int __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_ROTATE_LEFT_BODY_I_();
 }
-unsigned long ztdc_rotate_leftul(unsigned long __value, int __count) ZTD_CXX_NOEXCEPT_I_ {
+unsigned long ztdc_rotate_leftul(unsigned long __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_ROTATE_LEFT_BODY_I_();
 }
-unsigned long long ztdc_rotate_leftull(unsigned long long __value, int __count) ZTD_CXX_NOEXCEPT_I_ {
+unsigned long long ztdc_rotate_leftull(unsigned long long __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_ROTATE_LEFT_BODY_I_();
 }
 
-unsigned char ztdc_rotate_rightuc(unsigned char __value, int __count) ZTD_CXX_NOEXCEPT_I_ {
+unsigned char ztdc_rotate_rightuc(unsigned char __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_ROTATE_RIGHT_BODY_I_();
 }
-unsigned short ztdc_rotate_rightus(unsigned short __value, int __count) ZTD_CXX_NOEXCEPT_I_ {
+unsigned short ztdc_rotate_rightus(unsigned short __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_ROTATE_RIGHT_BODY_I_();
 }
-unsigned int ztdc_rotate_rightui(unsigned int __value, int __count) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_rotate_rightui(unsigned int __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_ROTATE_RIGHT_BODY_I_();
 }
-unsigned long ztdc_rotate_rightul(unsigned long __value, int __count) ZTD_CXX_NOEXCEPT_I_ {
+unsigned long ztdc_rotate_rightul(unsigned long __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_ROTATE_RIGHT_BODY_I_();
 }
-unsigned long long ztdc_rotate_rightull(unsigned long long __value, int __count) ZTD_CXX_NOEXCEPT_I_ {
+unsigned long long ztdc_rotate_rightull(unsigned long long __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_ROTATE_RIGHT_BODY_I_();
 }
 

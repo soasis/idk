@@ -53,59 +53,13 @@
 namespace ztd { namespace ranges {
 	ZTD_RANGES_INLINE_ABI_NAMESPACE_OPEN_I_
 
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
-	template <typename _Range>
-	using range_iterator_t = ::std::ranges::iterator_t<_Range>;
-
-	template <typename _Range>
-	using range_sentinel_t = ::std::ranges::sentinel_t<_Range>;
-
-	template <typename _Range>
-	using range_value_type_t = ::std::ranges::range_value_t<_Range>;
-
-	template <typename _Range>
-	using range_reference_t = ::std::ranges::range_reference_t<_Range>;
-
-	template <typename _Range>
-	using range_rvalue_reference_t = ::std::ranges::range_rvalue_reference_t<_Range>;
-
-	template <typename _Range>
-	using range_difference_type_t = ::std::ranges::range_difference_t<_Range>;
-
-	template <typename _Range>
-	using range_size_type_t = ::std::ranges::range_size_t<_Range>;
-#else
-	template <typename _Range>
-	using range_iterator_t = ::std::remove_reference_t<decltype(ranges_adl::adl_begin(
-		::std::declval<::std::add_lvalue_reference_t<_Range>>()))>;
-
-	template <typename _Range>
-	using range_sentinel_t = ::std::remove_reference_t<decltype(ranges_adl::adl_end(
-		::std::declval<::std::add_lvalue_reference_t<_Range>>()))>;
-
-	template <typename _Range>
-	using range_value_type_t = iterator_value_type_t<range_iterator_t<_Range>>;
-
-	template <typename _Range>
-	using range_reference_t = iterator_reference_t<range_iterator_t<_Range>>;
-
-	template <typename _Range>
-	using range_rvalue_reference_t = iterator_rvalue_reference_t<range_iterator_t<_Range>>;
-
-	template <typename _Range>
-	using range_difference_type_t = iterator_difference_type_t<range_iterator_t<_Range>>;
-
-	template <typename _Range>
-	using range_size_type_t = iterator_size_type_t<range_iterator_t<_Range>>;
-#endif
-
 	template <typename _Range>
 	using range_const_iterator_t
-		= decltype(ranges_adl::adl_cbegin(::std::declval<::std::add_lvalue_reference_t<_Range>>()));
+		= decltype(::ztd::ranges::cbegin(::std::declval<::std::add_lvalue_reference_t<_Range>>()));
 
 	template <typename _Range>
 	using range_const_sentinel_t
-		= decltype(ranges_adl::adl_cend(::std::declval<::std::add_lvalue_reference_t<_Range>>()));
+		= decltype(::ztd::ranges::cend(::std::declval<::std::add_lvalue_reference_t<_Range>>()));
 
 	template <typename _Range>
 	using range_pointer_t = iterator_pointer_t<range_iterator_t<_Range>>;
@@ -146,11 +100,11 @@ namespace ztd { namespace ranges {
 
 	template <typename _Range, typename _IterFirst, typename _IterLast = _IterFirst>
 	using detect_insert_bulk = decltype(::std::declval<_Range>().insert(
-		ranges_adl::adl_begin(::std::declval<_Range>()), ::std::declval<_IterFirst>(), ::std::declval<_IterLast>()));
+		::ztd::ranges::begin(::std::declval<_Range>()), ::std::declval<_IterFirst>(), ::std::declval<_IterLast>()));
 
 	ZTD_RANGES_INLINE_ABI_NAMESPACE_CLOSE_I_
 }} // namespace ztd::ranges
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_RANGES_RANGE_HPP
+#endif

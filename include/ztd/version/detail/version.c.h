@@ -880,4 +880,4 @@
 
 // clang-format on
 
-#endif // ZTD_VERSION_DETAIL_VERSION_C_H
+#endif

@@ -74,4 +74,4 @@
 	}                                                                                                         \
 	ztd_static_assert(true, "end-of-macro")
 
-#endif // ZTD_IDK_DETAIL_BIT_MEMREVERSE_IMPL_H
+#endif

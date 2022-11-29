@@ -28,12 +28,30 @@
 //
 // ============================================================================ //
 
+#include <stdio.h>
+
 extern int c_span_tests(void);
+extern int bit_intrinsic_tests(void);
+extern int bit_rotate_tests(void);
+extern int bit_memreverse_tests(void);
+extern int encoding_name_tests(void);
 
 int main(int argc, char* argv[]) {
 	(void)argc;
 	(void)argv;
 	int result = 0;
 	result += c_span_tests();
+	result += encoding_name_tests();
+	result += bit_intrinsic_tests();
+	result += bit_rotate_tests();
+	result += bit_memreverse_tests();
+	if (result == 0) {
+		fprintf(stdout, "===========================================\nAll assertions passed!");
+		fflush(stdout);
+	}
+	else {
+		fprintf(stderr, "===========================================\n%d assertions failed.", result);
+		fflush(stderr);
+	}
 	return result;
 }

@@ -48,4 +48,4 @@
 
 // clang-format on
 
-#endif // ZTD_IDK_VERSION_HPP
+#endif

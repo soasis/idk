@@ -133,4 +133,4 @@ namespace ztd {
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_IDK_EMPTY_STRING_HPP
+#endif

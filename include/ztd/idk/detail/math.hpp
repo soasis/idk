@@ -57,4 +57,4 @@ namespace ztd {
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_IDK_DETAIL_MATH_HPP
+#endif

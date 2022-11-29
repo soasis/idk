@@ -424,4 +424,4 @@
 
 // clang-format on
 
-#endif // ZTD_VERSION_DETAIL_VERSION_CXX_HPP
+#endif

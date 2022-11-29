@@ -100,19 +100,22 @@ inline ZTD_CONSTEXPR_IF_CXX_I_ bool __ztd_idk_detail_is_single_or_lead_utf8(
      ztd_char8_t __value) ZTD_NOEXCEPT_IF_CXX_I_ {
 	return __value <= static_cast<ztd_char8_t>(0x7F) || __ztd_idk_detail_is_lead_utf8(__value);
 }
-inline ZTD_CONSTEXPR_IF_CXX_I_ bool __ztd_idk_detail_utf8_is_invalid(ztd_char8_t __value) noexcept {
+inline ZTD_CONSTEXPR_IF_CXX_I_ bool __ztd_idk_detail_utf8_is_invalid(ztd_char8_t __value) ZTD_NOEXCEPT_IF_CXX_I_ {
 	return __value == 0xC0 || __value == 0xC1 || __value > 0xF4;
+}
+inline ZTD_CONSTEXPR_IF_CXX_I_ bool __ztd_idk_detail_mutf8_is_invalid(ztd_char8_t __value) ZTD_NOEXCEPT_IF_CXX_I_ {
+	return __value == 0xC1 || __value > 0xF4;
 }
 
 inline ZTD_CONSTEXPR_IF_CXX_I_ bool __ztd_idk_detail_utf8_is_overlong(
-     ztd_char32_t __value, ::std::size_t __bytes) noexcept {
+     ztd_char32_t __value, ::std::size_t __bytes) ZTD_NOEXCEPT_IF_CXX_I_ {
 	return __value <= __ztd_idk_detail_last_1byte_value
 	     || (__value <= __ztd_idk_detail_last_2byte_value && __bytes > 2)
 	     || (__value <= __ztd_idk_detail_last_3byte_value && __bytes > 3);
 }
 
 inline ZTD_CONSTEXPR_IF_CXX_I_ bool __ztd_idk_detail_utf8_is_overlong_extended(
-     ztd_char32_t __value, ::std::size_t __bytes) noexcept {
+     ztd_char32_t __value, ::std::size_t __bytes) ZTD_NOEXCEPT_IF_CXX_I_ {
 	return __value <= __ztd_idk_detail_last_1byte_value
 	     || (__value <= __ztd_idk_detail_last_2byte_value && __bytes > 2)
 	     || (__value <= __ztd_idk_detail_last_3byte_value && __bytes > 3)
@@ -120,7 +123,7 @@ inline ZTD_CONSTEXPR_IF_CXX_I_ bool __ztd_idk_detail_utf8_is_overlong_extended(
 	     || (__value <= __ztd_idk_detail_last_5byte_value && __bytes > 5);
 }
 
-inline ZTD_CONSTEXPR_IF_CXX_I_ int __ztd_idk_detail_utf8_decode_length(ztd_char32_t __value) noexcept {
+inline ZTD_CONSTEXPR_IF_CXX_I_ int __ztd_idk_detail_utf8_decode_length(ztd_char32_t __value) ZTD_NOEXCEPT_IF_CXX_I_ {
 	if (__value <= __ztd_idk_detail_last_1byte_value) {
 		return 1;
 	}
@@ -136,7 +139,8 @@ inline ZTD_CONSTEXPR_IF_CXX_I_ int __ztd_idk_detail_utf8_decode_length(ztd_char3
 	return 0;
 }
 
-inline ZTD_CONSTEXPR_IF_CXX_I_ int __ztd_idk_detail_utf8_decode_length_overlong(ztd_char32_t __value) noexcept {
+inline ZTD_CONSTEXPR_IF_CXX_I_ int __ztd_idk_detail_utf8_decode_length_overlong(
+     ztd_char32_t __value) ZTD_NOEXCEPT_IF_CXX_I_ {
 	if (__value <= __ztd_idk_detail_last_1byte_value) {
 		return 1;
 	}
@@ -158,14 +162,15 @@ inline ZTD_CONSTEXPR_IF_CXX_I_ int __ztd_idk_detail_utf8_decode_length_overlong(
 	return 0;
 }
 
-inline ZTD_CONSTEXPR_IF_CXX_I_ int __ztd_idk_detail_utf8_sequence_length(ztd_char8_t __value) noexcept {
+inline ZTD_CONSTEXPR_IF_CXX_I_ int __ztd_idk_detail_utf8_sequence_length(ztd_char8_t __value) ZTD_NOEXCEPT_IF_CXX_I_ {
 	return (__value & __ztd_idk_detail_start_1byte_mask) == __ztd_idk_detail_start_1byte_continuation ? 1
 	     : (__value & __ztd_idk_detail_start_3byte_mask) != __ztd_idk_detail_start_3byte_continuation ? 2
 	     : (__value & __ztd_idk_detail_start_4byte_mask) != __ztd_idk_detail_start_4byte_continuation ? 3
 	                                                                                                  : 4;
 }
 
-inline ZTD_CONSTEXPR_IF_CXX_I_ int __ztd_idk_detail_utf8_sequence_length_overlong(ztd_char8_t __value) noexcept {
+inline ZTD_CONSTEXPR_IF_CXX_I_ int __ztd_idk_detail_utf8_sequence_length_overlong(
+     ztd_char8_t __value) ZTD_NOEXCEPT_IF_CXX_I_ {
 	return (__value & __ztd_idk_detail_start_1byte_mask) == __ztd_idk_detail_start_1byte_continuation ? 1
 	     : (__value & __ztd_idk_detail_start_3byte_mask) != __ztd_idk_detail_start_3byte_continuation ? 2
 	     : (__value & __ztd_idk_detail_start_4byte_mask) != __ztd_idk_detail_start_4byte_continuation ? 3
@@ -175,17 +180,17 @@ inline ZTD_CONSTEXPR_IF_CXX_I_ int __ztd_idk_detail_utf8_sequence_length_overlon
 }
 
 inline ZTD_CONSTEXPR_IF_CXX_I_ ztd_char32_t __ztd_idk_detail_utf8_decode(
-     ztd_char8_t __value0, ztd_char8_t __value1) noexcept {
+     ztd_char8_t __value0, ztd_char8_t __value1) ZTD_NOEXCEPT_IF_CXX_I_ {
 	return ((__value0 & 0x1F) << 6) | (__value1 & 0x3F);
 }
 
 inline ZTD_CONSTEXPR_IF_CXX_I_ ztd_char32_t __ztd_idk_detail_utf8_decode(
-     ztd_char8_t __value0, ztd_char8_t __value1, ztd_char8_t __value2) noexcept {
+     ztd_char8_t __value0, ztd_char8_t __value1, ztd_char8_t __value2) ZTD_NOEXCEPT_IF_CXX_I_ {
 	return ((__value0 & 0x0F) << 12) | ((__value1 & 0x3F) << 6) | (__value2 & 0x3F);
 }
 
 inline ZTD_CONSTEXPR_IF_CXX_I_ ztd_char32_t __ztd_idk_detail_utf8_decode(
-     ztd_char8_t __value0, ztd_char8_t __value1, ztd_char8_t __value2, ztd_char8_t __value3) noexcept {
+     ztd_char8_t __value0, ztd_char8_t __value1, ztd_char8_t __value2, ztd_char8_t __value3) ZTD_NOEXCEPT_IF_CXX_I_ {
 	return ((__value0 & 0x07) << 18) | ((__value1 & 0x3F) << 12) | ((__value2 & 0x3F) << 6) | (__value3 & 0x3F);
 }
 
@@ -197,10 +202,10 @@ ZTD_INLINE_CONSTEXPR_IF_CXX_I_ const int __ztd_idk_detail_trail_surrogate_bitmas
 ZTD_INLINE_CONSTEXPR_IF_CXX_I_ const int __ztd_idk_detail_lead_shifted_bits          = 10;
 
 inline ZTD_CONSTEXPR_IF_CXX_I_ ztd_char32_t __ztd_idk_detail_utf16_combine_surrogates(
-     ztd_char16_t __lead, ztd_char16_t __trail) noexcept {
+     ztd_char16_t __lead, ztd_char16_t __trail) ZTD_NOEXCEPT_IF_CXX_I_ {
 	auto __hibits = __lead - __ztd_idk_detail_first_lead_surrogate;
 	auto __lobits = __trail - __ztd_idk_detail_first_trail_surrogate;
 	return __ztd_idk_detail_normalizing_value + ((__hibits << __ztd_idk_detail_lead_shifted_bits) | __lobits);
 }
 
-#endif // ZTD_IDK_DETAIL_UNICODE_H
+#endif

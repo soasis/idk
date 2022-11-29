@@ -43,4 +43,4 @@
 
 #define ztd_null_of(...) (__VA_ARGS__*)(NULL)
 
-#endif // ZTD_IDK_NULL_H
+#endif

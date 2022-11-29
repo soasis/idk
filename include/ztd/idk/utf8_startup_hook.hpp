@@ -59,4 +59,4 @@ namespace ztd {
 } // namespace ztd
 
 
-#endif // ZTD_IDK_UTF8_STARTUP_HOOK_HPP
+#endif

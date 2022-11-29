@@ -83,4 +83,4 @@ namespace ztd {
 /// @param _SPACE The amount of available space within which this alignment pay be performed, in bytes.
 #define ztdc_align(_ALIGN, _SIZE, _PTR, _SPACE) ::ztd::align(_ALIGN, _SIZE, _PTR, _SPACE)
 
-#endif // ZTD_IDK_ALIGN_HPP
+#endif

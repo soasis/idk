@@ -98,4 +98,4 @@ namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd
 
-#endif // ZTD_IDK_UNINIT_HPP
+#endif

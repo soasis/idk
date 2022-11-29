@@ -1790,4 +1790,4 @@ const size_t ztd_tests_u32_unicode_sequence_size = ztd_c_string_array_size(ztd_t
 #pragma warning(pop)
 #endif
 
-#endif // ZTD_TESTS_BASIC_UNICODE_STRINGS_H
+#endif

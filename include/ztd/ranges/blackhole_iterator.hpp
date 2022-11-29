@@ -155,4 +155,4 @@ namespace ztd { namespace ranges {
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_RANGES_BLACKHOLE_ITERATOR_HPP
+#endif

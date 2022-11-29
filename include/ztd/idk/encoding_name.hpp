@@ -319,4 +319,4 @@ namespace ztd {
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_IDK_ENCODING_NAME_HPP
+#endif

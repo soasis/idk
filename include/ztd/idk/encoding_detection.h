@@ -54,4 +54,4 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_execution_enco
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_wide_execution_encoding_name(
      void) ZTD_NOEXCEPT_IF_CXX_I_;
 
-#endif // ZTD_IDK_ENCODING_DETECTION_H
+#endif

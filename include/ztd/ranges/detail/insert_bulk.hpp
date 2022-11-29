@@ -75,4 +75,4 @@ namespace ztd { namespace ranges {
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_RANGES_DETAIL_INSERT_BULK_HPP
+#endif

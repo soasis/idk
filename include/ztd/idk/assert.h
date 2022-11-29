@@ -151,4 +151,4 @@
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_ASSERT_H
+#endif

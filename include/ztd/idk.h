@@ -43,4 +43,4 @@
 #include <ztd/idk/static_assert.h>
 #include <ztd/idk/unreachable.h>
 
-#endif // ZTD_IDK_H
+#endif

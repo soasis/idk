@@ -394,4 +394,4 @@ c_span c_span_subspan_suffix(c_span __span, size_t __size);
 /// @}
 //////
 
-#endif // ZTD_IDK_C_SPAN_H
+#endif

@@ -127,4 +127,4 @@ namespace ztd {
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_IDK_TEXT_ENCODING_ID_HPP
+#endif

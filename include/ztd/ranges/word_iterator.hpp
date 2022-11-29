@@ -210,13 +210,13 @@ namespace ztd { namespace ranges {
 				auto& __base_range = this->_M_base_range();
 				if constexpr (_IsInput) {
 					auto __result         = __rng_detail::__copy(__write_storage_first, __write_storage_last,
-						        ranges_adl::adl_begin(::std::move(__base_range)),
-						        ranges_adl::adl_end(::std::move(__base_range)));
+						        ::ztd::ranges::begin(::std::move(__base_range)),
+						        ::ztd::ranges::end(::std::move(__base_range)));
 					this->_M_base_range() = reconstruct(::std::in_place_type<_URange>, ::std::move(__result.out));
 				}
 				else {
 					__rng_detail::__copy(__write_storage_first, __write_storage_last,
-						ranges_adl::adl_begin(__base_range), ranges_adl::adl_end(__base_range));
+						::ztd::ranges::begin(__base_range), ::ztd::ranges::end(__base_range));
 				}
 				return *this;
 			}
@@ -230,7 +230,7 @@ namespace ztd { namespace ranges {
 				}
 				__base_value_type __read_storage[__base_values_per_word] {};
 				__base_value_type* __read_storage_first = __read_storage + 0;
-				::std::size_t __read_storage_size       = ranges_adl::adl_size(__read_storage);
+				::std::size_t __read_storage_size       = ::ztd::ranges::size(__read_storage);
 				__value_type __val {};
 				if constexpr (_IsInput) {
 					// input iterator here (output iterstors cannot be used)
@@ -238,7 +238,7 @@ namespace ztd { namespace ranges {
 					// use iterator directly, re-update it when we are done
 					// to prevent failure
 					auto& __base_range = this->_M_base_range();
-					auto __result = __rng_detail::__copy_n_unsafe(ranges_adl::adl_begin(::std::move(__base_range)),
+					auto __result = __rng_detail::__copy_n_unsafe(::ztd::ranges::begin(::std::move(__base_range)),
 						__read_storage_size, __read_storage_first);
 					this->_M_base_range() = ranges::reconstruct(::std::in_place_type<_URange>,
 						::std::move(__result.in).begin().base(), ::std::move(__base_range).end());
@@ -246,7 +246,7 @@ namespace ztd { namespace ranges {
 				else {
 					// prevent feed-updating iterator through usage here
 					// just copy-and-use
-					auto __base_it_copy            = ranges_adl::adl_begin(this->_M_base_range());
+					auto __base_it_copy            = ::ztd::ranges::begin(this->_M_base_range());
 					[[maybe_unused]] auto __result = __rng_detail::__copy_n_unsafe(
 						::std::move(__base_it_copy), __read_storage_size, __read_storage_first);
 				}
@@ -434,9 +434,9 @@ namespace ztd { namespace ranges {
 				this->__base_storage_t::_M_val = ::std::nullopt;
 			}
 			else {
-				auto __first_it = ranges_adl::adl_begin(::std::move(this->__base_storage_t::get_value()));
-				auto __last_it  = ranges_adl::adl_end(::std::move(this->__base_storage_t::get_value()));
-				ranges::advance(__first_it, __base_values_per_word);
+				auto __first_it = ::ztd::ranges::begin(::std::move(this->__base_storage_t::get_value()));
+				auto __last_it  = ::ztd::ranges::end(::std::move(this->__base_storage_t::get_value()));
+				::ztd::ranges::iter_advance(__first_it, __base_values_per_word);
 				this->__base_storage_t::get_value() = ranges::reconstruct(
 					::std::in_place_type<_URange>, ::std::move(__first_it), ::std::move(__last_it));
 			}
@@ -488,9 +488,9 @@ namespace ztd { namespace ranges {
 			if (__by < static_cast<difference_type>(0)) {
 				return this->operator+=(-__by);
 			}
-			auto __first_it = ranges_adl::adl_begin(::std::move(this->__base_storage_t::get_value()));
-			auto __last_it  = ranges_adl::adl_end(::std::move(this->__base_storage_t::get_value()));
-			ranges::advance(__first_it, __base_values_per_word * __by);
+			auto __first_it = ::ztd::ranges::begin(::std::move(this->__base_storage_t::get_value()));
+			auto __last_it  = ::ztd::ranges::end(::std::move(this->__base_storage_t::get_value()));
+			::ztd::ranges::iter_advance(__first_it, __base_values_per_word * __by);
 			this->__base_storage_t::get_value() = ranges::reconstruct(
 				::std::in_place_type<_URange>, ::std::move(__first_it), ::std::move(__last_it));
 			return *this;
@@ -532,8 +532,8 @@ namespace ztd { namespace ranges {
 			if (__by < static_cast<difference_type>(0)) {
 				return this->operator+=(-__by);
 			}
-			auto __first_it = ranges_adl::adl_begin(::std::move(this->__base_storage_t::get_value()));
-			auto __last_it  = ranges_adl::adl_end(::std::move(this->__base_storage_t::get_value()));
+			auto __first_it = ::ztd::ranges::begin(::std::move(this->__base_storage_t::get_value()));
+			auto __last_it  = ::ztd::ranges::end(::std::move(this->__base_storage_t::get_value()));
 			__recede(__first_it, __base_values_per_word * __by);
 			this->__base_storage_t::get_value() = ranges::reconstruct(
 				::std::in_place_type<_URange>, ::std::move(__first_it), ::std::move(__last_it));
@@ -650,11 +650,11 @@ namespace ztd { namespace ranges {
 
 		constexpr bool _M_base_is_empty() const noexcept {
 			if constexpr (is_detected_v<ranges::detect_adl_empty, range_type>) {
-				return ranges_adl::adl_empty(this->__base_storage_t::get_value());
+				return ::ztd::ranges::empty(this->__base_storage_t::get_value());
 			}
 			else {
-				return ranges_adl::adl_begin(this->__base_storage_t::get_value())
-					== ranges_adl::adl_end(this->__base_storage_t::get_value());
+				return ::ztd::ranges::begin(this->__base_storage_t::get_value())
+					== ::ztd::ranges::end(this->__base_storage_t::get_value());
 			}
 		}
 	};
@@ -664,4 +664,4 @@ namespace ztd { namespace ranges {
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_RANGES_WORD_ITERATOR_HPP
+#endif

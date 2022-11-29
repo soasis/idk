@@ -89,4 +89,4 @@
 
 // clang-format on
 
-#endif // ZTD_OPAQUE_IDK_BENCHMARKS_OPAQUE_VERSION_HPP
+#endif

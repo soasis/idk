@@ -52,7 +52,7 @@ static void count_naive(benchmark::State& state) {
 			result += static_cast<std::size_t>(*it);
 		}
 	}
-	if (result != state.iterations()) {
+	if (result != static_cast<std::size_t>(state.iterations())) {
 		state.SkipWithError("bad benchmark result");
 	}
 }
@@ -77,7 +77,7 @@ static void count_naive_packed(benchmark::State& state) {
 			}
 		}
 	}
-	if (result != state.iterations()) {
+	if (result != static_cast<std::size_t>(state.iterations())) {
 		state.SkipWithError("bad benchmark result");
 	}
 }
@@ -100,7 +100,7 @@ static void count_ztdc_packed(benchmark::State& state) {
 			result += ztdc_count_ones(*it);
 		}
 	}
-	if (result != state.iterations()) {
+	if (result != static_cast<std::size_t>(state.iterations())) {
 		state.SkipWithError("bad benchmark result");
 	}
 }
@@ -115,7 +115,7 @@ static void count_cpp_std_array_bool(benchmark::State& state) {
 	for (auto _ : state) {
 		result += std::count(c.cbegin(), c.cend(), true);
 	}
-	if (result != state.iterations()) {
+	if (result != static_cast<std::size_t>(state.iterations())) {
 		state.SkipWithError("bad benchmark result");
 	}
 }
@@ -129,7 +129,7 @@ static void count_cpp_std_vector_bool(benchmark::State& state) {
 	for (auto _ : state) {
 		result += std::count(c.cbegin(), c.cend(), true);
 	}
-	if (result != state.iterations()) {
+	if (result != static_cast<std::size_t>(state.iterations())) {
 		state.SkipWithError("bad benchmark result");
 	}
 }
@@ -147,7 +147,7 @@ static void count_cpp_std_bitset(benchmark::State& state) {
 			}
 		}
 	}
-	if (result != state.iterations()) {
+	if (result != static_cast<std::size_t>(state.iterations())) {
 		state.SkipWithError("bad benchmark result");
 	}
 }

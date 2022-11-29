@@ -35,4 +35,4 @@
 
 #include <ztd/version/version.h>
 
-#endif // ZTD_VERSION_H
+#endif

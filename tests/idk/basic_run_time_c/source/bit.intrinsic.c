@@ -28,22 +28,11 @@
 //
 // ============================================================================ //
 
-#pragma once
+#include "c_test.h"
 
-#ifndef ZTD_IDK_HPP
-#define ZTD_IDK_HPP
+#include <ztd/idk/bit.h>
 
-#include <ztd/idk/version.hpp>
-
-#include <ztd/idk/ebco.hpp>
-#include <ztd/idk/empty_string.hpp>
-#include <ztd/idk/charN_t.hpp>
-#include <ztd/idk/hijack.hpp>
-#include <ztd/idk/to_address.hpp>
-#include <ztd/idk/to_underlying.hpp>
-#include <ztd/idk/reference_wrapper.hpp>
-#include <ztd/idk/span.hpp>
-#include <ztd/idk/tag.hpp>
-#include <ztd/idk/type_traits.hpp>
-
-#endif
+extern int bit_intrinsic_tests(void) {
+	BEGIN_TEST("bit intrisics");
+	END_TEST();
+}

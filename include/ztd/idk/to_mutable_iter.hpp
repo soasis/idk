@@ -56,9 +56,8 @@ namespace ztd {
 
 		template <typename _Type>
 		using __has_pair_iterator_insert_test
-		     = decltype(::std::declval<_Type&>().insert(ztd::ranges::ranges_adl::adl_cbegin(::std::declval<_Type&>()),
-		          ztd::ranges::ranges_adl::adl_cbegin(::std::declval<_Type&>()),
-		          ztd::ranges::ranges_adl::adl_cend(::std::declval<_Type&>())));
+		     = decltype(::std::declval<_Type&>().insert(::ztd::ranges::cbegin(::std::declval<_Type&>()),
+		          ::ztd::ranges::cbegin(::std::declval<_Type&>()), ::ztd::ranges::cend(::std::declval<_Type&>())));
 	} // namespace __idk_detail
 
 	template <typename __Iter>
@@ -87,8 +86,8 @@ namespace ztd {
 					// or p if i == j."
 					// in other words, this is our cheat code to avoid
 					// hitting the worst-case-scenario here
-					return __source.insert(::std::forward<_FromIt>(__from_it),
-					     ztd::ranges::ranges_adl::adl_cend(__source), ztd::ranges::ranges_adl::adl_cend(__source));
+					return __source.insert(::std::forward<_FromIt>(__from_it), ::ztd::ranges::cend(__source),
+					     ::ztd::ranges::cend(__source));
 				}
 				else if constexpr (::std::is_invocable_r_v<bool, ::std::not_equal_to<>, _ToIt, _FromIt> // cf
 				     && (::ztd::ranges::is_iterator_forward_iterator_v<_FromIt>                         // cf
@@ -97,14 +96,14 @@ namespace ztd {
 					// by just moving up by them if they're
 					// comparable to one another
 					if constexpr (__from == __iter_start::__begin) {
-						auto __begin_it = ztd::ranges::ranges_adl::adl_begin(__source);
+						auto __begin_it = ::ztd::ranges::begin(__source);
 						while (__begin_it != __from_it) {
 							++__begin_it;
 						}
 						return __begin_it;
 					}
 					else {
-						auto __end_it = ztd::ranges::ranges_adl::adl_end(__source);
+						auto __end_it = ::ztd::ranges::end(__source);
 						while (__end_it != __from_it) {
 							--__end_it;
 						}
@@ -115,7 +114,7 @@ namespace ztd {
 					if constexpr (__from == __iter_start::__begin) {
 						// either this is random access and O(1),
 						// or this is some other weird iterator and it's O(2N)
-						auto __begin_it = ztd::ranges::ranges_adl::adl_begin(__source);
+						auto __begin_it = ::ztd::ranges::begin(__source);
 						auto __it_dist = ::std::distance(_FromIt(__begin_it), ::std::forward<_FromIt>(__from_it));
 						std::advance(__begin_it, __it_dist);
 						return __begin_it;
@@ -123,7 +122,7 @@ namespace ztd {
 					else {
 						// either this is random access and O(1),
 						// or this is some other weird iterator and it's O(2N)
-						auto __end_it  = ztd::ranges::ranges_adl::adl_end(__source);
+						auto __end_it  = ::ztd::ranges::end(__source);
 						auto __it_dist = ::std::distance(::std::forward<_FromIt>(__from_it), _FromIt(__end_it));
 						std::advance(__end_it, -__it_dist);
 						return __end_it;
@@ -151,4 +150,4 @@ namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd
 
-#endif // ZTD_IDK_TO_MUTABLE_ITER_HPP
+#endif

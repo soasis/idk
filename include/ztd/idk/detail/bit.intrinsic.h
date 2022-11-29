@@ -135,26 +135,26 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ int ztdc_first_trailing_zeroull
      unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
 
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned char ztdc_rotate_leftuc(
-     unsigned char value, int __count) ZTD_CXX_NOEXCEPT_I_;
+     unsigned char value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned short ztdc_rotate_leftus(
-     unsigned short value, int __count) ZTD_CXX_NOEXCEPT_I_;
+     unsigned short value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_rotate_leftui(
-     unsigned int value, int __count) ZTD_CXX_NOEXCEPT_I_;
+     unsigned int value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned long ztdc_rotate_leftul(
-     unsigned long value, int __count) ZTD_CXX_NOEXCEPT_I_;
+     unsigned long value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned long long ztdc_rotate_leftull(
-     unsigned long long value, int __count) ZTD_CXX_NOEXCEPT_I_;
+     unsigned long long value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
 
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned char ztdc_rotate_rightuc(
-     unsigned char value, int __count) ZTD_CXX_NOEXCEPT_I_;
+     unsigned char value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned short ztdc_rotate_rightus(
-     unsigned short value, int __count) ZTD_CXX_NOEXCEPT_I_;
+     unsigned short value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_rotate_rightui(
-     unsigned int value, int __count) ZTD_CXX_NOEXCEPT_I_;
+     unsigned int value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned long ztdc_rotate_rightul(
-     unsigned long value, int __count) ZTD_CXX_NOEXCEPT_I_;
+     unsigned long value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned long long ztdc_rotate_rightull(
-     unsigned long long value, int __count) ZTD_CXX_NOEXCEPT_I_;
+     unsigned long long value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
 
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_has_single_bituc(unsigned char value) ZTD_CXX_NOEXCEPT_I_;
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_has_single_bitus(unsigned short value) ZTD_CXX_NOEXCEPT_I_;
@@ -193,4 +193,4 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned long long ztdc_bit_wid
 
 ZTD_EXTERN_C_CLOSE_I_
 
-#endif // ZTD_IDK_DETAIL_BIT_INTRINSIC_H
+#endif

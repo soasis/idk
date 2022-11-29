@@ -131,7 +131,7 @@ namespace ztd { namespace ranges {
 			for (;;) {
 				// we know these are different, so
 				// do a swap
-				ranges_adl::adl_iter_swap(__first, __last);
+				::ztd::ranges::iter_swap(__first, __last);
 				--__last;
 				if (__first == __last) {
 					break;
@@ -369,4 +369,4 @@ namespace ztd { namespace ranges {
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_RANGES_DETAIL_ALGORITHM_HPP
+#endif

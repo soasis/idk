@@ -182,4 +182,4 @@
 
 // clang-format on
 
-#endif // ZTD_VERSION_DETAIL_API_H
+#endif

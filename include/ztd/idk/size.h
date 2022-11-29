@@ -48,4 +48,4 @@
 #define ztd_c_array_bit_size(...) (ztd_c_array_byte_size(__VA_ARGS__) * CHAR_BIT)
 #define ztd_c_string_array_bit_size(...) (ztd_c_string_array_byte_size(__VA_ARGS__) * CHAR_BIT)
 
-#endif // ZTD_IDK_SIZE_H
+#endif

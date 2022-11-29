@@ -227,4 +227,4 @@ namespace std {
 
 } // namespace std
 
-#endif // ZTD_RANGES_WRAPPED_POINTER_HPP
+#endif

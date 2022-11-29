@@ -147,4 +147,4 @@ namespace ztd {
 
 #include <ztd/epilogue.hpp>
 
-#endif // ZTD_IDK_CHAR_TRAITS_HPP
+#endif

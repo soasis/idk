@@ -30,8 +30,8 @@
 
 #pragma once
 
-#ifndef ZTD_STATIC_ASSERT_H
-#define ZTD_STATIC_ASSERT_H
+#ifndef ZTD_IDK_THREAD_LOCAL_H
+#define ZTD_IDK_THREAD_LOCAL_H
 
 #include <ztd/idk/version.h>
 
@@ -46,4 +46,4 @@
 #endif
 #endif
 
-#endif // ZTD_STATIC_ASSERT_H
+#endif

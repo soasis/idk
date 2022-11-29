@@ -110,4 +110,4 @@
 #endif
 // clang-format on
 
-#endif // ZTD_VERSION_DETAIL_IS_H
+#endif

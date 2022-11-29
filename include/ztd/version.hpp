@@ -35,4 +35,4 @@
 
 #include <ztd/version/version.hpp>
 
-#endif // ZTD_VERSION_HPP
+#endif

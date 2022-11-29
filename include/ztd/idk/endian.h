@@ -101,4 +101,4 @@
 //////
 #endif
 
-#endif // ZTD_IDK_ENDIAN_H
+#endif

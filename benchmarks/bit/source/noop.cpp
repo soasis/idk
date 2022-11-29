@@ -35,7 +35,7 @@ static void noop(benchmark::State& state) {
 	for (auto _ : state) {
 		result += 1;
 	}
-	if (result != state.iterations()) {
+	if (result != static_cast<std::size_t>(state.iterations())) {
 		state.SkipWithError("no-op has failed: check fundamental assumptions!");
 	}
 }
