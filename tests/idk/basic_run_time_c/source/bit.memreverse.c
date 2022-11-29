@@ -34,7 +34,8 @@
 
 #include <ztd/tests/bit_constant.h>
 
-#define SELECT_BIT_REVERSE_FUNCTION_(TEST_TYPE, TEST_TYPE_SIZE) ((void (*)(void))(ztdc_memreverse8u##TEST_TYPE_SIZE))
+#define SELECT_BIT_REVERSE_FUNCTION_(TEST_TYPE, TEST_TYPE_SIZE) \
+	((TEST_TYPE(*)(TEST_TYPE))(&ztdc_memreverse8u##TEST_TYPE_SIZE))
 #define SELECT_BIT_REVERSE_FUNCTION(TEST_TYPE)                                             \
 	((sizeof(TEST_TYPE) * CHAR_BIT == 8)                                                  \
 	          ? SELECT_BIT_REVERSE_FUNCTION_(TEST_TYPE, 8)                                \
@@ -70,28 +71,28 @@
 	                                        ? SELECT_REVERSE_BIT_CONSTANT_(TEST_TYPE, 64) \
 	                                        : SELECT_REVERSE_BIT_CONSTANT_(TEST_TYPE, 64)))))
 
-#define GENERATE_TEST_CASE(TEST_TYPE)                                                                                \
-	TEST_CASE(                                                                                                      \
-	     "Ensure that the 8-bit memory reverse algorithm works on appropriately-sized variables for \"" #TEST_TYPE  \
-	     "\".",                                                                                                     \
-	     "[bit][memreverse][8-bit][small][" #TEST_TYPE "]") {                                                       \
-		const TEST_TYPE expected_value         = SELECT_BIT_CONSTANT(TEST_TYPE);                                   \
-		const TEST_TYPE expected_reverse_value = SELECT_REVERSE_BIT_CONSTANT(TEST_TYPE);                           \
-                                                                                                                     \
-		SECTION("raw memory reverse") {                                                                            \
-			TEST_TYPE value = expected_value;                                                                     \
-			REQUIRE(value == expected_value);                                                                     \
-			ztdc_memreverse8(sizeof(value), (unsigned char*)(&value));                                            \
-			REQUIRE(value == expected_reverse_value);                                                             \
-		}                                                                                                          \
-		SECTION("value-based memory reverse") {                                                                    \
-			TEST_TYPE value = expected_value;                                                                     \
-			REQUIRE(value == expected_value);                                                                     \
-			TEST_TYPE reverse_value = ((TEST_TYPE(*)(TEST_TYPE))(SELECT_BIT_REVERSE_FUNCTION(TEST_TYPE)))(value); \
-			REQUIRE(value == expected_value);                                                                     \
-			REQUIRE(reverse_value == expected_reverse_value);                                                     \
-		}                                                                                                          \
-	}                                                                                                               \
+#define GENERATE_TEST_CASE(TEST_TYPE)                                                                               \
+	TEST_CASE(                                                                                                     \
+	     "Ensure that the 8-bit memory reverse algorithm works on appropriately-sized variables for \"" #TEST_TYPE \
+	     "\".",                                                                                                    \
+	     "[bit][memreverse][8-bit][small][" #TEST_TYPE "]") {                                                      \
+		const TEST_TYPE expected_value         = SELECT_BIT_CONSTANT(TEST_TYPE);                                  \
+		const TEST_TYPE expected_reverse_value = SELECT_REVERSE_BIT_CONSTANT(TEST_TYPE);                          \
+                                                                                                                    \
+		SECTION("raw memory reverse") {                                                                           \
+			TEST_TYPE value = expected_value;                                                                    \
+			REQUIRE(value == expected_value);                                                                    \
+			ztdc_memreverse8(sizeof(value), (unsigned char*)(&value));                                           \
+			REQUIRE(value == expected_reverse_value);                                                            \
+		}                                                                                                         \
+		SECTION("value-based memory reverse") {                                                                   \
+			TEST_TYPE value = expected_value;                                                                    \
+			REQUIRE(value == expected_value);                                                                    \
+			TEST_TYPE reverse_value = SELECT_BIT_REVERSE_FUNCTION(TEST_TYPE)(value);                             \
+			REQUIRE(value == expected_value);                                                                    \
+			REQUIRE(reverse_value == expected_reverse_value);                                                    \
+		}                                                                                                         \
+	}                                                                                                              \
 	ztd_static_assert(1, "")
 
 extern int bit_memreverse_tests(void) {
