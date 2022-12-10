@@ -36,10 +36,13 @@
 #include <ztd/idk/version.hpp>
 
 #include <ztd/idk/shift_jis.tables.h>
+#include <ztd/ranges/algorithm.hpp>
+#include <ztd/ranges/adl.hpp>
 
 #include <cstddef>
 #include <optional>
 #include <iterator>
+#include <algorithm>
 
 #include <ztd/prologue.hpp>
 
@@ -54,12 +57,12 @@ namespace ztd {
 	inline constexpr ::std::optional<ztd_char32_t> shift_jis_index_to_code_point(
 	     ::std::size_t __lookup_index_pointer) noexcept {
 		const ztd_sjis_index_t __lookup_index = static_cast<ztd_sjis_index_t>(__lookup_index_pointer);
-		auto __it                             = ::std::lower_bound(std::cbegin(ztd_shift_jis_index_code_point_map),
-		                                 std::cend(ztd_shift_jis_index_code_point_map), __lookup_index, &less_than_index_target);
-		if (__it == std::cend(ztd_shift_jis_index_code_point_map)) {
+		auto __it_and_last = ::ztd::ranges::lower_bound(::ztd::ranges::cbegin(ztd_shift_jis_index_code_point_map),
+		     ::ztd::ranges::cend(ztd_shift_jis_index_code_point_map), __lookup_index, &::ztd::less_than_index_target);
+		if (__it_and_last.current == __it_and_last.last) {
 			return ::std::nullopt;
 		}
-		const ztd_sjis_index_codepoint_t& __index_and_codepoint = *__it;
+		const ztd_sjis_index_codepoint_t& __index_and_codepoint = *__it_and_last.current;
 		if (__index_and_codepoint[0] != __lookup_index) {
 			return ::std::nullopt;
 		}
@@ -70,12 +73,12 @@ namespace ztd {
 		auto __predicate = [&__code_point](const ztd_sjis_index_codepoint_t& __value) {
 			return __code_point == __value[1] && !(__value[0] > 8272 && __value[0] < 8835);
 		};
-		auto __it = std::find_if(std::cbegin(ztd_shift_jis_index_code_point_map),
-		     std::cend(ztd_shift_jis_index_code_point_map), __predicate);
-		if (__it == std::cbegin(ztd_shift_jis_index_code_point_map)) {
+		auto __it_and_last = ::ztd::ranges::find_if(::ztd::ranges::cbegin(ztd_shift_jis_index_code_point_map),
+		     ::ztd::ranges::cend(ztd_shift_jis_index_code_point_map), __predicate);
+		if (__it_and_last.current == __it_and_last.last) {
 			return std::nullopt;
 		}
-		const ztd_sjis_index_codepoint_t& __index_and_codepoint = *__it;
+		const ztd_sjis_index_codepoint_t& __index_and_codepoint = *__it_and_last.current;
 		return static_cast<::std::size_t>(__index_and_codepoint[0]);
 	}
 

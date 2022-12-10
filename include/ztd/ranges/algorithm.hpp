@@ -54,10 +54,6 @@ namespace ztd { namespace ranges {
 	ZTD_RANGES_INLINE_ABI_NAMESPACE_OPEN_I_
 
 	namespace __rng_detail {
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
-		template <typename _InItOrRange, typename _OutItOrRange>
-		using __in_out_result = ::std::ranges::in_out_result<_InItOrRange, _OutItOrRange>;
-#else
 
 		template <typename _InItOrRange, typename _OutItOrRange>
 		struct __in_out_result {
@@ -86,7 +82,46 @@ namespace ztd { namespace ranges {
 			}
 		};
 
+		template <typename _InItOrRange, typename _OutItOrRange>
+		struct __current_last_result {
+			_InItOrRange current;
+			_OutItOrRange last;
+
+			template <typename _ArgInIt, typename _ArgOutIt,
+				::std::enable_if_t<::std::is_convertible_v<const _InItOrRange&,
+				     _ArgInIt>&& ::std::is_convertible_v<const _OutItOrRange&, _ArgOutIt>>* = nullptr>
+			constexpr operator __current_last_result<_ArgInIt, _ArgOutIt>() const& {
+				return { current, last };
+			}
+
+			template <typename _ArgInIt, typename _ArgOutIt,
+				::std::enable_if_t<::std::is_convertible_v<const _InItOrRange&,
+				     _ArgInIt>&& ::std::is_convertible_v<const _OutItOrRange&, _ArgOutIt>>* = nullptr>
+			constexpr operator __current_last_result<_ArgInIt, _ArgOutIt>() & {
+				return { current, last };
+			}
+
+			template <typename _ArgInIt, typename _ArgOutIt,
+				::std::enable_if_t<::std::is_convertible_v<_InItOrRange,
+				     _ArgInIt>&& ::std::is_convertible_v<_OutItOrRange, _ArgOutIt>>* = nullptr>
+			constexpr operator __current_last_result<_ArgInIt, _ArgOutIt>() && {
+				return { ::std::move(current), ::std::move(last) };
+			}
+		};
+
+	} // namespace __rng_detail
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
+	template <typename _InItOrRange, typename _OutItOrRange>
+	using in_out_result = ::std::ranges::in_out_result<_InItOrRange, _OutItOrRange>;
+#else
+	template <typename _InItOrRange, typename _OutItOrRange>
+	using in_out_result = __rng_detail::__in_out_result<_InItOrRange, _OutItOrRange>;
 #endif
+
+	template <typename _InItOrRange, typename _OutItOrRange>
+	using current_last_result = __rng_detail::__current_last_result<_InItOrRange, _OutItOrRange>;
+
+	namespace __rng_detail {
 
 		template <typename _Iterator0, typename _Sentinel0, typename _Iterator1, typename _Sentinel1>
 		constexpr bool __equal(_Iterator0 __first0, _Sentinel0 __last0, _Iterator1 __first1, _Sentinel1 __last1) {
@@ -170,7 +205,7 @@ namespace ztd { namespace ranges {
 			using _ResultInIt = counted_iterator<_First>;
 			using _InRange    = subrange<_ResultInIt, default_sentinel_t>;
 			using _OutRange   = unbounded_view<_OutFirst>;
-			using _Result     = __in_out_result<_InRange, _OutRange>;
+			using _Result     = in_out_result<_InRange, _OutRange>;
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_CONSTANT_EVALUATED)
 			if (!::std::is_constant_evaluated())
 #else
@@ -179,9 +214,10 @@ namespace ztd { namespace ranges {
 			{
 				using _ValueType    = iterator_value_type_t<_First>;
 				using _OutValueType = iterator_value_type_t<_OutFirst>;
-				if constexpr (
-					is_iterator_contiguous_iterator_v<
-					     _First> && is_iterator_contiguous_iterator_v<_OutFirst> && ::std::has_unique_object_representations_v<_ValueType> && ::std::has_unique_object_representations_v<_OutValueType>) {
+				if constexpr (is_iterator_contiguous_iterator_v<_First>
+					&& is_iterator_contiguous_iterator_v<_OutFirst>
+					&& ::std::has_unique_object_representations_v<_ValueType>
+					&& ::std::has_unique_object_representations_v<_OutValueType>) {
 					auto __first_ptr              = ::ztd::to_address(__first);
 					auto __distance               = __size;
 					::std::size_t __byte_distance = sizeof(_ValueType) * __distance;
@@ -204,7 +240,7 @@ namespace ztd { namespace ranges {
 			__copy_unsafe_noexcept<_First, _Last, _OutFirst>()) {
 			using _InRange  = subrange<_First, _Last>;
 			using _OutRange = unbounded_view<_OutFirst>;
-			using _Result   = __in_out_result<_InRange, _OutRange>;
+			using _Result   = in_out_result<_InRange, _OutRange>;
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_CONSTANT_EVALUATED)
 			if (!::std::is_constant_evaluated())
 #else
@@ -213,9 +249,10 @@ namespace ztd { namespace ranges {
 			{
 				using _ValueType    = iterator_value_type_t<_First>;
 				using _OutValueType = iterator_value_type_t<_OutFirst>;
-				if constexpr (
-					is_iterator_contiguous_iterator_v<
-					     _First> && is_iterator_contiguous_iterator_v<_OutFirst> && ::std::has_unique_object_representations_v<_ValueType> && ::std::has_unique_object_representations_v<_OutValueType>) {
+				if constexpr (is_iterator_contiguous_iterator_v<_First>
+					&& is_iterator_contiguous_iterator_v<_OutFirst>
+					&& ::std::has_unique_object_representations_v<_ValueType>
+					&& ::std::has_unique_object_representations_v<_OutValueType>) {
 					auto __first_ptr              = ::ztd::to_address(__first);
 					auto __distance               = __last - __first;
 					::std::size_t __byte_distance = sizeof(_ValueType) * __distance;
@@ -238,7 +275,7 @@ namespace ztd { namespace ranges {
 			_OutFirstCount __out_size) noexcept(__copy_noexcept<_First, _FirstCount, _OutFirst, _OutFirstCount>()) {
 			using _InRange  = subrange<counted_iterator<_First>, default_sentinel_t>;
 			using _OutRange = subrange<counted_iterator<_OutFirst>, default_sentinel_t>;
-			using _Result   = __in_out_result<_InRange, _OutRange>;
+			using _Result   = in_out_result<_InRange, _OutRange>;
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_CONSTANT_EVALUATED)
 			if (!::std::is_constant_evaluated())
 #else
@@ -282,7 +319,7 @@ namespace ztd { namespace ranges {
 			__copy_noexcept<_First, _Last, _OutFirst, _OutLast>()) {
 			using _InRange  = subrange<_First, _Last>;
 			using _OutRange = subrange<_OutFirst, _OutLast>;
-			using _Result   = __in_out_result<_InRange, _OutRange>;
+			using _Result   = in_out_result<_InRange, _OutRange>;
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_CONSTANT_EVALUATED)
 			if (!::std::is_constant_evaluated())
 #else
@@ -301,7 +338,7 @@ namespace ztd { namespace ranges {
 					else {
 						auto __short_last = __first + __out_size;
 						auto __result     = __copy_unsafe(
-							    ::std::move(__first), ::std::move(__short_last), ::std::move(__out_first));
+                                   ::std::move(__first), ::std::move(__short_last), ::std::move(__out_first));
 						return _Result { ::std::move(__result.in),
 							_OutRange(::std::move(__result.out).begin(), ::std::move(__out_last)) };
 					}
@@ -363,6 +400,68 @@ namespace ztd { namespace ranges {
 		}
 
 	} // namespace __rng_detail
+
+	template <typename _It, typename _Last>
+	constexpr auto distance(_It&& __it, _Last&& __last) {
+		if constexpr (::ztd::ranges::is_iterator_concept_or_better_v<::std::random_access_iterator_tag, _It>) {
+			return __last - __it;
+		}
+		else {
+			::ztd::ranges::iterator_difference_type_t<_It> __diff = 0;
+			for (; __it != __last; ++__it) {
+				++__diff;
+			}
+			return __diff;
+		}
+	}
+
+	template <typename _It, typename _Last, typename _Pred>
+	constexpr current_last_result<_It, _Last> find_if(_It __first, _Last __last, _Pred __predicate) {
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_CONSTANT_EVALUATED)
+		if (!::std::is_constant_evaluated())
+#else
+		if (false)
+#endif
+		{
+			// TODO: constexpr-unfriendly implementation when possible
+		}
+		for (; __first != __last; ++__first) {
+			if (__predicate(*__first)) {
+				return { ::std::move(__first), ::std::move(__last) };
+			}
+		}
+		return { ::std::move(__first), ::std::move(__last) };
+	}
+
+	template <typename _It, typename _Last, typename _Ty, typename _Compare>
+	constexpr current_last_result<_It, _Last> lower_bound(
+		_It __first, _Last __last, const _Ty& __target_val, _Compare __compare) {
+		using _Diff = ::ztd::ranges::iterator_difference_type_t<_It>;
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_CONSTANT_EVALUATED)
+		if (!::std::is_constant_evaluated())
+#else
+		if (false)
+#endif
+		{
+			// TODO: constexpr-unfriendly implementation when possible
+		}
+		_It __it      = {};
+		_Diff __count = ::ztd::ranges::distance(__first, __last);
+		_Diff __step  = 0;
+		while (__count > 0) {
+			__it   = __first;
+			__step = __count / 2;
+			::ztd::ranges::iter_advance(__it, __step);
+			if (__compare(*__it, __target_val)) {
+				__first = ++__it;
+				__count -= __step + 1;
+			}
+			else {
+				__count = __step;
+			}
+		}
+		return { ::std::move(__it), ::std::move(__last) };
+	}
 
 	ZTD_RANGES_INLINE_ABI_NAMESPACE_CLOSE_I_
 }} // namespace ztd::ranges
