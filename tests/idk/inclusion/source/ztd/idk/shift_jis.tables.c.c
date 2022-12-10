@@ -28,30 +28,4 @@
 //
 // ============================================================================ //
 
-#pragma once
-
-#ifndef ZTD_IDK_EXTENT_H
-#define ZTD_IDK_EXTENT_H
-
-#include <ztd/idk/version.h>
-
-//////
-///	@addtogroup ztd_idk_extent Extent Utilities
-///
-/// @{
-//////
-
-//////
-/// @brief Provides the `T arg[static N]` functionality ("sized at least `N` large" hint).
-///
-/// @param[in] ... An expression which computes the intended size of the pointer argument.
-///
-/// @remarks Expands to the proper notation for C compilers, and expands to nothing for C++ compilers. It is meant to be
-/// used as in the declaration: `void f(T arg[ZTD_PTR_EXTENT(N)]);`.
-#define ZTD_PTR_EXTENT(...) ZTD_STATIC_PTR_EXTENT_I_(__VA_ARGS__)
-
-//////
-/// @}
-//////
-
-#endif
+#include <ztd/idk/shift_jis.tables.h>

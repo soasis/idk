@@ -28,30 +28,28 @@
 //
 // ============================================================================ //
 
-#pragma once
-
-#ifndef ZTD_IDK_EXTENT_H
-#define ZTD_IDK_EXTENT_H
-
 #include <ztd/idk/version.h>
 
-//////
-///	@addtogroup ztd_idk_extent Extent Utilities
-///
-/// @{
-//////
+#include <ztd/idk/shift_jis.tables.h>
 
-//////
-/// @brief Provides the `T arg[static N]` functionality ("sized at least `N` large" hint).
-///
-/// @param[in] ... An expression which computes the intended size of the pointer argument.
-///
-/// @remarks Expands to the proper notation for C compilers, and expands to nothing for C++ compilers. It is meant to be
-/// used as in the declaration: `void f(T arg[ZTD_PTR_EXTENT(N)]);`.
-#define ZTD_PTR_EXTENT(...) ZTD_STATIC_PTR_EXTENT_I_(__VA_ARGS__)
+#include <ztd/idk/shift_jis.tables.hpp>
 
-//////
-/// @}
-//////
+ZTD_EXTERN_C_I_ bool ztdc_shift_jis_index_to_code_point(
+     size_t __lookup_index_pointer, ztd_char32_t* __p_code_point) ZTD_NOEXCEPT_IF_CXX_I_ {
+	auto __val = ztd::shift_jis_index_to_code_point(__lookup_index_pointer);
+	if (__val) {
+		*__p_code_point = *__val;
+		return true;
+	}
+	return false;
+}
 
-#endif
+ZTD_EXTERN_C_I_ bool ztdc_shift_jis_code_point_to_index(
+     ztd_char32_t __code_point, size_t* __p_index) ZTD_NOEXCEPT_IF_CXX_I_ {
+	auto __val = ztd::shift_jis_code_point_to_index(__code_point);
+	if (__val) {
+		*__p_index = *__val;
+		return true;
+	}
+	return false;
+}

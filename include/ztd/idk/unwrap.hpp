@@ -38,6 +38,7 @@
 #include <ztd/idk/type_traits.hpp>
 #include <ztd/idk/to_address.hpp>
 #include <ztd/idk/contiguous_iterator_tag.hpp>
+#include <ztd/idk/reference_wrapper.hpp>
 #include <ztd/idk/hijack.hpp>
 
 #include <utility>
@@ -72,6 +73,10 @@ namespace ztd {
 			template <typename _Type>
 			constexpr decltype(auto) operator()(_Type&& __value) const noexcept {
 				if constexpr (is_specialization_of_v<remove_cvref_t<_Type>, ::std::reference_wrapper>) {
+					return __value.get();
+				}
+				else if constexpr (is_specialization_of_v<remove_cvref_t<_Type>,
+				                        ::ztd::__idk_detail::__reference_wrapper>) {
 					return __value.get();
 				}
 				else if constexpr (is_unwrappable_value_v<_Type>) {

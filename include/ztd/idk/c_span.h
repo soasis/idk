@@ -48,7 +48,6 @@
 ///
 /// @remarks This definition is required. If a type is not provided and the generation header is included, then an error
 /// will be produced.
-//////
 #define ZTD_IDK_C_SPAN_TYPE
 
 //////
@@ -57,7 +56,6 @@
 /// @remarks This definition is optional. The default is whatever ZTD_IDK_C_SPAN_TYPE is. However, that may be bad since
 /// sometimes type names can have spaces in them (such as `unsigned char`). Therefore, one can se names to make it all
 /// better, like `uchar` to represent `unsigned char`.
-//////
 #define ZTD_IDK_C_SPAN_TYPE_NAME
 //////
 /// @brief The size type used to create a new c_span type.
@@ -66,7 +64,6 @@
 /// beneficial than the original size_type. Some may also want to provide a signed type rather than an unsigned type.
 /// Note that contract checks will still check for things such as `> 0` or `< size`, even if what is provided is a
 /// signed size type (span will not allow negative indexing, where viable).
-//////
 #define ZTD_IDK_C_SPAN_SIZE_TYPE
 //////
 /// @brief The name to use when generating the function and structure names.
@@ -74,7 +71,6 @@
 /// @remarks This definition is optional. Normally, it would be defaulted to whatever ZTD_IDK_C_SPAN_SIZE_TYPE is.
 /// However, that may be bad since sometimes type names can have spaces in them (such as `long long`). Therefore, one
 /// can se names to make it all better, like `uchar` to represent `unsigned char`.
-//////
 #define ZTD_IDK_C_SPAN_SIZE_TYPE_NAME
 //////
 /// @brief The whole name of the generated type.
@@ -83,7 +79,6 @@
 /// unique name for the newly generated c_span. The first generated attempt is just using `c_span{type name}{size
 /// type}`, where the size type is only used if ZTD_IDK_C_SPAN_SIZE_TYPE is also defined by you. Otherwise, it defaults
 /// to just `c_span{type name}` (without the brackets and with the names substituted in).
-//////
 #define ZTD_IDK_C_SPAN_NAME
 //////
 /// @brief Whether or not the size type comes before the pointer.
@@ -91,7 +86,6 @@
 /// @remarks This definition is optional. When not provided, the default layout is `{ pointer_type , size_type }`. If
 /// this is defined and its value is 1, the layout is `{ size_type, pointer_type }`. This can aid when generating
 /// certain types that are meant to be compatible with other kinds of buffers, e.g. with POSIX's `iovec`.
-//////
 #define ZTD_IDK_C_SPAN_SIZE_FIRST
 
 #undef ZTD_IDK_C_SPAN_TYPE
@@ -108,7 +102,6 @@
 
 //////
 /// @cond ZTD_DOXYGEN_DO_NOT_DOCUMENT
-//////
 #define ZTD_IDK_C_SPAN_TYPE char
 #include <ztd/idk/c_span.g.h>
 

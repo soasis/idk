@@ -36,6 +36,7 @@
 #include <ztd/idk/version.h>
 
 #include <ztd/idk/charN_t.h>
+#include <ztd/idk/bit.h>
 
 ZTD_INLINE_CONSTEXPR_IF_CXX_I_ const ztd_char32_t __ztd_idk_detail_replacement       = 0xFFFD;
 ZTD_INLINE_CONSTEXPR_IF_CXX_I_ const ztd_char32_t __ztd_idk_detail_ascii_replacement = 0x003F;
@@ -93,12 +94,23 @@ inline ZTD_CONSTEXPR_IF_CXX_I_ bool __ztd_idk_detail_is_trail_surrogate(ztd_char
 inline ZTD_CONSTEXPR_IF_CXX_I_ bool __ztd_idk_detail_is_surrogate(ztd_char32_t __value) ZTD_NOEXCEPT_IF_CXX_I_ {
 	return __value >= __ztd_idk_detail_first_surrogate && __value <= __ztd_idk_detail_last_surrogate;
 }
+inline ZTD_CONSTEXPR_IF_CXX_I_ bool __ztd_idk_detail_is_lead_overlong_utf8(ztd_char8_t __value) ZTD_NOEXCEPT_IF_CXX_I_ {
+	return (__value & __ztd_idk_detail_continuation_mask) != __ztd_idk_detail_continuation_signature;
+}
 inline ZTD_CONSTEXPR_IF_CXX_I_ bool __ztd_idk_detail_is_lead_utf8(ztd_char8_t __value) ZTD_NOEXCEPT_IF_CXX_I_ {
+	return (__value & __ztd_idk_detail_continuation_mask) != __ztd_idk_detail_continuation_signature
+	     && __value != (ztd_char8_t)(0xC0) && __value != (ztd_char8_t)(0xC1);
+}
+inline ZTD_CONSTEXPR_IF_CXX_I_ bool __ztd_idk_detail_is_lead_mutf8(ztd_char8_t __value) ZTD_NOEXCEPT_IF_CXX_I_ {
+	return (__value & __ztd_idk_detail_continuation_mask) != __ztd_idk_detail_continuation_signature
+	     && __value != (ztd_char8_t)(0xC1);
+}
+inline ZTD_CONSTEXPR_IF_CXX_I_ bool __ztd_idk_detail_is_trailing_utf8(ztd_char8_t __value) ZTD_NOEXCEPT_IF_CXX_I_ {
 	return (__value & __ztd_idk_detail_continuation_mask) == __ztd_idk_detail_continuation_signature;
 }
 inline ZTD_CONSTEXPR_IF_CXX_I_ bool __ztd_idk_detail_is_single_or_lead_utf8(
      ztd_char8_t __value) ZTD_NOEXCEPT_IF_CXX_I_ {
-	return __value <= static_cast<ztd_char8_t>(0x7F) || __ztd_idk_detail_is_lead_utf8(__value);
+	return __ztd_idk_detail_is_lead_utf8(__value);
 }
 inline ZTD_CONSTEXPR_IF_CXX_I_ bool __ztd_idk_detail_utf8_is_invalid(ztd_char8_t __value) ZTD_NOEXCEPT_IF_CXX_I_ {
 	return __value == 0xC0 || __value == 0xC1 || __value > 0xF4;
@@ -200,6 +212,11 @@ ZTD_INLINE_CONSTEXPR_IF_CXX_I_ const ztd_char32_t __ztd_idk_detail_normalizing_v
 ZTD_INLINE_CONSTEXPR_IF_CXX_I_ const int __ztd_idk_detail_lead_surrogate_bitmask     = 0xFFC00;
 ZTD_INLINE_CONSTEXPR_IF_CXX_I_ const int __ztd_idk_detail_trail_surrogate_bitmask    = 0x3FF;
 ZTD_INLINE_CONSTEXPR_IF_CXX_I_ const int __ztd_idk_detail_lead_shifted_bits          = 10;
+
+inline ZTD_CONSTEXPR_IF_CXX_I_ bool __ztd_idk_detail_is_single_or_lead_utf16(
+     ztd_char16_t __value) ZTD_NOEXCEPT_IF_CXX_I_ {
+	return __value <= __ztd_idk_detail_last_lead_surrogate;
+}
 
 inline ZTD_CONSTEXPR_IF_CXX_I_ ztd_char32_t __ztd_idk_detail_utf16_combine_surrogates(
      ztd_char16_t __lead, ztd_char16_t __trail) ZTD_NOEXCEPT_IF_CXX_I_ {

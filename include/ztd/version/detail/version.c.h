@@ -330,6 +330,19 @@
 	#define ZTD_DEBUG_I_ ZTD_DEFAULT_OFF
 #endif // We are in a debug mode of some sort
 
+#if defined(ZTD_ASSERT_CHECKS)
+	#if (ZTD_ASSERT_CHECKS != 0)
+		#define ZTD_ASSERT_CHECKS_I_ ZTD_ON
+	#else
+		#define ZTD_ASSERT_CHECKS_I_ ZTD_OFF
+	#endif
+#elif ZTD_IS_ON(ZTD_DEBUG)
+	#define ZTD_ASSERT_CHECKS_I_ ZTD_ON
+#else
+	#define ZTD_ASSERT_CHECKS_I_ ZTD_OFF
+#endif
+
+
 #if defined(ZTD_NL_LANGINFO)
 	#if (ZTD_NL_LANGINFO != 0)
 		#define ZTD_NL_LANGINFO_I_ ZTD_ON

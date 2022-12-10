@@ -52,119 +52,97 @@
 ///
 /// @param[in] ... The input value.
 ///
-/// @returns An `int` (or suitably large signed integer type) with the count.
-//////
+/// @returns an `unsigned int` (or suitably large unsigned integer type) with the count.
 #define ztdc_count_ones(...) _ZTDC_COUNT_ONES_I_(__VA_ARGS__)
 //////
 /// @brief Counts the number of zeros in a given unsigned integer.
 ///
 /// @param[in] ... The input value.
 ///
-/// @returns An `int` (or suitably large signed integer type) with the count.
-//////
+/// @returns an `unsigned int` (or suitably large unsigned integer type) with the count.
 #define ztdc_count_zeros(...) _ZTDC_COUNT_ZEROS_I_(__VA_ARGS__)
 //////
 /// @brief Counts the number of leading zeros in a given unsigned integer.
 ///
 /// @param[in] ... The input value.
 ///
-/// @returns An `int` (or suitably large signed integer type) with the count.
-//////
+/// @returns an `unsigned int` (or suitably large unsigned integer type) with the count.
 #define ztdc_count_leading_zeros(...) _ZTDC_COUNT_LEADING_ZEROS_I_(__VA_ARGS__)
 //////
 /// @brief Counts the number of trailing zeros in a given unsigned integer.
 ///
 /// @param[in] ... The input value.
 ///
-/// @returns An `int` (or suitably large signed integer type) with the count.
-//////
+/// @returns an `unsigned int` (or suitably large unsigned integer type) with the count.
 #define ztdc_count_trailing_zeros(...) _ZTDC_COUNT_TRAILING_ZEROS_I_(__VA_ARGS__)
 //////
 /// @brief Counts the number of leading ones in a given unsigned integer.
 ///
 /// @param[in] ... The input value.
 ///
-/// @returns An `int` (or suitably large signed integer type) with the count.
-//////
+/// @returns an `unsigned int` (or suitably large unsigned integer type) with the count.
 #define ztdc_count_leading_ones(...) _ZTDC_COUNT_LEADING_ONES_I_(__VA_ARGS__)
 //////
 /// @brief Counts the number of trailing ones in a given unsigned integer.
 ///
 /// @param[in] ... The input value.
 ///
-/// @returns An `int` (or suitably large signed integer type) with the count.
-//////
+/// @returns an `unsigned int` (or suitably large unsigned integer type) with the count.
 #define ztdc_count_trailing_ones(...) _ZTDC_COUNT_TRAILING_ONES_I_(__VA_ARGS__)
 //////
 /// @brief Finds the first trailing zero in a given unsigned integer value.
 ///
 /// @param[in] ... The input value.
 ///
-/// @returns If the bit is not found, returns `0`. Otherwise, returns an `int` (or suitably large enough signed integer)
-/// indicating the index of the found bit,
-/// **plus one**.
-//////
+/// @returns If the bit is not found, returns `0`. Otherwise, returns an `unsigned int` (or suitably large unsigned
+/// integer type) indicating the index of the found bit, **plus one**.
 #define ztdc_first_leading_zero(...) _ZTDC_FIRST_LEADING_ZERO_I_(__VA_ARGS__)
 //////
 /// @brief Finds the first trailing zero in a given unsigned integer value.
 ///
 /// @param[in] ... The input value.
 ///
-/// @returns If the bit is not found, returns `0`. Otherwise, returns an `int` (or suitably large enough signed integer)
-/// indicating the index of the found bit,
-/// **plus one**.
-//////
+/// @returns If the bit is not found, returns `0`. Otherwise, returns an `unsigned int` (or suitably large unsigned
+/// integer type) indicating the index of the found bit, **plus one**.
 #define ztdc_first_trailing_zero(...) _ZTDC_FIRST_TRAILING_ZERO_I_(__VA_ARGS__)
 //////
 /// @brief Finds the first leading one in a given unsigned integer value.
 ///
 /// @param[in] ... The input value.
 ///
-/// @returns If the bit is not found, returns `0`. Otherwise, returns an `int` (or suitably large enough signed integer)
-/// indicating the index of the found bit,
-/// **plus one**.
-//////
+/// @returns If the bit is not found, returns `0`. Otherwise, returns an `unsigned int` (or suitably large unsigned
+/// integer type) indicating the index of the found bit, **plus one**.
 #define ztdc_first_leading_one(...) _ZTDC_FIRST_LEADING_ONE_I_(__VA_ARGS__)
 //////
 /// @brief Finds the first trailing one in a given unsigned integer value.
 ///
 /// @param[in] ... The input value.
 ///
-/// @returns If the bit is not found, returns `0`. Otherwise, returns an `int` (or suitably large enough signed integer)
-/// indicating the index of the found bit,
-/// **plus one**.
-//////
+/// @returns If the bit is not found, returns `0`. Otherwise, returns an `unsigned int` (or suitably large unsigned
+/// integer type) indicating the index of the found bit, **plus one**.
 #define ztdc_first_trailing_one(...) _ZTDC_FIRST_TRAILING_ONE_I_(__VA_ARGS__)
 //////
 /// @brief Performs a cyclical shift left.
 ///
 /// @param[in] _VALUE The value to perform the cyclical shift left.
 /// @param[in] ... The rotation value.
-///
-/// @remarks If the rotation value is negative, calls ztdc_rotate_right with the negated modulus of the rotation.
-//////
 #define ztdc_rotate_left(_VALUE, ...) _ZTDC_ROTATE_LEFT_I_(_VALUE, __VA_ARGS__)
 //////
 /// @brief Performs a cyclical shift right.
 ///
 /// @param[in] _VALUE The value to perform the cyclical shift right.
 /// @param[in] ... The rotation value.
-///
-/// @remarks If the rotation value is negative, calls ztdc_rotate_right with the negated modulus of the rotation.
-//////
 #define ztdc_rotate_right(_VALUE, ...) _ZTDC_ROTATE_RIGHT_I_(_VALUE, __VA_ARGS__)
 //////
 /// @brief Returns whether or not there is a single bit set in this unsigned integer value (this making it a power of
 /// 2).
 ///
 /// @param[in] ... The input value.
-//////
 #define ztdc_has_single_bit(...) _ZTDC_HAS_SINGLE_BIT_I_(__VA_ARGS__)
 //////
 /// @brief Returns the number of bits needed to represent the value exactly.
 ///
 /// @param[in] ... The input value.
-//////
 #define ztdc_bit_width(...) _ZTDC_BIT_WIDTH_I_(__VA_ARGS__)
 //////
 /// @brief Returns the value that is the greatest power of 2 that is less than the input value.
@@ -173,7 +151,6 @@
 ///
 /// @returns `0` when the input value is `0`. Otherwise, produces the greatest power of 2 that is less than the input
 /// value.
-//////
 #define ztdc_bit_ceil(...) _ZTDC_BIT_CEIL_I_(__VA_ARGS__)
 //////
 /// @brief Returns the value that is the next power of 2.
@@ -182,7 +159,6 @@
 ///
 /// @returns `1` when the input value is less than or equal to `1`. Otherwise, produces the power of 2 that is higher
 /// than the input value.
-//////
 #define ztdc_bit_floor(...) _ZTDC_BIT_FLOOR_I_(__VA_ARGS__)
 
 //////

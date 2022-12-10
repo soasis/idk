@@ -83,22 +83,18 @@
 //////
 /// @brief Little endian, in which the least significant byte as the first byte value.
 ///
-//////
 #define ZTDC_LITTLE_ENDIAN
 //////
 /// @brief Big endian, in which the most significant byte as the first byte value.
 ///
-//////
 #define ZTDC_BIG_ENDIAN
 //////
 /// @brief Native endian, which is one of big, little, or some implementation-defined ordering (e.g., middle endian).
 /// If it is big or little, then `ZTD_NATIVE_ENDIAN == ZTD_LITTLE_ENDIAN`, or `ZTD_NATIVE_ENDIAN == ZTD_BIG_ENDIAN`.
-//////
 #define ZTDC_NATIVE_ENDIAN
 
 //////
 /// @}
-//////
 #endif
 
 #endif

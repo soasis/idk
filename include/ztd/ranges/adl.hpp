@@ -288,10 +288,10 @@ namespace ztd { namespace ranges {
 			using __detect_begin = decltype(begin(::std::declval<_Range>()));
 
 			template <typename _Range>
-			using __detect_cbegin = decltype(rbegin(::std::declval<_Range>()));
+			using __detect_rbegin = decltype(rbegin(::std::declval<_Range>()));
 
 			template <typename _Range>
-			using __detect_rbegin = decltype(cbegin(::std::declval<_Range>()));
+			using __detect_cbegin = decltype(cbegin(::std::declval<_Range>()));
 
 			template <typename _Range>
 			using __detect_crbegin = decltype(crbegin(::std::declval<_Range>()));
@@ -300,10 +300,10 @@ namespace ztd { namespace ranges {
 			using __detect_end = decltype(end(::std::declval<_Range>()));
 
 			template <typename _Range>
-			using __detect_cend = decltype(rend(::std::declval<_Range>()));
+			using __detect_rend = decltype(rend(::std::declval<_Range>()));
 
 			template <typename _Range>
-			using __detect_rend = decltype(cend(::std::declval<_Range>()));
+			using __detect_cend = decltype(cend(::std::declval<_Range>()));
 
 			template <typename _Range>
 			using __detect_crend = decltype(crend(::std::declval<_Range>()));

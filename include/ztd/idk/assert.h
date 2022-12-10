@@ -45,7 +45,7 @@
 #if defined(ZTD_ASSERT_USER)
 	#define ZTD_ASSERT_I_(...) ZTD_ASSERT_USER(__VA_ARGS__)
 #else
-	#if ZTD_IS_ON(ZTD_DEBUG)
+	#if ZTD_IS_ON(ZTD_ASSERT_CHECKS)
 		#if ZTD_IS_ON(ZTD_CXX)
 			#include <exception>
 			#include <iostream>
@@ -85,7 +85,7 @@
 #if defined(ZTD_ASSERT_USER)
 	#define ZTD_ASSERT_MESSAGE_I_(...) ZTD_ASSERT_MESSAGE_USER(__VA_ARGS__)
 #else
-	#if ZTD_IS_ON(ZTD_DEBUG)
+	#if ZTD_IS_ON(ZTD_ASSERT_CHECKS)
 		#if ZTD_IS_ON(ZTD_CXX)
 			#include <exception>
 			#include <iostream>
@@ -130,10 +130,9 @@
 /// @param[in] ... The conditional expressions to check against.
 ///
 /// @remarks The conditions must result in a value that is convertible to a boolean in a boolean context. This macro
-/// does nothing when `ZTD_DEBUG` is not detected. (It will still (void)-cast the used items, to prevent unused
+/// does nothing when `ZTD_ASSERT_CHECKS` is not detected. (It will still (void)-cast the used items, to prevent unused
 /// warnings.) If the condition is not reached, this function will perform either a user-defined action or
 /// terminate/exit (not abort).
-//////
 #define ZTD_ASSERT(...) ZTD_ASSERT_I_(__VA_ARGS__)
 
 //////
@@ -143,10 +142,9 @@
 /// @param[in] ... The conditional expressions to check against.
 ///
 /// @remarks The conditions must result in a value that is convertible to a boolean in a boolean context. This macro
-/// does nothing when `ZTD_DEBUG` is not detected. (It will still (void)-cast the used items, to prevent unused
+/// does nothing when `ZTD_ASSERT_CHECKS` is not detected. (It will still (void)-cast the used items, to prevent unused
 /// warnings.) If the condition is not reached, this function will perform either a user-defined action or
 /// terminate/exit (not abort).
-//////
 #define ZTD_ASSERT_MESSAGE(_MESSAGE, ...) ZTD_ASSERT_MESSAGE_I_(_MESSAGE, __VA_ARGS__)
 
 #include <ztd/epilogue.hpp>

@@ -39,13 +39,13 @@
 // clang-format off
 	#if ZTD_IS_ON(ZTD_BUILTIN_POPCOUNT)
 		#define _ZTDC_COUNT_ONES_GENERIC_I_(...)             \
-			_Generic((__VA_ARGS__), char                                   \
+			((unsigned int)_Generic((__VA_ARGS__), char                                   \
 			                : __builtin_popcount, unsigned char       \
 			                : __builtin_popcount, unsigned short      \
 			                : __builtin_popcount, unsigned int        \
 			                : __builtin_popcount, unsigned long       \
 			                : __builtin_popcountl, unsigned long long \
-			                : __builtin_popcountll)(__VA_ARGS__)
+			                : __builtin_popcountll)(__VA_ARGS__))
 	#endif
 // clang-format on
 #endif
@@ -59,18 +59,18 @@ namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
 	namespace __idk_detail {
 		template <typename _Value>
-		int __count_ones(_Value __value) noexcept {
+		unsigned int __count_ones(_Value __value) noexcept {
 #if ZTD_IS_ON(ZTD_BUILTIN_POPCOUNT)
 			if constexpr (::std::is_unsigned_v<_Value>) {
 				if constexpr (::std::numeric_limits<_Value>::digits <= (sizeof(unsigned int) * CHAR_BIT)) {
-					return __builtin_popcount(__value);
+					return static_cast<unsigned int>(__builtin_popcount(__value));
 				}
 				else if constexpr (::std::numeric_limits<_Value>::digits <= (sizeof(unsigned long) * CHAR_BIT)) {
-					return __builtin_popcountl(__value);
+					return static_cast<unsigned int>(__builtin_popcountl(__value));
 				}
 				else if constexpr (::std::numeric_limits<_Value>::digits
 				     <= (sizeof(unsigned long long) * CHAR_BIT)) {
-					return __builtin_popcountll(__value);
+					return static_cast<unsigned int>(__builtin_popcountll(__value));
 				}
 				else {
 					static_assert(::ztd::always_false_v<_Value>,
@@ -119,7 +119,7 @@ namespace ztd {
 		}
 
 		template <typename _Value>
-		int __count_leading_zeros(_Value __value) noexcept {
+		unsigned int __count_leading_zeros(_Value __value) noexcept {
 			if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 				return ztdc_count_leading_zerosuc(static_cast<unsigned char>(__value));
 			}
@@ -142,7 +142,7 @@ namespace ztd {
 		}
 
 		template <typename _Value>
-		int __count_trailing_zeros(_Value __value) noexcept {
+		unsigned int __count_trailing_zeros(_Value __value) noexcept {
 			if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 				return ztdc_count_trailing_zerosuc(static_cast<unsigned char>(__value));
 			}
@@ -165,7 +165,7 @@ namespace ztd {
 		}
 
 		template <typename _Value>
-		int __count_leading_ones(_Value __value) noexcept {
+		unsigned int __count_leading_ones(_Value __value) noexcept {
 			if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 				return ztdc_count_leading_onesuc(static_cast<unsigned char>(__value));
 			}
@@ -188,7 +188,7 @@ namespace ztd {
 		}
 
 		template <typename _Value>
-		int __count_trailing_ones(_Value __value) noexcept {
+		unsigned int __count_trailing_ones(_Value __value) noexcept {
 			if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 				return ztdc_count_trailing_onesuc(static_cast<unsigned char>(__value));
 			}
@@ -211,7 +211,7 @@ namespace ztd {
 		}
 
 		template <typename _Value>
-		int __first_leading_zero(_Value __value) noexcept {
+		unsigned int __first_leading_zero(_Value __value) noexcept {
 			if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 				return ztdc_first_leading_zerouc(static_cast<unsigned char>(__value));
 			}
@@ -234,7 +234,7 @@ namespace ztd {
 		}
 
 		template <typename _Value>
-		int __first_trailing_zero(_Value __value) noexcept {
+		unsigned int __first_trailing_zero(_Value __value) noexcept {
 			if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 				return ztdc_first_trailing_zerouc(static_cast<unsigned char>(__value));
 			}
@@ -257,7 +257,7 @@ namespace ztd {
 		}
 
 		template <typename _Value>
-		int __first_leading_one(_Value __value) noexcept {
+		unsigned int __first_leading_one(_Value __value) noexcept {
 			if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 				return ztdc_first_leading_oneuc(static_cast<unsigned char>(__value));
 			}
@@ -280,7 +280,7 @@ namespace ztd {
 		}
 
 		template <typename _Value>
-		int __first_trailing_one(_Value __value) noexcept {
+		unsigned int __first_trailing_one(_Value __value) noexcept {
 			if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 				return ztdc_first_trailing_oneuc(static_cast<unsigned char>(__value));
 			}
@@ -303,7 +303,7 @@ namespace ztd {
 		}
 
 		template <typename _Value>
-		int __rotate_left(_Value __value, int __rotation) noexcept {
+		unsigned int __rotate_left(_Value __value, unsigned int __rotation) noexcept {
 			if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 				return ztdc_rotate_leftuc(static_cast<unsigned char>(__value), __rotation);
 			}
@@ -326,7 +326,7 @@ namespace ztd {
 		}
 
 		template <typename _Value>
-		int __rotate_right(_Value __value, int __rotation) noexcept {
+		unsigned int __rotate_right(_Value __value, unsigned int __rotation) noexcept {
 			if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 				return ztdc_rotate_rightuc(static_cast<unsigned char>(__value), __rotation);
 			}
@@ -349,7 +349,7 @@ namespace ztd {
 		}
 
 		template <typename _Value>
-		int __has_single_bit(_Value __value) noexcept {
+		bool __has_single_bit(_Value __value) noexcept {
 			if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 				return ztdc_has_single_bituc(static_cast<unsigned char>(__value));
 			}
@@ -372,7 +372,7 @@ namespace ztd {
 		}
 
 		template <typename _Value>
-		int __bit_width(_Value __value) noexcept {
+		unsigned int __bit_width(_Value __value) noexcept {
 			if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char> ||      // cf
 			     ::std::is_same_v<_Value, unsigned short> || ::std::is_same_v<_Value, unsigned int> ||      // cf
 			     ::std::is_same_v<_Value, unsigned long> || ::std::is_same_v<_Value, unsigned long long>) { // cf
@@ -385,7 +385,7 @@ namespace ztd {
 		}
 
 		template <typename _Value>
-		int __bit_ceil(_Value __value) noexcept {
+		auto __bit_ceil(_Value __value) noexcept {
 			if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 				return ztdc_bit_ceiluc(static_cast<unsigned char>(__value));
 			}
@@ -408,7 +408,7 @@ namespace ztd {
 		}
 
 		template <typename _Value>
-		int __bit_floor(_Value __value) noexcept {
+		auto __bit_floor(_Value __value) noexcept {
 			if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char>) {
 				return ztdc_bit_flooruc(static_cast<unsigned char>(__value));
 			}
