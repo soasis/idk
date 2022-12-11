@@ -28,6 +28,68 @@
 #
 # ============================================================================>
 
+function (crunch_dependency_jail)
+	FetchContent_Declare(crunch
+		GIT_REPOSITORY https://github.com/dragonmux/crunch.git
+		GIT_TAG        main
+	)
+	FetchContent_GetProperties(crunch)
+	if (NOT crunch_POPULATED)
+		# Fetch the content using previously declared details
+		FetchContent_Populate(crunch)
+		# Now build it using meson
+		find_program(meson_executable
+			NAMES
+				meson meson.exe
+			REQUIRED
+		)
+		file(GLOB_RECURSE crunch_sources
+			LIST_DIRECTORIES false
+			CONFIGURE_DEPENDS
+			${crunch_SOURCE_DIR}/*.*
+		)
+		add_custom_command(OUTPUT ${crunch_BINARY_DIR}/meson-info/meson-info.json
+			COMMAND
+				${meson_executable} setup
+				--warnlevel 0
+				--optimization 3
+				--prefix ${crunch_BINARY_DIR}/crunch-install
+				${crunch_BINARY_DIR} ${crunch_SOURCE_DIR} 
+			DEPENDS ${crunch_sources}
+		)
+		add_custom_command(OUTPUT
+			${crunch_BINARY_DIR}/crunch/${CMAKE_STATIC_LIBRARY_PREFIX}crunch.${CMAKE_STATIC_LIBRARY_SUFFIX}
+			${crunch_BINARY_DIR}/crunch/version.h
+			COMMAND
+				${meson_executable} compile -C ${crunch_BINARY_DIR}
+			COMMAND
+				${meson_executable} install -C ${crunch_BINARY_DIR}
+			DEPENDS
+				${crunch_sources}
+				${crunch_BINARY_DIR}/meson-info/meson-info.json
+		)
+		add_custom_target(crunch_build
+			DEPENDS
+				${crunch_BINARY_DIR}/crunch/${CMAKE_STATIC_LIBRARY_PREFIX}crunch.${CMAKE_STATIC_LIBRARY_SUFFIX}
+				${crunch_BINARY_DIR}/crunch/version.h
+				${crunch_sources}
+				${crunch_BINARY_DIR}/meson-info/meson-info.json
+		)
+		add_library(crunch INTERFACE)
+		target_link_libraries(crunch
+			INTERFACE
+				${crunch_BINARY_DIR}/crunch/${CMAKE_STATIC_LIBRARY_PREFIX}crunch.${CMAKE_STATIC_LIBRARY_SUFFIX}
+		)
+		target_include_directories(crunch
+			INTERFACE
+				${crunch_BINARY_DIR}/crunch
+				${crunch_SOURCE_DIR}/substrate/substrate
+		)
+		add_library(crunch::crunch ALIAS crunch)
+	endif()
+endfunction()
+#crunch_dependency_jail()
+
 # # Tests
 file(GLOB_RECURSE ztd.idk.tests.basic_run_time_c.sources
 	LIST_DIRECTORIES FALSE
