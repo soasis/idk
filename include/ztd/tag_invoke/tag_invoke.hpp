@@ -43,7 +43,6 @@ namespace ztd {
 
 	namespace __tginv_detail {
 		namespace __adl {
-
 #if 0
 			// poison pill
 			// This is disabled in general becase the poison pill is actually creating serious problems on MSVC, GCC,
@@ -85,15 +84,15 @@ namespace ztd {
 
 		template <typename _Tag, typename... _Args>
 		class __is_nothrow_tag_invocable_i<true, _Tag, _Args...>
-		: public ::std::integral_constant<bool, ::std::is_nothrow_invocable_v<decltype(tag_invoke), _Tag, _Args...>> {
-		};
+		: public ::std::integral_constant<bool,
+		       ::std::is_nothrow_invocable_v<decltype(::ztd::__fn::tag_invoke), _Tag, _Args...>> { };
 	} // namespace __tginv_detail
 
 	//////
 	/// @brief Whether or not a given tag type and its arguments are tag invocable.
 	///
 	template <typename _Tag, typename... _Args>
-	class is_tag_invocable : public ::std::is_invocable<decltype(tag_invoke), _Tag, _Args...> { };
+	class is_tag_invocable : public ::std::is_invocable<decltype(::ztd::__fn::tag_invoke), _Tag, _Args...> { };
 
 	//////
 	/// @brief A @c _v alias for ztd::is_tag_invocable.

@@ -584,6 +584,12 @@
 	#endif
 #endif
 
+#if (ZTD_HAS_ATTRIBUTE_I_(fallthrough) != 0L)
+	#define ZTD_FALLTHROUGH_I_ [[fallthrough]]
+#else
+	#define ZTD_FALLTHROUGH_I_
+#endif
+
 #if defined(ZTD_TYPE_ALIGN_ATTRIBUTE)
 	#define ZTD_TYPE_ALIGN_ATTRIBUTE_I_(...) ZTD_TYPE_ALIGN_ATTRIBUTE(__VA__ARGS__)
 #elif ZTD_IS_ON(ZTD_COMPILER_VCXX)

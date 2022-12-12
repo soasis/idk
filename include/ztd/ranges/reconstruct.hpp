@@ -185,9 +185,10 @@ namespace ztd { namespace ranges {
 namespace ztd { namespace hijack {
 
 	template <typename _Ty, decltype(::ztd::dynamic_extent) _Extent, typename _It, typename _Sen,
-		::std::enable_if_t<
-		     ::ztd::ranges::is_iterator_contiguous_iterator_v<
-		          _It> && ((::std::is_const_v<::std::remove_reference_t<::ztd::ranges::iterator_reference_t<_It>>>) ? std::is_const_v<_Ty> : true)>* = nullptr>
+		::std::enable_if_t<::ztd::ranges::is_iterator_contiguous_iterator_v<_It>
+		     && ((::std::is_const_v<::std::remove_reference_t<::ztd::ranges::iterator_reference_t<_It>>>)
+		               ? std::is_const_v<_Ty>
+		               : true)>* = nullptr>
 	constexpr ::ztd::span<_Ty> tag_invoke(ztd::tag_t<::ztd::ranges::reconstruct>,
 		::std::in_place_type_t<::ztd::span<_Ty, _Extent>>, _It __iterator, _Sen __sentinel) noexcept {
 		if constexpr (!::std::is_integral_v<_Sen>) {

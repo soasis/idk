@@ -206,6 +206,18 @@ inline ZTD_CONSTEXPR_IF_CXX_I_ ztd_char32_t __ztd_idk_detail_utf8_decode(
 	return ((__value0 & 0x07) << 18) | ((__value1 & 0x3F) << 12) | ((__value2 & 0x3F) << 6) | (__value3 & 0x3F);
 }
 
+inline ZTD_CONSTEXPR_IF_CXX_I_ ztd_char32_t __ztd_idk_detail_utf8_decode(ztd_char8_t __value0, ztd_char8_t __value1,
+     ztd_char8_t __value2, ztd_char8_t __value3, ztd_char8_t __value4) ZTD_NOEXCEPT_IF_CXX_I_ {
+	return ((__value0 & 0x07) << 24) | ((__value1 & 0x3F) << 18) | ((__value2 & 0x3F) << 12) | ((__value3 & 0x3F) << 6)
+	     | (__value4 & 0x3F);
+}
+
+inline ZTD_CONSTEXPR_IF_CXX_I_ ztd_char32_t __ztd_idk_detail_utf8_decode(ztd_char8_t __value0, ztd_char8_t __value1,
+     ztd_char8_t __value2, ztd_char8_t __value3, ztd_char8_t __value4, ztd_char8_t __value5) ZTD_NOEXCEPT_IF_CXX_I_ {
+	return ((__value0 & 0x07) << 30) | ((__value1 & 0x3F) << 24) | ((__value2 & 0x3F) << 18)
+	     | ((__value3 & 0x3F) << 12) | ((__value4 & 0x3F) << 6) | (__value5 & 0x3F);
+}
+
 ZTD_INLINE_CONSTEXPR_IF_CXX_I_ const ztd_char32_t __ztd_idk_detail_last_ascii_value  = 0x7F;
 ZTD_INLINE_CONSTEXPR_IF_CXX_I_ const ztd_char32_t __ztd_idk_detail_last_bmp_value    = 0xFFFF;
 ZTD_INLINE_CONSTEXPR_IF_CXX_I_ const ztd_char32_t __ztd_idk_detail_normalizing_value = 0x10000;
