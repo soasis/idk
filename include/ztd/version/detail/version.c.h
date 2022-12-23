@@ -278,6 +278,23 @@
 	#define ZTD___INT128_T_I_ ZTD_DEFAULT_OFF
 #endif
 
+#if defined(ZTD_BITINT)
+	#if (ZTD_BITINT != 0)
+		#define ZTD_BITINT_I_ ZTD_ON
+	#else
+		#define ZTD_BITINT_I_ ZTD_OFF
+	#endif
+#elif defined(__BITINT_MAXWIDTH__) && __BITINT_MAXWIDTH__ > 0
+	#define ZTD_BITINT_I_ ZTD_DEFAULT_ON
+#elif defined(BITINT_MAXWIDTH) && BITINT_MAXWIDTH > 0
+	#define ZTD_BITINT_I_ ZTD_DEFAULT_ON
+#elif ZTD_IS_ON(ZTD_COMPILER_CLANG) && (__clang_major__ >= 15)
+	#define ZTD_BITINT_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_BITINT_I_ ZTD_DEFAULT_OFF
+#endif
+
+
 #if defined(ZTD___UINT128_T)
 	#if (ZTD___UINT128_T != 0)
 		#define ZTD___UINT128_T_I_ ZTD_ON
