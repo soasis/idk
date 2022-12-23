@@ -28,28 +28,4 @@
 //
 // ============================================================================ //
 
-#pragma once
-
-#ifndef ZTD_RANGES_VIEW_HPP
-#define ZTD_RANGES_VIEW_HPP
-
-#include <ztd/ranges/version.hpp>
-
-#include <ztd/ranges/range.hpp>
-
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
-#include <ranges>
-#endif
-
-#include <ztd/prologue.hpp>
-
-namespace ztd { namespace ranges {
-	ZTD_RANGES_INLINE_ABI_NAMESPACE_OPEN_I_
-
-
-	ZTD_RANGES_INLINE_ABI_NAMESPACE_CLOSE_I_
-}} // namespace ztd::ranges
-
-#include <ztd/epilogue.hpp>
-
-#endif
+#include <ztd/idk/detail/encoding_tables.utilities.hpp>

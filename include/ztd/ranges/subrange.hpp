@@ -105,7 +105,8 @@ namespace ztd { namespace ranges {
 		template <typename _It, typename _Sen = _It,
 			__subrange_kind _Kind
 			= is_sized_sentinel_for_v<_It, _Sen> ? __subrange_kind::sized : __subrange_kind::unsized>
-		class __subrange : __subrange_size<iterator_size_type_t<_It>, !is_sized_sentinel_for_v<_It, _Sen>> {
+		class __subrange : private __subrange_size<iterator_size_type_t<_It>, !is_sized_sentinel_for_v<_It, _Sen>>,
+			              public ::ztd::ranges::view_base {
 		private:
 			inline static constexpr bool _SizeRequired
 				= _Kind == __subrange_kind::sized && !is_sized_sentinel_for_v<_It, _Sen>;
@@ -316,13 +317,26 @@ namespace ztd { namespace ranges {
 			}
 
 			//////
+			/// @brief A `pointer` to the range of elements.
+			///
+			/// @returns `std::addressof(`*begin()).
+			///
+			/// @remarks This function call only works if the `iterator_concept` is a `contiguous_iterator_tag` or
+			/// better.
+			template <typename _Strawman                                              = _It,
+				::std::enable_if_t<is_iterator_random_access_iterator_v<_Strawman>>* = nullptr>
+			constexpr reference operator[](size_type __index) const noexcept {
+				return this->_M_it[__index];
+			}
+
+			//////
 			/// @brief Produces a copy of the subrange and advances the `begin()` iterator by 1.
 			///
 			/// @remarks This function call only works if the underlying iterator and sentinal types are copyable.
 			[[nodiscard]] constexpr __subrange next() const& noexcept(
-				(::std::is_nothrow_copy_constructible_v<
-				      iterator> && ::std::is_nothrow_copy_constructible_v<sentinel>)&& noexcept(::ztd::ranges::
-				          iter_advance(::std::declval<iterator&>()))) {
+				(::std::is_nothrow_copy_constructible_v<iterator>
+				     && ::std::is_nothrow_copy_constructible_v<
+				          sentinel>)&& noexcept(::ztd::ranges::iter_advance(::std::declval<iterator&>()))) {
 				auto __it = this->_M_it;
 				::ztd::ranges::iter_advance(__it);
 				return __subrange(::std::move(__it), this->_M_sen);
@@ -333,10 +347,9 @@ namespace ztd { namespace ranges {
 			///
 			/// @remarks This function call can be more efficient and allows working with move-only iterators. This
 			/// function call will move the iterators underlying this object.
-			[[nodiscard]] constexpr __subrange next() && noexcept(
-				(::std::is_nothrow_move_constructible_v<
-				      iterator> && ::std::is_nothrow_move_constructible_v<sentinel>)&& noexcept(::ztd::ranges::
-				          iter_advance(::std::declval<iterator&>()))) {
+			[[nodiscard]] constexpr __subrange next() && noexcept((::std::is_nothrow_move_constructible_v<iterator>
+				&& ::std::is_nothrow_move_constructible_v<
+				     sentinel>)&& noexcept(::ztd::ranges::iter_advance(::std::declval<iterator&>()))) {
 				iterator __it = ::std::move(this->_M_it);
 				::ztd::ranges::iter_advance(__it);
 				return __subrange(::std::move(__it), ::std::move(this->_M_sen));
@@ -349,9 +362,10 @@ namespace ztd { namespace ranges {
 			///
 			/// @remarks This function call only works if the underlying iterator and sentinal types are copyable.
 			[[nodiscard]] constexpr __subrange next(difference_type __diff) const& noexcept(
-				(::std::is_nothrow_copy_constructible_v<
-				      iterator> && ::std::is_nothrow_copy_constructible_v<sentinel>)&& noexcept(::ztd::ranges::
-				          iter_advance(::std::declval<iterator&>(), ::std::declval<difference_type>()))) {
+				(::std::is_nothrow_copy_constructible_v<iterator>
+				     && ::std::is_nothrow_copy_constructible_v<
+				          sentinel>)&& noexcept(::ztd::ranges::iter_advance(::std::declval<iterator&>(),
+				     ::std::declval<difference_type>()))) {
 				auto __it = this->_M_it;
 				::ztd::ranges::iter_advance(__it, __diff);
 				return __subrange(::std::move(__it), this->_M_sen);
@@ -365,9 +379,10 @@ namespace ztd { namespace ranges {
 			/// @remarks This function call can be more efficient and allows working with move-only iterators. This
 			/// function call will move the iterators underlying this object.
 			[[nodiscard]] constexpr __subrange next(difference_type __diff) && noexcept(
-				(::std::is_nothrow_move_constructible_v<
-				      iterator> && ::std::is_nothrow_move_constructible_v<sentinel>)&& noexcept(::ztd::ranges::
-				          iter_advance(::std::declval<iterator&>(), ::std::declval<difference_type>()))) {
+				(::std::is_nothrow_move_constructible_v<iterator>
+				     && ::std::is_nothrow_move_constructible_v<
+				          sentinel>)&& noexcept(::ztd::ranges::iter_advance(::std::declval<iterator&>(),
+				     ::std::declval<difference_type>()))) {
 				iterator __it = ::std::move(this->_M_it);
 				::ztd::ranges::iter_advance(__it, __diff);
 				return __subrange(::std::move(__it), ::std::move(this->_M_sen));
@@ -380,9 +395,10 @@ namespace ztd { namespace ranges {
 			///
 			/// @remarks This function call requires that the underlying iterator are bidirectional.
 			[[nodiscard]] constexpr __subrange prev(difference_type __diff = 1) const
-				noexcept((::std::is_nothrow_copy_constructible_v<
-				               iterator> && ::std::is_nothrow_copy_constructible_v<sentinel>)&& noexcept(::ztd::
-				          ranges::iter_recede(::std::declval<iterator&>(), ::std::declval<difference_type>()))) {
+				noexcept((::std::is_nothrow_copy_constructible_v<iterator>
+				     && ::std::is_nothrow_copy_constructible_v<
+				          sentinel>)&& noexcept(::ztd::ranges::iter_recede(::std::declval<iterator&>(),
+				     ::std::declval<difference_type>()))) {
 				auto __it = this->_M_it;
 				::ztd::ranges::iter_recede(__it, __diff);
 				return __subrange(::std::move(__it), this->_M_sen);
@@ -452,25 +468,26 @@ namespace ztd { namespace ranges {
 	using subrange = ::ztd::ranges::__rng_detail::__subrange<_It, _Sen, _Kind>;
 #endif
 
-	namespace __rng_detail {
-		template <typename _Range>
-		using __subrange_for_t = subrange<range_iterator_t<_Range>, range_sentinel_t<_Range>>;
-	} // namespace __rng_detail
+	template <typename _Range>
+	using subrange_for_t
+		= ::ztd::ranges::subrange<::ztd::ranges::range_iterator_t<_Range>, ::ztd::ranges::range_sentinel_t<_Range>>;
 
 	//////
 	/// @brief Decomposes a range into its two iterators and returns it as a ztd::ranges::subrange.
 	template <typename _Range>
-	constexpr __rng_detail::__subrange_for_t<_Range> make_subrange(_Range&& __range) noexcept(
-		::std::is_nothrow_constructible_v<_Range, __rng_detail::__subrange_for_t<_Range>>) {
-		return { ::ztd::ranges::begin(__range), ::ztd::ranges::end(__range) };
+	constexpr subrange_for_t<_Range> make_subrange(_Range&& __range) noexcept(
+		::std::is_nothrow_constructible_v<_Range, subrange_for_t<_Range>>) {
+		return subrange_for_t<_Range>(::ztd::ranges::begin(__range), ::ztd::ranges::end(__range));
 	}
 
 	//////
 	/// @brief Takes two iterators and returns them as a ztd::ranges::subrange.
 	template <typename _It, typename _Sen>
 	constexpr subrange<remove_cvref_t<_It>, remove_cvref_t<_Sen>> make_subrange(_It&& __it, _Sen&& __sen) noexcept(
-		::std::is_nothrow_constructible_v<subrange<remove_cvref_t<_It>, remove_cvref_t<_Sen>>, _It, _Sen>) {
-		return { ::std::forward<_It>(__it), ::std::forward<_Sen>(__sen) };
+		::std::is_nothrow_constructible_v<
+		     ::ztd::ranges::subrange<::ztd::remove_cvref_t<_It>, ::ztd::remove_cvref_t<_Sen>>, _It, _Sen>) {
+		return subrange<remove_cvref_t<_It>, remove_cvref_t<_Sen>>(
+			::std::forward<_It>(__it), ::std::forward<_Sen>(__sen));
 	}
 
 	//////
@@ -491,6 +508,8 @@ namespace std { namespace ranges {
 #else
 
 namespace ztd { namespace ranges {
+
+	// NOTE: specializations do not need the inline ABI namespace
 
 	//////
 	/// @brief Mark subranges as appropriately borrowed ranges.

@@ -28,28 +28,28 @@
 //
 // ============================================================================ //
 
-#pragma once
+#include <ztd/idk/version.h>
 
-#ifndef ZTD_RANGES_VIEW_HPP
-#define ZTD_RANGES_VIEW_HPP
+#include <ztd/idk/latin1.tables.h>
 
-#include <ztd/ranges/version.hpp>
+#include <ztd/idk/latin1.tables.hpp>
 
-#include <ztd/ranges/range.hpp>
+ZTD_EXTERN_C_I_ bool ztdc_latin1_index_to_code_point(
+     size_t __lookup_index_pointer, ztd_char32_t* __p_code_point) ZTD_NOEXCEPT_IF_CXX_I_ {
+	auto __val = ztd::latin1_index_to_code_point(__lookup_index_pointer);
+	if (__val) {
+		*__p_code_point = *__val;
+		return true;
+	}
+	return false;
+}
 
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
-#include <ranges>
-#endif
-
-#include <ztd/prologue.hpp>
-
-namespace ztd { namespace ranges {
-	ZTD_RANGES_INLINE_ABI_NAMESPACE_OPEN_I_
-
-
-	ZTD_RANGES_INLINE_ABI_NAMESPACE_CLOSE_I_
-}} // namespace ztd::ranges
-
-#include <ztd/epilogue.hpp>
-
-#endif
+ZTD_EXTERN_C_I_ bool ztdc_latin1_code_point_to_index(
+     ztd_char32_t __lookup_code_point, size_t* __p_index) ZTD_NOEXCEPT_IF_CXX_I_ {
+	auto __val = ztd::latin1_code_point_to_index(__lookup_code_point);
+	if (__val) {
+		*__p_index = *__val;
+		return true;
+	}
+	return false;
+}

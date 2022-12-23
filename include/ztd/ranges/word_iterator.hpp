@@ -381,6 +381,16 @@ namespace ztd { namespace ranges {
 		}
 
 		//////
+		/// @brief Creates a word_iterator that will walk over the specified rage values.
+		///
+		/// @param[in] __args The arguments to create the range.
+		template <typename _Arg, typename... _Args>
+		constexpr word_iterator(::std::in_place_t, _Arg&& __arg, _Args&&... __args) noexcept(
+			::std::is_nothrow_constructible_v<__base_storage_t, _Arg, _Args...>)
+		: __base_storage_t(::std::forward<_Arg>(__arg), ::std::forward<_Args>(__args)...) {
+		}
+
+		//////
 		///@brief Default copy constructor.
 		word_iterator(const word_iterator&) = default;
 		//////

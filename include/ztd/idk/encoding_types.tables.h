@@ -30,26 +30,23 @@
 
 #pragma once
 
-#ifndef ZTD_RANGES_VIEW_HPP
-#define ZTD_RANGES_VIEW_HPP
+#ifndef ZTD_TEXT_ENCODING_TYPES_TABLES_H
+#define ZTD_TEXT_ENCODING_TYPES_TABLES_H
 
-#include <ztd/ranges/version.hpp>
+#include <ztd/idk/version.h>
 
-#include <ztd/ranges/range.hpp>
+#include <ztd/idk/charN_t.h>
 
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
-#include <ranges>
+#if ZTD_IS_ON(ZTD_C)
+#include <stddef.h>
+#include <stdint.h>
+#include <stdbool.h>
+#else
+#include <cstddef>
+#include <cstdint>
 #endif
 
-#include <ztd/prologue.hpp>
-
-namespace ztd { namespace ranges {
-	ZTD_RANGES_INLINE_ABI_NAMESPACE_OPEN_I_
-
-
-	ZTD_RANGES_INLINE_ABI_NAMESPACE_CLOSE_I_
-}} // namespace ztd::ranges
-
-#include <ztd/epilogue.hpp>
+typedef uint_least16_t ztd_encoding_index16_t;
+typedef ztd_encoding_index16_t ztd_encoding_index16_code_point_t[2];
 
 #endif

@@ -41,7 +41,7 @@ namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
 
 	template <typename _Type, typename _Sentinel>
-	size_t c_string_ptr_size(_Type* __ptr, const _Sentinel& __sen) {
+	constexpr size_t c_string_ptr_size(_Type* __ptr, const _Sentinel& __sen) noexcept {
 		if (__ptr == nullptr) {
 			return 0;
 		}
@@ -53,7 +53,7 @@ namespace ztd {
 	}
 
 	template <typename _Type>
-	size_t c_string_ptr_size(_Type* __ptr) {
+	constexpr size_t c_string_ptr_size(_Type* __ptr) noexcept {
 		constexpr _Type __sentinel {};
 		return c_string_ptr_size(__ptr, __sentinel);
 	}

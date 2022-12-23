@@ -721,6 +721,9 @@ namespace ztd { namespace ranges {
 	using range_size_type_t = iterator_size_type_t<range_iterator_t<_Range>>;
 #endif
 
+	template <typename _Range>
+	using range_cv_value_type_t = ::std::remove_reference_t<::ztd::ranges::range_reference_t<_Range>>;
+
 	template <typename _It>
 	using iterator_category_t =
 		typename __rng_detail::__iterator_category_or_concept_or_fallback<::std::remove_reference_t<_It>>::type;
@@ -859,7 +862,18 @@ namespace ztd { namespace ranges {
 				}
 			};
 		} // namespace __adl
-	}      // namespace __rng_detail
+
+		class __view_base { };
+
+	} // namespace __rng_detail
+
+	using view_base
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
+		= ::std::ranges::view_base
+#else
+		= ::ztd::ranges::__rng_detail::__view_base
+#endif
+		;
 
 	inline namespace __fn {
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
@@ -883,6 +897,21 @@ namespace ztd { namespace ranges {
 	// NOTE: we do not open the ABI namespace here because this is meant to be specialized without it.
 
 	//////
+	/// @brief A trait specialized by downstream classes to determine whether or not the type is a view.
+	///
+	/// @tparam _Range The range type that may or may not be a view.
+	template <typename _Range>
+	inline constexpr bool enable_view
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
+		= ::std::ranges::enable_view<_Range>
+#else
+		= ::std::is_base_of_v<view_base, _Range>
+#endif
+		;
+
+
+
+	//////
 	/// @brief A trait specialized by downstream classes to determine whether or not the type is a borrowed range.
 	///
 	/// @tparam _Range The range type that may or may not be a borrowed range.
@@ -895,6 +924,26 @@ namespace ztd { namespace ranges {
 
 namespace ztd { namespace ranges {
 	ZTD_RANGES_INLINE_ABI_NAMESPACE_OPEN_I_
+
+	//////
+	/// @brief Checks whether or not the provided type is a view. This means that `enable_view` has been turned on, and
+	/// it meets a few other criteria.
+	///
+	/// @tparam _Ty The type to check if it is a view or not.
+	template <typename _Ty>
+	struct is_view
+	: ::std::integral_constant<bool,
+		  (::ztd::ranges::enable_view<_Ty> && is_range_v<_Ty>                                       // cf
+		       && (::std::is_move_constructible_v<_Ty> && ::std::is_move_assignable_v<_Ty>))        // cf
+		       || (is_range_v<_Ty> && !::std::is_const_v<_Ty> && ::std::is_lvalue_reference_v<_Ty>) // cf
+		  > { };
+
+	//////
+	/// @brief An alias for `is_view<…>`'s inner `value`.
+	///
+	/// @tparam _Ty The type to check if it is a view or not.
+	template <typename _Ty>
+	inline constexpr bool is_view_v = is_view<_Ty>::value;
 
 	//////
 	/// @brief Whether or not a given type is a borrowed range or not. Used as a proxy over the standard's
@@ -910,8 +959,8 @@ namespace ztd { namespace ranges {
 		::std::ranges::borrowed_range<_Range>
 #else
 		::ztd::ranges::is_range_v<_Range> // must have begin/end, at least!
-		&& (::std::is_lvalue_reference_v<
-		         _Range> || ::ztd::ranges::enable_borrowed_range<::ztd::remove_cvref_t<_Range>>)
+		&& (::std::is_lvalue_reference_v<_Range>
+		     || ::ztd::ranges::enable_borrowed_range<::ztd::remove_cvref_t<_Range>>)
 #endif
 		;
 

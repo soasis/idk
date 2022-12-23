@@ -84,7 +84,8 @@ namespace ztd {
 
 		template <typename _Type>
 		using __detect_std_pointer_traits_to_address
-		     = decltype(::std::pointer_traits<_Type>::to_address(::std::declval<_Type&>()));
+		     = decltype(::std::pointer_traits<::std::remove_reference_t<_Type>>::to_address(
+		          ::std::declval<_Type&>()));
 	} // namespace __idk_detail
 
 	//////
@@ -122,8 +123,8 @@ namespace ztd {
 	template <typename _Type, typename = void>
 	class is_to_addressable
 	: public ::std::integral_constant<bool,
-	       (::std::is_pointer_v<
-	             _Type> && !::std::is_function_v<::std::remove_reference_t<::std::remove_pointer_t<_Type>>>)
+	       (::std::is_pointer_v<_Type>
+	            && !::std::is_function_v<::std::remove_reference_t<::std::remove_pointer_t<_Type>>>)
 	            || is_operator_arrowable_v<::std::remove_reference_t<_Type>>> { };
 
 	//////
@@ -132,9 +133,9 @@ namespace ztd {
 	template <typename _Type>
 	class is_to_addressable<_Type, ::std::enable_if_t<__idk_detail::__is_maybe_std_pointer_traitable_v<_Type>>>
 	: public ::std::integral_constant<bool,
-	       is_detected_v<__idk_detail::__detect_std_pointer_traits_to_address,
-	            _Type> || (!::std::is_function_v<::std::remove_reference_t<_Type>> && is_operator_arrowable_v<::std::remove_reference_t<_Type>>)> {
-	};
+	       is_detected_v<__idk_detail::__detect_std_pointer_traits_to_address, _Type>
+	            || (!::std::is_function_v<::std::remove_reference_t<_Type>>
+	                 && is_operator_arrowable_v<::std::remove_reference_t<_Type>>)> { };
 
 	//////
 	/// @brief A @c _v alias for ztd::is_to_addressable.

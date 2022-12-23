@@ -51,7 +51,7 @@ namespace ztd { namespace ranges {
 	/// @brief A class whose iterator and sentinel denote an infinity-range that, if iterated with a traditional for
 	/// range loop, will never cease.
 	template <typename _It>
-	class unbounded_view {
+	class unbounded_view : public ::ztd::ranges::view_base {
 	private:
 		_It _M_it;
 
@@ -172,7 +172,7 @@ namespace ztd { namespace ranges {
 		[[nodiscard]] constexpr unbounded_view next() const& noexcept(
 			::std::is_nothrow_copy_constructible_v<iterator>&& noexcept(
 			     ::ztd::ranges::iter_advance(::std::declval<iterator&>()))) {
-			auto __it = this->_M_it;
+			iterator __it = this->_M_it;
 			::ztd::ranges::iter_advance(__it);
 			return unbounded_view(::std::move(__it));
 		}

@@ -36,6 +36,7 @@
 #include <ztd/idk/version.hpp>
 
 #include <ztd/idk/shift_jis.tables.h>
+#include <ztd/idk/detail/encoding_tables.utilities.hpp>
 #include <ztd/ranges/algorithm.hpp>
 #include <ztd/ranges/adl.hpp>
 
@@ -49,36 +50,33 @@
 namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
 
-	inline constexpr bool less_than_index_target(
-	     const ztd_sjis_index_codepoint_t& __value, ztd_sjis_index_t __target) noexcept {
-		return __value[0] < __target;
-	}
-
 	inline constexpr ::std::optional<ztd_char32_t> shift_jis_index_to_code_point(
 	     ::std::size_t __lookup_index_pointer) noexcept {
-		const ztd_sjis_index_t __lookup_index = static_cast<ztd_sjis_index_t>(__lookup_index_pointer);
+		const ztd_encoding_index16_t __lookup_index = static_cast<ztd_encoding_index16_t>(__lookup_index_pointer);
 		auto __it_and_last = ::ztd::ranges::lower_bound(::ztd::ranges::cbegin(ztd_shift_jis_index_code_point_map),
-		     ::ztd::ranges::cend(ztd_shift_jis_index_code_point_map), __lookup_index, &::ztd::less_than_index_target);
+		     ::ztd::ranges::cend(ztd_shift_jis_index_code_point_map), __lookup_index,
+		     &::ztd::__idk_detail::less_than_index_target);
 		if (__it_and_last.current == __it_and_last.last) {
 			return ::std::nullopt;
 		}
-		const ztd_sjis_index_codepoint_t& __index_and_codepoint = *__it_and_last.current;
+		const ztd_encoding_index16_code_point_t& __index_and_codepoint = *__it_and_last.current;
 		if (__index_and_codepoint[0] != __lookup_index) {
 			return ::std::nullopt;
 		}
 		return static_cast<ztd_char32_t>(__index_and_codepoint[1]);
 	}
 
-	inline constexpr ::std::optional<::std::size_t> shift_jis_code_point_to_index(ztd_char32_t __code_point) noexcept {
-		auto __predicate = [&__code_point](const ztd_sjis_index_codepoint_t& __value) {
-			return __code_point == __value[1] && !(__value[0] > 8272 && __value[0] < 8835);
+	inline constexpr ::std::optional<::std::size_t> shift_jis_code_point_to_index(
+	     ztd_char32_t __lookup_code_point) noexcept {
+		auto __predicate = [&__lookup_code_point](const ztd_encoding_index16_code_point_t& __value) {
+			return __lookup_code_point == __value[1] && !(__value[0] > 8272 && __value[0] < 8835);
 		};
 		auto __it_and_last = ::ztd::ranges::find_if(::ztd::ranges::cbegin(ztd_shift_jis_index_code_point_map),
 		     ::ztd::ranges::cend(ztd_shift_jis_index_code_point_map), __predicate);
 		if (__it_and_last.current == __it_and_last.last) {
 			return std::nullopt;
 		}
-		const ztd_sjis_index_codepoint_t& __index_and_codepoint = *__it_and_last.current;
+		const ztd_encoding_index16_code_point_t& __index_and_codepoint = *__it_and_last.current;
 		return static_cast<::std::size_t>(__index_and_codepoint[0]);
 	}
 

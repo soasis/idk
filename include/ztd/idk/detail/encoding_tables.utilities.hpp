@@ -30,25 +30,34 @@
 
 #pragma once
 
-#ifndef ZTD_RANGES_VIEW_HPP
-#define ZTD_RANGES_VIEW_HPP
+#ifndef ZTD_IDK_DETAIL_ENCODING_TABLES_UTILITIES_HPP
+#define ZTD_IDK_DETAIL_ENCODING_TABLES_UTILITIES_HPP
 
-#include <ztd/ranges/version.hpp>
+#include <ztd/idk/version.hpp>
 
-#include <ztd/ranges/range.hpp>
+#include <ztd/idk/encoding_types.tables.h>
 
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
-#include <ranges>
-#endif
+#include <cstddef>
+#include <optional>
+#include <iterator>
 
 #include <ztd/prologue.hpp>
 
-namespace ztd { namespace ranges {
-	ZTD_RANGES_INLINE_ABI_NAMESPACE_OPEN_I_
+namespace ztd {
+	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
 
+	namespace __idk_detail {
+		using __lookup_index_to_code_point_function = ::std::optional<ztd_char32_t>(::std::size_t);
+		using __lookup_code_point_to_index_function = ::std::optional<::std::size_t>(ztd_char32_t);
 
-	ZTD_RANGES_INLINE_ABI_NAMESPACE_CLOSE_I_
-}} // namespace ztd::ranges
+		inline constexpr bool less_than_index_target(
+		     const ztd_encoding_index16_code_point_t& __value, ztd_encoding_index16_t __target) noexcept {
+			return __value[0] < __target;
+		}
+	} // namespace __idk_detail
+
+	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
+} // namespace ztd
 
 #include <ztd/epilogue.hpp>
 

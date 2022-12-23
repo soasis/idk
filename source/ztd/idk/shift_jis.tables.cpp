@@ -45,8 +45,8 @@ ZTD_EXTERN_C_I_ bool ztdc_shift_jis_index_to_code_point(
 }
 
 ZTD_EXTERN_C_I_ bool ztdc_shift_jis_code_point_to_index(
-     ztd_char32_t __code_point, size_t* __p_index) ZTD_NOEXCEPT_IF_CXX_I_ {
-	auto __val = ztd::shift_jis_code_point_to_index(__code_point);
+     ztd_char32_t __lookup_code_point, size_t* __p_index) ZTD_NOEXCEPT_IF_CXX_I_ {
+	auto __val = ztd::shift_jis_code_point_to_index(__lookup_code_point);
 	if (__val) {
 		*__p_index = *__val;
 		return true;

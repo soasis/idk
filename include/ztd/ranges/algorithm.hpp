@@ -123,32 +123,6 @@ namespace ztd { namespace ranges {
 
 	namespace __rng_detail {
 
-		template <typename _Iterator0, typename _Sentinel0, typename _Iterator1, typename _Sentinel1>
-		constexpr bool __equal(_Iterator0 __first0, _Sentinel0 __last0, _Iterator1 __first1, _Sentinel1 __last1) {
-			// std lib does not take differing sentinels, which is kind of shitty tbh
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_CONSTEXPR_ALGORITHMS) && ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
-			return ::std::ranges::equal(
-				::std::move(__first0), ::std::move(__last0), ::std::move(__first1), ::std::move(__last1));
-#else
-			if (__first0 == __last0) {
-				if (__first1 == __last1) {
-					return true;
-				}
-				return false;
-			}
-			for (; __first0 != __last0; (void)++__first0, ++__first1) {
-				if (__first1 == __last1) {
-					return false;
-				}
-				if (*__first0 != *__first1) {
-					return false;
-				}
-			}
-
-			return __first1 == __last1;
-#endif
-		}
-
 		template <typename _Iterator0, typename _Iterator1>
 		constexpr _Iterator0 __reverse(_Iterator0 __first, _Iterator1 __last) noexcept {
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_CONSTEXPR_ALGORITHMS) && ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
@@ -361,12 +335,12 @@ namespace ztd { namespace ranges {
 				if (*__first1 < *__first0)
 					return 1;
 			}
-			bool __range0_exhausted = (__first0 == __last0);
-			bool __range1_exhausted = (__first1 == __last1);
-			if (__range0_exhausted && __range1_exhausted) {
+			bool __firstlast0_exhausted = (__first0 == __last0);
+			bool __firstlast1_exhausted = (__first1 == __last1);
+			if (__firstlast0_exhausted && __firstlast1_exhausted) {
 				return 0;
 			}
-			else if (__range0_exhausted) {
+			else if (__firstlast0_exhausted) {
 				return -1;
 			}
 			else {
@@ -375,7 +349,8 @@ namespace ztd { namespace ranges {
 		}
 
 		template <typename _First0, typename _Last0, typename _First1, typename _Last1>
-		constexpr bool __lexicographical_compare(_First0 __first0, _Last0 __last0, _First1 __first1, _Last1 __last1) {
+		constexpr bool __lexicographical_compare(
+			_First0 __first0, _Last0 __last0, _First1 __first1, _Last1 __last1) noexcept {
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_CONSTEXPR_ALGORITHMS) && ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
 			return ::std::ranges::lexicographical_compare(
 				::std::move(__first0), ::std::move(__last0), ::std::move(__first1), ::std::move(__last1));
@@ -402,7 +377,7 @@ namespace ztd { namespace ranges {
 	} // namespace __rng_detail
 
 	template <typename _It, typename _Last>
-	constexpr auto distance(_It&& __it, _Last&& __last) {
+	constexpr auto distance(_It&& __it, _Last&& __last) noexcept {
 		if constexpr (::ztd::ranges::is_iterator_concept_or_better_v<::std::random_access_iterator_tag, _It>) {
 			return __last - __it;
 		}
@@ -416,7 +391,7 @@ namespace ztd { namespace ranges {
 	}
 
 	template <typename _It, typename _Last, typename _Pred>
-	constexpr current_last_result<_It, _Last> find_if(_It __first, _Last __last, _Pred __predicate) {
+	constexpr current_last_result<_It, _Last> find_if(_It __first, _Last __last, _Pred __predicate) noexcept {
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_CONSTANT_EVALUATED)
 		if (!::std::is_constant_evaluated())
 #else
@@ -435,7 +410,7 @@ namespace ztd { namespace ranges {
 
 	template <typename _It, typename _Last, typename _Ty, typename _Compare>
 	constexpr current_last_result<_It, _Last> lower_bound(
-		_It __first, _Last __last, const _Ty& __target_val, _Compare __compare) {
+		_It __first, _Last __last, _Ty&& __target_val, _Compare __compare) noexcept {
 		using _Diff = ::ztd::ranges::iterator_difference_type_t<_It>;
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_CONSTANT_EVALUATED)
 		if (!::std::is_constant_evaluated())
@@ -461,6 +436,96 @@ namespace ztd { namespace ranges {
 			}
 		}
 		return { ::std::move(__it), ::std::move(__last) };
+	}
+
+	template <typename _ItLast, typename _Ty, typename _Compare>
+	constexpr auto lower_bound(_ItLast&& __it_last, _Ty&& __target_val, _Compare __compare) noexcept {
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_CONSTEXPR_ALGORITHMS) && ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
+		return ::std::ranges::lower_bound(::ztd::ranges::cbegin(::std::forward<_ItLast>(__it_last)),
+			::ztd::ranges::cend(__it_last), ::std::forward<_Ty>(__target_val), ::std::forward<_Compare>(__compare));
+#else
+		return ::ztd::ranges::lower_bound(::ztd::ranges::cbegin(::std::forward<_ItLast>(__it_last)),
+			::ztd::ranges::cend(__it_last), ::std::forward<_Ty>(__target_val), ::std::forward<_Compare>(__compare));
+#endif
+	}
+
+	template <typename _Iterator0, typename _Sentinel0, typename _Iterator1, typename _Sentinel1>
+	constexpr bool equal(_Iterator0 __first0, _Sentinel0 __last0, _Iterator1 __first1, _Sentinel1 __last1) {
+		// std lib does not take differing sentinels, which is kind of shitty tbh
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_CONSTEXPR_ALGORITHMS) && ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
+		return ::std::ranges::equal(
+			::std::move(__first0), ::std::move(__last0), ::std::move(__first1), ::std::move(__last1));
+#else
+		if (__first0 == __last0) {
+			if (__first1 == __last1) {
+				return true;
+			}
+			return false;
+		}
+		for (; __first0 != __last0; (void)++__first0, ++__first1) {
+			if (__first1 == __last1) {
+				return false;
+			}
+			if (*__first0 != *__first1) {
+				return false;
+			}
+		}
+
+		return __first1 == __last1;
+#endif
+	}
+
+	template <typename _Iterator0, typename _Sentinel0, typename _Iterator1, typename _Sentinel1, typename _Predicate>
+	constexpr bool equal(
+		_Iterator0 __first0, _Sentinel0 __last0, _Iterator1 __first1, _Sentinel1 __last1, _Predicate&& __predicate) {
+		// std lib does not take differing sentinels, which is kind of shitty tbh
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_CONSTEXPR_ALGORITHMS) && ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
+		return ::std::ranges::equal(::std::move(__first0), ::std::move(__last0), ::std::move(__first1),
+			::std::move(__last1), ::std::forward<_Predicate>(__predicate));
+#else
+		if (__first0 == __last0) {
+			if (__first1 == __last1) {
+				return true;
+			}
+			return false;
+		}
+		for (; __first0 != __last0; (void)++__first0, ++__first1) {
+			if (__first1 == __last1) {
+				return false;
+			}
+			if (!::std::forward<_Predicate>(__predicate)(*__first0, *__first1)) {
+				return false;
+			}
+		}
+
+		return __first1 == __last1;
+#endif
+	}
+
+	template <typename _FirstLast0, typename _FirstLast1>
+	constexpr bool equal(_FirstLast0&& __first_last0, _FirstLast1&& __first_last1) {
+		// std lib does not take differing sentinels, which is kind of shitty tbh
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_CONSTEXPR_ALGORITHMS) && ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
+		return ::std::ranges::equal(
+			::std::forward<_FirstLast0>(__first_last0), ::std::forward<_FirstLast1>(__first_last1));
+#else
+		return ::ztd::ranges::equal(::ztd::ranges::cbegin(::std::forward<_FirstLast0>(__first_last0)),
+			::ztd::ranges::cend(__first_last0), ::ztd::ranges::cbegin(::std::forward<_FirstLast1>(__first_last1)),
+			::ztd::ranges::cend(__first_last1));
+#endif
+	}
+
+	template <typename _FirstLast0, typename _FirstLast1, typename _Predicate>
+	constexpr bool equal(_FirstLast0&& __first_last0, _FirstLast1&& __first_last1, _Predicate&& __predicate) {
+		// std lib does not take differing sentinels, which is kind of shitty tbh
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_CONSTEXPR_ALGORITHMS) && ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
+		return ::std::ranges::equal(::std::forward<_FirstLast0>(__first_last0),
+			::std::forward<_FirstLast1>(__first_last1), ::std::forward<_Predicate>(__predicate));
+#else
+		return ::ztd::ranges::equal(::ztd::ranges::cbegin(::std::forward<_FirstLast0>(__first_last0)),
+			::ztd::ranges::cend(__first_last0), ::ztd::ranges::cbegin(::std::forward<_FirstLast1>(__first_last1)),
+			::ztd::ranges::cend(__first_last1), ::std::forward<_Predicate>(__predicate));
+#endif
 	}
 
 	ZTD_RANGES_INLINE_ABI_NAMESPACE_CLOSE_I_
