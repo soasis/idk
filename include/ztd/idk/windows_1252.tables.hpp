@@ -30,12 +30,12 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_LATIN1_TABLES_HPP
-#define ZTD_IDK_LATIN1_TABLES_HPP
+#ifndef ZTD_IDK_WINDOWS_1252_TABLES_HPP
+#define ZTD_IDK_WINDOWS_1252_TABLES_HPP
 
 #include <ztd/idk/version.hpp>
 
-#include <ztd/idk/latin1.tables.h>
+#include <ztd/idk/windows_1252.tables.h>
 #include <ztd/idk/detail/encoding_tables.utilities.hpp>
 #include <ztd/ranges/algorithm.hpp>
 #include <ztd/ranges/adl.hpp>
@@ -50,11 +50,11 @@
 namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
 
-	inline constexpr ::std::optional<ztd_char32_t> latin1_index_to_code_point(
+	inline constexpr ::std::optional<ztd_char32_t> windows_1252_index_to_code_point(
 	     ::std::size_t __lookup_index_pointer) noexcept {
 		const ztd_encoding_index16_t __lookup_index = static_cast<ztd_encoding_index16_t>(__lookup_index_pointer);
-		auto __it_and_last = ::ztd::ranges::lower_bound(::ztd::ranges::cbegin(ztd_latin1_index_code_point_map),
-		     ::ztd::ranges::cend(ztd_latin1_index_code_point_map), __lookup_index,
+		auto __it_and_last = ::ztd::ranges::lower_bound(::ztd::ranges::cbegin(ztd_windows_1252_index_code_point_map),
+		     ::ztd::ranges::cend(ztd_windows_1252_index_code_point_map), __lookup_index,
 		     &::ztd::__idk_detail::less_than_index_target);
 		if (__it_and_last.current == __it_and_last.last) {
 			return ::std::nullopt;
@@ -66,13 +66,13 @@ namespace ztd {
 		return static_cast<ztd_char32_t>(__index_and_codepoint[1]);
 	}
 
-	inline constexpr ::std::optional<::std::size_t> latin1_code_point_to_index(
+	inline constexpr ::std::optional<::std::size_t> windows_1252_code_point_to_index(
 	     ztd_char32_t __lookup_code_point) noexcept {
 		auto __predicate = [&__lookup_code_point](const ztd_encoding_index16_code_point_t& __value) {
 			return __lookup_code_point == __value[1];
 		};
-		auto __it_and_last = ::ztd::ranges::find_if(::ztd::ranges::cbegin(ztd_latin1_index_code_point_map),
-		     ::ztd::ranges::cend(ztd_latin1_index_code_point_map), __predicate);
+		auto __it_and_last = ::ztd::ranges::find_if(::ztd::ranges::cbegin(ztd_windows_1252_index_code_point_map),
+		     ::ztd::ranges::cend(ztd_windows_1252_index_code_point_map), __predicate);
 		if (__it_and_last.current == __it_and_last.last) {
 			return std::nullopt;
 		}

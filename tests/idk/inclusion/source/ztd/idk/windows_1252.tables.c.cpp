@@ -28,4 +28,4 @@
 //
 // ============================================================================ //
 
-#include <ztd/idk/latin1.tables.h>
+#include <ztd/idk/windows_1252.tables.h>

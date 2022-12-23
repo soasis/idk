@@ -28,4 +28,28 @@
 //
 // ============================================================================ //
 
-#include <ztd/idk/latin1.tables.hpp>
+#include <ztd/idk/version.h>
+
+#include <ztd/idk/windows_1252.tables.h>
+
+#include <ztd/idk/windows_1252.tables.hpp>
+
+ZTD_EXTERN_C_I_ bool ztdc_windows_1252_index_to_code_point(
+     size_t __lookup_index_pointer, ztd_char32_t* __p_code_point) ZTD_NOEXCEPT_IF_CXX_I_ {
+	auto __val = ztd::windows_1252_index_to_code_point(__lookup_index_pointer);
+	if (__val) {
+		*__p_code_point = *__val;
+		return true;
+	}
+	return false;
+}
+
+ZTD_EXTERN_C_I_ bool ztdc_windows_1252_code_point_to_index(
+     ztd_char32_t __lookup_code_point, size_t* __p_index) ZTD_NOEXCEPT_IF_CXX_I_ {
+	auto __val = ztd::windows_1252_code_point_to_index(__lookup_code_point);
+	if (__val) {
+		*__p_index = *__val;
+		return true;
+	}
+	return false;
+}

@@ -30,8 +30,8 @@
 
 #pragma once
 
-#ifndef ZTD_TEXT_LATIN1_TABLES_H
-#define ZTD_TEXT_LATIN1_TABLES_H
+#ifndef ZTD_TEXT_windows_1252_TABLES_H
+#define ZTD_TEXT_windows_1252_TABLES_H
 
 #include <ztd/idk/version.h>
 
@@ -48,7 +48,7 @@
 #endif
 
 ZTD_EXTERN_C_I_ ZTD_INLINE_CONSTEXPR_IF_CXX_I_ const ztd_encoding_index16_code_point_t
-     ztd_latin1_index_code_point_map[128]
+     ztd_windows_1252_index_code_point_map[128]
      = { { 0, 0x20AC }, { 1, 0x0081 }, { 2, 0x201A }, { 3, 0x0192 }, { 4, 0x201E }, { 5, 0x2026 }, { 6, 0x2020 },
 	       { 7, 0x2021 }, { 8, 0x02C6 }, { 9, 0x2030 }, { 10, 0x0160 }, { 11, 0x2039 }, { 12, 0x0152 }, { 13, 0x008D },
 	       { 14, 0x017D }, { 15, 0x008F }, { 16, 0x0090 }, { 17, 0x2018 }, { 18, 0x2019 }, { 19, 0x201C },
@@ -71,9 +71,9 @@ ZTD_EXTERN_C_I_ ZTD_INLINE_CONSTEXPR_IF_CXX_I_ const ztd_encoding_index16_code_p
 	       { 116, 0x00F4 }, { 117, 0x00F5 }, { 118, 0x00F6 }, { 119, 0x00F7 }, { 120, 0x00F8 }, { 121, 0x00F9 },
 	       { 122, 0x00FA }, { 123, 0x00FB }, { 124, 0x00FC }, { 125, 0x00FD }, { 126, 0x00FE }, { 127, 0x00FF } };
 
-ZTD_EXTERN_C_I_ bool ztdc_latin1_index_to_code_point(
+ZTD_EXTERN_C_I_ bool ztdc_windows_1252_index_to_code_point(
      size_t __lookup_index_pointer, ztd_char32_t* __p_code_point) ZTD_NOEXCEPT_IF_CXX_I_;
-ZTD_EXTERN_C_I_ bool ztdc_latin1_code_point_to_index(
+ZTD_EXTERN_C_I_ bool ztdc_windows_1252_code_point_to_index(
      ztd_char32_t __lookup_code_point, size_t* __p_index) ZTD_NOEXCEPT_IF_CXX_I_;
 
 #endif
