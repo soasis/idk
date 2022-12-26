@@ -1,7 +1,7 @@
 // =============================================================================
 //
 // ztd.idk
-// Copyright © 2022 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
+// Copyright © 2022-2023 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
 // Contact: opensource@soasis.org
 //
 // Commercial License Usage
@@ -18,7 +18,7 @@
 // file except in compliance with the License. You may obtain a copy of the
 // License at
 //
-//		http://www.apache.org/licenses/LICENSE-2.0
+// https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -161,7 +161,7 @@
 
 #if defined(ZTD_DOXYGEN_PREPROCESSING) && (ZTD_DOXYGEN_PREPROCESSING != 0)
 
-#include <ztd/text/detail/doxygen_type.h>
+#include <ztd/detail/doxygen_type.h>
 
 //////
 /// @addtogroup ztd_idk_c_c_span ztd.idk c_span

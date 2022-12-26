@@ -1,7 +1,7 @@
 # =============================================================================
 #
 # ztd.idk
-# Copyright © 2022 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
+# Copyright © 2022-2023 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
 # Contact: opensource@soasis.org
 #
 # Commercial License Usage
@@ -18,7 +18,7 @@
 # file except in compliance with the License. You may obtain a copy of the
 # License at
 #
-# http://www.apache.org/licenses/LICENSE-2.0
+# https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -123,6 +123,8 @@ if(ZTD_IDK_IS_TOP_LEVEL_PROJECT)
 		#   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=95353
 		if (CMAKE_CXX_COMPILER_ID MATCHES "GNU" AND NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7.0)
 			check_compiler_diagnostic(stringop-overflow)
+			check_compiler_diagnostic(stringop-overread)
+			check_compiler_diagnostic(array-bounds)
 		endif()
 	endif()
 endif()

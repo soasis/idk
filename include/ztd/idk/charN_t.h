@@ -1,7 +1,7 @@
 // =============================================================================
 //
 // ztd.idk
-// Copyright © 2022 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
+// Copyright © 2022-2023 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
 // Contact: opensource@soasis.org
 //
 // Commercial License Usage
@@ -18,7 +18,7 @@
 // file except in compliance with the License. You may obtain a copy of the
 // License at
 //
-//		http://www.apache.org/licenses/LICENSE-2.0
+// https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -83,7 +83,7 @@ typedef ZTD_CHAR8_T_I_ ztd_char8_t;
 			#include <stdint.h>
 		#endif
 
-		#if ZTD_IS_ON(ZTD_TEXT_PLATFORM_WINDOWS)
+		#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 			typedef uint_least16_t ztd_wchar_t;
 		#else
 			typedef uint_least32_t ztd_wchar_t;
