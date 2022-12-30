@@ -329,7 +329,7 @@ namespace ztd {
 	     = (sizeof(_Left) == sizeof(_Right)) && (alignof(_Left) == alignof(_Right));
 
 	template <typename _FromTy, typename _ToTy>
-	inline constexpr bool is_non_derived_compatible_pointer_v = ::std::is_convertible_v<_ToTy (*)[], _FromTy (*)[]>;
+	inline constexpr bool is_non_derived_compatible_pointer_v = ::std::is_convertible_v<_FromTy (*)[], _ToTy (*)[]>;
 
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd

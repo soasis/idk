@@ -52,7 +52,6 @@
 
 #ifdef _MSC_VER
 #include <cstddef>
-#include <ciso646>
 #include <cwchar>
 #include <locale>
 #endif

@@ -45,6 +45,7 @@
 #include <ztd/idk/hijack.hpp>
 #include <ztd/idk/to_address.hpp>
 #include <ztd/idk/span.hpp>
+#include <ztd/idk/tag.hpp>
 
 #include <utility>
 #include <type_traits>
@@ -59,6 +60,9 @@ namespace ztd { namespace ranges {
 
 		template <bool>
 		class __reconstruct_fn;
+
+		template <bool, typename...>
+		class __cascading_reconstruct_fn;
 
 		template <bool _Mutable, typename _It, typename _Sen>
 		constexpr bool __is_tagless_iterator_reconstruct_noexcept() noexcept {
@@ -224,8 +228,8 @@ namespace ztd { namespace ranges {
 				}
 			}
 			else {
-				static_assert(::ztd::always_false_constant_v<bool, _Mutable>,
-					"improper arguments to is_cascade_reconstructible");
+				static_assert(
+					::ztd::always_false_constant_v<bool, _Mutable>, "improper arguments to __is_reconstructible");
 			}
 		}
 
@@ -247,10 +251,9 @@ namespace ztd { namespace ranges {
 			}
 			else {
 				static_assert(::ztd::always_false_constant_v<bool, _Mutable>,
-					"improper arguments to is_cascade_reconstructible_noexcept");
+					"improper arguments to __is_reconstructible_noexcept");
 			}
 		}
-
 	} // namespace __rng_detail
 
 	inline namespace __fn {
@@ -262,10 +265,78 @@ namespace ztd { namespace ranges {
 		/// the immediate ztd::ranges namespace, where there are too many other types that could force asking more
 		/// questions about what is in the list for ADL and drive up compile-times.
 		inline constexpr __rng_detail::__reconstruct_fn<true> reconstruct = {};
+	} // namespace __fn
 
+	namespace __rng_detail {
+		template <bool _Mutable, typename... _Args, typename _Type>
+		static constexpr bool __is_cascading_reconstructible(::ztd::tag<_Type>) noexcept {
+			return __is_reconstructible<_Mutable, ::std::in_place_type_t<_Type>, _Args...>();
+		}
+
+		template <bool _Mutable, typename... _Args, typename _Type, typename... _Types>
+		static constexpr bool __is_cascading_reconstructible(::ztd::tag<_Type, _Types...>) noexcept {
+			if constexpr (__is_reconstructible<_Mutable, ::std::in_place_type_t<_Type>, _Args...>()) {
+				return true;
+			}
+			else {
+				return __is_cascading_reconstructible<_Mutable, _Args...>(::ztd::tag<_Types...>());
+			}
+		}
+
+		template <bool _Mutable, typename... _Args, typename... _Types>
+		inline constexpr bool __is_cascading_reconstructible_noexcept(::ztd::tag<_Types...>) noexcept {
+			return ((__is_reconstructible_noexcept<_Mutable, ::std::in_place_type_t<_Types>, _Args...>()) || ...);
+		}
+
+		template <bool _Mutable, typename... _Args, typename _Type>
+		constexpr decltype(auto) __cascading_reconstruct(::ztd::tag<_Type>, _Args&&... __args) noexcept(
+			__is_reconstructible_noexcept<_Mutable, ::std::in_place_type_t<_Type>, _Args...>()) {
+			if constexpr (_Mutable) {
+				return ::ztd::ranges::reconstruct(::std::in_place_type<_Type>, ::std::forward<_Args>(__args)...);
+			}
+			else {
+				// Oops
+				return;
+			}
+		}
+
+		template <bool _Mutable, typename... _Args, typename _Type, typename... _Types,
+			::std::enable_if_t<(sizeof...(_Types) > 0)>* = nullptr>
+		constexpr decltype(auto) __cascading_reconstruct(::ztd::tag<_Type, _Types...>, _Args&&... __args) noexcept(
+			__is_cascading_reconstructible_noexcept<_Mutable, _Args...>(::ztd::tag<_Type, _Types...>())) {
+			if constexpr (__is_reconstructible<_Mutable, ::std::in_place_type_t<_Type>, _Args...>()) {
+				if constexpr (_Mutable) {
+					return ::ztd::ranges::reconstruct(
+						::std::in_place_type<_Type>, ::std::forward<_Args>(__args)...);
+				}
+				else {
+					// oops
+					return;
+				}
+			}
+			else {
+				return __cascading_reconstruct<_Mutable>(::ztd::tag<_Types...>(), ::std::forward<_Args>(__args)...);
+			}
+		}
+
+		template <bool _Mutable, typename... _Types>
+		class __cascading_reconstruct_fn {
+		public:
+			template <typename... _Args>
+			constexpr decltype(auto) operator()(_Args&&... __args) const
+				noexcept(__is_cascading_reconstructible_noexcept<_Mutable, _Args...>(::ztd::tag<_Types...>())) {
+				return __cascading_reconstruct<_Mutable>(::ztd::tag<_Types...>(), ::std::forward<_Args>(__args)...);
+			}
+		};
+
+	} // namespace __rng_detail
+
+	inline namespace __fn {
 		//////
-		/// @brief Similar to
-		inline constexpr __rng_detail::__reconstruct_fn<false> const_reconstruct = {};
+		/// @brief A reconstruct that attempts multiple versions of reconstruct, and if none of them works then
+		/// fallsback to the default subrange return value.
+		template <typename... _Args>
+		inline constexpr __rng_detail::__cascading_reconstruct_fn<true, _Args...> cascading_reconstruct = {};
 	} // namespace __fn
 
 	ZTD_RANGES_INLINE_ABI_NAMESPACE_CLOSE_I_

@@ -95,6 +95,14 @@ namespace ztd { namespace ranges {
 			using type = typename __iterator_value_type_from_ref_or_void<_It>::type;
 		};
 
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
+		template <typename _It>
+		struct __iterator_value_type_or_fallback<_It, ::std::void_t<::std::iter_value_t<_It>>> {
+			//////
+			/// @brief Deliberately undocumented.
+			using type = ::std::iter_value_t<_It>;
+		};
+#else
 		template <typename _It>
 		struct __iterator_value_type_or_fallback<_It,
 			::std::void_t<typename ::std::iterator_traits<::std::remove_reference_t<_It>>::value_type>> {
@@ -102,7 +110,7 @@ namespace ztd { namespace ranges {
 			/// @brief Deliberately undocumented.
 			using type = typename ::std::iterator_traits<::std::remove_reference_t<_It>>::value_type;
 		};
-
+#endif
 		template <typename _It, typename = void>
 		struct iterator_difference_type_or_fallback {
 			//////
@@ -126,15 +134,9 @@ namespace ztd { namespace ranges {
 
 		template <typename _It, typename = void>
 		struct __iterator_value_type_interception {
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
-			//////
-			/// @brief Deliberately undocumented.
-			using type = ::std::iter_value_t<_It>;
-#else
 			//////
 			/// @brief Deliberately undocumented.
 			using type = typename __iterator_value_type_or_fallback<::std::remove_reference_t<_It>>::type;
-#endif
 		};
 
 		template <typename _Container>
@@ -689,6 +691,9 @@ namespace ztd { namespace ranges {
 	using range_value_type_t = ::std::ranges::range_value_t<_Range>;
 
 	template <typename _Range>
+	using range_reference_t = ::std::ranges::range_reference_t<_Range>;
+
+	template <typename _Range>
 	using range_rvalue_reference_t = ::std::ranges::range_rvalue_reference_t<_Range>;
 
 	template <typename _Range>
@@ -891,8 +896,6 @@ namespace ztd { namespace ranges {
 }} // namespace ztd::ranges
 
 
-#if ZTD_IS_OFF(ZTD_STD_LIBRARY_BORROWED_RANGE)
-
 namespace ztd { namespace ranges {
 	// NOTE: we do not open the ABI namespace here because this is meant to be specialized without it.
 
@@ -919,8 +922,6 @@ namespace ztd { namespace ranges {
 	inline constexpr bool enable_borrowed_range = false;
 
 }} // namespace ztd::ranges
-
-#endif
 
 namespace ztd { namespace ranges {
 	ZTD_RANGES_INLINE_ABI_NAMESPACE_OPEN_I_

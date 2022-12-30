@@ -911,7 +911,7 @@ namespace nonstd { namespace span_lite {
 			}
 
 			template <typename It span_REQUIRES_T(
-			     (std::is_convertible<decltype(*std::declval<It&>()), element_type>::value))>
+			     (std::is_convertible<decltype(*std::declval<It&>()), reference>::value))>
 			span_constexpr_exp span(It first, size_type count) : data_(to_address(first)), size_(count) {
 				span_EXPECTS((data_ == span_nullptr && count == 0)
 				     || (data_ != span_nullptr && detail::is_positive(count)));
@@ -925,9 +925,8 @@ namespace nonstd { namespace span_lite {
 
 #if span_HAVE(ITERATOR_CTOR)
 			template <typename It,
-			     typename End span_REQUIRES_T(
-			          (std::is_convertible<decltype(*std::declval<It&>()), element_type>::value
-			               && !std::is_convertible<End, std::size_t>::value))>
+			     typename End span_REQUIRES_T((std::is_convertible<decltype(*std::declval<It&>()), reference>::value
+			          && !std::is_convertible<End, std::size_t>::value))>
 			span_constexpr_exp span(It first, End last) span_noexcept : data_(to_address(first)),
 			                                                            size_(to_size(last - first)) {
 				span_EXPECTS(last - first >= 0);
