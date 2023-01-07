@@ -46,9 +46,12 @@
 namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
 
-	class unsigned_char_traits {
+	template <typename _CharType>
+	class unsigned_8bit_traits {
 	public:
-		using char_type  = unsigned char;
+		static_assert(::std::is_unsigned_v<_CharType>, "the _CharType must be unsigned to be used here");
+
+		using char_type  = _CharType;
 		using int_type   = ::std::int_least32_t;
 		using pos_type   = ::std::streampos;
 		using off_type   = ::std::streamoff;
@@ -135,6 +138,8 @@ namespace ztd {
 		}
 	};
 
+	using unsigned_char_traits = unsigned_8bit_traits<unsigned char>;
+
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd
 
@@ -147,6 +152,17 @@ namespace std {
 
 namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
+
+	//////
+	/// @brief A traits type for ztd_char8_t / ztd::uchar8_t for whatever it is aliased to.
+	using uchar8_traits =
+#if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T)
+	     ::std::conditional_t<::std::is_same_v<::ztd::uchar8_t, char8_t>, ::std::char_traits<::ztd::uchar8_t>,
+	          ::ztd::unsigned_8bit_traits<::ztd::uchar8_t>>
+#else
+	     ::ztd::unsigned_char_traits
+#endif
+	     ;
 
 	template <>
 	class is_char_traitable<unsigned char> : public std::true_type { };

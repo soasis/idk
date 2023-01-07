@@ -33,10 +33,14 @@
 #ifndef ZTD_IDK_SIZE_H
 #define ZTD_IDK_SIZE_H
 
+#include <ztd/idk/charN_t.h>
+
 #if ZTD_IS_ON(ZTD_CXX)
 #include <climits>
+#include <cstddef>
 #else
 #include <limits.h>
+#include <stddef.h>
 #endif
 
 #define ztd_c_array_size(...) (sizeof((__VA_ARGS__)) / sizeof(*(__VA_ARGS__)))
@@ -47,5 +51,55 @@
 
 #define ztd_c_array_bit_size(...) (ztd_c_array_byte_size(__VA_ARGS__) * CHAR_BIT)
 #define ztd_c_string_array_bit_size(...) (ztd_c_string_array_byte_size(__VA_ARGS__) * CHAR_BIT)
+
+inline ZTD_CONSTEXPR_IF_CXX_I_ size_t ztdc_c_string_ptr_size(const char* __ptr) {
+	size_t __ptr_size = 0;
+	if (__ptr) {
+		for (; *__ptr; ++__ptr) {
+			__ptr_size += 1;
+		}
+	}
+	return __ptr_size;
+}
+
+inline ZTD_CONSTEXPR_IF_CXX_I_ size_t ztdc_c_string_ptr_size_uc(const unsigned char* __ptr) ZTD_NOEXCEPT_IF_CXX_I_ {
+	size_t __ptr_size = 0;
+	if (__ptr) {
+		for (; *__ptr; ++__ptr) {
+			__ptr_size += 1;
+		}
+	}
+	return __ptr_size;
+}
+
+inline ZTD_CONSTEXPR_IF_CXX_I_ size_t ztdc_c_string_ptr_size_c8(const ztd_char8_t* __ptr) ZTD_NOEXCEPT_IF_CXX_I_ {
+	size_t __ptr_size = 0;
+	if (__ptr) {
+		for (; *__ptr; ++__ptr) {
+			__ptr_size += 1;
+		}
+	}
+	return __ptr_size;
+}
+
+inline ZTD_CONSTEXPR_IF_CXX_I_ size_t ztdc_c_string_ptr_size_c16(const ztd_char16_t* __ptr) ZTD_NOEXCEPT_IF_CXX_I_ {
+	size_t __ptr_size = 0;
+	if (__ptr) {
+		for (; *__ptr; ++__ptr) {
+			__ptr_size += 1;
+		}
+	}
+	return __ptr_size;
+}
+
+inline ZTD_CONSTEXPR_IF_CXX_I_ size_t ztdc_c_string_ptr_size_c32(const ztd_char32_t* __ptr) ZTD_NOEXCEPT_IF_CXX_I_ {
+	size_t __ptr_size = 0;
+	if (__ptr) {
+		for (; *__ptr; ++__ptr) {
+			__ptr_size += 1;
+		}
+	}
+	return __ptr_size;
+}
 
 #endif
