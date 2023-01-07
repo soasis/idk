@@ -43,10 +43,10 @@
 
 #include <ztd/prologue.hpp>
 
-namespace std {
+namespace ztd {
+	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
 
-	template <>
-	class char_traits<unsigned char> {
+	class unsigned_char_traits {
 	public:
 		using char_type  = unsigned char;
 		using int_type   = ::std::int_least32_t;
@@ -134,6 +134,15 @@ namespace std {
 			return static_cast<int_type>(EOF);
 		}
 	};
+
+	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
+} // namespace ztd
+
+namespace std {
+
+	template <>
+	class char_traits<unsigned char> : public ::ztd::unsigned_char_traits { };
+
 } // namespace std
 
 namespace ztd {

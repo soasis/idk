@@ -62,6 +62,8 @@ namespace ztd {
 		utf32be,
 		gb18030,
 		utf1,
+		ucs2,
+		ucs4
 	};
 
 	inline constexpr bool is_unicode_encoding_id(text_encoding_id __id) noexcept {

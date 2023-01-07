@@ -825,7 +825,7 @@ namespace ztd { namespace ranges {
 						}
 						else {
 							for (; __diff > 0; --__diff) {
-								++__it;
+								this->operator()(::std::forward<_It>(__it));
 							}
 						}
 					}
