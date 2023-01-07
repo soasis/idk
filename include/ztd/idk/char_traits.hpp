@@ -164,6 +164,10 @@ namespace ztd {
 #endif
 	     ;
 
+	template <typename _CharType>
+	using char_traits_for = ::std::conditional_t<::std::is_same_v<_CharType, ::ztd::uchar8_t>, uchar8_traits,
+	     ::std::char_traits<_CharType>>;
+
 	template <>
 	class is_char_traitable<unsigned char> : public std::true_type { };
 
