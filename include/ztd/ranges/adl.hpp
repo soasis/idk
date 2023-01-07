@@ -40,6 +40,7 @@
 
 #include <iterator>
 #include <limits>
+#include <algorithm>
 
 #include <ztd/prologue.hpp>
 
