@@ -805,7 +805,7 @@ namespace ztd { namespace ranges {
 			class __iter_advance_fn {
 			public:
 				template <typename _It>
-				constexpr _It&& operator()(_It&& __it) const noexcept(__advance_noexcept<_It>()) {
+				constexpr decltype(auto) operator()(_It&& __it) const noexcept(__advance_noexcept<_It>()) {
 					if constexpr (is_detected_v<__rng_detail::__detect_iter_advance, _It>) {
 						::std::forward<_It>(__it).advance();
 					}
@@ -816,7 +816,7 @@ namespace ztd { namespace ranges {
 				}
 
 				template <typename _It, typename _Diff>
-				constexpr _It&& operator()(_It&& __it, _Diff __diff) const
+				constexpr decltype(auto) operator()(_It&& __it, _Diff __diff) const
 					noexcept(__advance_noexcept<_It, _Diff>()) {
 					if constexpr (is_detected_v<__rng_detail::__detect_iter_advance, _It, _Diff>) {
 						::std::forward<_It>(__it).advance(__diff);
@@ -839,7 +839,7 @@ namespace ztd { namespace ranges {
 			class __iter_recede_fn {
 			public:
 				template <typename _It>
-				constexpr _It&& operator()(_It&& __it) const noexcept(__recede_noexcept<_It>()) {
+				constexpr decltype(auto) operator()(_It&& __it) const noexcept(__recede_noexcept<_It>()) {
 					if constexpr (is_detected_v<__detect_iter_recede, _It>) {
 						::std::forward<_It>(__it).recede();
 					}
@@ -850,7 +850,7 @@ namespace ztd { namespace ranges {
 				}
 
 				template <typename _It, typename _Diff>
-				constexpr _It&& operator()(_It&& __it, _Diff __diff) const
+				constexpr decltype(auto) operator()(_It&& __it, _Diff __diff) const
 					noexcept(__recede_noexcept<_It, _Diff>()) {
 					if constexpr (is_detected_v<__detect_iter_recede, _It, _Diff>) {
 						::std::forward<_It>(__it).recede(__diff);

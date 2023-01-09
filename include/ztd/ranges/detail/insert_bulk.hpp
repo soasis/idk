@@ -53,7 +53,8 @@ namespace ztd { namespace ranges {
 				// inserting in bulk
 				// can be faster, more performant,
 				// save us some coding too
-				__output.insert(__output.cend(), __insertion.begin(), __insertion.end());
+				__output.insert(
+					__output.cend(), ::ztd::ranges::cbegin(__insertion), ::ztd::ranges::cend(__insertion));
 			}
 			else {
 				// O O F! we have to insert one at a time.

@@ -102,11 +102,11 @@ namespace ztd { namespace ranges {
 
 	template <typename _It>
 	inline constexpr bool is_iterator_forward_iterator_v
-		= is_iterator_concept_or_better_v<::std::forward_iterator_tag, iterator_concept_t<_It>>;
+		= is_iterator_concept_or_better_v<::std::forward_iterator_tag, _It>;
 
 	template <typename _It>
 	inline constexpr bool is_iterator_bidirectional_iterator_v
-		= is_iterator_concept_or_better_v<::std::bidirectional_iterator_tag, iterator_concept_t<_It>>;
+		= is_iterator_concept_or_better_v<::std::bidirectional_iterator_tag, _It>;
 
 	template <typename _It>
 	inline constexpr bool is_iterator_random_access_iterator_v
