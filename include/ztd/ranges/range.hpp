@@ -79,15 +79,35 @@ namespace ztd { namespace ranges {
 		= is_iterator_input_or_output_iterator_v<range_iterator_t<_Range>>;
 
 	template <typename _Range>
-	inline constexpr bool is_range_contiguous_range_v = is_iterator_contiguous_iterator_v<range_iterator_t<_Range>>;
+	inline constexpr bool is_range_bidirectional_range_v
+		= is_iterator_bidirectional_iterator_v<range_iterator_t<_Range>>;
 
 	template <typename _Range>
 	inline constexpr bool is_range_random_access_range_v
-		= is_range_iterator_concept_or_better_v<::std::random_access_iterator_tag, range_iterator_t<_Range>>;
+		= is_iterator_random_access_iterator_v<range_iterator_t<_Range>>;
+
+	template <typename _Range>
+	inline constexpr bool is_range_contiguous_range_v = is_iterator_contiguous_iterator_v<range_iterator_t<_Range>>;
 
 	template <typename _Range>
 	inline constexpr bool is_sized_range_v
 		= is_sized_sentinel_for_v<range_iterator_t<_Range>, range_sentinel_t<_Range>>;
+
+	template <typename _Range>
+	inline constexpr bool is_range_input_or_output_range_exactly_v
+		= is_iterator_input_or_output_iterator_exactly_v<range_iterator_t<_Range>>;
+
+	template <typename _Range>
+	inline constexpr bool is_range_bidirectional_range_exactly_v
+		= is_iterator_bidirectional_iterator_exactly_v<range_iterator_t<_Range>>;
+
+	template <typename _Range>
+	inline constexpr bool is_range_random_access_range_exactly_v
+		= is_iterator_random_access_iterator_exactly_v<range_iterator_t<_Range>>;
+
+	template <typename _Range>
+	inline constexpr bool is_range_contiguous_range_exactly_v
+		= is_iterator_contiguous_iterator_exactly_v<range_iterator_t<_Range>>;
 
 	//////
 	/// @brief A detection decltype for use with ztd::is_detected and similar. Checks if the given type has a .reserve

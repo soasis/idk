@@ -741,8 +741,10 @@ namespace ztd { namespace ranges {
 	inline constexpr bool is_concept_or_better_v = ::std::is_base_of_v<_Tag, _ActualTag>;
 
 	template <typename _Tag, typename _It>
-	inline constexpr bool is_iterator_concept_or_better_v = is_concept_or_better_v<_Tag, iterator_concept_t<_It>>;
+	inline constexpr bool is_iterator_category_or_better_v = is_concept_or_better_v<_Tag, iterator_category_t<_It>>;
 
+	template <typename _Tag, typename _It>
+	inline constexpr bool is_iterator_concept_or_better_v = is_concept_or_better_v<_Tag, iterator_concept_t<_It>>;
 
 	namespace __rng_detail {
 

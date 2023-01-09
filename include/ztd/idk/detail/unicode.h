@@ -102,12 +102,12 @@ inline ZTD_CONSTEXPR_IF_CXX_I_ bool __ztd_idk_detail_is_surrogate(ztd_char32_t _
 	return __value >= __ztd_idk_detail_first_surrogate && __value <= __ztd_idk_detail_last_surrogate;
 }
 inline ZTD_CONSTEXPR_IF_CXX_I_ bool __ztd_idk_detail_is_single_utf16(ztd_char16_t __value) ZTD_NOEXCEPT_IF_CXX_I_ {
-	return __value < __ztd_idk_detail_first_lead_surrogate;
+	return __value < __ztd_idk_detail_first_lead_surrogate || __value > __ztd_idk_detail_last_trail_surrogate;
 }
 
 inline ZTD_CONSTEXPR_IF_CXX_I_ bool __ztd_idk_detail_is_single_or_lead_utf16(
      ztd_char16_t __value) ZTD_NOEXCEPT_IF_CXX_I_ {
-	return __value <= __ztd_idk_detail_last_lead_surrogate;
+	return __value <= __ztd_idk_detail_last_lead_surrogate || __value > __ztd_idk_detail_last_trail_surrogate;
 }
 
 inline ZTD_CONSTEXPR_IF_CXX_I_ ztd_char32_t __ztd_idk_detail_utf16_combine_surrogates(

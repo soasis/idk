@@ -87,6 +87,27 @@ namespace ztd { namespace ranges {
 	template <typename _It>
 	using iterator_pointer_t =
 		typename __rng_detail::__iterator_pointer_or_fallback<::std::remove_reference_t<_It>>::type;
+
+	template <typename _It>
+	inline constexpr bool is_iterator_input_iterator_v
+		= is_iterator_concept_or_better_v<::std::input_iterator_tag, iterator_concept_t<_It>>;
+
+	template <typename _It>
+	inline constexpr bool is_iterator_output_iterator_v
+		= is_iterator_concept_or_better_v<::std::output_iterator_tag, iterator_concept_t<_It>>;
+
+	template <typename _It>
+	inline constexpr bool is_iterator_input_or_output_iterator_v
+		= is_iterator_input_iterator_v<_It> || is_iterator_output_iterator_v<_It>;
+
+	template <typename _It>
+	inline constexpr bool is_iterator_forward_iterator_v
+		= is_iterator_concept_or_better_v<::std::forward_iterator_tag, iterator_concept_t<_It>>;
+
+	template <typename _It>
+	inline constexpr bool is_iterator_bidirectional_iterator_v
+		= is_iterator_concept_or_better_v<::std::bidirectional_iterator_tag, iterator_concept_t<_It>>;
+
 	template <typename _It>
 	inline constexpr bool is_iterator_random_access_iterator_v
 		= is_iterator_concept_or_better_v<::std::random_access_iterator_tag, _It>;
@@ -95,33 +116,40 @@ namespace ztd { namespace ranges {
 	inline constexpr bool is_iterator_contiguous_iterator_v = ::ztd::__idk_detail::__mark_contiguous_v<_It>
 		|| (
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_CONTIGUOUS_ITERATOR_TAG)
-			is_iterator_concept_or_better_v<contiguous_iterator_tag, _It>)
-		|| (is_iterator_concept_or_better_v<contiguous_iterator_tag, _It> &&
+		     is_iterator_concept_or_better_v<contiguous_iterator_tag, _It> &&
 #else
-			::std::is_pointer_v<_It> &&
+		     ::std::is_pointer_v<_It> &&
 #endif
-			is_to_addressable_v<
-				_It> && ::std::is_lvalue_reference_v<iterator_reference_t<::std::remove_reference_t<_It>>>);
+		     is_to_addressable_v<_It>
+		     && ::std::is_lvalue_reference_v<iterator_reference_t<::std::remove_reference_t<_It>>>);
 
 	template <typename _It>
-	inline constexpr bool is_iterator_input_iterator_v
+	inline constexpr bool is_iterator_input_iterator_exactly_v
 		= ::std::is_same_v<::std::input_iterator_tag, iterator_concept_t<_It>>;
 
 	template <typename _It>
-	inline constexpr bool is_iterator_output_iterator_v
+	inline constexpr bool is_iterator_output_iterator_exactly_v
 		= ::std::is_same_v<::std::output_iterator_tag, iterator_concept_t<_It>>;
 
 	template <typename _It>
-	inline constexpr bool is_iterator_input_or_output_iterator_v
-		= is_iterator_input_iterator_v<_It> || is_iterator_output_iterator_v<_It>;
+	inline constexpr bool is_iterator_input_or_output_iterator_exactly_v
+		= is_iterator_input_iterator_exactly_v<_It> || is_iterator_output_iterator_exactly_v<_It>;
 
 	template <typename _It>
-	inline constexpr bool is_iterator_forward_iterator_v
+	inline constexpr bool is_iterator_forward_iterator_exactly_v
 		= ::std::is_same_v<::std::forward_iterator_tag, iterator_concept_t<_It>>;
 
 	template <typename _It>
-	inline constexpr bool is_iterator_bidirectional_iterator_v
+	inline constexpr bool is_iterator_bidirectional_iterator_exactly_v
 		= ::std::is_same_v<::std::bidirectional_iterator_tag, iterator_concept_t<_It>>;
+
+	template <typename _It>
+	inline constexpr bool is_iterator_random_access_iterator_exactly_v
+		= ::std::is_same_v<::std::random_access_iterator_tag, iterator_concept_t<_It>>;
+
+	template <typename _It>
+	inline constexpr bool is_iterator_contiguous_iterator_exactly_v
+		= ::std::is_same_v<::ztd::contiguous_iterator_tag, iterator_concept_t<_It>>;
 
 	template <typename _It, typename _Sen>
 	inline constexpr bool is_sized_sentinel_for_v = __rng_detail::__is_distance_operable_v<_It, _Sen>;
