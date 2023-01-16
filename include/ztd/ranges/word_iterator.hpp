@@ -118,7 +118,7 @@ namespace ztd { namespace ranges {
 	template <typename _Word, typename _Range, endian _Endian>
 	class word_iterator
 	: private __rng_detail::__word_iterator_storage<_Word, range_reconstruct_t<remove_cvref_t<_Range>>,
-		  is_iterator_input_iterator_v<ranges::range_iterator_t<range_reconstruct_t<remove_cvref_t<_Range>>>>> {
+		  is_range_input_or_output_range_exactly_v<range_reconstruct_t<remove_cvref_t<_Range>>>> {
 	private:
 		using _URange                      = range_reconstruct_t<remove_cvref_t<_Range>>;
 		using __base_iterator              = ranges::range_iterator_t<_URange>;
@@ -132,8 +132,9 @@ namespace ztd { namespace ranges {
 		using __difference_type            = iterator_difference_type_t<__base_iterator>;
 		using __size_type                  = iterator_size_type_t<__base_iterator>;
 		using __value_type                 = _Word;
-		inline constexpr static bool _IsInput = is_iterator_input_iterator_v<__base_iterator>;
-		using __base_storage_t                = __rng_detail::__word_iterator_storage<_Word, _URange, _IsInput>;
+		using __unsigned_value_type        = ::std::make_unsigned_t<__value_type>;
+		inline constexpr static bool _IsInputOrOutput = is_range_input_or_output_range_exactly_v<_URange>;
+		using __base_storage_t = __rng_detail::__word_iterator_storage<_Word, _URange, _IsInputOrOutput>;
 
 		static_assert(sizeof(__value_type) >= sizeof(__base_value_type),
 			"the 'byte' type selected for the word_iterator must not be larger than the value_type of the "
@@ -150,7 +151,8 @@ namespace ztd { namespace ranges {
 			using __cv_value_type = ::std::conditional_t<_IsConst, const _Word, _Word>;
 			using __underlying_base_value_type
 				= decltype(::ztd::any_enum_or_char_to_underlying(__base_value_type {}));
-			using __underlying_word_type = decltype(::ztd::any_enum_or_char_to_underlying(std::declval<_Word>()));
+			using __underlying_word_type
+				= decltype(::ztd::any_enum_or_char_to_underlying_unsigned(std::declval<_Word>()));
 			inline static constexpr __underlying_word_type __base_bits_per_element
 				= static_cast<__underlying_word_type>(sizeof(__underlying_base_value_type) * CHAR_BIT);
 			inline static constexpr __underlying_word_type __base_lowest_bit_mask
@@ -208,7 +210,7 @@ namespace ztd { namespace ranges {
 					}
 				}
 				auto& __base_range = this->_M_base_range();
-				if constexpr (_IsInput) {
+				if constexpr (_IsInputOrOutput) {
 					auto __result         = __rng_detail::__copy(__write_storage_first, __write_storage_last,
 						        ::ztd::ranges::begin(::std::move(__base_range)),
 						        ::ztd::ranges::end(::std::move(__base_range)));
@@ -231,8 +233,8 @@ namespace ztd { namespace ranges {
 				__base_value_type __read_storage[__base_values_per_word] {};
 				__base_value_type* __read_storage_first = __read_storage + 0;
 				::std::size_t __read_storage_size       = ::ztd::ranges::size(__read_storage);
-				__value_type __val {};
-				if constexpr (_IsInput) {
+				__unsigned_value_type __val {};
+				if constexpr (_IsInputOrOutput) {
 					// input iterator here (output iterstors cannot be used)
 					// to do this kind of work
 					// use iterator directly, re-update it when we are done
@@ -270,14 +272,14 @@ namespace ztd { namespace ranges {
 					// one-way """memcpy""". 😵
 					for (::std::size_t __index = 0; __index < __base_values_per_word; ++__index) {
 						__underlying_word_type __bit_value = static_cast<__underlying_word_type>(
-							::ztd::any_enum_or_char_to_underlying(__read_storage[__index]));
+							::ztd::any_enum_or_char_to_underlying_unsigned(__read_storage[__index]));
 						__underlying_word_type __bit_position
 							= static_cast<__underlying_word_type>(__index * __base_bits_per_element);
 						__underlying_word_type __shifted_bit_value = (__bit_value << __bit_position);
 						__val |= __shifted_bit_value;
 					}
 				}
-				return __val;
+				return static_cast<__value_type>(__val);
 			}
 
 			constexpr operator __value_type() const noexcept {
@@ -322,14 +324,14 @@ namespace ztd { namespace ranges {
 		using value_type = __value_type;
 		//////
 		///@brief The non-const-qualified reference type.
-		using reference = ::std::conditional_t<_IsInput, value_type&, __word_reference<false>>;
+		using reference = ::std::conditional_t<_IsInputOrOutput, value_type&, __word_reference<false>>;
 		//////
 		///@brief The const-qualified reference type.
-		using const_reference = ::std::conditional_t<_IsInput, const value_type&, __word_reference<true>>;
+		using const_reference = ::std::conditional_t<_IsInputOrOutput, const value_type&, __word_reference<true>>;
 
 	private:
 		static constexpr bool _S_deref_noexcept() noexcept {
-			if constexpr (_IsInput) {
+			if constexpr (_IsInputOrOutput) {
 				return true;
 			}
 			else {
@@ -338,7 +340,7 @@ namespace ztd { namespace ranges {
 		}
 
 		static constexpr bool _S_const_deref_noexcept() noexcept {
-			if constexpr (_IsInput) {
+			if constexpr (_IsInputOrOutput) {
 				return true;
 			}
 			else {
@@ -439,7 +441,7 @@ namespace ztd { namespace ranges {
 		//////
 		///@brief Shifts the iterator over by +1.
 		constexpr word_iterator& operator++() noexcept(_S_advance_noexcept()) {
-			if constexpr (_IsInput) {
+			if constexpr (_IsInputOrOutput) {
 				// force read on next dereference
 				this->__base_storage_t::_M_val = ::std::nullopt;
 			}
@@ -585,7 +587,7 @@ namespace ztd { namespace ranges {
 		///
 		/// @remarks If this is an input range, the value comes from internal storage.
 		constexpr reference operator*() noexcept(_S_deref_noexcept()) {
-			if constexpr (_IsInput) {
+			if constexpr (_IsInputOrOutput) {
 				if (this->__base_storage_t::_M_val == ::std::nullopt) {
 					this->_M_read_one();
 				}
@@ -601,7 +603,7 @@ namespace ztd { namespace ranges {
 		///
 		/// @remarks If this is an input range, the value comes from internal storage.
 		constexpr const_reference operator*() const noexcept(_S_const_deref_noexcept()) {
-			if constexpr (_IsInput) {
+			if constexpr (_IsInputOrOutput) {
 				if (this->__base_storage_t::_M_val == ::std::nullopt) {
 					const_cast<word_iterator*>(this)->_M_read_one();
 				}
@@ -652,7 +654,7 @@ namespace ztd { namespace ranges {
 
 	private:
 		constexpr void _M_read_one() noexcept(_S_deref_noexcept()) {
-			if constexpr (_IsInput) {
+			if constexpr (_IsInputOrOutput) {
 				_Word __read_word              = __word_reference<true>(this->__base_storage_t::get_value());
 				this->__base_storage_t::_M_val = ::std::optional<_Word>(__read_word);
 			}

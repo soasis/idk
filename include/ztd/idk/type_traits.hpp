@@ -331,6 +331,18 @@ namespace ztd {
 	template <typename _FromTy, typename _ToTy>
 	inline constexpr bool is_non_derived_compatible_pointer_v = ::std::is_convertible_v<_FromTy (*)[], _ToTy (*)[]>;
 
+	//////
+	/// @brief Transfers the volatile/const qualifications of the `_QualifiedTy` type to the given `_Ty`.
+	///
+	/// @tparam _QualifiedTy The type to pull qualifications from.
+	/// @tparam _Ty The type to add qualifications to.
+	template <typename _Ty, typename _QualifiedTy>
+	using qualify_like_t = ::std::conditional_t<::std::is_volatile_v<_QualifiedTy>,      // cf
+	     volatile ::std::conditional_t<::std::is_const_v<_QualifiedTy>, const _Ty, _Ty>, // cf
+	     ::std::conditional_t<::std::is_const_v<_QualifiedTy>, const _Ty, _Ty>           // cf
+	     >;
+
+
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd
 

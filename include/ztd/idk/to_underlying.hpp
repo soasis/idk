@@ -58,27 +58,33 @@ namespace ztd {
 		}
 	}
 
+	template <typename _MaybeEnum>
+	inline constexpr auto any_to_underlying_unsigned(_MaybeEnum __value) noexcept {
+		auto __val = ::ztd::to_underlying(__value);
+		return static_cast<::std::make_unsigned_t<decltype(__val)>>(__val);
+	}
+
 	template <typename _Integralish>
-	inline constexpr auto any_enum_or_char_to_underlying(_Integralish __val) noexcept {
+	inline constexpr auto any_enum_or_char_to_underlying(_Integralish __value) noexcept {
 		if constexpr (::std::is_same_v<_Integralish, char>) {
 			using _UTy = ::std::conditional_t<::std::is_signed_v<char>, ::std::int_least8_t, ::std::uint_least8_t>;
-			return static_cast<_UTy>(__val);
+			return static_cast<_UTy>(__value);
 		}
 		else if constexpr (::std::is_same_v<_Integralish, wchar_t>) {
 			if constexpr (sizeof(wchar_t) <= sizeof(::std::uint_least8_t)) {
 				using _UTy
 				     = ::std::conditional_t<::std::is_signed_v<wchar_t>, ::std::int_least8_t, ::std::uint_least8_t>;
-				return static_cast<_UTy>(__val);
+				return static_cast<_UTy>(__value);
 			}
 			else if constexpr (sizeof(wchar_t) <= sizeof(::std::uint_least16_t)) {
 				using _UTy = ::std::conditional_t<::std::is_signed_v<wchar_t>, ::std::int_least16_t,
 				     ::std::uint_least16_t>;
-				return static_cast<_UTy>(__val);
+				return static_cast<_UTy>(__value);
 			}
 			else if constexpr (sizeof(wchar_t) <= sizeof(::std::uint_least32_t)) {
 				using _UTy = ::std::conditional_t<::std::is_signed_v<wchar_t>, ::std::int_least32_t,
 				     ::std::uint_least32_t>;
-				return static_cast<_UTy>(__val);
+				return static_cast<_UTy>(__value);
 			}
 			else {
 				static_assert(sizeof(wchar_t) <= sizeof(::std::uint_least64_t),
@@ -86,23 +92,29 @@ namespace ztd {
 				     "ztd::any_enum_or_char_to_underlying(...).");
 				using _UTy = ::std::conditional_t<::std::is_signed_v<wchar_t>, ::std::int_least64_t,
 				     ::std::uint_least64_t>;
-				return static_cast<_UTy>(__val);
+				return static_cast<_UTy>(__value);
 			}
 		}
 #if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T)
 		else if constexpr (::std::is_same_v<_Integralish, char8_t>) {
-			return static_cast<unsigned char>(__val);
+			return static_cast<unsigned char>(__value);
 		}
 #endif // char8_t
 		else if constexpr (::std::is_same_v<_Integralish, char16_t>) {
-			return static_cast<uint_least16_t>(__val);
+			return static_cast<uint_least16_t>(__value);
 		}
 		else if constexpr (::std::is_same_v<_Integralish, char32_t>) {
-			return static_cast<uint_least32_t>(__val);
+			return static_cast<uint_least32_t>(__value);
 		}
 		else {
-			return any_to_underlying(__val);
+			return ::ztd::any_to_underlying(__value);
 		}
+	}
+
+	template <typename _Integralish>
+	inline constexpr auto any_enum_or_char_to_underlying_unsigned(_Integralish __value) noexcept {
+		auto __val = ::ztd::any_enum_or_char_to_underlying(__value);
+		return static_cast<::std::make_unsigned_t<decltype(__val)>>(__val);
 	}
 
 	namespace __idk_detail {

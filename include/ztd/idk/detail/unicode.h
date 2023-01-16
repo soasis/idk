@@ -144,14 +144,14 @@ inline ZTD_CONSTEXPR_IF_CXX_I_ bool __ztd_idk_detail_mutf8_is_invalid(ztd_char8_
 
 inline ZTD_CONSTEXPR_IF_CXX_I_ bool __ztd_idk_detail_utf8_is_overlong(
      ztd_char32_t __value, ::std::size_t __bytes) ZTD_NOEXCEPT_IF_CXX_I_ {
-	return __value <= __ztd_idk_detail_last_1byte_value
+	return (__value <= __ztd_idk_detail_last_1byte_value && __bytes > 1)
 	     || (__value <= __ztd_idk_detail_last_2byte_value && __bytes > 2)
 	     || (__value <= __ztd_idk_detail_last_3byte_value && __bytes > 3);
 }
 
 inline ZTD_CONSTEXPR_IF_CXX_I_ bool __ztd_idk_detail_utf8_is_overlong_extended(
      ztd_char32_t __value, ::std::size_t __bytes) ZTD_NOEXCEPT_IF_CXX_I_ {
-	return __value <= __ztd_idk_detail_last_1byte_value
+	return (__value <= __ztd_idk_detail_last_1byte_value && __bytes > 1)
 	     || (__value <= __ztd_idk_detail_last_2byte_value && __bytes > 2)
 	     || (__value <= __ztd_idk_detail_last_3byte_value && __bytes > 3)
 	     || (__value <= __ztd_idk_detail_last_4byte_value && __bytes > 4)
