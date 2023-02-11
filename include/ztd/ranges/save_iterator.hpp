@@ -55,6 +55,13 @@ namespace ztd { namespace ranges {
 	///
 	/// @{
 
+	//////
+	/// @brief Clones an iterator if it is not aan input or output iterator.
+	///
+	/// @param __it The iterator to save.
+	///
+	/// @returns Either an implementation-defined object that indicates the save could not be done, or a move/copy of
+	/// the given iterator.
 	template <typename _It>
 	constexpr auto save_iterator(_It&& __it) noexcept {
 		if constexpr (::std::is_same_v<::ztd::remove_cvref_t<_It>, __rng_detail::__range_iterator_unsaveable_t>) {
@@ -69,6 +76,14 @@ namespace ztd { namespace ranges {
 		}
 	}
 
+	//////
+	/// @brief Clones an iterator if it is not aan input or output iterator.
+	///
+	/// @param __it An object returned by a previous call to ztd::ranges::save_iterator.
+	/// @param __fallback_it The iterator to return if the given iterator is either an input/output iterator or is the
+	/// implementation-defined "unsaveable" object.
+	///
+	/// @returns Either a clone of the `__it` if possible, or if not returns the `__fallback_it`.
 	template <typename _It, typename _FallbackIt>
 	constexpr auto restore_iterator(_It&& __it, _FallbackIt&& __fallback_it) noexcept {
 		if constexpr (::std::is_same_v<::ztd::remove_cvref_t<_It>, __rng_detail::__range_iterator_unsaveable_t>) {

@@ -96,7 +96,7 @@ namespace ztd { namespace tests {
 				_Nbytes <= (sizeof(__source_bytes) * CHAR_BIT), "unusable (too large) bit size for the given type");
 
 			_Type __value;
-			::std::memcpy(::std::addressof(__value), __source_bytes, ztd_c_array_size(__source_bytes));
+			::std::memcpy(::std::addressof(__value), __source_bytes, ztdc_c_array_size(__source_bytes));
 			return __value;
 		}
 	}
@@ -137,7 +137,7 @@ namespace ztd { namespace tests {
 					"unusable (too large) bit size for the given type");
 
 				_Type __value;
-				::std::memcpy(::std::addressof(__value), __source_bytes, ztd_c_array_size(__source_bytes));
+				::std::memcpy(::std::addressof(__value), __source_bytes, ztdc_c_array_size(__source_bytes));
 				return -__value;
 			}
 		}
@@ -174,7 +174,7 @@ namespace ztd { namespace tests {
 					"unusable (too large) bit size for the given type");
 
 				_Type __value;
-				::std::memcpy(::std::addressof(__value), __source_bytes, ztd_c_array_size(__source_bytes));
+				::std::memcpy(::std::addressof(__value), __source_bytes, ztdc_c_array_size(__source_bytes));
 				return __value;
 			}
 		}
@@ -220,7 +220,7 @@ namespace ztd { namespace tests {
 				_Nbytes <= (sizeof(__source_bytes) * CHAR_BIT), "unusable (too large) bit size for the given type");
 
 			_Type __value;
-			::std::memcpy(::std::addressof(__value), __source_bytes, ztd_c_array_size(__source_bytes));
+			::std::memcpy(::std::addressof(__value), __source_bytes, ztdc_c_array_size(__source_bytes));
 			return __value;
 		}
 	}

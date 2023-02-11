@@ -77,7 +77,7 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztd_idk_attempt_utf8_local
 		{ LC_ALL, "US-Utf8" },
 		{ LC_ALL, "US-UTF8" },
 	};
-	for (std::size_t __i = 0; __i < ztd_c_array_size(__attempts); ++__i) {
+	for (std::size_t __i = 0; __i < ztdc_c_array_size(__attempts); ++__i) {
 		char* __result = std::setlocale(__attempts[__i].category, __attempts[__i].specifier);
 		if (__result != nullptr) {
 			return true;
