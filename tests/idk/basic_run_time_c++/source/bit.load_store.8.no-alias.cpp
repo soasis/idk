@@ -121,7 +121,7 @@ static void explode_and_catch() {
 	     [[maybe_unused]] _TYPE __unaligned_ptr[ZTD_PTR_EXTENT(_N / (sizeof(_TYPE) * CHAR_BIT))]) {       \
 		explode_and_catch();                                                                             \
 	}                                                                                                     \
-	ztd_static_assert((((_N) % 8) == 0), "N must be a multiple of 8")
+	ztdc_static_assert((((_N) % 8) == 0), "N must be a multiple of 8")
 
 #if CHAR_BIT <= 8
 ZTDC_GENERATE_LOAD8_STORE8_DEFINITIONS_TYPE(unsigned char, 8, uc);

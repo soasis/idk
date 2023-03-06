@@ -72,6 +72,6 @@
 			__index += 8;                                                                                   \
 		}                                                                                                    \
 	}                                                                                                         \
-	ztd_static_assert(true, "end-of-macro")
+	ztdc_static_assert(true, "end-of-macro")
 
 #endif

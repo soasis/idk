@@ -30,19 +30,19 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_THREAD_LOCAL_H
-#define ZTD_IDK_THREAD_LOCAL_H
+#ifndef ZTD_IDK_STATIC_ASSERT_H
+#define ZTD_IDK_STATIC_ASSERT_H
 
 #include <ztd/idk/version.h>
 
 #if ZTD_IS_ON(ZTD_CXX)
-#define ztd_static_assert(...) static_assert(__VA_ARGS__)
+#define ztdc_static_assert(...) static_assert(__VA_ARGS__)
 #else
 #if ZTD_IS_ON(ZTD_COMPILER_VCXX)
 #include <assert.h>
-#define ztd_static_assert(...) static_assert(__VA_ARGS__)
+#define ztdc_static_assert(...) static_assert(__VA_ARGS__)
 #else
-#define ztd_static_assert(...) _Static_assert(__VA_ARGS__)
+#define ztdc_static_assert(...) _Static_assert(__VA_ARGS__)
 #endif
 #endif
 

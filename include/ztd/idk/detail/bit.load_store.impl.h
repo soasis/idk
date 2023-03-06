@@ -63,7 +63,7 @@
 		_VALUE |= (__unsigned_type)(((__unsigned_type)(_PTR[__ptr_idx / __width] & __byte8_mask) >> __value_idx) \
 		     << __idx);                                                                                          \
 	}                                                                                                             \
-	ztd_static_assert(1, "")
+	ztdc_static_assert(1, "")
 
 #define ZTDC_GENERATE_STORE8_BODY_LE_UNSIGNED_TYPE(_TYPE, _N, _PTR, _VALUE)                                 \
 	const size_t __width     = sizeof(_TYPE) * CHAR_BIT;                                                   \
@@ -75,7 +75,7 @@
 		const _TYPE __byte8_mask = 0xFF;                                                                  \
 		_PTR[__ptr_idx / __width] |= (_TYPE)((((_TYPE)(_VALUE >> __idx)) & __byte8_mask) << __value_idx); \
 	}                                                                                                      \
-	ztd_static_assert(1, "")
+	ztdc_static_assert(1, "")
 
 #define ZTDC_GENERATE_LOAD8_BODY_BE_UNSIGNED_TYPE(_TYPE, _N, _PTR, _VALUE)                                           \
 	typedef uint_least##_N##_t __unsigned_type;                                                                     \
@@ -90,7 +90,7 @@
 		_VALUE |= (__unsigned_type)((((__unsigned_type)(_PTR[__ptr_idx / __width] & __byte8_mask)) >> __value_idx) \
 		     << __idx);                                                                                            \
 	}                                                                                                               \
-	ztd_static_assert(1, "")
+	ztdc_static_assert(1, "")
 
 #define ZTDC_GENERATE_STORE8_BODY_BE_UNSIGNED_TYPE(_TYPE, _N, _PTR, _VALUE)                                 \
 	const size_t __width     = sizeof(_TYPE) * CHAR_BIT;                                                   \
@@ -103,7 +103,7 @@
 		const _TYPE __byte8_mask = ((_TYPE)0xFF);                                                         \
 		_PTR[__ptr_idx / __width] |= (_TYPE)((((_TYPE)(_VALUE >> __idx)) & __byte8_mask) << __value_idx); \
 	}                                                                                                      \
-	ztd_static_assert(1, "")
+	ztdc_static_assert(1, "")
 
 #define ZTDC_GENERATE_LOAD8_UNSIGNED_BODY(_UNSIGNED_BODY, _TYPE, _N, _PTR) \
 	_UNSIGNED_BODY(_TYPE, _N, _PTR, __value);                             \
@@ -119,14 +119,14 @@
 		__type __value = (__type)(__unsigned_value - ((__unsigned_type)ZTD_WIDTH_TO_MAX_VALUE(_N))) - (__type)(1); \
 		return __value;                                                                                            \
 	}                                                                                                               \
-	ztd_static_assert(1, "")
+	ztdc_static_assert(1, "")
 
 #define ZTDC_GENERATE_STORE8_SIGNED_BODY(_UNSIGNED_BODY, _TYPE, _N, _PTR, _VALUE, _SIGN_IDX) \
 	typedef int_least##_N##_t __type;                                                       \
 	typedef uint_least##_N##_t __unsigned_type;                                             \
 	const __unsigned_type __unsigned_value = (__unsigned_type)(_VALUE);                     \
 	_UNSIGNED_BODY(_TYPE, _N, _PTR, __unsigned_value);                                      \
-	ztd_static_assert(1, "")
+	ztdc_static_assert(1, "")
 
 #define ZTDC_GENERATE_STORE8_BE_SIGNED_BODY(_UNSIGNED_BODY, _TYPE, _N, _PTR, _VALUE) \
 	ZTDC_GENERATE_STORE8_SIGNED_BODY(_UNSIGNED_BODY, _TYPE, _N, _PTR, _VALUE, (_N - 8))
@@ -208,7 +208,7 @@
 		_TYPE* __ptr = (_TYPE*)ZTD_ASSUME_ALIGNED(((_N) / CHAR_BIT), __unaligned_ptr);                               \
 		ZTDC_GENERATE_STORE8_LE_SIGNED_BODY(ZTDC_GENERATE_STORE8_BODY_BE_UNSIGNED_TYPE, _TYPE, _N, __ptr, __value);  \
 	}                                                                                                                 \
-	ztd_static_assert((((_N) % 8) == 0), "N must be a multiple of 8")
+	ztdc_static_assert((((_N) % 8) == 0), "N must be a multiple of 8")
 
 #define ZTDC_GENERATE_LOAD8_STORE8_DEFINITIONS(_N) ZTDC_GENERATE_LOAD8_STORE8_DEFINITIONS_TYPE(unsigned char, _N, )
 

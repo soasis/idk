@@ -49,7 +49,7 @@
 		fprintf(stderr, "\tCondition failed: %s\n", #__VA_ARGS__);                                              \
 		__c_test_result_value += 1;                                                                             \
 	}                                                                                                            \
-	ztd_static_assert(1, "")
+	ztdc_static_assert(1, "")
 
 #define BEGIN_TEST(NAME)                            \
 	{                                              \
@@ -57,14 +57,14 @@
 		const char* __c_test_name         = NAME; \
 		const char* __c_test_case_name    = NAME; \
 		const char* __c_test_section_name = NULL; \
-		ztd_static_assert(1, "")
+		ztdc_static_assert(1, "")
 #define END_TEST()                 \
 	__c_test_name         = NULL; \
 	__c_test_case_name    = NULL; \
 	__c_test_section_name = NULL; \
 	return __c_test_result_value; \
 	}                             \
-	ztd_static_assert(1, "")
+	ztdc_static_assert(1, "")
 #define TEST_CASE(NAME, ...)       \
 	__c_test_name         = NAME; \
 	__c_test_section_name = NULL;

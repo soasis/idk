@@ -64,7 +64,7 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding
 #if ZTD_IS_ON(ZTD_NL_LANGINFO) || ZTD_IS_ON(ZTD_LANGINFO)
 	const char* __ctype_name = nl_langinfo(CODESET);
 #else
-	const char* __ctype_name = setlocale(LC_CTYPE, nullptr);
+	const char* __ctype_name          = setlocale(LC_CTYPE, nullptr);
 #endif
 	::std::string_view __adjusted_ctype_name(__ctype_name);
 	::std::size_t __index = __adjusted_ctype_name.find_first_of(".");
@@ -93,11 +93,44 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_wide_execution_enc
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding_utf8(void) ZTD_NOEXCEPT_IF_CXX_I_ {
 #if ZTD_IS_ON(ZTD_PLATFORM_MAC_OS)
 	return true;
-#elif ZTD_IS_ON(ZTD_LIBVCXX)
-	return MB_CUR_MAX == 4;
 #else
+#if ZTD_IS_ON(ZTD_LIBVCXX)
+	if (MB_CUR_MAX == 4) {
+		return true;
+	}
+#endif
 #if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 	if (::ztd::__idk_detail::__windows::__determine_active_code_page() == CP_UTF8) {
+		return true;
+	}
+#endif
+#if ZTD_IS_ON(ZTD_NL_LANGINFO) || ZTD_IS_ON(ZTD_LANGINFO)
+	const char* __ctype_name = nl_langinfo(CODESET);
+#else
+	const char* __ctype_name          = setlocale(LC_CTYPE, nullptr);
+#endif
+	::std::string_view __adjusted_ctype_name(__ctype_name);
+	::std::size_t __index = __adjusted_ctype_name.find_first_of(".");
+	if (__index != ::std::string_view::npos) {
+		__adjusted_ctype_name = __adjusted_ctype_name.substr(__index);
+	}
+	return ::ztd::is_encoding_name_equal(__adjusted_ctype_name, "UTF-8");
+#endif
+}
+
+
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding_utf16(void) ZTD_NOEXCEPT_IF_CXX_I_ {
+#if (CHAR_BIT < 16)
+	return false;
+#else
+#if ZTD_IS_ON(ZTD_PLATFORM_MAC_OS)
+	return false;
+#else
+#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
+	constexpr const int __cp_utf16_le = 1200;
+	constexpr const int __cp_utf16_be = 1201;
+	constexpr const int __cp_utf16    = ZTDC_NATIVE_ENDIAN == ZTDC_LITTLE_ENDIAN ? __cp_utf16_le : __cp_utf16_be;
+	if (::ztd::__idk_detail::__windows::__determine_active_code_page() == __cp_utf16) {
 		return true;
 	}
 #endif
@@ -111,7 +144,39 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding
 	if (__index != ::std::string_view::npos) {
 		__adjusted_ctype_name = __adjusted_ctype_name.substr(__index);
 	}
-	return ::ztd::is_encoding_name_equal(__adjusted_ctype_name, "UTF-8");
+	return ::ztd::is_encoding_name_equal(__adjusted_ctype_name, "UTF-16");
+#endif
+#endif
+}
+
+
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding_utf32(void) ZTD_NOEXCEPT_IF_CXX_I_ {
+#if (CHAR_BIT < 21)
+	return false;
+#else
+#if ZTD_IS_ON(ZTD_PLATFORM_MAC_OS)
+	return false;
+#else
+#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
+	constexpr const int __cp_utf32_le = 12000;
+	constexpr const int __cp_utf32_be = 12001;
+	constexpr const int __cp_utf32    = ZTDC_NATIVE_ENDIAN == ZTDC_LITTLE_ENDIAN ? __cp_utf32_le : __cp_utf32_be;
+	if (::ztd::__idk_detail::__windows::__determine_active_code_page() == __cp_utf32) {
+		return true;
+	}
+#endif
+#if ZTD_IS_ON(ZTD_NL_LANGINFO) || ZTD_IS_ON(ZTD_LANGINFO)
+	const char* __ctype_name = nl_langinfo(CODESET);
+#else
+	const char* __ctype_name = setlocale(LC_CTYPE, nullptr);
+#endif
+	::std::string_view __adjusted_ctype_name(__ctype_name);
+	::std::size_t __index = __adjusted_ctype_name.find_first_of(".");
+	if (__index != ::std::string_view::npos) {
+		__adjusted_ctype_name = __adjusted_ctype_name.substr(__index);
+	}
+	return ::ztd::is_encoding_name_equal(__adjusted_ctype_name, "UTF-32");
+#endif
 #endif
 }
 

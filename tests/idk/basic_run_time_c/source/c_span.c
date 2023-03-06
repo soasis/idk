@@ -139,7 +139,7 @@
 			REQUIRE(TYPE_NAME##_back(value3) == *(expected_pointer_end - 1));                                     \
 		}                                                                                                          \
 	}                                                                                                               \
-	ztd_static_assert(1, "")
+	ztdc_static_assert(1, "")
 
 extern int c_span_tests(void) {
 	BEGIN_TEST("c_span");

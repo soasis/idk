@@ -41,7 +41,7 @@
 	if ((sizeof(TYPE) * CHAR_BIT) == 8) {                 \
 		return (TYPE)ztdc_memreverse8u8((uint8_t)value); \
 	}                                                     \
-	ztd_static_assert(1, "")
+	ztdc_static_assert(1, "")
 #else
 #define MEMREV8(TYPE)
 #endif
@@ -51,7 +51,7 @@
 	if ((sizeof(TYPE) * CHAR_BIT) == 16) {                  \
 		return (TYPE)ztdc_memreverse8u16((uint16_t)value); \
 	}                                                       \
-	ztd_static_assert(1, "")
+	ztdc_static_assert(1, "")
 #else
 #define MEMREV16(TYPE)
 #endif
@@ -61,7 +61,7 @@
 	if ((sizeof(TYPE) * CHAR_BIT) == 24) {                  \
 		return (TYPE)ztdc_memreverse8u24((uint24_t)value); \
 	}                                                       \
-	ztd_static_assert(1, "")
+	ztdc_static_assert(1, "")
 #else
 #define MEMREV24(TYPE)
 #endif
@@ -71,7 +71,7 @@
 	if ((sizeof(TYPE) * CHAR_BIT) == 32) {                  \
 		return (TYPE)ztdc_memreverse8u32((uint32_t)value); \
 	}                                                       \
-	ztd_static_assert(1, "")
+	ztdc_static_assert(1, "")
 #else
 #define MEMREV32(TYPE)
 #endif
@@ -81,7 +81,7 @@
 	if ((sizeof(TYPE) * CHAR_BIT) == 40) {                  \
 		return (TYPE)ztdc_memreverse8u40((uint40_t)value); \
 	}                                                       \
-	ztd_static_assert(1, "")
+	ztdc_static_assert(1, "")
 #else
 #define MEMREV40(TYPE)
 #endif
@@ -91,7 +91,7 @@
 	if ((sizeof(TYPE) * CHAR_BIT) == 48) {                  \
 		return (TYPE)ztdc_memreverse8u48((uint48_t)value); \
 	}                                                       \
-	ztd_static_assert(1, "")
+	ztdc_static_assert(1, "")
 #else
 #define MEMREV48(TYPE)
 #endif
@@ -101,7 +101,7 @@
 	if ((sizeof(TYPE) * CHAR_BIT) == 8) {                 \
 		return (TYPE)ztdc_memreverse8u8((uint8_t)value); \
 	}                                                     \
-	ztd_static_assert(1, "")
+	ztdc_static_assert(1, "")
 #else
 #define MEMREV8(TYPE)
 #endif
@@ -111,7 +111,7 @@
 	if ((sizeof(TYPE) * CHAR_BIT) == 56) {                  \
 		return (TYPE)ztdc_memreverse8u56((uint56_t)value); \
 	}                                                       \
-	ztd_static_assert(1, "")
+	ztdc_static_assert(1, "")
 #else
 #define MEMREV56(TYPE)
 #endif
@@ -121,7 +121,7 @@
 	if ((sizeof(TYPE) * CHAR_BIT) == 64) {                  \
 		return (TYPE)ztdc_memreverse8u64((uint64_t)value); \
 	}                                                       \
-	ztd_static_assert(1, "")
+	ztdc_static_assert(1, "")
 #else
 #define MEMREV64(TYPE)
 #endif
@@ -140,7 +140,7 @@
 		abort();                                    \
 		return (TYPE)0;                             \
 	}                                                \
-	ztd_static_assert(1, "")
+	ztdc_static_assert(1, "")
 
 DEFINE_MEMREV_FUNCTION(unsigned char, uc);
 DEFINE_MEMREV_FUNCTION(unsigned short, us);
@@ -194,7 +194,7 @@ DEFINE_MEMREV_FUNCTION(unsigned long long, ull);
 			REQUIRE(reverse_value == expected_reverse_value);                                                    \
 		}                                                                                                         \
 	}                                                                                                              \
-	ztd_static_assert(1, "")
+	ztdc_static_assert(1, "")
 
 extern int bit_memreverse_tests(void) {
 	BEGIN_TEST("bit.memreverse");

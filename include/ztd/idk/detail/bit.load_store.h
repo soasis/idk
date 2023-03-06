@@ -84,7 +84,7 @@ ZTD_EXTERN_C_OPEN_I_
 	     const int_least##_N##_t __value, unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_;  \
 	ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ void ztdc_store8_aligned_bes##_N(                              \
 	     const int_least##_N##_t __value, unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_;  \
-	ztd_static_assert(((_N % 8) == 0), "N must be a multiple of 8")
+	ztdc_static_assert(((_N % 8) == 0), "N must be a multiple of 8")
 
 #if ((CHAR_BIT % 8) == 0)
 #if defined(UINT_LEAST8_MAX)
