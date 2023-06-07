@@ -95,11 +95,13 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ inline ztdc_aligned_const_point
 	const uintptr_t padding     = (alignment - offby) % alignment;
 	const size_t required_space = size + padding;
 	if (space < required_space) {
-		return { nullptr, required_space, space };
+		ztdc_aligned_const_pointer __aligned_ptr = { NULL, required_space, space };
+		return __aligned_ptr;
 	}
-	const void* const aligned_ptr = (const void*)((const char*)(ptr) + padding);
-	const size_t leftover_space   = space - padding;
-	return { aligned_ptr, required_space, leftover_space };
+	const void* const aligned_ptr            = (const void*)((const char*)(ptr) + padding);
+	const size_t leftover_space              = space - padding;
+	ztdc_aligned_const_pointer __aligned_ptr = { aligned_ptr, required_space, leftover_space };
+	return __aligned_ptr;
 }
 
 //////
@@ -116,11 +118,30 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ inline ztdc_aligned_mutable_poi
 	const uintptr_t padding     = (alignment - offby) % alignment;
 	const size_t required_space = size + padding;
 	if (space < required_space) {
-		return { nullptr, required_space, space };
+		ztdc_aligned_mutable_pointer __aligned_ptr = { NULL, required_space, space };
+		return __aligned_ptr;
 	}
-	void* const aligned_ptr     = (void*)((char*)(ptr) + padding);
-	const size_t leftover_space = space - padding;
-	return { aligned_ptr, required_space, leftover_space };
+	void* const aligned_ptr                    = (void*)((char*)(ptr) + padding);
+	const size_t leftover_space                = space - padding;
+	ztdc_aligned_mutable_pointer __aligned_ptr = { aligned_ptr, required_space, leftover_space };
+	return __aligned_ptr;
+}
+
+//////
+/// @brief Checks if a pointer is aligned.
+///
+/// @param alignment The desired alignment for object.
+/// @param ptr The pointer to check for alignment.
+///
+/// @remarks `NULL` pointers are considered aligned-by-default (this function performs a `NULL` check).
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ inline bool ztdc_is_aligned(
+     size_t alignment, const void* const ptr) ZTD_NOEXCEPT_IF_CXX_I_ {
+	if (!ptr) {
+		return true;
+	}
+	const uintptr_t initial = (uintptr_t)(ptr);
+	const uintptr_t offby   = (uintptr_t)(initial % alignment);
+	return offby == 0;
 }
 
 #if ZTD_IS_ON(ZTD_C)
@@ -132,7 +153,7 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ inline ztdc_aligned_mutable_poi
 /// @param _PTR The pointer to align.
 /// @param _SPACE The amount of available space within which this alignment pay be performed, in bytes.
 #define ztdc_align(_ALIGN, _SIZE, _PTR, _SPACE) \
-	_Generic(_PTR, const void* : ztdc_align_const, void* : ztdc_align_mutable)(_ALIGN, _SIZE, _PTR, _SPACE)
+	_Generic(_PTR, const void*: ztdc_align_const, void*: ztdc_align_mutable)(_ALIGN, _SIZE, _PTR, _SPACE)
 #endif
 
 
