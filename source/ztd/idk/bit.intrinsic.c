@@ -61,53 +61,53 @@
 	return __num
 #endif
 
-unsigned int ztdc_count_onesuc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_ones_uc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_COUNT_ONES_BODY_I_(unsigned long long, __value);
 }
-unsigned int ztdc_count_onesus(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_ones_us(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_COUNT_ONES_BODY_I_(unsigned long long, __value);
 }
-unsigned int ztdc_count_onesui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_ones_ui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_COUNT_ONES_BODY_I_(unsigned long long, __value);
 }
-unsigned int ztdc_count_onesul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_ones_ul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_COUNT_ONES_BODY_I_(unsigned long long, __value);
 }
-unsigned int ztdc_count_onesull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_ones_ull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_COUNT_ONES_BODY_I_(unsigned long long, __value);
 }
 
 #undef _ZTDC_COUNT_ONES_BODY_I_
 
-unsigned int ztdc_count_zerosuc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_zeros_uc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
 	return ztdc_count_zeros(__value);
 }
-unsigned int ztdc_count_zerosus(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_zeros_us(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
 	return ztdc_count_zeros(__value);
 }
-unsigned int ztdc_count_zerosui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_zeros_ui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
 	return ztdc_count_zeros(__value);
 }
-unsigned int ztdc_count_zerosul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_zeros_ul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
 	return ztdc_count_zeros(__value);
 }
-unsigned int ztdc_count_zerosull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_zeros_ull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
 	return ztdc_count_zeros(__value);
 }
 
-bool ztdc_has_single_bituc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
+bool ztdc_has_single_bit_uc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
 	return ztdc_count_ones(__value) == 1;
 }
-bool ztdc_has_single_bitus(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
+bool ztdc_has_single_bit_us(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
 	return ztdc_count_ones(__value) == 1;
 }
-bool ztdc_has_single_bitui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
+bool ztdc_has_single_bit_ui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
 	return ztdc_count_ones(__value) == 1;
 }
-bool ztdc_has_single_bitul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
+bool ztdc_has_single_bit_ul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
 	return ztdc_count_ones(__value) == 1;
 }
-bool ztdc_has_single_bitull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
+bool ztdc_has_single_bit_ull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
 	return ztdc_count_ones(__value) == 1;
 }
 
@@ -151,73 +151,73 @@ bool ztdc_has_single_bitull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
 	return __num
 #endif
 
-unsigned int ztdc_count_leading_zerosuc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_leading_zeros_uc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_COUNT_LEADING_ZEROES_BODY_I_(
 	     unsigned char, __value, , ((sizeof(unsigned int) * CHAR_BIT) - (sizeof(unsigned char) * CHAR_BIT)));
 }
-unsigned int ztdc_count_leading_zerosus(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_leading_zeros_us(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_COUNT_LEADING_ZEROES_BODY_I_(
 	     unsigned short, __value, , ((sizeof(unsigned int) * CHAR_BIT) - (sizeof(unsigned short) * CHAR_BIT)));
 }
-unsigned int ztdc_count_leading_zerosui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_leading_zeros_ui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_COUNT_LEADING_ZEROES_BODY_I_(unsigned int, __value, , 0);
 }
-unsigned int ztdc_count_leading_zerosul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_leading_zeros_ul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_COUNT_LEADING_ZEROES_BODY_I_(unsigned long, __value, l, 0);
 }
-unsigned int ztdc_count_leading_zerosull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_leading_zeros_ull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_COUNT_LEADING_ZEROES_BODY_I_(unsigned long long, __value, ll, 0);
 }
 
-unsigned int ztdc_count_trailing_zerosuc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_trailing_zeros_uc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_COUNT_TRAILING_ZEROES_BODY_I_(unsigned char, __value, , 0);
 }
-unsigned int ztdc_count_trailing_zerosus(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_trailing_zeros_us(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_COUNT_TRAILING_ZEROES_BODY_I_(unsigned short, __value, , 0);
 }
-unsigned int ztdc_count_trailing_zerosui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_trailing_zeros_ui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_COUNT_TRAILING_ZEROES_BODY_I_(unsigned int, __value, , 0);
 }
-unsigned int ztdc_count_trailing_zerosul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_trailing_zeros_ul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_COUNT_TRAILING_ZEROES_BODY_I_(unsigned long, __value, l, 0);
 }
-unsigned int ztdc_count_trailing_zerosull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_trailing_zeros_ull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_COUNT_TRAILING_ZEROES_BODY_I_(unsigned long long, __value, ll, 0);
 }
 
 #undef _ZTDC_COUNT_LEADING_ZEROES_BODY_I_
 #undef _ZTDC_COUNT_TRAILING_ZEROES_BODY_I_
 
-unsigned int ztdc_count_leading_onesuc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_leading_ones_uc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
 	return ztdc_count_leading_zeros((unsigned char)~__value);
 }
-unsigned int ztdc_count_leading_onesus(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_leading_ones_us(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
 	return ztdc_count_leading_zeros((unsigned short)~__value);
 }
-unsigned int ztdc_count_leading_onesui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_leading_ones_ui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
 	return ztdc_count_leading_zeros((unsigned int)~__value);
 }
-unsigned int ztdc_count_leading_onesul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_leading_ones_ul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
 	return ztdc_count_leading_zeros((unsigned long)~__value);
 }
-unsigned int ztdc_count_leading_onesull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_count_leading_ones_ull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
 	return ztdc_count_leading_zeros((unsigned long long)~__value);
 }
 
-unsigned int ztdc_count_trailing_onesuc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
-	return ztdc_count_trailing_zerosuc((unsigned char)~__value);
+unsigned int ztdc_count_trailing_ones_uc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
+	return ztdc_count_trailing_zeros_uc((unsigned char)~__value);
 }
-unsigned int ztdc_count_trailing_onesus(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
-	return ztdc_count_trailing_zerosus((unsigned short)~__value);
+unsigned int ztdc_count_trailing_ones_us(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
+	return ztdc_count_trailing_zeros_us((unsigned short)~__value);
 }
-unsigned int ztdc_count_trailing_onesui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
-	return ztdc_count_trailing_zerosui((unsigned int)~__value);
+unsigned int ztdc_count_trailing_ones_ui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
+	return ztdc_count_trailing_zeros_ui((unsigned int)~__value);
 }
-unsigned int ztdc_count_trailing_onesul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
-	return ztdc_count_trailing_zerosul((unsigned long)~__value);
+unsigned int ztdc_count_trailing_ones_ul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
+	return ztdc_count_trailing_zeros_ul((unsigned long)~__value);
 }
-unsigned int ztdc_count_trailing_onesull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
-	return ztdc_count_trailing_zerosull((unsigned long long)~__value);
+unsigned int ztdc_count_trailing_ones_ull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
+	return ztdc_count_trailing_zeros_ull((unsigned long long)~__value);
 }
 
 #define _ZTDC_ROTATE_LEFT_BODY_I_()                              \
@@ -236,35 +236,35 @@ unsigned int ztdc_count_trailing_onesull(unsigned long long __value) ZTD_CXX_NOE
 	const unsigned int __rotation = __count % __width;          \
 	return (__value >> __rotation) | (__value << (__width - __rotation))
 
-unsigned char ztdc_rotate_leftuc(unsigned char __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
+unsigned char ztdc_rotate_left_uc(unsigned char __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_ROTATE_LEFT_BODY_I_();
 }
-unsigned short ztdc_rotate_leftus(unsigned short __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
+unsigned short ztdc_rotate_left_us(unsigned short __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_ROTATE_LEFT_BODY_I_();
 }
-unsigned int ztdc_rotate_leftui(unsigned int __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_rotate_left_ui(unsigned int __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_ROTATE_LEFT_BODY_I_();
 }
-unsigned long ztdc_rotate_leftul(unsigned long __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
+unsigned long ztdc_rotate_left_ul(unsigned long __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_ROTATE_LEFT_BODY_I_();
 }
-unsigned long long ztdc_rotate_leftull(unsigned long long __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
+unsigned long long ztdc_rotate_left_ull(unsigned long long __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_ROTATE_LEFT_BODY_I_();
 }
 
-unsigned char ztdc_rotate_rightuc(unsigned char __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
+unsigned char ztdc_rotate_right_uc(unsigned char __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_ROTATE_RIGHT_BODY_I_();
 }
-unsigned short ztdc_rotate_rightus(unsigned short __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
+unsigned short ztdc_rotate_right_us(unsigned short __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_ROTATE_RIGHT_BODY_I_();
 }
-unsigned int ztdc_rotate_rightui(unsigned int __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_rotate_right_ui(unsigned int __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_ROTATE_RIGHT_BODY_I_();
 }
-unsigned long ztdc_rotate_rightul(unsigned long __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
+unsigned long ztdc_rotate_right_ul(unsigned long __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_ROTATE_RIGHT_BODY_I_();
 }
-unsigned long long ztdc_rotate_rightull(unsigned long long __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
+unsigned long long ztdc_rotate_right_ull(unsigned long long __value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTDC_ROTATE_RIGHT_BODY_I_();
 }
 
@@ -274,19 +274,19 @@ unsigned long long ztdc_rotate_rightull(unsigned long long __value, unsigned int
 #define _ZTDC_BIT_FLOOR_BODY_I_(_TYPE, ...) \
 	((__VA_ARGS__ == (_TYPE)0) ? (_TYPE)0 : (((_TYPE)1) << (ztdc_bit_width(__VA_ARGS__) - 1)));
 
-unsigned char ztdc_bit_flooruc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned char ztdc_bit_floor_uc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
 	return _ZTDC_BIT_FLOOR_BODY_I_(unsigned char, __value);
 }
-unsigned short ztdc_bit_floorus(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned short ztdc_bit_floor_us(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
 	return _ZTDC_BIT_FLOOR_BODY_I_(unsigned short, __value);
 }
-unsigned int ztdc_bit_floorui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_bit_floor_ui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
 	return _ZTDC_BIT_FLOOR_BODY_I_(unsigned int, __value);
 }
-unsigned long ztdc_bit_floorul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned long ztdc_bit_floor_ul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
 	return _ZTDC_BIT_FLOOR_BODY_I_(unsigned long, __value);
 }
-unsigned long long ztdc_bit_floorull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned long long ztdc_bit_floor_ull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
 	return _ZTDC_BIT_FLOOR_BODY_I_(unsigned long long, __value);
 }
 
@@ -325,19 +325,19 @@ unsigned long long ztdc_bit_floorull(unsigned long long __value) ZTD_CXX_NOEXCEP
 	         : _ZTDC_BIT_CEIL_BODY_PROMOTION_PROTECTION_I_(unsigned long, __VA_ARGS__), unsigned long long \
 	         : _ZTDC_BIT_CEIL_BODY_PROMOTION_PROTECTION_I_(unsigned long long, __VA_ARGS__))
 
-unsigned char ztdc_bit_ceiluc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned char ztdc_bit_ceil_uc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
 	return _ZTDC_BIT_CEIL_BODY_GENERIC_SUCKS_I_(__value);
 }
-unsigned short ztdc_bit_ceilus(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned short ztdc_bit_ceil_us(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
 	return _ZTDC_BIT_CEIL_BODY_GENERIC_SUCKS_I_(__value);
 }
-unsigned int ztdc_bit_ceilui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_bit_ceil_ui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
 	return _ZTDC_BIT_CEIL_BODY_GENERIC_SUCKS_I_(__value);
 }
-unsigned long ztdc_bit_ceilul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned long ztdc_bit_ceil_ul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
 	return _ZTDC_BIT_CEIL_BODY_GENERIC_SUCKS_I_(__value);
 }
-unsigned long long ztdc_bit_ceilull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned long long ztdc_bit_ceil_ull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
 	return _ZTDC_BIT_CEIL_BODY_GENERIC_SUCKS_I_(__value);
 }
 
@@ -352,19 +352,19 @@ unsigned long long ztdc_bit_ceilull(unsigned long long __value) ZTD_CXX_NOEXCEPT
 #pragma warning(pop)
 #endif
 
-unsigned char ztdc_bit_widthuc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned char ztdc_bit_width_uc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
 	return ztdc_bit_width(__value);
 }
-unsigned short ztdc_bit_widthus(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned short ztdc_bit_width_us(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
 	return ztdc_bit_width(__value);
 }
-unsigned int ztdc_bit_widthui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_bit_width_ui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
 	return ztdc_bit_width(__value);
 }
-unsigned long ztdc_bit_widthul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned long ztdc_bit_width_ul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
 	return ztdc_bit_width(__value);
 }
-unsigned long long ztdc_bit_widthull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned long long ztdc_bit_width_ull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
 	return ztdc_bit_width(__value);
 }
 
@@ -385,21 +385,21 @@ unsigned long long ztdc_bit_widthull(unsigned long long __value) ZTD_CXX_NOEXCEP
 	return 0
 #endif
 
-unsigned int ztdc_first_leading_oneuc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_first_leading_one_uc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTD_FIRST_LEADING_ONE_BODY_I_(
 	     unsigned char, __value, , ((sizeof(unsigned int) * CHAR_BIT) - (sizeof(unsigned char) * CHAR_BIT)));
 }
-unsigned int ztdc_first_leading_oneus(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_first_leading_one_us(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTD_FIRST_LEADING_ONE_BODY_I_(
 	     unsigned short, __value, , ((sizeof(unsigned int) * CHAR_BIT) - (sizeof(unsigned short) * CHAR_BIT)));
 }
-unsigned int ztdc_first_leading_oneui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_first_leading_one_ui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTD_FIRST_LEADING_ONE_BODY_I_(unsigned int, __value, , 0);
 }
-unsigned int ztdc_first_leading_oneul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_first_leading_one_ul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTD_FIRST_LEADING_ONE_BODY_I_(unsigned long, __value, l, 0);
 }
-unsigned int ztdc_first_leading_oneull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_first_leading_one_ull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTD_FIRST_LEADING_ONE_BODY_I_(unsigned long long, __value, ll, 0);
 }
 
@@ -419,52 +419,52 @@ unsigned int ztdc_first_leading_oneull(unsigned long long __value) ZTD_CXX_NOEXC
 	return 0
 #endif
 
-unsigned int ztdc_first_trailing_oneuc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_first_trailing_one_uc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTD_FIRST_TRAILING_ONE_BODY_I_(unsigned char, __value, );
 }
-unsigned int ztdc_first_trailing_oneus(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_first_trailing_one_us(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTD_FIRST_TRAILING_ONE_BODY_I_(unsigned short, __value, );
 }
-unsigned int ztdc_first_trailing_oneui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_first_trailing_one_ui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTD_FIRST_TRAILING_ONE_BODY_I_(unsigned int, __value, );
 }
-unsigned int ztdc_first_trailing_oneul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_first_trailing_one_ul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTD_FIRST_TRAILING_ONE_BODY_I_(unsigned long, __value, l);
 }
-unsigned int ztdc_first_trailing_oneull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
+unsigned int ztdc_first_trailing_one_ull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
 	_ZTD_FIRST_TRAILING_ONE_BODY_I_(unsigned long long, __value, ll);
 }
 
 #undef _ZTD_FIRST_TRAILING_ONE_BODY_I_
 
-unsigned int ztdc_first_leading_zerouc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
-	return ztdc_first_leading_oneuc((unsigned char)~__value);
+unsigned int ztdc_first_leading_zero_uc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
+	return ztdc_first_leading_one_uc((unsigned char)~__value);
 }
-unsigned int ztdc_first_leading_zerous(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
-	return ztdc_first_leading_oneus((unsigned short)~__value);
+unsigned int ztdc_first_leading_zero_us(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
+	return ztdc_first_leading_one_us((unsigned short)~__value);
 }
-unsigned int ztdc_first_leading_zeroui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
-	return ztdc_first_leading_oneui((unsigned int)~__value);
+unsigned int ztdc_first_leading_zero_ui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
+	return ztdc_first_leading_one_ui((unsigned int)~__value);
 }
-unsigned int ztdc_first_leading_zeroul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
-	return ztdc_first_leading_oneul((unsigned long)~__value);
+unsigned int ztdc_first_leading_zero_ul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
+	return ztdc_first_leading_one_ul((unsigned long)~__value);
 }
-unsigned int ztdc_first_leading_zeroull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
-	return ztdc_first_leading_oneull((unsigned long long)~__value);
+unsigned int ztdc_first_leading_zero_ull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
+	return ztdc_first_leading_one_ull((unsigned long long)~__value);
 }
 
-unsigned int ztdc_first_trailing_zerouc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
-	return ztdc_first_trailing_oneuc((unsigned char)~__value);
+unsigned int ztdc_first_trailing_zero_uc(unsigned char __value) ZTD_CXX_NOEXCEPT_I_ {
+	return ztdc_first_trailing_one_uc((unsigned char)~__value);
 }
-unsigned int ztdc_first_trailing_zerous(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
-	return ztdc_first_trailing_oneus((unsigned short)~__value);
+unsigned int ztdc_first_trailing_zero_us(unsigned short __value) ZTD_CXX_NOEXCEPT_I_ {
+	return ztdc_first_trailing_one_us((unsigned short)~__value);
 }
-unsigned int ztdc_first_trailing_zeroui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
-	return ztdc_first_trailing_oneui((unsigned int)~__value);
+unsigned int ztdc_first_trailing_zero_ui(unsigned int __value) ZTD_CXX_NOEXCEPT_I_ {
+	return ztdc_first_trailing_one_ui((unsigned int)~__value);
 }
-unsigned int ztdc_first_trailing_zeroul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
-	return ztdc_first_trailing_oneul((unsigned long)~__value);
+unsigned int ztdc_first_trailing_zero_ul(unsigned long __value) ZTD_CXX_NOEXCEPT_I_ {
+	return ztdc_first_trailing_one_ul((unsigned long)~__value);
 }
-unsigned int ztdc_first_trailing_zeroull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
-	return ztdc_first_trailing_oneull((unsigned long long)~__value);
+unsigned int ztdc_first_trailing_zero_ull(unsigned long long __value) ZTD_CXX_NOEXCEPT_I_ {
+	return ztdc_first_trailing_one_ull((unsigned long long)~__value);
 }

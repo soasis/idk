@@ -46,114 +46,114 @@
 #else
 #define _ZTDC_COUNT_ONES_I_(...)                                                \
 	(_Generic((__VA_ARGS__), char                                              \
-	          : ztdc_count_onesuc((unsigned char)(__VA_ARGS__)), unsigned char \
-	          : ztdc_count_onesuc(__VA_ARGS__), unsigned short                 \
-	          : ztdc_count_onesus(__VA_ARGS__), unsigned int                   \
-	          : ztdc_count_onesui(__VA_ARGS__), unsigned long                  \
-	          : ztdc_count_onesul(__VA_ARGS__), unsigned long long             \
-	          : ztdc_count_onesull(__VA_ARGS__)))
+	          : ztdc_count_ones_uc((unsigned char)(__VA_ARGS__)), unsigned char \
+	          : ztdc_count_ones_uc(__VA_ARGS__), unsigned short                 \
+	          : ztdc_count_ones_us(__VA_ARGS__), unsigned int                   \
+	          : ztdc_count_ones_ui(__VA_ARGS__), unsigned long                  \
+	          : ztdc_count_ones_ul(__VA_ARGS__), unsigned long long             \
+	          : ztdc_count_ones_ull(__VA_ARGS__)))
 #endif
 
 #define _ZTDC_COUNT_ZEROS_I_(...) ((sizeof(__VA_ARGS__) * CHAR_BIT) - ztdc_count_ones(__VA_ARGS__))
 
 #define _ZTDC_COUNT_LEADING_ZEROS_I_(...)                                                \
 	(_Generic((__VA_ARGS__), char                                                       \
-	          : ztdc_count_leading_zerosuc((unsigned char)(__VA_ARGS__)), unsigned char \
-	          : ztdc_count_leading_zerosuc(__VA_ARGS__), unsigned short                 \
-	          : ztdc_count_leading_zerosus(__VA_ARGS__), unsigned int                   \
-	          : ztdc_count_leading_zerosui(__VA_ARGS__), unsigned long                  \
-	          : ztdc_count_leading_zerosul(__VA_ARGS__), unsigned long long             \
-	          : ztdc_count_leading_zerosull(__VA_ARGS__)))
+	          : ztdc_count_leading_zeros_uc((unsigned char)(__VA_ARGS__)), unsigned char \
+	          : ztdc_count_leading_zeros_uc(__VA_ARGS__), unsigned short                 \
+	          : ztdc_count_leading_zeros_us(__VA_ARGS__), unsigned int                   \
+	          : ztdc_count_leading_zeros_ui(__VA_ARGS__), unsigned long                  \
+	          : ztdc_count_leading_zeros_ul(__VA_ARGS__), unsigned long long             \
+	          : ztdc_count_leading_zeros_ull(__VA_ARGS__)))
 
 #define _ZTDC_COUNT_TRAILING_ZEROS_I_(...)                                                \
 	(_Generic((__VA_ARGS__), char                                                        \
-	          : ztdc_count_trailing_zerosuc((unsigned char)(__VA_ARGS__)), unsigned char \
-	          : ztdc_count_trailing_zerosuc(__VA_ARGS__), unsigned short                 \
-	          : ztdc_count_trailing_zerosus(__VA_ARGS__), unsigned int                   \
-	          : ztdc_count_trailing_zerosui(__VA_ARGS__), unsigned long                  \
-	          : ztdc_count_trailing_zerosul(__VA_ARGS__), unsigned long long             \
-	          : ztdc_count_trailing_zerosull(__VA_ARGS__)))
+	          : ztdc_count_trailing_zeros_uc((unsigned char)(__VA_ARGS__)), unsigned char \
+	          : ztdc_count_trailing_zeros_uc(__VA_ARGS__), unsigned short                 \
+	          : ztdc_count_trailing_zeros_us(__VA_ARGS__), unsigned int                   \
+	          : ztdc_count_trailing_zeros_ui(__VA_ARGS__), unsigned long                  \
+	          : ztdc_count_trailing_zeros_ul(__VA_ARGS__), unsigned long long             \
+	          : ztdc_count_trailing_zeros_ull(__VA_ARGS__)))
 
 #define _ZTDC_COUNT_LEADING_ONES_I_(...)                                                \
 	(_Generic((__VA_ARGS__), char                                                      \
-	          : ztdc_count_leading_onesuc((unsigned char)(__VA_ARGS__)), unsigned char \
-	          : ztdc_count_leading_onesuc(__VA_ARGS__), unsigned short                 \
-	          : ztdc_count_leading_onesus(__VA_ARGS__), unsigned int                   \
-	          : ztdc_count_leading_onesui(__VA_ARGS__), unsigned long                  \
-	          : ztdc_count_leading_onesul(__VA_ARGS__), unsigned long long             \
-	          : ztdc_count_leading_onesull(__VA_ARGS__)))
+	          : ztdc_count_leading_ones_uc((unsigned char)(__VA_ARGS__)), unsigned char \
+	          : ztdc_count_leading_ones_uc(__VA_ARGS__), unsigned short                 \
+	          : ztdc_count_leading_ones_us(__VA_ARGS__), unsigned int                   \
+	          : ztdc_count_leading_ones_ui(__VA_ARGS__), unsigned long                  \
+	          : ztdc_count_leading_ones_ul(__VA_ARGS__), unsigned long long             \
+	          : ztdc_count_leading_ones_ull(__VA_ARGS__)))
 
 #define _ZTDC_COUNT_TRAILING_ONES_I_(...)                                                \
 	(_Generic((__VA_ARGS__), char                                                       \
-	          : ztdc_count_trailing_onesuc((unsigned char)(__VA_ARGS__)), unsigned char \
-	          : ztdc_count_trailing_onesuc(__VA_ARGS__), unsigned short                 \
-	          : ztdc_count_trailing_onesus(__VA_ARGS__), unsigned int                   \
-	          : ztdc_count_trailing_onesui(__VA_ARGS__), unsigned long                  \
-	          : ztdc_count_trailing_onesul(__VA_ARGS__), unsigned long long             \
-	          : ztdc_count_trailing_onesull(__VA_ARGS__)))
+	          : ztdc_count_trailing_ones_uc((unsigned char)(__VA_ARGS__)), unsigned char \
+	          : ztdc_count_trailing_ones_uc(__VA_ARGS__), unsigned short                 \
+	          : ztdc_count_trailing_ones_us(__VA_ARGS__), unsigned int                   \
+	          : ztdc_count_trailing_ones_ui(__VA_ARGS__), unsigned long                  \
+	          : ztdc_count_trailing_ones_ul(__VA_ARGS__), unsigned long long             \
+	          : ztdc_count_trailing_ones_ull(__VA_ARGS__)))
 
 #define _ZTDC_FIRST_LEADING_ZERO_I_(...)                                                \
 	(_Generic((__VA_ARGS__), char                                                      \
-	          : ztdc_first_leading_zerouc((unsigned char)(__VA_ARGS__)), unsigned char \
-	          : ztdc_first_leading_zerouc(__VA_ARGS__), unsigned short                 \
-	          : ztdc_first_leading_zerous(__VA_ARGS__), unsigned int                   \
-	          : ztdc_first_leading_zeroui(__VA_ARGS__), unsigned long                  \
-	          : ztdc_first_leading_zeroul(__VA_ARGS__), unsigned long long             \
-	          : ztdc_first_leading_zeroull(__VA_ARGS__)))
+	          : ztdc_first_leading_zero_uc((unsigned char)(__VA_ARGS__)), unsigned char \
+	          : ztdc_first_leading_zero_uc(__VA_ARGS__), unsigned short                 \
+	          : ztdc_first_leading_zero_us(__VA_ARGS__), unsigned int                   \
+	          : ztdc_first_leading_zero_ui(__VA_ARGS__), unsigned long                  \
+	          : ztdc_first_leading_zero_ul(__VA_ARGS__), unsigned long long             \
+	          : ztdc_first_leading_zero_ull(__VA_ARGS__)))
 
 #define _ZTDC_FIRST_TRAILING_ZERO_I_(...)                                                \
 	(_Generic((__VA_ARGS__), char                                                       \
-	          : ztdc_first_trailing_zerouc((unsigned char)(__VA_ARGS__)), unsigned char \
-	          : ztdc_first_trailing_zerouc(__VA_ARGS__), unsigned short                 \
-	          : ztdc_first_trailing_zerous(__VA_ARGS__), unsigned int                   \
-	          : ztdc_first_trailing_zeroui(__VA_ARGS__), unsigned long                  \
-	          : ztdc_first_trailing_zeroul(__VA_ARGS__), unsigned long long             \
-	          : ztdc_first_trailing_zeroull(__VA_ARGS__)))
+	          : ztdc_first_trailing_zero_uc((unsigned char)(__VA_ARGS__)), unsigned char \
+	          : ztdc_first_trailing_zero_uc(__VA_ARGS__), unsigned short                 \
+	          : ztdc_first_trailing_zero_us(__VA_ARGS__), unsigned int                   \
+	          : ztdc_first_trailing_zero_ui(__VA_ARGS__), unsigned long                  \
+	          : ztdc_first_trailing_zero_ul(__VA_ARGS__), unsigned long long             \
+	          : ztdc_first_trailing_zero_ull(__VA_ARGS__)))
 
 #define _ZTDC_FIRST_LEADING_ONE_I_(...)                                                \
 	(_Generic((__VA_ARGS__), char                                                     \
-	          : ztdc_first_leading_oneuc((unsigned char)(__VA_ARGS__)), unsigned char \
-	          : ztdc_first_leading_oneuc(__VA_ARGS__), unsigned short                 \
-	          : ztdc_first_leading_oneus(__VA_ARGS__), unsigned int                   \
-	          : ztdc_first_leading_oneui(__VA_ARGS__), unsigned long                  \
-	          : ztdc_first_leading_oneul(__VA_ARGS__), unsigned long long             \
-	          : ztdc_first_leading_oneull(__VA_ARGS__)))
+	          : ztdc_first_leading_one_uc((unsigned char)(__VA_ARGS__)), unsigned char \
+	          : ztdc_first_leading_one_uc(__VA_ARGS__), unsigned short                 \
+	          : ztdc_first_leading_one_us(__VA_ARGS__), unsigned int                   \
+	          : ztdc_first_leading_one_ui(__VA_ARGS__), unsigned long                  \
+	          : ztdc_first_leading_one_ul(__VA_ARGS__), unsigned long long             \
+	          : ztdc_first_leading_one_ull(__VA_ARGS__)))
 
 #define _ZTDC_FIRST_TRAILING_ONE_I_(...)                                                \
 	(_Generic((__VA_ARGS__), char                                                      \
-	          : ztdc_first_trailing_oneuc((unsigned char)(__VA_ARGS__)), unsigned char \
-	          : ztdc_first_trailing_oneuc(__VA_ARGS__), unsigned short                 \
-	          : ztdc_first_trailing_oneus(__VA_ARGS__), unsigned int                   \
-	          : ztdc_first_trailing_oneui(__VA_ARGS__), unsigned long                  \
-	          : ztdc_first_trailing_oneul(__VA_ARGS__), unsigned long long             \
-	          : ztdc_first_trailing_oneull(__VA_ARGS__)))
+	          : ztdc_first_trailing_one_uc((unsigned char)(__VA_ARGS__)), unsigned char \
+	          : ztdc_first_trailing_one_uc(__VA_ARGS__), unsigned short                 \
+	          : ztdc_first_trailing_one_us(__VA_ARGS__), unsigned int                   \
+	          : ztdc_first_trailing_one_ui(__VA_ARGS__), unsigned long                  \
+	          : ztdc_first_trailing_one_ul(__VA_ARGS__), unsigned long long             \
+	          : ztdc_first_trailing_one_ull(__VA_ARGS__)))
 
 #define _ZTDC_ROTATE_LEFT_I_(_VALUE, ...)                                                \
 	(_Generic((_VALUE), char                                                            \
-	          : ztdc_rotate_leftuc((unsigned char)(_VALUE), __VA_ARGS__), unsigned char \
-	          : ztdc_rotate_leftuc(_VALUE, __VA_ARGS__), unsigned short                 \
-	          : ztdc_rotate_leftus(_VALUE, __VA_ARGS__), unsigned int                   \
-	          : ztdc_rotate_leftui(_VALUE, __VA_ARGS__), unsigned long                  \
-	          : ztdc_rotate_leftul(_VALUE, __VA_ARGS__), unsigned long long             \
-	          : ztdc_rotate_leftull(_VALUE, __VA_ARGS__)))
+	          : ztdc_rotate_left_uc((unsigned char)(_VALUE), __VA_ARGS__), unsigned char \
+	          : ztdc_rotate_left_uc(_VALUE, __VA_ARGS__), unsigned short                 \
+	          : ztdc_rotate_left_us(_VALUE, __VA_ARGS__), unsigned int                   \
+	          : ztdc_rotate_left_ui(_VALUE, __VA_ARGS__), unsigned long                  \
+	          : ztdc_rotate_left_ul(_VALUE, __VA_ARGS__), unsigned long long             \
+	          : ztdc_rotate_left_ull(_VALUE, __VA_ARGS__)))
 
 #define _ZTDC_ROTATE_RIGHT_I_(_VALUE, ...)                                                \
 	(_Generic((_VALUE), char                                                             \
-	          : ztdc_rotate_rightuc((unsigned char)(_VALUE), __VA_ARGS__), unsigned char \
-	          : ztdc_rotate_rightuc(_VALUE, __VA_ARGS__), unsigned short                 \
-	          : ztdc_rotate_rightus(_VALUE, __VA_ARGS__), unsigned int                   \
-	          : ztdc_rotate_rightui(_VALUE, __VA_ARGS__), unsigned long                  \
-	          : ztdc_rotate_rightul(_VALUE, __VA_ARGS__), unsigned long long             \
-	          : ztdc_rotate_rightull(_VALUE, __VA_ARGS__)))
+	          : ztdc_rotate_right_uc((unsigned char)(_VALUE), __VA_ARGS__), unsigned char \
+	          : ztdc_rotate_right_uc(_VALUE, __VA_ARGS__), unsigned short                 \
+	          : ztdc_rotate_right_us(_VALUE, __VA_ARGS__), unsigned int                   \
+	          : ztdc_rotate_right_ui(_VALUE, __VA_ARGS__), unsigned long                  \
+	          : ztdc_rotate_right_ul(_VALUE, __VA_ARGS__), unsigned long long             \
+	          : ztdc_rotate_right_ull(_VALUE, __VA_ARGS__)))
 
 #define _ZTDC_HAS_SINGLE_BIT_I_(...)                                                \
 	(_Generic((__VA_ARGS__), char                                                  \
-	          : ztdc_has_single_bituc((unsigned char)(__VA_ARGS__)), unsigned char \
-	          : ztdc_has_single_bituc(__VA_ARGS__), unsigned short                 \
-	          : ztdc_has_single_bitus(__VA_ARGS__), unsigned int                   \
-	          : ztdc_has_single_bitui(__VA_ARGS__), unsigned long                  \
-	          : ztdc_has_single_bitul(__VA_ARGS__), unsigned long long             \
-	          : ztdc_has_single_bitull(__VA_ARGS__)))
+	          : ztdc_has_single_bit_uc((unsigned char)(__VA_ARGS__)), unsigned char \
+	          : ztdc_has_single_bit_uc(__VA_ARGS__), unsigned short                 \
+	          : ztdc_has_single_bit_us(__VA_ARGS__), unsigned int                   \
+	          : ztdc_has_single_bit_ui(__VA_ARGS__), unsigned long                  \
+	          : ztdc_has_single_bit_ul(__VA_ARGS__), unsigned long long             \
+	          : ztdc_has_single_bit_ull(__VA_ARGS__)))
 
 #define _ZTDC_BIT_WIDTH_I_(...)                                                                                    \
 	_Generic((__VA_ARGS__), char                                                                                  \
@@ -166,21 +166,21 @@
 
 #define _ZTDC_BIT_CEIL_I_(...)                                   \
 	_Generic((__VA_ARGS__), char                                \
-	         : ztdc_bit_ceiluc(__VA_ARGS__), unsigned char      \
-	         : ztdc_bit_ceiluc(__VA_ARGS__), unsigned short     \
-	         : ztdc_bit_ceilus(__VA_ARGS__), unsigned int       \
-	         : ztdc_bit_ceilui(__VA_ARGS__), unsigned long      \
-	         : ztdc_bit_ceilul(__VA_ARGS__), unsigned long long \
-	         : ztdc_bit_ceilull(__VA_ARGS__))
+	         : ztdc_bit_ceil_uc(__VA_ARGS__), unsigned char      \
+	         : ztdc_bit_ceil_uc(__VA_ARGS__), unsigned short     \
+	         : ztdc_bit_ceil_us(__VA_ARGS__), unsigned int       \
+	         : ztdc_bit_ceil_ui(__VA_ARGS__), unsigned long      \
+	         : ztdc_bit_ceil_ul(__VA_ARGS__), unsigned long long \
+	         : ztdc_bit_ceil_ull(__VA_ARGS__))
 
 #define _ZTDC_BIT_FLOOR_I_(...)                                   \
 	_Generic((__VA_ARGS__), char                                 \
-	         : ztdc_bit_flooruc(__VA_ARGS__), unsigned char      \
-	         : ztdc_bit_flooruc(__VA_ARGS__), unsigned short     \
-	         : ztdc_bit_floorus(__VA_ARGS__), unsigned int       \
-	         : ztdc_bit_floorui(__VA_ARGS__), unsigned long      \
-	         : ztdc_bit_floorul(__VA_ARGS__), unsigned long long \
-	         : ztdc_bit_floorull(__VA_ARGS__))
+	         : ztdc_bit_floor_uc(__VA_ARGS__), unsigned char      \
+	         : ztdc_bit_floor_uc(__VA_ARGS__), unsigned short     \
+	         : ztdc_bit_floor_us(__VA_ARGS__), unsigned int       \
+	         : ztdc_bit_floor_ui(__VA_ARGS__), unsigned long      \
+	         : ztdc_bit_floor_ul(__VA_ARGS__), unsigned long long \
+	         : ztdc_bit_floor_ull(__VA_ARGS__))
 
 #else
 
