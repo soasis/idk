@@ -357,9 +357,11 @@
 	#endif
 #elif ZTD_IS_ON(ZTD_COMPILER_VCXX) && defined(_DEBUG)
 	#define ZTD_DEBUG_I_ ZTD_DEFAULT_ON
-#elif (ZTD_IS_ON(ZTD_COMPILER_CLANG) || ZTD_IS_ON(ZTD_COMPILER_GCC)) && !defined(__OPTIMIZE__)
+#elif (ZTD_IS_ON(ZTD_COMPILER_CLANG) || ZTD_IS_ON(ZTD_COMPILER_GCC)) && (defined(__OPTIMIZE__) && __OPTIMIZE__ != 0)
 	#define ZTD_DEBUG_I_ ZTD_DEFAULT_ON
-#elif !defined(NDEBUG)
+#elif (ZTD_IS_ON(ZTD_COMPILER_CLANG) || ZTD_IS_ON(ZTD_COMPILER_GCC)) && (!defined(__OPTIMIZE__) || __OPTIMIZE__ == 0)
+	#define ZTD_DEBUG_I_ ZTD_DEFAULT_ON
+#elif defined(NDEBUG)
 	#define ZTD_DEBUG_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_DEBUG_I_ ZTD_DEFAULT_OFF

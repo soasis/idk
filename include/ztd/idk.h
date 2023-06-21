@@ -35,12 +35,25 @@
 
 #include <ztd/idk/version.h>
 
-#include <ztd/idk/assert.h>
 #include <ztd/idk/align.h>
+#include <ztd/idk/assert.h>
+#include <ztd/idk/assume_aligned.h>
+#include <ztd/idk/bit.h>
+#include <ztd/idk/bit_width_to_max_value.h>
 #include <ztd/idk/c_span.h>
+#include <ztd/idk/charN_t.h>
+#include <ztd/idk/declval.h>
+#include <ztd/idk/encoding_detection.h>
+#include <ztd/idk/encoding_name.h>
 #include <ztd/idk/endian.h>
-#include <ztd.idk/extent.h>
+#include <ztd/idk/extent.h>
+#include <ztd/idk/generic.h>
+#include <ztd/idk/null.h>
+#include <ztd/idk/restrict.h>
+#include <ztd/idk/size.h>
 #include <ztd/idk/static_assert.h>
 #include <ztd/idk/unreachable.h>
+#include <ztd/idk/thread_local.h>
+#include <ztd/idk/typeof.h>
 
 #endif

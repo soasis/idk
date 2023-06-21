@@ -342,6 +342,54 @@ namespace ztd {
 	     ::std::conditional_t<::std::is_const_v<_QualifiedTy>, const _Ty, _Ty>           // cf
 	     >;
 
+#if ZTD_IS_ON(ZTD_STD_CONCEPTS)
+	template <typename T, typename U>
+	concept convertible = std::is_convertible_v<T, U>;
+
+	template <typename T, typename U>
+	concept same = (std::is_same_v<T, U> && std::is_same_v<U, T>);
+
+#if ZTD_IS_ON(ZTD_STD_SPACESHIP_COMPARE)
+
+	namespace __idk_detail {
+		template <typename Left, typename Right = Left>
+		concept __strong_spaceshippable = requires(Left& left, Right& right) {
+			{ left <=> right } -> ::ztd::same<::std::strong_ordering, ::std::strong_ordering>;
+		};
+
+		template <typename Left, typename Right = Left>
+		concept __weak_spaceshippable = requires(Left& left, Right& right) {
+			{ left <=> right } -> ::std::weak_ordering;
+		};
+
+		template <typename Left, typename Right = Left>
+		concept __spaceshippable = __strong_spaceshippable<Left, Right> || __weak_spaceshippable<Left, Right>;
+
+		template <typename Left, typename Right = Left>
+		using __detect_comparison_category = decltype(std::declval<Left&>() <=> std::declval<Right&>());
+
+		template <typename Left, typename Right = Left>
+		concept __equality_comparable = requires(Left& left, Right& right) {
+			left == right;
+		};
+
+		template <typename Left, typename Right = Left>
+		concept __lesser_comparable = requires(Left& left, Right& right) {
+			left < right;
+		};
+
+		template <typename Left, typename Right = Left>
+		concept __greater_comparable = requires(Left& left, Right& right) {
+			left > right;
+		};
+	} // namespace __alloc_detail
+
+	template <typename Left, typename Right = Left>
+	using comparison_category = detected_or<::std::weak_ordering, __idk_detail::__detect_comparison_category, Left, Right>;
+
+#endif
+
+#endif
 
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd

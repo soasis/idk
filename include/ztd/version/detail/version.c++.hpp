@@ -60,8 +60,8 @@
 	#endif
 #elif ZTD_IS_ON(ZTD_COMPILER_CLANG)
 	// clang is busted right now!
-	// taking bets: Clang 14 is when it'll get fixed!
-	#if (__clang_major__ > 14)
+	// taking bets: Clang 17 is when it'll get fixed!
+	#if (__clang_major__ >= 17)
 		#define ZTD_STD_CONCEPTS_I_ ZTD_DEFAULT_ON
 	#else
 		#define ZTD_STD_CONCEPTS_I_ ZTD_DEFAULT_OFF
@@ -78,7 +78,7 @@
 	#else
 		#define ZTD_STD_DESIGNATED_INITIALIZERS_I_ ZTD_OFF
 	#endif
-#elif defined(__cpp_designated_initializers)
+#elif defined(__cpp_designated_initializers) && (__cpp_designated_initializers != 0)
 	#define ZTD_STD_DESIGNATED_INITIALIZERS_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_STD_DESIGNATED_INITIALIZERS_I_ ZTD_DEFAULT_OFF
@@ -92,7 +92,7 @@
 	#else
 		#define ZTD_STD_SPACESHIP_COMPARE_I_ ZTD_OFF
 	#endif
-#elif defined(__cpp_impl_three_way_comparison)
+#elif defined(__cpp_impl_three_way_comparison) && (__cpp_impl_three_way_comparison != 0)
 	#define ZTD_STD_SPACESHIP_COMPARE_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_STD_SPACESHIP_COMPARE_I_ ZTD_DEFAULT_OFF
