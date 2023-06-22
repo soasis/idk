@@ -37,7 +37,6 @@
 
 #include <ztd/idk/bit.h>
 
-#include <ztd/idk/extent.h>
 #include <ztd/idk/static_assert.h>
 
 #if ZTD_IS_ON(ZTD_C)

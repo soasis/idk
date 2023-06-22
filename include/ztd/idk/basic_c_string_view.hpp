@@ -118,17 +118,17 @@ namespace ztd {
 			ZTD_ASSERT_MESSAGE("c_string_view must be null-terminated!", this->_M_last_element_check());
 		}
 
-		template <typename _Strawman                                                                 = const_iterator,
-		     ::std::enable_if_t<!::std::is_convertible_v<_Strawman,
-		                             const_pointer> && !::std::is_same_v<_Strawman, const_pointer>>* = nullptr>
+		template <typename _Strawman                               = const_iterator,
+		     ::std::enable_if_t<!::std::is_convertible_v<_Strawman, const_pointer>
+		          && !::std::is_same_v<_Strawman, const_pointer>>* = nullptr>
 		constexpr basic_c_string_view(const_pointer __arg0, const_pointer __arg1) noexcept
 		: __base_t(__arg0, __arg1) {
 			ZTD_ASSERT_MESSAGE("c_string_view must be null-terminated!", this->_M_last_element_check());
 		}
 
-		template <typename _Strawman                                                                 = const_iterator,
-		     ::std::enable_if_t<!::std::is_convertible_v<_Strawman,
-		                             const_pointer> && !::std::is_same_v<_Strawman, const_pointer>>* = nullptr>
+		template <typename _Strawman                               = const_iterator,
+		     ::std::enable_if_t<!::std::is_convertible_v<_Strawman, const_pointer>
+		          && !::std::is_same_v<_Strawman, const_pointer>>* = nullptr>
 		constexpr basic_c_string_view(const_pointer __arg0, size_type __arg1) : __base_t(__arg0, __arg1) {
 			ZTD_ASSERT_MESSAGE("c_string_view must be null-terminated!", this->_M_last_element_check());
 		}

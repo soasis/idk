@@ -82,7 +82,7 @@
 	#endif
 #endif
 
-#if defined(ZTD_ASSERT_USER)
+#if defined(ZTD_ASSERT_MESSAGE_USER)
 	#define ZTD_ASSERT_MESSAGE_I_(...) ZTD_ASSERT_MESSAGE_USER(__VA_ARGS__)
 #else
 	#if ZTD_IS_ON(ZTD_ASSERT_CHECKS)

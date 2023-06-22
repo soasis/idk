@@ -39,6 +39,8 @@
 #include <ztd/idk/assert.hpp>
 #include <ztd/idk/assume_aligned.hpp>
 #include <ztd/idk/basic_c_string_view.hpp>
+#include <ztd/idk/binary_digits.hpp>
+#include <ztd/idk/bit.hpp>
 #include <ztd/idk/charN_t.hpp>
 #include <ztd/idk/char_traits.hpp>
 #include <ztd/idk/c_string_view.hpp>
