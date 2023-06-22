@@ -36,7 +36,7 @@
 #if ZTD_IS_ON(ZTD_CXX)
 #include <utility>
 
-#define ZTDC_DECLVAL(...) (*((__VA_ARGS__*)0))
+#define ZTDC_DECLVAL(...) (::std::declval<__VA_ARGS__>())
 #else
 #define ZTDC_DECLVAL(...) (*((__VA_ARGS__*)0))
 #endif

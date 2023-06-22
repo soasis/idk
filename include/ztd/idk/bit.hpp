@@ -38,6 +38,7 @@
 #include <ztd/idk/binary_digits.hpp>
 #include <ztd/idk/assume_aligned.hpp>
 #include <ztd/idk/type_traits.hpp>
+#include <ztd/idk/to_underlying.hpp>
 
 #include <ztd/idk/detail/bit.load_store.h>
 #include <ztd/idk/detail/bit.memreverse.h>
@@ -58,6 +59,16 @@ namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
 
 	namespace __idk_detail {
+		template <typename _Value>
+		constexpr auto __to_bit_underlying(_Value __value) noexcept {
+			if constexpr (::std::is_same_v<::ztd::remove_cvref_t<_Value>, char>) {
+				return static_cast<unsigned char>(__value);
+			}
+			else {
+				return ::ztd::any_to_underlying(__value);
+			}
+		}
+
 		template <typename _Value>
 		constexpr unsigned int __basic_count_ones(_Value __value) noexcept {
 			if constexpr (binary_digits_v<_Value> <= 128) {
@@ -172,7 +183,7 @@ namespace ztd {
 				bool __is_set = (__value & static_cast<_Value>(static_cast<_Value>(1) << __bit_index))
 				     != static_cast<_Value>(0);
 				if (__is_set) {
-					return static_cast<int>(binary_digits_v<_Value> - __bit_index);
+					return static_cast<unsigned int>(binary_digits_v<_Value> - __bit_index);
 				}
 			}
 			return 0;
@@ -184,10 +195,7 @@ namespace ztd {
 				bool __is_not_set = (__value & static_cast<_Value>(static_cast<_Value>(1) << __bit_index))
 				     == static_cast<_Value>(0);
 				if (__is_not_set) {
-					return static_cast<int>(__bit_index + 1);
-				}
-				else {
-					break;
+					return static_cast<unsigned int>(binary_digits_v<_Value> - __bit_index);
 				}
 			}
 			return 0;
@@ -208,42 +216,49 @@ namespace ztd {
 	/// @returns An `unsigned int` (or suitably large unsigned integer type) with the count.
 	template <typename _Value>
 	constexpr unsigned int count_ones(_Value __value) noexcept {
+		using _UValue = ::ztd::remove_cvref_t<_Value>;
+		if constexpr (::std::is_enum_v<_UValue> || ::std::is_same_v<char, _UValue>) {
+			return ::ztd::count_ones(::ztd::__idk_detail::__to_bit_underlying(__value));
+		}
+		else {
+			static_assert(::std::is_unsigned_v<_UValue>, "bit functions only handle unsigned types");
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_BIT)
-		return ::std::popcount(__value);
+			return ::std::popcount(__value);
 #elif ZTD_IS_ON(ZTD_BUILTIN_POPCOUNT)
-		if constexpr (binary_digits_v<_Value> <= binary_digits_v<unsigned int>) {
-			return __builtin_popcountl(__value);
-		}
-		else if constexpr (binary_digits_v<_Value> <= binary_digits_v<unsigned long>) {
-			return __builtin_popcountl(__value);
-		}
-		else if constexpr (binary_digits_v<_Value> <= binary_digits_v<unsigned long long>) {
-			return __builtin_popcountll(__value);
-		}
-		else {
-			return ::ztd::__idk_detail::__basic_count_ones(__value);
-		}
+			if constexpr (binary_digits_v<_Value> <= binary_digits_v<unsigned int>) {
+				return __builtin_popcountl(__value);
+			}
+			else if constexpr (binary_digits_v<_Value> <= binary_digits_v<unsigned long>) {
+				return __builtin_popcountl(__value);
+			}
+			else if constexpr (binary_digits_v<_Value> <= binary_digits_v<unsigned long long>) {
+				return __builtin_popcountll(__value);
+			}
+			else {
+				return ::ztd::__idk_detail::__basic_count_ones(__value);
+			}
 #elif ZTD_IS_ON(ZTD_COMPILER_VCXX) && ZTD_IS_ON(ZTD_VCXX_INTRIN_H)
-		// WARNING
-		// THESE INSTRUCTIONS ARE NOT PORTABLE
-		// FIXME: REPLACE WITH SOMETHING MORE PORTABLE,
-		// TEST CPUID AND FRIENDS FOR THESE FUNCTIONS,
-		// ETC.
-		if constexpr (binary_digits_v<_Value> <= 16) {
-			return static_cast<unsigned int>(__popcnt16(__value));
-		}
-		else if constexpr (binary_digits_v<_Value> <= 32) {
-			return static_cast<unsigned int>(__popcnt(__value));
-		}
-		else if constexpr (binary_digits_v<_Value> <= 64) {
-			return static_cast<unsigned int>(__popcnt64(__value));
-		}
-		else {
-			return ::ztd::__idk_detail::__basic_count_ones(__value);
-		}
+			// WARNING
+			// THESE INSTRUCTIONS ARE NOT PORTABLE
+			// FIXME: REPLACE WITH SOMETHING MORE PORTABLE,
+			// TEST CPUID AND FRIENDS FOR THESE FUNCTIONS,
+			// ETC.
+			if constexpr (binary_digits_v<_Value> <= 16) {
+				return static_cast<unsigned int>(__popcnt16(__value));
+			}
+			else if constexpr (binary_digits_v<_Value> <= 32) {
+				return static_cast<unsigned int>(__popcnt(__value));
+			}
+			else if constexpr (binary_digits_v<_Value> <= 64) {
+				return static_cast<unsigned int>(__popcnt64(__value));
+			}
+			else {
+				return ::ztd::__idk_detail::__basic_count_ones(__value);
+			}
 #else
-		return ::ztd::__idk_detail::__basic_count_ones(__value);
+			return ::ztd::__idk_detail::__basic_count_ones(__value);
 #endif // Standard C++20 vs. VC++ vs. Others
+		}
 	}
 
 	//////
@@ -254,99 +269,39 @@ namespace ztd {
 	/// @returns an `unsigned int` (or suitably large unsigned integer type) with the count.
 	template <typename _Value>
 	constexpr unsigned int count_zeros(_Value __value) noexcept {
-		if constexpr (::std::is_same_v<_Value, char> || ::std::is_same_v<_Value, unsigned char> ||      // cf
-		     ::std::is_same_v<_Value, unsigned short> || ::std::is_same_v<_Value, unsigned int> ||      // cf
-		     ::std::is_same_v<_Value, unsigned long> || ::std::is_same_v<_Value, unsigned long long>) { // cf
-			return ((sizeof(_Value) * CHAR_BIT) - ::ztd::count_ones(__value));
-		}
-		else {
-			static_assert(
-			     ::ztd::always_false_v<_Value>, "Only an unsigned integer type can be given to ztdc_count_zeros");
-		}
+		return ((sizeof(_Value) * CHAR_BIT) - ::ztd::count_ones(__value));
 	}
 
 	template <typename _Value>
 	constexpr unsigned int count_leading_zeros(_Value __value) noexcept {
+		using _UValue = ::ztd::remove_cvref_t<_Value>;
+		if constexpr (::std::is_enum_v<_UValue> || ::std::is_same_v<char, _UValue>) {
+			return ::ztd::count_leading_zeros(::ztd::__idk_detail::__to_bit_underlying(__value));
+		}
+		else {
+			static_assert(::std::is_unsigned_v<_UValue>, "bit functions only handle unsigned types");
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_BIT)
-		return ::std::countl_zero(__value);
+			return ::std::countl_zero(__value);
 #elif ZTD_IS_ON(ZTD_COMPILER_VCXX)
 
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_CONSTANT_EVALUATED) && ZTD_IS_OFF(ZTD_VCXX_CONSTEXPR_BIT_INTRINSICS)
-		if (::std::is_constant_evaluated()) {
-			return ::ztd::__idk_detail::__basic_count_leading_zeros(__value);
-		}
+			if (::std::is_constant_evaluated()) {
+				return ::ztd::__idk_detail::__basic_count_leading_zeros(__value);
+			}
 #endif
 #if ZTD_IS_ON(ZTD_VCXX_CONSTEXPR_BIT_INTRINSICS)
-		if constexpr (binary_digits_v<_Value> <= 32) {
-			unsigned long __index;
-			auto __scanval = _BitScanReverse(&__index, __value);
-			if (__scanval == 0) {
-				return binary_digits_v<_Value>;
-			}
-			return static_cast<unsigned int>(__index);
-		}
-#if INTPTR_MAX >= INT64_MAX
-		else if constexpr (binary_digits_v<_Value> <= 64) {
-			unsigned long __index;
-			auto __scanval = _BitScanReverse64(&__index, __value);
-			if (__scanval == 0) {
-				return binary_digits_v<_Value>;
-			}
-			return static_cast<unsigned int>(__index);
-		}
-#endif // 64-bit MSVC only
-		else {
-			return ::ztd::__idk_detail::__basic_count_leading_zeros(__value);
-		}
-#else
-		return ::ztd::__idk_detail::__basic_count_leading_zeros(__value);
-#endif // MSVC lacks constexpr bit intrinsics
-
-#else
-		if (__value == 0) {
-			return static_cast<int>(binary_digits_v<_Value>);
-		}
-		if constexpr (binary_digits_v<_Value> <= binary_digits_v<unsigned int>) {
-			return __builtin_clz(__value) - (binary_digits_v<unsigned int> - binary_digits_v<_Value>);
-		}
-		else if constexpr (binary_digits_v<_Value> <= binary_digits_v<unsigned long>) {
-			return __builtin_clzl(__value) - (binary_digits_v<unsigned long> - binary_digits_v<_Value>);
-		}
-		else if constexpr (binary_digits_v<_Value> <= binary_digits_v<unsigned long long>) {
-			return __builtin_clzll(__value) - (binary_digits_v<unsigned long long> - binary_digits_v<_Value>);
-		}
-		else {
-			return ::ztd::__idk_detail::__basic_count_leading_zeros(__value);
-		}
-#endif
-	}
-
-	template <typename _Value>
-	constexpr unsigned int count_trailing_zeros(_Value __value) noexcept {
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_BIT)
-		return static_cast<unsigned int>(::std::countr_zero(__value));
-#elif ZTD_IS_ON(ZTD_COMPILER_VCXX)
-#if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_CONSTANT_EVALUATED) && ZTD_IS_OFF(ZTD_VCXX_CONSTEXPR_BIT_INTRINSICS)
-		if (::std::is_constant_evaluated()) {
-			return ::ztd::__idk_detail::__basic_count_trailing_zeros(__value);
-		}
-		else
-#endif
-		{
-#if ZTD_IS_ON(ZTD_VCXX_INTRIN_H)
 			if constexpr (binary_digits_v<_Value> <= 32) {
-				unsigned long __index = {};
-				auto __scanval        = _BitScanForward(&__index, __value);
+				unsigned long __index;
+				auto __scanval = _BitScanReverse(&__index, __value);
 				if (__scanval == 0) {
 					return binary_digits_v<_Value>;
 				}
 				return static_cast<unsigned int>(__index);
 			}
-#if (INTPTR_MAX >= INT64_MAX)
+#if INTPTR_MAX >= INT64_MAX
 			else if constexpr (binary_digits_v<_Value> <= 64) {
-				// _BitScanX64 does not exist in 32-bit
-				unsigned long __index = {};
-				auto __scanval        = _BitScanForward64(&__index, __value);
+				unsigned long __index;
+				auto __scanval = _BitScanReverse64(&__index, __value);
 				if (__scanval == 0) {
 					return binary_digits_v<_Value>;
 				}
@@ -354,29 +309,101 @@ namespace ztd {
 			}
 #endif // 64-bit MSVC only
 			else {
-				return ::ztd::__idk_detail::__basic_count_trailing_zeros(__value);
+				return ::ztd::__idk_detail::__basic_count_leading_zeros(__value);
 			}
 #else
-			return ::ztd::__idk_detail::__basic_count_trailing_zeros(__value);
-#endif // MSVC lacks constexpr
-		}
+			return ::ztd::__idk_detail::__basic_count_leading_zeros(__value);
+#endif // MSVC lacks constexpr bit intrinsics
+
 #else
-		if (__value == 0) {
-			return static_cast<unsigned int>(binary_digits_v<_Value>);
+			if (__value == 0) {
+				return static_cast<int>(binary_digits_v<_Value>);
+			}
+#if ZTD_IS_ON(ZTD_BUILTIN_CLZ)
+			if constexpr (binary_digits_v<_Value> <= binary_digits_v<unsigned int>) {
+				return __builtin_clz(__value) - (binary_digits_v<unsigned int> - binary_digits_v<_Value>);
+			}
+			else if constexpr (binary_digits_v<_Value> <= binary_digits_v<unsigned long>) {
+				return __builtin_clzl(__value) - (binary_digits_v<unsigned long> - binary_digits_v<_Value>);
+			}
+			else if constexpr (binary_digits_v<_Value> <= binary_digits_v<unsigned long long>) {
+				return __builtin_clzll(__value) - (binary_digits_v<unsigned long long> - binary_digits_v<_Value>);
+			}
+			else
+#endif
+			{
+				return ::ztd::__idk_detail::__basic_count_leading_zeros(__value);
+			}
+#endif
 		}
-		if constexpr (binary_digits_v<_Value> <= binary_digits_v<unsigned int>) {
-			return static_cast<unsigned int>(__builtin_ctz(__value));
-		}
-		else if constexpr (binary_digits_v<_Value> <= binary_digits_v<unsigned long>) {
-			return static_cast<unsigned int>(__builtin_ctzl(__value));
-		}
-		else if constexpr (binary_digits_v<_Value> <= binary_digits_v<unsigned long long>) {
-			return static_cast<unsigned int>(__builtin_ctzll(__value));
+	}
+
+	template <typename _Value>
+	constexpr unsigned int count_trailing_zeros(_Value __value) noexcept {
+		using _UValue = ::ztd::remove_cvref_t<_Value>;
+		if constexpr (::std::is_enum_v<_UValue> || ::std::is_same_v<char, _UValue>) {
+			return ::ztd::count_trailing_zeros(::ztd::__idk_detail::__to_bit_underlying(__value));
 		}
 		else {
-			return ::ztd::__idk_detail::__basic_count_trailing_zeros(__value);
-		}
+			static_assert(::std::is_unsigned_v<_UValue>, "bit functions only handle unsigned types");
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_BIT)
+			return static_cast<unsigned int>(::std::countr_zero(__value));
+#elif ZTD_IS_ON(ZTD_COMPILER_VCXX)
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_CONSTANT_EVALUATED) && ZTD_IS_OFF(ZTD_VCXX_CONSTEXPR_BIT_INTRINSICS)
+			if (::std::is_constant_evaluated()) {
+				return ::ztd::__idk_detail::__basic_count_trailing_zeros(__value);
+			}
+			else
 #endif
+			{
+#if ZTD_IS_ON(ZTD_VCXX_INTRIN_H)
+				if constexpr (binary_digits_v<_Value> <= 32) {
+					unsigned long __index = {};
+					auto __scanval        = _BitScanForward(&__index, __value);
+					if (__scanval == 0) {
+						return binary_digits_v<_Value>;
+					}
+					return static_cast<unsigned int>(__index);
+				}
+#if (INTPTR_MAX >= INT64_MAX)
+				else if constexpr (binary_digits_v<_Value> <= 64) {
+					// _BitScanX64 does not exist in 32-bit
+					unsigned long __index = {};
+					auto __scanval        = _BitScanForward64(&__index, __value);
+					if (__scanval == 0) {
+						return binary_digits_v<_Value>;
+					}
+					return static_cast<unsigned int>(__index);
+				}
+#endif // 64-bit MSVC only
+				else {
+					return ::ztd::__idk_detail::__basic_count_trailing_zeros(__value);
+				}
+#else
+				return ::ztd::__idk_detail::__basic_count_trailing_zeros(__value);
+#endif // MSVC lacks constexpr
+			}
+#else
+			if (__value == 0) {
+				return static_cast<unsigned int>(binary_digits_v<_Value>);
+			}
+#if ZTD_IS_ON(ZTD_BUILTIN_CTZ)
+			if constexpr (binary_digits_v<_Value> <= binary_digits_v<unsigned int>) {
+				return static_cast<unsigned int>(__builtin_ctz(__value));
+			}
+			else if constexpr (binary_digits_v<_Value> <= binary_digits_v<unsigned long>) {
+				return static_cast<unsigned int>(__builtin_ctzl(__value));
+			}
+			else if constexpr (binary_digits_v<_Value> <= binary_digits_v<unsigned long long>) {
+				return static_cast<unsigned int>(__builtin_ctzll(__value));
+			}
+			else
+#endif
+			{
+				return ::ztd::__idk_detail::__basic_count_trailing_zeros(__value);
+			}
+#endif
+		}
 	}
 
 	//////
@@ -387,7 +414,14 @@ namespace ztd {
 	/// @returns an `unsigned int` (or suitably large unsigned integer type) with the count.
 	template <typename _Value>
 	constexpr unsigned int count_leading_ones(_Value __value) noexcept {
-		return ::ztd::__idk_detail::__basic_count_leading_ones(__value);
+		using _UValue = ::ztd::remove_cvref_t<_Value>;
+		if constexpr (::std::is_enum_v<_UValue> || ::std::is_same_v<char, _UValue>) {
+			return ::ztd::count_leading_ones(::ztd::__idk_detail::__to_bit_underlying(__value));
+		}
+		else {
+			static_assert(::std::is_unsigned_v<_UValue>, "bit functions only handle unsigned types");
+			return ::ztd::__idk_detail::__basic_count_leading_ones(__value);
+		}
 	}
 
 	//////
@@ -398,7 +432,14 @@ namespace ztd {
 	/// @returns an `unsigned int` (or suitably large unsigned integer type) with the count.
 	template <typename _Value>
 	constexpr unsigned int count_trailing_ones(_Value __value) noexcept {
-		return ::ztd::__idk_detail::__basic_count_trailing_ones(__value);
+		using _UValue = ::ztd::remove_cvref_t<_Value>;
+		if constexpr (::std::is_enum_v<_UValue> || ::std::is_same_v<char, _UValue>) {
+			return ::ztd::count_trailing_ones(::ztd::__idk_detail::__to_bit_underlying(__value));
+		}
+		else {
+			static_assert(::std::is_unsigned_v<_UValue>, "bit functions only handle unsigned types");
+			return ::ztd::__idk_detail::__basic_count_trailing_ones(__value);
+		}
 	}
 
 	//////
@@ -410,7 +451,14 @@ namespace ztd {
 	/// integer type) indicating the index of the found bit, **plus one**.
 	template <typename _Value>
 	constexpr unsigned int first_leading_zero(_Value __value) noexcept {
-		return ::ztd::__idk_detail::__basic_first_leading_zero(__value);
+		using _UValue = ::ztd::remove_cvref_t<_Value>;
+		if constexpr (::std::is_enum_v<_UValue> || ::std::is_same_v<char, _UValue>) {
+			return ::ztd::first_leading_zero(::ztd::__idk_detail::__to_bit_underlying(__value));
+		}
+		else {
+			static_assert(::std::is_unsigned_v<_UValue>, "bit functions only handle unsigned types");
+			return ::ztd::__idk_detail::__basic_first_leading_zero(__value);
+		}
 	}
 
 	//////
@@ -422,7 +470,14 @@ namespace ztd {
 	/// integer type) indicating the index of the found bit, **plus one**.
 	template <typename _Value>
 	constexpr unsigned int first_trailing_zero(_Value __value) noexcept {
-		return ::ztd::__idk_detail::__basic_first_trailing_zero(__value);
+		using _UValue = ::ztd::remove_cvref_t<_Value>;
+		if constexpr (::std::is_enum_v<_UValue> || ::std::is_same_v<char, _UValue>) {
+			return ::ztd::first_trailing_zero(::ztd::__idk_detail::__to_bit_underlying(__value));
+		}
+		else {
+			static_assert(::std::is_unsigned_v<_UValue>, "bit functions only handle unsigned types");
+			return ::ztd::__idk_detail::__basic_first_trailing_zero(__value);
+		}
 	}
 
 
@@ -435,7 +490,14 @@ namespace ztd {
 	/// integer type) indicating the index of the found bit, **plus one**.
 	template <typename _Value>
 	constexpr unsigned int first_leading_one(_Value __value) noexcept {
-		return ::ztd::__idk_detail::__basic_first_leading_one(__value);
+		using _UValue = ::ztd::remove_cvref_t<_Value>;
+		if constexpr (::std::is_enum_v<_UValue> || ::std::is_same_v<char, _UValue>) {
+			return ::ztd::first_leading_one(::ztd::__idk_detail::__to_bit_underlying(__value));
+		}
+		else {
+			static_assert(::std::is_unsigned_v<_UValue>, "bit functions only handle unsigned types");
+			return ::ztd::__idk_detail::__basic_first_leading_one(__value);
+		}
 	}
 
 
@@ -448,7 +510,14 @@ namespace ztd {
 	/// integer type) indicating the index of the found bit, **plus one**.
 	template <typename _Value>
 	constexpr unsigned int first_trailing_one(_Value __value) noexcept {
-		return ::ztd::__idk_detail::__basic_first_trailing_one(__value);
+		using _UValue = ::ztd::remove_cvref_t<_Value>;
+		if constexpr (::std::is_enum_v<_UValue> || ::std::is_same_v<char, _UValue>) {
+			return ::ztd::first_trailing_one(::ztd::__idk_detail::__to_bit_underlying(__value));
+		}
+		else {
+			static_assert(::std::is_unsigned_v<_UValue>, "bit functions only handle unsigned types");
+			return ::ztd::__idk_detail::__basic_first_trailing_one(__value);
+		}
 	}
 
 	//////
@@ -458,12 +527,19 @@ namespace ztd {
 	/// @param[in] __count The rotation value.
 	template <typename _Value>
 	constexpr unsigned int rotate_left(_Value __value, unsigned int __count) noexcept {
-		if (__count == 0) {
-			return __value;
+		using _UValue = ::ztd::remove_cvref_t<_Value>;
+		if constexpr (::std::is_enum_v<_UValue> || ::std::is_same_v<char, _UValue>) {
+			return ::ztd::rotate_left(::ztd::__idk_detail::__to_bit_underlying(__value), __count);
 		}
-		const unsigned int __width    = sizeof(__value) * CHAR_BIT;
-		const unsigned int __rotation = __count % __width;
-		return (__value << __rotation) | (__value >> (__width - __rotation));
+		else {
+			static_assert(::std::is_unsigned_v<_UValue>, "bit functions only handle unsigned types");
+			if (__count == 0) {
+				return __value;
+			}
+			const unsigned int __width    = sizeof(__value) * CHAR_BIT;
+			const unsigned int __rotation = __count % __width;
+			return (__value << __rotation) | (__value >> (__width - __rotation));
+		}
 	}
 
 	//////
@@ -473,12 +549,19 @@ namespace ztd {
 	/// @param[in] __count The rotation value.
 	template <typename _Value>
 	constexpr unsigned int rotate_right(_Value __value, unsigned int __count) noexcept {
-		if (__count == 0) {
-			return __value;
+		using _UValue = ::ztd::remove_cvref_t<_Value>;
+		if constexpr (::std::is_enum_v<_UValue> || ::std::is_same_v<char, _UValue>) {
+			return ::ztd::rotate_left(::ztd::__idk_detail::__to_bit_underlying(__value), __count);
 		}
-		const unsigned int __width    = sizeof(__value) * CHAR_BIT;
-		const unsigned int __rotation = __count % __width;
-		return (__value >> __rotation) | (__value << (__width - __rotation));
+		else {
+			static_assert(::std::is_unsigned_v<_UValue>, "bit functions only handle unsigned types");
+			if (__count == 0) {
+				return __value;
+			}
+			const unsigned int __width    = sizeof(__value) * CHAR_BIT;
+			const unsigned int __rotation = __count % __width;
+			return (__value >> __rotation) | (__value << (__width - __rotation));
+		}
 	}
 
 	//////
@@ -488,7 +571,14 @@ namespace ztd {
 	/// @param[in] __value The input value.
 	template <typename _Value>
 	constexpr bool has_single_bit(_Value __value) noexcept {
-		return ::ztd::count_ones(__value) == 1;
+		using _UValue = ::ztd::remove_cvref_t<_Value>;
+		if constexpr (::std::is_enum_v<_UValue> || ::std::is_same_v<char, _UValue>) {
+			return ::ztd::has_single_bit(::ztd::__idk_detail::__to_bit_underlying(__value));
+		}
+		else {
+			static_assert(::std::is_unsigned_v<_UValue>, "bit functions only handle unsigned types");
+			return ::ztd::count_ones(__value) == 1u;
+		}
 	}
 
 	//////
@@ -498,16 +588,15 @@ namespace ztd {
 	template <typename _Value>
 	constexpr unsigned int bit_width(_Value __value) noexcept {
 		using _UValue = ::ztd::remove_cvref_t<_Value>;
-		if constexpr (::std::is_same_v<_UValue, char> || ::std::is_unsigned_v<_UValue>) {
+		if constexpr (::std::is_enum_v<_UValue> || ::std::is_same_v<char, _UValue>) {
+			return ::ztd::has_single_bit(::ztd::__idk_detail::__to_bit_underlying(__value));
+		}
+		else {
+			static_assert(::std::is_unsigned_v<_UValue>, "bit functions only handle unsigned types");
 			if (__value == static_cast<_Value>(0)) {
 				return static_cast<_Value>(0);
 			}
-			return ((sizeof(__value) * CHAR_BIT)
-			     - ::ztd::count_leading_zeros(static_cast<::std::make_signed_t<_UValue>>(__value)));
-		}
-		else {
-			static_assert(
-			     ::ztd::always_false_v<_Value>, "Only an unsigned integer type can be given to ztdc_bit_width");
+			return ((sizeof(__value) * CHAR_BIT) - ::ztd::count_leading_zeros(__value));
 		}
 	}
 

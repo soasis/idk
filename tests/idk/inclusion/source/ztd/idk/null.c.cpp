@@ -28,19 +28,4 @@
 //
 // ============================================================================ //
 
-#pragma once
-
-#ifndef ZTD_IDK_TYPEOF_H
-#define ZTD_IDK_TYPEOF_H
-
-#include <ztd/idk/version.h>
-
-#if ZTD_IS_ON(ZTD_CXX)
-#define ZTDC_TYPEOF(...) decltype(__VA_ARGS__)
-#elif ZTD_IS_OFF(ZTD_COMPILER_VCXX)
-#define ZTDC_TYPEOF(...) __typeof(__VA_ARGS__)
-#else
-#define ZTDC_TYPEOF(...) typeof(__VA_ARGS__)
-#endif
-
-#endif
+#include <ztd/idk/null.h>
