@@ -825,7 +825,7 @@ namespace ztd {
 	/// The input pointer `__ptr` has an alignment suitable to be treated as an integral type of width _N_.
 	template <typename _Integralish>
 	constexpr _Integralish load8_aligned_le(const unsigned char __ptr[]) noexcept {
-		return ::ztd::load8_le(ZTD_ASSUME_ALIGNED(alignof(_Integralish), __ptr));
+		return ::ztd::load8_le<_Integralish>(__ptr);
 	}
 
 	//////
@@ -835,7 +835,7 @@ namespace ztd {
 	/// The input pointer `__ptr` has an alignment suitable to be treated as an integral type of width _N_.
 	template <typename _Integralish>
 	constexpr _Integralish load8_aligned_be(const unsigned char __ptr[]) noexcept {
-		return ::ztd::load8_be(ZTD_ASSUME_ALIGNED(alignof(_Integralish), __ptr));
+		return ::ztd::load8_be<_Integralish>(__ptr);
 	}
 
 	//////
