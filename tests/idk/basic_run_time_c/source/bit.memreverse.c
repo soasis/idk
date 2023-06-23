@@ -205,7 +205,7 @@ extern int bit_memreverse_tests(void) {
 	GENERATE_TEST_CASE(unsigned long, ul);
 	GENERATE_TEST_CASE(unsigned long long, ull);
 
-	TEST_CASE("Ensure that hte 8-bit memory reverse algorithm works on large memory region.",
+	TEST_CASE("Ensure thatthe8-bit memory reverse algorithm works on large memory region.",
 	     "[bit][memreverse][8-bit][large]") {
 		SECTION("with canonical implementation") {
 		}

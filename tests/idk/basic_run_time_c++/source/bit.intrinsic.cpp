@@ -75,8 +75,9 @@ TEMPLATE_TEST_CASE("bit_operations with count_ones", "[bit_operations][count_one
 	}
 }
 
-TEMPLATE_TEST_CASE("bit_operations with first(r/l)_one", "[bit_operations][first(r/l)_one]", std::uint64_t,
-     std::uint32_t, std::uint16_t, std::uint8_t, std::byte, char32_t, char16_t, unsigned char, std::size_t) {
+TEMPLATE_TEST_CASE("bit_operations with first_(trailing/leading)_one", "[bit_operations][first_(trailing/leading)_one]",
+     std::uint64_t, std::uint32_t, std::uint16_t, std::uint8_t, std::byte, char32_t, char16_t, unsigned char,
+     std::size_t) {
 	static constexpr TestType zeroes = static_cast<TestType>(0);
 	static constexpr TestType ones
 	     = static_cast<TestType>(std::numeric_limits<ztd::any_to_underlying_t<TestType>>::max());
@@ -132,8 +133,9 @@ TEMPLATE_TEST_CASE("bit_operations with first(r/l)_one", "[bit_operations][first
 	}
 }
 
-TEMPLATE_TEST_CASE("bit_operations with first(r/l)_zero", "[bit_operations][first(r/l)_zero]", std::uint64_t,
-     std::uint32_t, std::uint16_t, std::uint8_t, std::byte, char32_t, char16_t, unsigned char, std::size_t) {
+TEMPLATE_TEST_CASE("bit_operations with first_(trailing/leading)_zero",
+     "[bit_operations][first_(trailing/leading)_zero]", std::uint64_t, std::uint32_t, std::uint16_t, std::uint8_t,
+     std::byte, char32_t, char16_t, unsigned char, std::size_t) {
 	TestType zeroes = static_cast<TestType>(0);
 	TestType ones   = static_cast<TestType>(std::numeric_limits<ztd::any_to_underlying_t<TestType>>::max());
 	int first_trailing_zero_zeroes_val                = ztd::first_trailing_zero(zeroes);
@@ -187,8 +189,9 @@ TEMPLATE_TEST_CASE("bit_operations with first(r/l)_zero", "[bit_operations][firs
 	}
 }
 
-TEMPLATE_TEST_CASE("bit_operations with count(r/l)_one", "[bit_operations][count(r/l)_one]", std::uint64_t,
-     std::uint32_t, std::uint16_t, std::uint8_t, std::byte, char32_t, char16_t, unsigned char, std::size_t) {
+TEMPLATE_TEST_CASE("bit_operations with count_(trailing/leading)_one", "[bit_operations][count_(trailing/leading)_one]",
+     std::uint64_t, std::uint32_t, std::uint16_t, std::uint8_t, std::byte, char32_t, char16_t, unsigned char,
+     std::size_t) {
 	static constexpr TestType zeroes = static_cast<TestType>(0);
 	static constexpr TestType ones
 	     = static_cast<TestType>(std::numeric_limits<ztd::any_to_underlying_t<TestType>>::max());
@@ -258,8 +261,9 @@ TEMPLATE_TEST_CASE("bit_operations with count(r/l)_one", "[bit_operations][count
 	}
 }
 
-TEMPLATE_TEST_CASE("bit_operations with count(r/l)_zero", "[bit_operations][count(r/l)_zero]", std::uint64_t,
-     std::uint32_t, std::uint16_t, std::uint8_t, std::byte, char32_t, char16_t, unsigned char, std::size_t) {
+TEMPLATE_TEST_CASE("bit_operations with count_(trailing/leading)_zero",
+     "[bit_operations][count_(trailing/leading)_zero]", std::uint64_t, std::uint32_t, std::uint16_t, std::uint8_t,
+     std::byte, char32_t, char16_t, unsigned char, std::size_t) {
 	static constexpr TestType zeroes = static_cast<TestType>(0);
 	static constexpr TestType ones
 	     = static_cast<TestType>(std::numeric_limits<::ztd::any_to_underlying_t<TestType>>::max());

@@ -43,6 +43,7 @@
 #include <ztd/idk/detail/bit.load_store.h>
 #include <ztd/idk/detail/bit.memreverse.h>
 #include <ztd/idk/detail/bit.intrinsic.h>
+#include <ztd/idk/detail/bit.memreverse.impl.h>
 
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_BIT)
 #include <bit>
@@ -54,6 +55,9 @@
 
 #include <climits>
 #include <limits>
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_CONSTANT_EVALUATED)
+#include <utility>
+#endif
 
 namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
@@ -702,13 +706,22 @@ namespace ztd {
 	//////
 	template <typename _Integralish>
 	constexpr _Integralish memreverse8(_Integralish __value) noexcept {
-		using _UIntegralish       = ::ztd::remove_cvref_t<_Integralish>;
-		_UIntegralish* __ptr      = &__value;
-		unsigned char* __byte_ptr = static_cast<_UIntegralish*>(__byte_ptr);
-		unsigned char* __aligned_byte_ptr
-		     = static_cast<unsigned char*>(ZTD_ASSUME_ALIGNED(alignof(_Integralish), __byte_ptr));
-		memreverse8(sizeof(__value), __aligned_byte_ptr);
-		return __value;
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_CONSTANT_EVALUATED)
+		if (!::std::is_constant_evaluated()) {
+			using _UIntegralish               = ::ztd::remove_cvref_t<_Integralish>;
+			_UIntegralish* __ptr              = &__value;
+			unsigned char* __byte_ptr         = static_cast<_UIntegralish*>(__ptr);
+			unsigned char* __aligned_byte_ptr = static_cast<unsigned char*>(
+			     ZTD_ASSUME_ALIGNED(alignof(_Integralish), static_cast<void*>(__byte_ptr)));
+			memreverse8(sizeof(__value), __aligned_byte_ptr);
+			return __value;
+		}
+		else
+#endif
+		{
+			__ZTDC_MEMREVERSE8_IMPL(_Integralish, 1, &__value);
+			return __value;
+		}
 	}
 
 
@@ -805,7 +818,17 @@ namespace ztd {
 	/// The input pointer `__ptr` has an alignment suitable to be treated as an integral type of width _N_.
 	template <typename _Integralish>
 	constexpr void store8_aligned_le(_Integralish __value, unsigned char __ptr[]) noexcept {
-		::ztd::store8_le(__value, ZTD_ASSUME_ALIGNED(alignof(_Integralish), __ptr));
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_CONSTANT_EVALUATED)
+		if (!::std::is_constant_evaluated()) {
+			unsigned char* __aligned_byte_ptr
+			     = static_cast<unsigned char*>(ZTD_ASSUME_ALIGNED(alignof(_Integralish), static_cast<void*>(__ptr)));
+			::ztd::store8_le(__value, __aligned_byte_ptr);
+		}
+		else
+#endif
+		{
+			::ztd::store8_le(__value, __ptr);
+		}
 	}
 
 	//////
@@ -815,7 +838,17 @@ namespace ztd {
 	/// The input pointer `__ptr` has an alignment suitable to be treated as an integral type of width _N_.
 	template <typename _Integralish>
 	constexpr void store8_aligned_be(_Integralish __value, unsigned char __ptr[]) noexcept {
-		::ztd::store8_be(__value, ZTD_ASSUME_ALIGNED(alignof(_Integralish), __ptr));
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_CONSTANT_EVALUATED)
+		if (!::std::is_constant_evaluated()) {
+			unsigned char* __aligned_byte_ptr
+			     = static_cast<unsigned char*>(ZTD_ASSUME_ALIGNED(alignof(_Integralish), static_cast<void*>(__ptr)));
+			::ztd::store8_be(__value, __aligned_byte_ptr);
+		}
+		else
+#endif
+		{
+			::ztd::store8_be(__value, __ptr);
+		}
 	}
 
 	//////
@@ -825,7 +858,17 @@ namespace ztd {
 	/// The input pointer `__ptr` has an alignment suitable to be treated as an integral type of width _N_.
 	template <typename _Integralish>
 	constexpr _Integralish load8_aligned_le(const unsigned char __ptr[]) noexcept {
-		return ::ztd::load8_le<_Integralish>(__ptr);
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_CONSTANT_EVALUATED)
+		if (!::std::is_constant_evaluated()) {
+			const unsigned char* __aligned_byte_ptr = static_cast<const unsigned char*>(
+			     ZTD_ASSUME_ALIGNED(alignof(_Integralish), static_cast<const void*>(__ptr)));
+			return ::ztd::load8_le(__value, __aligned_byte_ptr);
+		}
+		else
+#endif
+		{
+			return ::ztd::load8_le<_Integralish>(__ptr);
+		}
 	}
 
 	//////
@@ -835,7 +878,17 @@ namespace ztd {
 	/// The input pointer `__ptr` has an alignment suitable to be treated as an integral type of width _N_.
 	template <typename _Integralish>
 	constexpr _Integralish load8_aligned_be(const unsigned char __ptr[]) noexcept {
-		return ::ztd::load8_be<_Integralish>(__ptr);
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_CONSTANT_EVALUATED)
+		if (!::std::is_constant_evaluated()) {
+			const unsigned char* __aligned_byte_ptr = static_cast<const unsigned char*>(
+			     ZTD_ASSUME_ALIGNED(alignof(_Integralish), static_cast<const void*>(__ptr)));
+			return ::ztd::load8_be(__value, __aligned_byte_ptr);
+		}
+		else
+#endif
+		{
+			return ::ztd::load8_be<_Integralish>(__ptr);
+		}
 	}
 
 	//////

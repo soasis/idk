@@ -30,5 +30,6 @@
 
 # # Test Subdirectories
 add_subdirectory(inclusion)
+add_subdirectory(basic_compile_time)
 add_subdirectory(basic_run_time_c++)
 add_subdirectory(basic_run_time_c)

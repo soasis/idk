@@ -28,32 +28,6 @@
 //
 // ============================================================================ //
 
-#include <catch2/catch_all.hpp>
-
-#include <ztd/idk/bit.hpp>
-
-#include <ztd/tests/bit_constant.hpp>
-#include <ztd/tests/types.hpp>
-#include <ztd/idk/detail/bit.memreverse.impl.h>
-
-#include <random>
-#include <vector>
-#include <limits>
-
-static auto randomness_seed = std::random_device {}();
-
-TEMPLATE_LIST_TEST_CASE(
-     "Ensure that the 8-bit memory reverse algorithm works even if they work over a different base unit that is a "
-     "multiple of 8.",
-     "[bit][memreverse][N-bit][cpp]", ztd::tests::unsigned_integer_and_character_types_list) {
-	const TestType expected_value         = ztd::tests::get_distinct_bit_constant<TestType>();
-	const TestType expected_reverse_value = ztd::tests::get_distinct_bit_constant_reverse<TestType>();
-
-	// this one work for all types, since it's "unsigned char"-based.
-	SECTION("unsigned char-based") {
-		TestType value = expected_value;
-		REQUIRE(value == expected_value); // quick silliness check
-		ztd::memreverse8(sizeof(value), reinterpret_cast<unsigned char*>(&value));
-		REQUIRE(value == expected_reverse_value);
-	}
+int main(int, char*[]) {
+	return 0;
 }

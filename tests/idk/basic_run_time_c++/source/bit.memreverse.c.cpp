@@ -96,15 +96,15 @@ static auto select_memreverseN_function() noexcept {
 	}
 }
 
-TEMPLATE_LIST_TEST_CASE("Ensure that the 8-bit memory reverse algorithm works on appropriately-sized variables.",
-     "[bit][memreverse][8-bit][small][cpp]", ztd::tests::standard_unsigned_integer_and_character_types_list) {
+TEMPLATE_LIST_TEST_CASE("Ensure thatthe8-bit memory reverse algorithm works on appropriately-sized variables.",
+     "[bit][memreverse][8-bit][small][c]", ztd::tests::standard_unsigned_integer_and_character_types_list) {
 	const TestType expected_value         = ztd::tests::get_distinct_bit_constant<TestType>();
 	const TestType expected_reverse_value = ztd::tests::get_distinct_bit_constant_reverse<TestType>();
 
 	SECTION("raw memory reverse") {
 		TestType value = expected_value;
 		REQUIRE(value == expected_value); // quick silliness check
-		ztd::memreverse8(sizeof(value), reinterpret_cast<unsigned char*>(&value));
+		ztdc_memreverse8(sizeof(value), reinterpret_cast<unsigned char*>(&value));
 		REQUIRE(value == expected_reverse_value);
 	}
 	SECTION("value-based memory reverse") {
@@ -117,8 +117,8 @@ TEMPLATE_LIST_TEST_CASE("Ensure that the 8-bit memory reverse algorithm works on
 	}
 }
 
-TEST_CASE("Ensure that the 8-bit memory reverse algorithm works on large memory region.",
-     "[bit][memreverse][8-bit][large][cpp]") {
+TEST_CASE("Ensure thatthe8-bit memory reverse algorithm works on large memory region.",
+     "[bit][memreverse][8-bit][large][c]") {
 #if CHAR_BIT == 8
 	SECTION("with canonical implementation") {
 		const auto randomness_seed = std::random_device {}();
@@ -138,7 +138,7 @@ TEST_CASE("Ensure that the 8-bit memory reverse algorithm works on large memory 
 		std::vector<unsigned char> target = data;
 
 		REQUIRE(target == data);
-		ztd::memreverse8(target.size(), target.data());
+		ztdc_memreverse8(target.size(), target.data());
 		REQUIRE(target == reverse_data);
 	}
 #else

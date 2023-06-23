@@ -62,7 +62,7 @@ namespace ztd { namespace tests {
 	} // namespace __tests_detail
 
 	template <typename _Type>
-	_Type get_distinct_bit_constant_positive() noexcept {
+	constexpr _Type get_distinct_bit_constant_positive() noexcept {
 		constexpr std::size_t _Nbytes = sizeof(_Type) * CHAR_BIT;
 		if constexpr (_Nbytes == 8) {
 			return static_cast<_Type>(0x10);
@@ -102,7 +102,7 @@ namespace ztd { namespace tests {
 	}
 
 	template <typename _Type>
-	_Type get_distinct_bit_constant_negative() noexcept {
+	constexpr _Type get_distinct_bit_constant_negative() noexcept {
 		constexpr std::size_t _Nbytes = sizeof(_Type) * CHAR_BIT;
 		if constexpr (::std::is_signed_v<_Type>) {
 			if constexpr (_Nbytes == 8) {
@@ -181,12 +181,12 @@ namespace ztd { namespace tests {
 	}
 
 	template <typename _Type>
-	_Type get_distinct_bit_constant() noexcept {
+	constexpr _Type get_distinct_bit_constant() noexcept {
 		return get_distinct_bit_constant_negative<_Type>();
 	}
 
 	template <typename _Type>
-	_Type get_distinct_bit_constant_reverse() noexcept {
+	constexpr _Type get_distinct_bit_constant_reverse() noexcept {
 		constexpr std::size_t _Nbytes = sizeof(_Type) * CHAR_BIT;
 		if constexpr (_Nbytes == 8) {
 			return static_cast<_Type>(0x10);
