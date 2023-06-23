@@ -510,7 +510,12 @@ namespace ztd::tests {
 	          char8_t
 #endif
 	          ,
-	          char16_t, char32_t, wchar_t>;
+	          char16_t, char32_t
+#if ZTD_IS_ON(ZTD_WCHAR_T_IS_UNSIGNED)
+	          ,
+	          wchar_t
+#endif
+	          >;
 
 	using standard_unsigned_integer_and_character_types_list
 	     = type_list<unsigned char, unsigned short, unsigned int, unsigned long, unsigned long long
@@ -519,7 +524,12 @@ namespace ztd::tests {
 	          char8_t
 #endif
 	          ,
-	          char16_t, char32_t, wchar_t>;
+	          char16_t, char32_t
+#if ZTD_IS_ON(ZTD_WCHAR_T_IS_UNSIGNED)
+	          ,
+	          wchar_t
+#endif
+	          >;
 
 	using scalar_types_list = type_list<char, signed char, unsigned char, // character types
 	     short, unsigned short, int, unsigned int, long, unsigned long, long long, unsigned long long, // integer types

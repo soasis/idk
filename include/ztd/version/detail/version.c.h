@@ -448,6 +448,24 @@
 	#define ZTD_NATIVE_CHAR8_T_I_ ZTD_DEFAULT_OFF
 #endif // char8_t exists natively (C++) - C proposal in WG14 still in progress
 
+#if defined(ZTD_WCHAR_T_IS_UNSIGNED)
+	#if (ZTD_WCHAR_T_IS_UNSIGNED != 0)
+		#define ZTD_WCHAR_T_IS_UNSIGNED_I_ ZTD_ON
+	#else
+		#define ZTD_WCHAR_T_IS_UNSIGNED_I_ ZTD_OFF
+	#endif
+#elif defined(WCHAR_MIN)
+	#if (WCHAR_MIN < 0)
+		#define ZTD_WCHAR_T_IS_UNSIGNED_I_ ZTD_DEFAULT_OFF
+	#elif (WCHAR_MIN >= 0)
+		#define ZTD_WCHAR_T_IS_UNSIGNED_I_ ZTD_DEFAULT_ON
+	#else
+		#define ZTD_WCHAR_T_IS_UNSIGNED_I_ ZTD_DEFAULT_OFF
+	#endif
+#else
+	#define ZTD_WCHAR_T_IS_UNSIGNED_I_ ZTD_OFF
+#endif
+
 #if defined(ZTD_CHAR8_T)
 	#define ZTD_USE_USER_CHAR8_T_I_ ZTD_ON
 	#define ZTD_CHAR8_T_I_ ZTD_CHAR8_T

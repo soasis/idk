@@ -71,4 +71,6 @@ static_assert(test_compile_time_load_store_uN<char8_t>(), "test_compile_time_loa
 #endif
 static_assert(test_compile_time_load_store_uN<char16_t>(), "test_compile_time_load_store_uN<char16_t>()");
 static_assert(test_compile_time_load_store_uN<char32_t>(), "test_compile_time_load_store_uN<char32_t>()");
+#if ZTD_IS_ON(ZTD_WCHAR_T_IS_UNSIGNED)
 static_assert(test_compile_time_load_store_uN<wchar_t>(), "test_compile_time_load_store_uN<wchar_t>()");
+#endif
