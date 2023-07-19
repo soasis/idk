@@ -51,7 +51,7 @@
 	#if ZTD_IS_ON(ZTD_STD_LIBRARY_ASSUME_ALIGNED)
 		#include <memory>
 
-		#define ZTD_ASSUME_ALIGNED_CXX(_ALIGNMENT, ...) ::std::assume_aligned<_ALIGNMENT>(__VA_ARGS__);
+		#define ZTD_ASSUME_ALIGNED_CXX(_ALIGNMENT, ...) ::std::assume_aligned<_ALIGNMENT>(__VA_ARGS__)
 	#else
 		#define ZTD_ASSUME_ALIGNED_CXX(_ALIGNMENT, ...) ZTD_ASSUME_ALIGNED_C(_ALIGNMENT, __VA_ARGS__)
 	#endif

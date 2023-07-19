@@ -862,7 +862,7 @@ namespace ztd {
 		if (!::std::is_constant_evaluated()) {
 			const unsigned char* __aligned_byte_ptr = static_cast<const unsigned char*>(
 			     ZTD_ASSUME_ALIGNED(alignof(_Integralish), static_cast<const void*>(__ptr)));
-			return ::ztd::load8_le(__value, __aligned_byte_ptr);
+			return ::ztd::load8_le<_Integralish>(__aligned_byte_ptr);
 		}
 		else
 #endif
@@ -882,7 +882,7 @@ namespace ztd {
 		if (!::std::is_constant_evaluated()) {
 			const unsigned char* __aligned_byte_ptr = static_cast<const unsigned char*>(
 			     ZTD_ASSUME_ALIGNED(alignof(_Integralish), static_cast<const void*>(__ptr)));
-			return ::ztd::load8_be(__value, __aligned_byte_ptr);
+			return ::ztd::load8_be<_Integralish>(__aligned_byte_ptr);
 		}
 		else
 #endif

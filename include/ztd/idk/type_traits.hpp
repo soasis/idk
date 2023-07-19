@@ -38,6 +38,9 @@
 #include <ztd/idk/charN_t.hpp>
 
 #include <type_traits>
+#if ZTD_IS_ON(ZTD_STD_SPACESHIP_COMPARE) && ZTD_IS_ON(ZTD_STD_LIBRARY_SPACESHIP_COMPARE)
+#include <compare>
+#endif
 
 #include <ztd/prologue.hpp>
 
@@ -359,17 +362,16 @@ namespace ztd {
 	template <typename T, typename U>
 	concept same = (std::is_same_v<T, U> && std::is_same_v<U, T>);
 
-#if ZTD_IS_ON(ZTD_STD_SPACESHIP_COMPARE)
-
+#if ZTD_IS_ON(ZTD_STD_SPACESHIP_COMPARE) && ZTD_IS_ON(ZTD_STD_LIBRARY_SPACESHIP_COMPARE)
 	namespace __idk_detail {
 		template <typename Left, typename Right = Left>
 		concept __strong_spaceshippable = requires(Left& left, Right& right) {
-			{ left <=> right } -> ::ztd::same<::std::strong_ordering, ::std::strong_ordering>;
+			{ left <=> right } -> ::ztd::same<::std::strong_ordering>;
 		};
 
 		template <typename Left, typename Right = Left>
 		concept __weak_spaceshippable = requires(Left& left, Right& right) {
-			{ left <=> right } -> ::std::weak_ordering;
+			{ left <=> right } -> ::ztd::same<::std::weak_ordering>;
 		};
 
 		template <typename Left, typename Right = Left>
