@@ -273,6 +273,16 @@ namespace ztd {
 	using detected_or = detector<_Default, void, _Op, _Args...>;
 
 	//////
+	/// @brief A shortcut for using the ztd::detector_or to yield the inner `type`.
+	template <typename _Default, template <typename...> typename _Op, typename... _Args>
+	using detected_or_t = typename detector<_Default, void, _Op, _Args...>::type;
+
+	//////
+	/// @brief A shortcut for using the ztd::detector_or to yield the inner `value`.
+	template <typename _Default, template <typename...> typename _Op, typename... _Args>
+	constexpr inline bool detected_or_v = detector<_Default, void, _Op, _Args...>::value;
+
+	//////
 	/// @brief A type for giving the exact same type out as was put in.
 	template <typename _Type>
 	class type_identity {
@@ -369,23 +379,18 @@ namespace ztd {
 		using __detect_comparison_category = decltype(std::declval<Left&>() <=> std::declval<Right&>());
 
 		template <typename Left, typename Right = Left>
-		concept __equality_comparable = requires(Left& left, Right& right) {
-			left == right;
-		};
+		concept __equality_comparable = requires(Left& left, Right& right) { left == right; };
 
 		template <typename Left, typename Right = Left>
-		concept __lesser_comparable = requires(Left& left, Right& right) {
-			left < right;
-		};
+		concept __lesser_comparable = requires(Left& left, Right& right) { left < right; };
 
 		template <typename Left, typename Right = Left>
-		concept __greater_comparable = requires(Left& left, Right& right) {
-			left > right;
-		};
-	} // namespace __alloc_detail
+		concept __greater_comparable = requires(Left& left, Right& right) { left > right; };
+	} // namespace __idk_detail
 
 	template <typename Left, typename Right = Left>
-	using comparison_category = detected_or<::std::weak_ordering, __idk_detail::__detect_comparison_category, Left, Right>;
+	using comparison_category
+	     = detected_or<::std::weak_ordering, __idk_detail::__detect_comparison_category, Left, Right>;
 
 #endif
 
