@@ -61,7 +61,7 @@
 #elif ZTD_IS_ON(ZTD_COMPILER_CLANG)
 	// clang is busted right now!
 	// taking bets: Clang 17 is when it'll get fixed!
-	#if (__clang_major__ >= 17)
+	#if (__clang_major__ >= 17) && defined(__cpp_concepts) && (__cpp_concepts >= 201907LL)
 		#define ZTD_STD_CONCEPTS_I_ ZTD_DEFAULT_ON
 	#else
 		#define ZTD_STD_CONCEPTS_I_ ZTD_DEFAULT_OFF

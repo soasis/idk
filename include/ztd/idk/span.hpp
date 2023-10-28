@@ -111,6 +111,8 @@ namespace std {
 
 // Use home-grown span from Martin Moene
 #define span_FEATURE_MAKE_SPAN 1
+#define span_FEATURE_COMPARISON 1
+#define span_FEATURE_WITH_INITIALIZER_LIST_P2447 1
 #include <ztd/idk/detail/span.implementation.hpp>
 
 #include <ztd/prologue.hpp>

@@ -186,6 +186,26 @@
 	#define ZTD_PLATFORM_SUNOS_I_ ZTD_DEFAULT_OFF
 #endif // SunOS
 
+#if defined(ZTD_PLATFORM_ANDROID)
+	#if (ZTD_PLATFORM_ANDROID_I_ != 0)
+		#define ZTD_PLATFORM_ANDROID_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_ANDROID_I_ ZTD_OFF
+	#endif
+#elif defined(__ANDROID_API__) && (__ANDROID_API__ > 0)
+	#define ZTD_PLATFORM_ANDROID_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_PLATFORM_ANDROID_I_ ZTD_DEFAULT_OFF
+#endif // Android (NDK)
+
+#if defined(ZTD_PLATFORM_ANDROID_VERSION)
+	#define ZTD_PLATFORM_ANDROID_I_ ZTD_PLATFORM_ANDROID_VERSION
+#elif ZTD_IS_ON(ZTD_PLATFORM_ANDROID)
+	#define ZTD_PLATFORM_ANDROID_VERSION_I_ __ANDROID_API__ 
+#else
+	#define ZTD_PLATFORM_ANDROID_VERSION_I_ 0
+#endif
+
 #if defined(ZTD_PLATFORM_UNIX)
 	#if (ZTD_PLATFORM_UNIX != 0)
 		#define ZTD_PLATFORM_UNIX_I_ ZTD_ON
@@ -380,17 +400,25 @@
 #endif
 
 
-#if defined(ZTD_NL_LANGINFO)
-	#if (ZTD_NL_LANGINFO != 0)
-		#define ZTD_NL_LANGINFO_I_ ZTD_ON
+#if defined(ZTD_NL_LANGINFO_H)
+	#if (ZTD_NL_LANGINFO_H != 0)
+		#define ZTD_NL_LANGINFO_H_I_ ZTD_ON
 	#else
-		#define ZTD_NL_LANGINFO_I_ ZTD_OFF
+		#define ZTD_NL_LANGINFO_H_I_ ZTD_OFF
 	#endif
 #else
 	#if ZTD_HAS_INCLUDE_I_(<nl_langinfo.h>)
-		#define ZTD_NL_LANGINFO_I_ ZTD_ON
+		#if ZTD_IS_ON(ZTD_PLATFORM_ANDROID)
+			#if ZTD_USE(ZTD_PLATFORM_ANDROID_VERSION) >= 26
+				#define ZTD_NL_LANGINFO_H_I_ ZTD_DEFAULT_ON
+			#else
+				#define ZTD_NL_LANGINFO_H_I_ ZTD_DEFAULT_OFF
+			#endif
+		#else
+			#define ZTD_NL_LANGINFO_H_I_ ZTD_DEFAULT_ON
+		#endif
 	#else
-		#define ZTD_NL_LANGINFO_I_ ZTD_DEFAULT_OFF
+		#define ZTD_NL_LANGINFO_H_I_ ZTD_DEFAULT_OFF
 	#endif
 #endif // nl_langinfo POSIX
 
@@ -400,7 +428,7 @@
 	#else
 		#define ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_ ZTD_OFF
 	#endif
-#elif ZTD_IS_ON(ZTD_NL_LANGINFO) && (ZTD_IS_ON(ZTD_PLATFORM_ZEDOS) || ZTD_IS_ON(ZTD_PLATFORM_AIX))
+#elif ZTD_IS_ON(ZTD_NL_LANGINFO_H) && (ZTD_IS_ON(ZTD_PLATFORM_ZEDOS) || ZTD_IS_ON(ZTD_PLATFORM_AIX))
 	#define ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_ ZTD_ON
 #else
 	#define ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_ ZTD_DEFAULT_OFF
@@ -477,18 +505,18 @@
 	#define ZTD_CHAR8_T_I_ unsigned char
 #endif // char8_t defined by the user
 
-#if defined(ZTD_UCHAR)
-	#if (ZTD_UCHAR != 0)
-		#define ZTD_UCHAR_I_ ZTD_ON
+#if defined(ZTD_UCHAR_H)
+	#if (ZTD_UCHAR_H != 0)
+		#define ZTD_UCHAR_H_I_ ZTD_ON
 	#else
-		#define ZTD_UCHAR_I_ ZTD_OFF
+		#define ZTD_UCHAR_H_I_ ZTD_OFF
 	#endif
 #elif ZTD_IS_OFF(ZTD_PLATFORM_MAC_OS)
-	#define ZTD_UCHAR_I_ ZTD_DEFAULT_ON
+	#define ZTD_UCHAR_H_I_ ZTD_DEFAULT_ON
 #elif ZTD_HAS_INCLUDE_I_(<uchar.h>)
-	#define ZTD_UCHAR_I_ ZTD_DEFAULT_ON
+	#define ZTD_UCHAR_H_I_ ZTD_DEFAULT_ON
 #else
-	#define ZTD_UCHAR_I_ ZTD_DEFAULT_OFF
+	#define ZTD_UCHAR_H_I_ ZTD_DEFAULT_OFF
 #endif
 
 #if defined(ZTD_CUCHAR)
@@ -505,18 +533,18 @@
 	#define ZTD_CUCHAR_I_ ZTD_DEFAULT_OFF
 #endif
 
-#if defined(ZTD_WCHAR)
-	#if (ZTD_WCHAR != 0)
-		#define ZTD_WCHAR_I_ ZTD_ON
+#if defined(ZTD_WCHAR_H)
+	#if (ZTD_WCHAR_H != 0)
+		#define ZTD_WCHAR_H_I_ ZTD_ON
 	#else
-		#define ZTD_WCHAR_I_ ZTD_OFF
+		#define ZTD_WCHAR_H_I_ ZTD_OFF
 	#endif
 #elif ZTD_HAS_INCLUDE_I_(<wchar.h>)
-	#define ZTD_WCHAR_I_ ZTD_DEFAULT_ON
+	#define ZTD_WCHAR_H_I_ ZTD_DEFAULT_ON
 #elif ZTD_IS_OFF(ZTD_LIBCXX)
-	#define ZTD_WCHAR_I_ ZTD_DEFAULT_ON
+	#define ZTD_WCHAR_H_I_ ZTD_DEFAULT_ON
 #else
-	#define ZTD_WCHAR_I_ ZTD_DEFAULT_OFF
+	#define ZTD_WCHAR_H_I_ ZTD_DEFAULT_OFF
 #endif
 
 #if defined(ZTD_CWCHAR)
@@ -559,37 +587,67 @@
 
 #if ZTD_IS_ON(ZTD_CXX)
 	#if ZTD_IS_ON(ZTD_CUCHAR)
-		#define ZTD_UCHAR_ACCESSOR_I_ ::std::
+		#define ZTD_UCHAR_SCOPE_I_ ::std::
 	#else
-		#define ZTD_UCHAR_ACCESSOR_I_ ::
+		#define ZTD_UCHAR_SCOPE_I_ ::
 	#endif
 #else
-	#define ZTD_UCHAR_ACCESSOR_I_
+	#define ZTD_UCHAR_SCOPE_I_
 #endif
 
 #if ZTD_IS_ON(ZTD_CXX)
 	#if ZTD_IS_ON(ZTD_CWCHAR)
-		#define ZTD_WCHAR_ACCESSOR_I_ ::std::
+		#define ZTD_WCHAR_SCOPE_I_ ::std::
 	#else
-		#define ZTD_WCHAR_ACCESSOR_I_ ::
+		#define ZTD_WCHAR_SCOPE_I_ ::
 	#endif
 #else
-	#define ZTD_WCHAR_ACCESSOR_I_
+	#define ZTD_WCHAR_SCOPE_I_
 #endif
 
-#if defined(ZTD_LANGINFO)
-	#if (ZTD_LANGINFO != 0)
-		#define ZTD_LANGINFO_I_ ZTD_ON
+#if ZTD_IS_ON(ZTD_CXX)
+	#if ZTD_IS_ON(ZTD_CWCHAR) || ZTD_IS_ON(ZTD_CUCHAR)
+		#define ZTD_MBSTATE_SCOPE_I_ ::std::
 	#else
-		#define ZTD_LANGINFO_I_ ZTD_OFF
+		#define ZTD_MBSTATE_SCOPE_I_ ::
+	#endif
+#else
+	#define ZTD_MBSTATE_SCOPE_I_
+#endif
+
+#if defined(ZTD_LANGINFO_H)
+	#if (ZTD_LANGINFO_H != 0)
+		#define ZTD_LANGINFO_H_I_ ZTD_ON
+	#else
+		#define ZTD_LANGINFO_H_I_ ZTD_OFF
 	#endif
 #else
 	#if ZTD_HAS_INCLUDE_I_(<langinfo.h>)
-		#define ZTD_LANGINFO_I_ ZTD_ON
+		#if ZTD_IS_ON(ZTD_PLATFORM_ANDROID)
+			#if ZTD_USE(ZTD_PLATFORM_ANDROID_VERSION) >= 26
+				#define ZTD_LANGINFO_H_I_ ZTD_DEFAULT_ON
+			#else
+				#define ZTD_LANGINFO_H_I_ ZTD_DEFAULT_OFF
+			#endif
+		#else
+			#define ZTD_LANGINFO_H_I_ ZTD_DEFAULT_ON
+		#endif
 	#else
-		#define ZTD_LANGINFO_I_ ZTD_DEFAULT_OFF
+		#define ZTD_LANGINFO_H_I_ ZTD_DEFAULT_OFF
 	#endif
 #endif // langinfo POSIX
+
+#if defined(ZTD_NL_LANGINFO)
+	#if (ZTD_NL_LANGINFO != 0)
+		#define ZTD_NL_LANGINFO_I_ ZTD_ON
+	#else
+		#define ZTD_NL_LANGINFO_I_ ZTD_OFF
+	#endif
+#elif ZTD_IS_ON(ZTD_NL_LANGINFO_H) || ZTD_IS_ON(ZTD_LANGINFO_H)
+	#define ZTD_NL_LANGINFO_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_NL_LANGINFO_I_ ZTD_DEFAULT_OFF
+#endif
 
 #if (ZTD_HAS_ATTRIBUTE_I_(nodiscard) != 0L)
 	#if ZTD_IS_ON(ZTD_CXX)

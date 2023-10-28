@@ -36,6 +36,7 @@
 #include <ztd/idk/version.hpp>
 
 #include <ztd/idk/charN_t.hpp>
+#include <ztd/idk/mbstate_t.hpp>
 #include <ztd/idk/type_traits.hpp>
 #include <ztd/ranges/algorithm.hpp>
 
@@ -55,7 +56,7 @@ namespace ztd {
 		using int_type   = ::std::int_least32_t;
 		using pos_type   = ::std::streampos;
 		using off_type   = ::std::streamoff;
-		using state_type = ::std::mbstate_t;
+		using state_type = ztd_mbstate_t;
 
 		static constexpr char_type* copy(
 		     char_type* __destination, const char_type* __source, ::std::size_t __count) noexcept {

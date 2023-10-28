@@ -61,7 +61,7 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding
 		return true;
 	}
 #endif
-#if ZTD_IS_ON(ZTD_NL_LANGINFO) || ZTD_IS_ON(ZTD_LANGINFO)
+#if ZTD_IS_ON(ZTD_NL_LANGINFO)
 	const char* __ctype_name = nl_langinfo(CODESET);
 #else
 	const char* __ctype_name          = setlocale(LC_CTYPE, nullptr);
@@ -104,7 +104,7 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding
 		return true;
 	}
 #endif
-#if ZTD_IS_ON(ZTD_NL_LANGINFO) || ZTD_IS_ON(ZTD_LANGINFO)
+#if ZTD_IS_ON(ZTD_NL_LANGINFO)
 	const char* __ctype_name = nl_langinfo(CODESET);
 #else
 	const char* __ctype_name          = setlocale(LC_CTYPE, nullptr);
@@ -134,7 +134,7 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding
 		return true;
 	}
 #endif
-#if ZTD_IS_ON(ZTD_NL_LANGINFO) || ZTD_IS_ON(ZTD_LANGINFO)
+#if ZTD_IS_ON(ZTD_NL_LANGINFO)
 	const char* __ctype_name = nl_langinfo(CODESET);
 #else
 	const char* __ctype_name = setlocale(LC_CTYPE, nullptr);
@@ -165,7 +165,7 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding
 		return true;
 	}
 #endif
-#if ZTD_IS_ON(ZTD_NL_LANGINFO) || ZTD_IS_ON(ZTD_LANGINFO)
+#if ZTD_IS_ON(ZTD_NL_LANGINFO)
 	const char* __ctype_name = nl_langinfo(CODESET);
 #else
 	const char* __ctype_name = setlocale(LC_CTYPE, nullptr);
@@ -224,7 +224,7 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_execution_enco
 		return "UTF-8";
 	}
 #endif
-#if ZTD_IS_ON(ZTD_NL_LANGINFO) || ZTD_IS_ON(ZTD_LANGINFO)
+#if ZTD_IS_ON(ZTD_NL_LANGINFO)
 	const char* __ctype_name = nl_langinfo(CODESET);
 #else
 	const char* __ctype_name = setlocale(LC_CTYPE, nullptr);

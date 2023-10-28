@@ -1614,7 +1614,8 @@ namespace ztd { namespace tests {
 			  (CharType)0x75, (CharType)0x72, (CharType)0xc3, (CharType)0xa9, (CharType)0x6c, (CharType)0x69,
 			  (CharType)0x65, (CharType)0x2e, (CharType)0x00 };
 	inline constexpr std::size_t x_u8_unicode_sequence_truth_native_endian_storage_size
-		= sizeof(x_u8_unicode_sequence_truth_native_endian_storage<char>);
+		= /* GCC 13.2 x86_64 GNU Linux bug??? sizeof(x_u8_unicode_sequence_truth_native_endian_storage<char>)*/
+		2109;
 
 
 	inline constexpr const std::basic_string_view<char32_t> u32_unicode_sequence_truth_native_endian

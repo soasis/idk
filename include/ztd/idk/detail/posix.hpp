@@ -41,11 +41,11 @@
 
 // clang-format off
 #include <clocale>
-#if ZTD_IS_ON(ZTD_LANGINFO)
+#if ZTD_IS_ON(ZTD_LANGINFO_H)
 	extern "C" {
 		#include <langinfo.h>
 	}
-#elif ZTD_IS_ON(ZTD_NL_LANGINFO)
+#elif ZTD_IS_ON(ZTD_NL_LANGINFO_H)
 	// IBM-specific??
 	extern "C" {
 		#include <nl_langinfo.h>
@@ -66,7 +66,7 @@ namespace ztd {
 	namespace __idk_detail { namespace __posix {
 
 		inline text_encoding_id __determine_active_code_page() noexcept {
-#if ZTD_IS_ON(ZTD_LANGINFO) || ZTD_IS_ON(ZTD_NL_LANGINFO)
+#if ZTD_IS_ON(ZTD_NL_LANGINFO)
 			const char* __name = nl_langinfo(LC_CTYPE);
 			return __idk_detail::__to_encoding_id(__name);
 #else
