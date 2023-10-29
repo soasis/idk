@@ -123,18 +123,18 @@ namespace ztd {
 	//////
 	/// @brief dynamic extent copycat
 	///
-	inline constexpr decltype(::nonstd::dynamic_extent) dynamic_extent = ::nonstd::dynamic_extent;
+	inline constexpr decltype(::nonstd::span_lite::dynamic_extent) dynamic_extent = ::nonstd::span_lite::dynamic_extent;
 
-	using ::nonstd::as_bytes;
-	using ::nonstd::as_writable_bytes;
-	using ::nonstd::make_span;
-	using ::nonstd::span;
-	using ::nonstd::operator==;
-	using ::nonstd::operator!=;
-	using ::nonstd::operator<;
-	using ::nonstd::operator<=;
-	using ::nonstd::operator>;
-	using ::nonstd::operator>=;
+	using ::nonstd::span_lite::as_bytes;
+	using ::nonstd::span_lite::as_writable_bytes;
+	using ::nonstd::span_lite::make_span;
+	using ::nonstd::span_lite::span;
+	using ::nonstd::span_lite::operator==;
+	using ::nonstd::span_lite::operator!=;
+	using ::nonstd::span_lite::operator<;
+	using ::nonstd::span_lite::operator<=;
+	using ::nonstd::span_lite::operator>;
+	using ::nonstd::span_lite::operator>=;
 
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd
