@@ -211,10 +211,7 @@
 #define span_HAVE_STD_SPAN 0
 #endif
 
-#define span_USES_STD_SPAN                       \
-	((span_CONFIG_SELECT_SPAN == span_SPAN_STD) \
-	     || ((span_CONFIG_SELECT_SPAN == span_SPAN_DEFAULT) && span_HAVE_STD_SPAN))
-
+#define span_USES_STD_SPAN ZTD_IS_ON(ZTD_STD_LIBRARY_SPAN)
 //
 // Use C++20 std::span:
 //
