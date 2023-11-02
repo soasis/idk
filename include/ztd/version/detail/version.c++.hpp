@@ -37,6 +37,65 @@
 #include <ztd/version/detail/version.c.h>
 
 // clang-format off
+#if defined(ZTD_EXCEPTIONS)
+	#if (ZTD_EXCEPTIONS != 0)
+		#define ZTD_EXCEPTIONS_I_ ZTD_ON
+	#else
+		#define ZTD_EXCEPTIONS_I_ ZTD_OFF
+	#endif
+#elif defined(__cpp_exceptions) && (__cpp_exceptions != 0)
+	#define ZTD_EXCEPTIONS_I_ ZTD_DEFAULT_ON
+#elif ZTD_IS_ON(ZTD_COMPILER_GCC)
+	#if defined(__EXCEPTIONS) && (__EXCEPTIONS != 0)
+		#define ZTD_EXCEPTIONS_I_ ZTD_DEFAULT_ON
+	#else
+		#define ZTD_EXCEPTIONS_I_ ZTD_DEFAULT_OFF
+	#endif
+#elif ZTD_IS_ON(ZTD_COMPILER_CLANG)
+	#if defined(__has_feature) && _has_feature(cxx_exceptions)
+		#define ZTD_EXCEPTIONS_I_ ZTD_DEFAULT_ON
+	#else
+		#define ZTD_EXCEPTIONS_I_ ZTD_DEFAULT_OFF
+	#endif
+#elif ZTD_IS_ON(ZTD_COMPILER_VCXX)
+	#if defined(_CPPUNWIND) && (_CPPUNWIND != 0)
+		#define ZTD_EXCEPTIONS_I_ ZTD_DEFAULT_ON
+	#else
+		#define ZTD_EXCEPTIONS_I_ ZTD_DEFAULT_OFF
+	#endif
+#else
+	#define ZTD_EXCEPTIONS_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_RTTI)
+	#if (ZTD_RTTI != 0)
+		#define ZTD_RTTI_I_ ZTD_ON
+	#else
+		#define ZTD_RTTI_I_ ZTD_OFF
+	#endif
+#elif defined(__cpp_rtti) && (__cpp_rtti != 0)
+	#define ZTD_RTTI_I_ ZTD_DEFAULT_ON
+#elif ZTD_IS_ON(ZTD_COMPILER_GCC)
+	#if defined(__GXX_RTTI) && (__GXX_RTTI != 0)
+		#define ZTD_RTTI_I_ ZTD_DEFAULT_ON
+	#else
+		#define ZTD_RTTI_I_ ZTD_DEFAULT_OFF
+	#endif
+#elif ZTD_IS_ON(ZTD_COMPILER_CLANG)
+	#if defined(__has_feature) && _has_feature(cxx_rtti)
+		#define ZTD_RTTI_I_ ZTD_DEFAULT_ON
+	#else
+		#define ZTD_RTTI_I_ ZTD_DEFAULT_OFF
+	#endif
+#elif ZTD_IS_ON(ZTD_COMPILER_VCXX)
+	#if defined(_CPPRTTI) && (_CPPRTTI != 0)
+		#define ZTD_RTTI_I_ ZTD_DEFAULT_ON
+	#else
+		#define ZTD_RTTI_I_ ZTD_DEFAULT_OFF
+	#endif
+#else
+	#define ZTD_RTTI_I_ ZTD_DEFAULT_OFF
+#endif
 
 #if defined (ZTD_STD_ALIGNED_OPERATOR_NEW)
 	#if (ZTD_STD_ALIGNED_OPERATOR_NEW != 0)
@@ -84,7 +143,17 @@
 	#define ZTD_STD_DESIGNATED_INITIALIZERS_I_ ZTD_DEFAULT_OFF
 #endif
 
-
+#if defined(ZTD_STD_EXPLICIT)
+	#if (ZTD_STD_EXPLICIT != 0)
+		#define ZTD_STD_EXPLICIT_I_ ZTD_ON
+	#else
+		#define ZTD_STD_EXPLICIT_I_ ZTD_OFF
+	#endif
+#elif defined(__cpp_conditional_explicit) && (__cpp_conditional_explicit != 0)
+	#define ZTD_STD_EXPLICIT_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_STD_EXPLICIT_I_ ZTD_DEFAULT_OFF
+#endif
 
 #if defined(ZTD_STD_SPACESHIP_COMPARE)
 	#if (ZTD_STD_SPACESHIP_COMPARE != 0)
@@ -396,7 +465,7 @@
 
 #if defined(ZTD_CXX_COMPILE_TIME_ENCODING_NAME)
 	#define ZTD_CXX_COMPILE_TIME_ENCODING_NAME_GET_I_()         ZTD_CXX_COMPILE_TIME_ENCODING_NAME
-	#define ZTD_CXX_COMPILE_TIME_ENCODING_NAME_DESCRIPTION_I_() "set by the user with ZTD_CXX_COMPILE_TIME_ENCODING_NAME as (" ZTD_TOKEN_TO_STRING_I_(ZTD_COMPILE_TIME_ENCODING_NAME) ")"
+	#define ZTD_CXX_COMPILE_TIME_ENCODING_NAME_DESCRIPTION_I_() "set by the user with ZTD_CXX_COMPILE_TIME_ENCODING_NAME as (" ZTD_TOKEN_TO_STRING(ZTD_COMPILE_TIME_ENCODING_NAME) ")"
 	#define ZTD_CXX_COMPILE_TIME_ENCODING_NAME_I_               ZTD_DEFAULT_ON
 #elif ZTD_IS_ON(ZTD_CXX) && ZTD_IS_ON(ZTD_STD_LIBRARY_TEXT_ENCODING_ID)
 	#define ZTD_CXX_COMPILE_TIME_ENCODING_NAME_GET_I_()         ::std::text_encoding::literal().name()
@@ -410,7 +479,7 @@
 
 #if defined(ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME)
 	#define ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_()         ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME
-	#define ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_DESCRIPTION_I_() "set by the user with ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME as (" ZTD_TOKEN_TO_STRING_I_(ZTD_COMPILE_TIME_WIDE_ENCODING_NAME) ")"
+	#define ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_DESCRIPTION_I_() "set by the user with ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME as (" ZTD_TOKEN_TO_STRING(ZTD_COMPILE_TIME_WIDE_ENCODING_NAME) ")"
 	#define ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_I_               ZTD_ON
 #elif ZTD_IS_ON(ZTD_CXX) && ZTD_IS_ON(ZTD_STD_LIBRARY_TEXT_ENCODING_ID)
 	#define ZTD_CXX_COMPILE_TIME_WIDE_ENCODING_NAME_GET_I_()         ::std::text_encoding::wide_literal().name()

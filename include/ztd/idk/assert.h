@@ -66,7 +66,7 @@
 				do {                                                                    \
 					if (!(__VA_ARGS__)) {                                              \
 						fprintf(stderr, "Assertion `%s` failed in " __FILE__ " line " \
-						ZTD_TOKEN_TO_STRING_I_(__LINE__) "\n",                        \
+						ZTD_TOKEN_TO_STRING(__LINE__) "\n",                        \
 							#__VA_ARGS__ );                                          \
 						exit(0xBF);                                                   \
 					}                                                                  \
@@ -105,7 +105,7 @@
 				do {                                                                    \
 					if (!(__VA_ARGS__)) {                                              \
 						fprintf(stderr, "Assertion `%s` failed in " __FILE__ " line " \
-							ZTD_TOKEN_TO_STRING_I_(__LINE__) ": %s\n",               \
+							ZTD_TOKEN_TO_STRING(__LINE__) ": %s\n",               \
 							#__VA_ARGS__ , _MESSAGE);                               \
 						exit(0xBF);                                                   \
 					}                                                                  \
@@ -146,7 +146,5 @@
 /// warnings.) If the condition is not reached, this function will perform either a user-defined action or
 /// terminate/exit (not abort).
 #define ZTD_ASSERT_MESSAGE(_MESSAGE, ...) ZTD_ASSERT_MESSAGE_I_(_MESSAGE, __VA_ARGS__)
-
-#include <ztd/epilogue.hpp>
 
 #endif

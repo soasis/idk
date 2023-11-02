@@ -109,10 +109,6 @@ namespace std {
 
 #else
 
-// Use home-grown span from Martin Moene
-#define span_FEATURE_MAKE_SPAN 1
-#define span_FEATURE_COMPARISON 1
-#define span_FEATURE_WITH_INITIALIZER_LIST_P2447 1
 #include <ztd/idk/detail/span.implementation.hpp>
 
 #include <ztd/prologue.hpp>
@@ -122,19 +118,18 @@ namespace ztd {
 
 	//////
 	/// @brief dynamic extent copycat
-	///
-	inline constexpr decltype(::nonstd::span_lite::dynamic_extent) dynamic_extent = ::nonstd::span_lite::dynamic_extent;
+	//
+	inline constexpr auto dynamic_extent = ::ztd::__span_detail::__dynamic_extent;
 
-	using ::nonstd::span_lite::as_bytes;
-	using ::nonstd::span_lite::as_writable_bytes;
-	using ::nonstd::span_lite::make_span;
-	using ::nonstd::span_lite::span;
-	using ::nonstd::span_lite::operator==;
-	using ::nonstd::span_lite::operator!=;
-	using ::nonstd::span_lite::operator<;
-	using ::nonstd::span_lite::operator<=;
-	using ::nonstd::span_lite::operator>;
-	using ::nonstd::span_lite::operator>=;
+	using ::ztd::__span_detail::as_bytes;
+	using ::ztd::__span_detail::as_writable_bytes;
+	using ::ztd::__span_detail::span;
+	using ::ztd::__span_detail::operator==;
+	using ::ztd::__span_detail::operator!=;
+	using ::ztd::__span_detail::operator<;
+	using ::ztd::__span_detail::operator<=;
+	using ::ztd::__span_detail::operator>;
+	using ::ztd::__span_detail::operator>=;
 
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd

@@ -38,6 +38,7 @@
 #include <ztd/idk/charN_t.hpp>
 
 #include <type_traits>
+#include <initializer_list>
 #if ZTD_IS_ON(ZTD_STD_SPACESHIP_COMPARE) && ZTD_IS_ON(ZTD_STD_LIBRARY_SPACESHIP_COMPARE)
 #include <compare>
 #endif
@@ -155,6 +156,25 @@ namespace ztd {
 	/// @brief An @c _v alias for ztd::is_code_unit.
 	template <typename _Type>
 	inline constexpr bool is_code_unit_v = is_code_unit<_Type>::value;
+
+
+
+	//////
+	/// @brief Check whether a given type is an `initializer_list`.
+	template <typename _Type>
+	class is_initializer_list : ::std::false_type { };
+
+	//////
+	/// @brief Check whether a given type is an `initializer_list`.
+	template <typename _Elem>
+	class is_initializer_list<std::initializer_list<_Elem>> : ::std::true_type { };
+
+	//////
+	/// @brief An @c _v alias for ztd::is_initializer_list.
+	template <typename _Type>
+	inline constexpr bool is_initializer_list_v = is_code_unit<_Type>::value;
+
+
 
 	//////
 	/// @brief Checks if the given type is one of the types that is usable in the standard with the @c std::char_traits
