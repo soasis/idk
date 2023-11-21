@@ -30,15 +30,28 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_DECLVAL_H
-#define ZTD_IDK_DECLVAL_H
+#ifndef ZTD_IDK_STATEMENT_EXPRESSIONS_H
+#define ZTD_IDK_STATEMENT_EXPRESSIONS_H
 
+#include <ztd/idk/version.h>
+
+// clang-format off
 #if ZTD_IS_ON(ZTD_CXX)
-#include <utility>
-
-#define ZTDC_DECLVAL(...) ::std::declval<__VA_ARGS__>()
+	#define ZTD_STMT_EXPR_BEGIN() ([&]() {
+	#define ZTD_STMT_EXPR_END() }())
+	#define ZTD_STMT_EXPR_RETURN_I_(...) return __VA_ARGS__
+	#define ZTD_STMT_EXPR_USABLE_I_ ZTD_ON
+#elif ZTD_IS_ON(ZTD_STATEMENT_EXPRESSIONS)
+	#define ZTD_STMT_EXPR_BEGIN() ({
+	#define ZTD_STMT_EXPR_END() })
+	#define ZTD_STMT_EXPR_RETURN(...) __VA_ARGS__ 
+	#define ZTD_STMT_EXPR_USABLE_I_ ZTD_ON
 #else
-#define ZTDC_DECLVAL(...) ((typeof(__VA_ARGS__)) {})
+	#define ZTD_STMT_EXPR_BEGIN()
+	#define ZTD_STMT_EXPR_END()
+	#define ZTD_STMT_EXPR_RETURN(...) __VA_ARGS__ 
+	#define ZTD_STMT_EXPR_USABLE_I_ ZTD_OFF
 #endif
+// clang-format on
 
 #endif

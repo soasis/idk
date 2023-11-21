@@ -110,6 +110,14 @@
 #else
 	#define ZTD_HAS_BUILTIN_I_(...) 0
 #endif
+
+#if defined(ZTD_HAS_FEATURE)
+	#define ZTD_HAS_FEATURE_I_(...) ZTD_HAS_FEATURE(__VA_ARGS__)
+#elif defined(__HAS_FEATURE)
+	#define ZTD_HAS_FEATURE_I_(...) __has_feature(__VA_ARGS__)
+#else
+	#define ZTD_HAS_FEATURE_I_(...) 0
+#endif
 // clang-format on
 
 #endif

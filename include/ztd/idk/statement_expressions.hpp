@@ -30,15 +30,11 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_DECLVAL_H
-#define ZTD_IDK_DECLVAL_H
+#ifndef ZTD_IDK_STATEMENT_EXPRESSIONS_HPP
+#define ZTD_IDK_STATEMENT_EXPRESSIONS_HPP
 
-#if ZTD_IS_ON(ZTD_CXX)
-#include <utility>
+#include <ztd/idk/version.h>
 
-#define ZTDC_DECLVAL(...) ::std::declval<__VA_ARGS__>()
-#else
-#define ZTDC_DECLVAL(...) ((typeof(__VA_ARGS__)) {})
-#endif
+#include <ztd/idk/statement_expressions.h>
 
 #endif

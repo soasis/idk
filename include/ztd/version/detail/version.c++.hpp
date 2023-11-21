@@ -52,7 +52,7 @@
 		#define ZTD_EXCEPTIONS_I_ ZTD_DEFAULT_OFF
 	#endif
 #elif ZTD_IS_ON(ZTD_COMPILER_CLANG)
-	#if defined(__has_feature) && _has_feature(cxx_exceptions)
+	#if ZTD_HAS_FEATURE_I_(cxx_exceptions)
 		#define ZTD_EXCEPTIONS_I_ ZTD_DEFAULT_ON
 	#else
 		#define ZTD_EXCEPTIONS_I_ ZTD_DEFAULT_OFF
@@ -82,7 +82,7 @@
 		#define ZTD_RTTI_I_ ZTD_DEFAULT_OFF
 	#endif
 #elif ZTD_IS_ON(ZTD_COMPILER_CLANG)
-	#if defined(__has_feature) && _has_feature(cxx_rtti)
+	#if ZTD_HAS_FEATURE_I_(cxx_rtti)
 		#define ZTD_RTTI_I_ ZTD_DEFAULT_ON
 	#else
 		#define ZTD_RTTI_I_ ZTD_DEFAULT_OFF

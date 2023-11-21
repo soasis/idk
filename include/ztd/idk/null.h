@@ -41,6 +41,6 @@
 #include <stdlib.h>
 #endif
 
-#define ztd_null_of(...) (__VA_ARGS__*)(NULL)
+#define ztd_null_of(...) (typeof(__VA_ARGS__)*)(NULL)
 
 #endif

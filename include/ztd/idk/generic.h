@@ -35,53 +35,65 @@
 
 #include <ztd/idk/static_assert.hpp>
 
+//////
+/// @brief A type which, should it appear in user-facing code, means that some form of generic or metaprogramming has
+/// failed miserably. Contact the vendor and provide a detailed compiler error trace from the macro, if applicable, to
+/// help debug the issue!
+typedef struct ztdc_incorrect_generic_t {
+	void* __frowny_face;
+} ztdc_incorrect_generic_t;
 
 #if ZTD_IS_ON(ZTD_C)
 
+void ztdc_uneval_void(void);
+ztdc_incorrect_generic_t ztdc_uneval_incorrect_generic(void);
+
 #define _ZTDC_WRONG_COUNT_ERR(...) \
 	ztdc_static_assert(0, "an odd number of arguments was passed to the ZTDC_CASCADING_GENERIC expression!")
+
+#define ZTDC_TYPE_SELECT_FUNC(...) (*((typeof(__VA_ARGS__)(*)())0))
 
 #define ZTDC_DEFAULT default
 
 #define _ZTDC_CASCADING_GENERIC_0(_CONTROLLING_EXPRESSION) /* nothing! In the future, maybe provoke an error? */
 #define _ZTDC_CASCADING_GENERIC_2(_CONTROLLING_EXPRESSION, _TYPE0, _CASE0) \
-	_Generic((_CONTROLLING_EXPRESSION), _TYPE0 : _CASE0)
+	_Generic((_CONTROLLING_EXPRESSION), _TYPE0: _CASE0)
 #define _ZTDC_CASCADING_GENERIC_4(_CONTROLLING_EXPRESSION, _TYPE0, _CASE0, ...) \
-	_Generic((_CONTROLLING_EXPRESSION), _TYPE0                                 \
-	         : _CASE0, default                                                 \
-	         : _ZTDC_CASCADING_GENERIC_2(_CONTROLLING_EXPRESSION, __VA_ARGS__))
+	_Generic((_CONTROLLING_EXPRESSION),                                        \
+	     _TYPE0: _CASE0,                                                       \
+	     default: _ZTDC_CASCADING_GENERIC_2(_CONTROLLING_EXPRESSION, __VA_ARGS__))
 #define _ZTDC_CASCADING_GENERIC_6(_CONTROLLING_EXPRESSION, _TYPE0, _CASE0, ...) \
-	_Generic((_CONTROLLING_EXPRESSION), _TYPE0                                 \
-	         : _CASE0, default                                                 \
-	         : _ZTDC_CASCADING_GENERIC_4(_CONTROLLING_EXPRESSION, __VA_ARGS__))
+	_Generic((_CONTROLLING_EXPRESSION),                                        \
+	     _TYPE0: _CASE0,                                                       \
+	     default: _ZTDC_CASCADING_GENERIC_4(_CONTROLLING_EXPRESSION, __VA_ARGS__))
 #define _ZTDC_CASCADING_GENERIC_8(_CONTROLLING_EXPRESSION, _TYPE0, _CASE0, ...) \
-	_Generic((_CONTROLLING_EXPRESSION), _TYPE0                                 \
-	         : _CASE0, default                                                 \
-	         : _ZTDC_CASCADING_GENERIC_6(_CONTROLLING_EXPRESSION, __VA_ARGS__))
+	_Generic((_CONTROLLING_EXPRESSION),                                        \
+	     _TYPE0: _CASE0,                                                       \
+	     default: _ZTDC_CASCADING_GENERIC_6(_CONTROLLING_EXPRESSION, __VA_ARGS__))
 #define _ZTDC_CASCADING_GENERIC_10(_CONTROLLING_EXPRESSION, _TYPE0, _CASE0, ...) \
-	_Generic((_CONTROLLING_EXPRESSION), _TYPE0                                  \
-	         : _CASE0, default                                                  \
-	         : _ZTDC_CASCADING_GENERIC_8(_CONTROLLING_EXPRESSION, __VA_ARGS__))
+	_Generic((_CONTROLLING_EXPRESSION),                                         \
+	     _TYPE0: _CASE0,                                                        \
+	     default: _ZTDC_CASCADING_GENERIC_8(_CONTROLLING_EXPRESSION, __VA_ARGS__))
 #define _ZTDC_CASCADING_GENERIC_12(_CONTROLLING_EXPRESSION, _TYPE0, _CASE0, ...) \
-	_Generic((_CONTROLLING_EXPRESSION), _TYPE0                                  \
-	         : _CASE0, default                                                  \
-	         : _ZTDC_CASCADING_GENERIC_10(_CONTROLLING_EXPRESSION, __VA_ARGS__))
+	_Generic((_CONTROLLING_EXPRESSION),                                         \
+	     _TYPE0: _CASE0,                                                        \
+	     default: _ZTDC_CASCADING_GENERIC_10(_CONTROLLING_EXPRESSION, __VA_ARGS__))
 #define _ZTDC_CASCADING_GENERIC_14(_CONTROLLING_EXPRESSION, _TYPE0, _CASE0, ...) \
-	_Generic((_CONTROLLING_EXPRESSION), _TYPE0                                  \
-	         : _CASE0, default                                                  \
-	         : _ZTDC_CASCADING_GENERIC_12(_CONTROLLING_EXPRESSION, __VA_ARGS__))
+	_Generic((_CONTROLLING_EXPRESSION),                                         \
+	     _TYPE0: _CASE0,                                                        \
+	     default: _ZTDC_CASCADING_GENERIC_12(_CONTROLLING_EXPRESSION, __VA_ARGS__))
 #define _ZTDC_CASCADING_GENERIC_16(_CONTROLLING_EXPRESSION, _TYPE0, _CASE0, ...) \
-	_Generic((_CONTROLLING_EXPRESSION), _TYPE0                                  \
-	         : _CASE0, default                                                  \
-	         : _ZTDC_CASCADING_GENERIC_14(_CONTROLLING_EXPRESSION, __VA_ARGS__))
+	_Generic((_CONTROLLING_EXPRESSION),                                         \
+	     _TYPE0: _CASE0,                                                        \
+	     default: _ZTDC_CASCADING_GENERIC_14(_CONTROLLING_EXPRESSION, __VA_ARGS__))
 #define _ZTDC_CASCADING_GENERIC_18(_CONTROLLING_EXPRESSION, _TYPE0, _CASE0, ...) \
-	_Generic((_CONTROLLING_EXPRESSION), _TYPE0                                  \
-	         : _CASE0, default                                                  \
-	         : _ZTDC_CASCADING_GENERIC_16(_CONTROLLING_EXPRESSION, __VA_ARGS__))
+	_Generic((_CONTROLLING_EXPRESSION),                                         \
+	     _TYPE0: _CASE0,                                                        \
+	     default: _ZTDC_CASCADING_GENERIC_16(_CONTROLLING_EXPRESSION, __VA_ARGS__))
 #define _ZTDC_CASCADING_GENERIC_20(_CONTROLLING_EXPRESSION, _TYPE0, _CASE0, ...) \
-	_Generic((_CONTROLLING_EXPRESSION), _TYPE0                                  \
-	         : _CASE0, default                                                  \
-	         : _ZTDC_CASCADING_GENERIC_18(_CONTROLLING_EXPRESSION, __VA_ARGS__))
+	_Generic((_CONTROLLING_EXPRESSION),                                         \
+	     _TYPE0: _CASE0,                                                        \
+	     default: _ZTDC_CASCADING_GENERIC_18(_CONTROLLING_EXPRESSION, __VA_ARGS__))
 
 #define _ZTDC_CASCADING_GENERIC_SELECT(_FUN20, _ERR19, _FUN18, _ERR17, _FUN16, _ERR15, _FUN14, _ERR13, _FUN12, _ERR11, \
      _FUN10, _ERR9, _FUN8, _ERR7, _FUN6, _ERR5, _FUN4, _ERR3, _FUN2, _ERR1, _FUN_TARGET, ...)                          \

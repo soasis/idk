@@ -30,15 +30,28 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_DECLVAL_H
-#define ZTD_IDK_DECLVAL_H
+#ifndef ZTD_IDK_AUTO_H
+#define ZTD_IDK_AUTO_H
 
+#include <ztd/idk/version.h>
+
+// clang-format off
 #if ZTD_IS_ON(ZTD_CXX)
-#include <utility>
 
-#define ZTDC_DECLVAL(...) ::std::declval<__VA_ARGS__>()
+#define zauto auto
+
 #else
-#define ZTDC_DECLVAL(...) ((typeof(__VA_ARGS__)) {})
+
+#if ZTD_IS_ON(ZTD_AUTO_TYPE)
+#define ztd_auto __auto_type
+#elif __STDC_VERSION__ > 202300L
+#define ztd_auto auto
+#else
+// Just guess for this one, I suppose?
+#define ztd_auto __auto_type
 #endif
+
+#endif
+// clang-format off
 
 #endif

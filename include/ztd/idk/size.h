@@ -33,7 +33,10 @@
 #ifndef ZTD_IDK_SIZE_H
 #define ZTD_IDK_SIZE_H
 
+#include <ztd/idk/version.h>
+
 #include <ztd/idk/charN_t.h>
+#include <ztd/idk/generic.h>
 
 #if ZTD_IS_ON(ZTD_CXX)
 #include <climits>
@@ -73,7 +76,17 @@ inline ZTD_CONSTEXPR_IF_CXX_I_ size_t ztdc_c_string_ptr_size_uc(const unsigned c
 	return __ptr_size;
 }
 
-inline ZTD_CONSTEXPR_IF_CXX_I_ size_t ztdc_c_string_ptr_size_w(const ztd_wchar_t* __ptr) ZTD_NOEXCEPT_IF_CXX_I_ {
+inline ZTD_CONSTEXPR_IF_CXX_I_ size_t ztdc_c_string_ptr_size_sc(const signed char* __ptr) ZTD_NOEXCEPT_IF_CXX_I_ {
+	size_t __ptr_size = 0;
+	if (__ptr) {
+		for (; *__ptr; ++__ptr) {
+			__ptr_size += 1;
+		}
+	}
+	return __ptr_size;
+}
+
+inline ZTD_CONSTEXPR_IF_CXX_I_ size_t ztdc_c_string_ptr_size_wc(const ztd_wchar_t* __ptr) ZTD_NOEXCEPT_IF_CXX_I_ {
 	size_t __ptr_size = 0;
 	if (__ptr) {
 		for (; *__ptr; ++__ptr) {
@@ -116,46 +129,51 @@ inline ZTD_CONSTEXPR_IF_CXX_I_ size_t ztdc_c_string_ptr_size_c32(const ztd_char3
 #if ZTD_IS_ON(ZTD_C)
 // NOTE: cascading _Generic implementation prevents issues with multiple types having the same underlying type, because
 // unlike C++, all of these types could potentially be aliasing the same primitives.
-#define ztdc_c_detail_string_ptr_size_0(_PTR) _Generic(char : ztdc_c_string_ptr_size_c)
+#define ztdc_c_detail_string_ptr_size_0(_PTR) _Generic(*_PTR, char: ztdc_c_string_ptr_size_c, default: ztdc_uneval_void)
 #define ztdc_c_detail_string_ptr_size_1(_PTR) \
-	_Generic(unsigned char : ztdc_c_string_ptr_size_uc, default : ztdc_c_detail_string_ptr_size_0(_PTR))
+	_Generic(*_PTR, unsigned char: ztdc_c_string_ptr_size_uc, default: ztdc_c_detail_string_ptr_size_0(_PTR))
 #define ztdc_c_detail_string_ptr_size_2(_PTR) \
-	_Generic(wchar_t : ztdc_c_string_ptr_size_wc, default : ztdc_c_detail_string_ptr_size_1(_PTR))
+	_Generic(*_PTR, wchar_t: ztdc_c_string_ptr_size_wc, default: ztdc_c_detail_string_ptr_size_1(_PTR))
 #define ztdc_c_detail_string_ptr_size_3(_PTR) \
-	_Generic(ztd_char8_t : ztdc_c_string_ptr_size_c8, default : ztdc_c_detail_string_ptr_size_2(_PTR))
+	_Generic(*_PTR, ztd_char8_t: ztdc_c_string_ptr_size_c8, default: ztdc_c_detail_string_ptr_size_2(_PTR))
 #define ztdc_c_detail_string_ptr_size_4(_PTR) \
-	_Generic(ztd_char16_t : ztdc_c_string_ptr_size_c16, default : ztdc_c_detail_string_ptr_size_3(_PTR))
+	_Generic(*_PTR, ztd_char16_t: ztdc_c_string_ptr_size_c16, default: ztdc_c_detail_string_ptr_size_3(_PTR))
 #define ztdc_c_detail_string_ptr_size_5(_PTR) \
-	_Generic(ztd_char32_t : ztdc_c_string_ptr_size_c32, default : ztdc_c_detail_string_ptr_size_4(_PTR))
+	_Generic(*_PTR, ztd_char32_t: ztdc_c_string_ptr_size_c32, default: ztdc_c_detail_string_ptr_size_4(_PTR))
+#define ztdc_c_detail_string_ptr_size_6(_PTR) \
+	_Generic(*_PTR, signed char: ztdc_c_string_ptr_size_sc, default: ztdc_c_detail_string_ptr_size_5(_PTR))
 
-#define ztdc_c_string_ptr_size(_PTR) ztdc_c_detail_string_ptr_size_5(_PTR)(_PTR)
+#define ztdc_c_string_ptr_size(_PTR) ztdc_c_detail_string_ptr_size_6(_PTR)(_PTR)
 
 #else
 
 template <typename _Ptr>
 constexpr ::std::size_t ztdc_c_string_ptr_size(const _Ptr& __ptr) noexcept {
 	using _Ty = ::ztd::remove_cvref_t<::std::remove_pointer_t<::ztd::remove_cvref_t<_Ptr>>>;
-	if constexpr (::std::is_same_v<::ztd::remove_cvref_t<_Ty>, char>) {
+	if constexpr (::std::is_same_v<_Ty, char>) {
 		return ztdc_c_string_ptr_size_c(__ptr);
 	}
-	else if constexpr (::std::is_same_v<::ztd::remove_cvref_t<_Ty>, unsigned char>) {
+	else if constexpr (::std::is_same_v<_Ty, unsigned char>) {
 		return ztdc_c_string_ptr_size_uc(__ptr);
 	}
-	else if constexpr (::std::is_same_v<::ztd::remove_cvref_t<_Ty>, wchar_t>) {
-		return ztdc_c_string_ptr_size_w(__ptr);
+	else if constexpr (::std::is_same_v<_Ty, signed char>) {
+		return ztdc_c_string_ptr_size_sc(__ptr);
+	}
+	else if constexpr (::std::is_same_v<_Ty, wchar_t>) {
+		return ztdc_c_string_ptr_size_wc(__ptr);
 	}
 #if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T)
-	else if constexpr (::std::is_same_v<::ztd::remove_cvref_t<_Ty>, char8_t>) {
+	else if constexpr (::std::is_same_v<_Ty, char8_t>) {
 		return ztdc_c_string_ptr_size_c8(__ptr);
 	}
 #endif
-	else if constexpr (::std::is_same_v<::ztd::remove_cvref_t<_Ty>, char16_t>) {
+	else if constexpr (::std::is_same_v<_Ty, char16_t>) {
 		return ztdc_c_string_ptr_size_c16(__ptr);
 	}
-	else if constexpr (::std::is_same_v<::ztd::remove_cvref_t<_Ty>, char32_t>) {
+	else if constexpr (::std::is_same_v<_Ty, char32_t>) {
 		return ztdc_c_string_ptr_size_c32(__ptr);
 	}
-	else if constexpr (::std::is_same_v<::ztd::remove_cvref_t<_Ty>, ztd_char8_t>) {
+	else if constexpr (::std::is_same_v<_Ty, ztd_char8_t>) {
 		return ztdc_c_string_ptr_size_c8(__ptr);
 	}
 	else {
