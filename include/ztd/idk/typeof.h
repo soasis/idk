@@ -36,11 +36,15 @@
 #include <ztd/idk/version.h>
 
 #if ZTD_IS_ON(ZTD_CXX)
-#define ZTDC_TYPEOF(...) decltype(__VA_ARGS__)
+#include <type_traits>
+
+#define ztd_typeof(...) ::std::remove_reference_t<decltype(__VA_ARGS__)>
 #elif ZTD_IS_OFF(ZTD_COMPILER_VCXX)
-#define ZTDC_TYPEOF(...) __typeof(__VA_ARGS__)
+#define ztd_typeof(...) __typeof__(__VA_ARGS__)
+#elif ZTD_IS_ON(ZTD_C) && (__STDC_VERSION__ > 202300L)
+#define ztd_typeof(...) typeof(__VA_ARGS__)
 #else
-#define ZTDC_TYPEOF(...) typeof(__VA_ARGS__)
+#define ztd_typeof(...) typeof(__VA_ARGS__)
 #endif
 
 #endif

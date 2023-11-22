@@ -35,12 +35,8 @@
 
 #include <ztd/idk/version.h>
 
-#if ZTD_IS_ON(ZTD_CXX)
-#include <cstdlib>
-#else
-#include <stdlib.h>
-#endif
+#include <ztd/idk/typeof.h>
 
-#define ztd_null_of(...) (typeof(__VA_ARGS__)*)(NULL)
+#define ztd_null_of(...) ((ztd_typeof(__VA_ARGS__)*)0)
 
 #endif

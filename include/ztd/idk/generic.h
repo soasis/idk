@@ -51,7 +51,7 @@ ztdc_incorrect_generic_t ztdc_uneval_incorrect_generic(void);
 #define _ZTDC_WRONG_COUNT_ERR(...) \
 	ztdc_static_assert(0, "an odd number of arguments was passed to the ZTDC_CASCADING_GENERIC expression!")
 
-#define ZTDC_TYPE_SELECT_FUNC(...) (*((typeof(__VA_ARGS__)(*)())0))
+#define ZTDC_TYPE_SELECT_FUNC(...) (*((ztd_typeof(__VA_ARGS__)(*)())0))
 
 #define ZTDC_DEFAULT default
 

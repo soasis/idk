@@ -33,12 +33,16 @@
 #ifndef ZTD_IDK_DECLVAL_H
 #define ZTD_IDK_DECLVAL_H
 
+#include <ztd/idk/version.h>
+
+#include <ztd/idk/typeof.h>
+
 #if ZTD_IS_ON(ZTD_CXX)
 #include <utility>
 
 #define ZTDC_DECLVAL(...) ::std::declval<__VA_ARGS__>()
 #else
-#define ZTDC_DECLVAL(...) ((typeof(__VA_ARGS__)) {})
+#define ZTDC_DECLVAL(...) (*((ztd_typeof(__VA_ARGS__)*)0))
 #endif
 
 #endif
