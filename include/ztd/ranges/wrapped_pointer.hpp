@@ -1,7 +1,7 @@
 // =============================================================================
 //
 // ztd.idk
-// Copyright © 2022-2023 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
+// Copyright © JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
 // Contact: opensource@soasis.org
 //
 // Commercial License Usage
@@ -54,8 +54,8 @@ namespace ztd { namespace ranges {
 
 		template <typename _RightType>
 		inline static constexpr bool __is_non_const_other_v
-			= !::std::is_same_v<wrapped_pointer<_Type>,
-			       wrapped_pointer<_RightType>> && ::std::is_const_v<_Type> && !::std::is_const_v<_RightType>;
+			= !::std::is_same_v<wrapped_pointer<_Type>, wrapped_pointer<_RightType>> && ::std::is_const_v<_Type>
+			&& !::std::is_const_v<_RightType>;
 
 		using __unwrapped_type = decltype(ztd::unwrap(::std::declval<_Type&>()));
 
@@ -76,8 +76,8 @@ namespace ztd { namespace ranges {
 		constexpr wrapped_pointer(const wrapped_pointer<_RightType>& __right) noexcept : _M_ptr(__right._M_ptr) {
 		}
 		template <typename _RightType,
-			::std::enable_if_t<::std::is_const_v<_Type> && !::std::is_const_v<_RightType>,
-			     ::std::nullptr_t> = nullptr>
+			::std::enable_if_t<::std::is_const_v<_Type> && !::std::is_const_v<_RightType>, ::std::nullptr_t>
+			= nullptr>
 		constexpr wrapped_pointer(wrapped_pointer<_RightType>&& __right) noexcept
 		: _M_ptr(::std::move(__right._M_ptr)) {
 		}

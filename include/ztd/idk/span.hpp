@@ -1,7 +1,7 @@
 // =============================================================================
 //
 // ztd.idk
-// Copyright © 2022-2023 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
+// Copyright © JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
 // Contact: opensource@soasis.org
 //
 // Commercial License Usage
@@ -148,11 +148,11 @@ namespace std {
 
 namespace ztd { namespace ranges {
 
-		template <typename _Ty, decltype(::ztd::dynamic_extent) _Extent>
-		inline constexpr bool enable_view<::ztd::span<_Ty, _Extent>> = true;
+	template <typename _Ty, decltype(::ztd::dynamic_extent) _Extent>
+	inline constexpr bool enable_view<::ztd::span<_Ty, _Extent>> = true;
 
-		template <typename _Ty, decltype(::ztd::dynamic_extent) _Extent>
-		inline constexpr bool enable_borrowed_range<::ztd::span<_Ty, _Extent>> = true;
+	template <typename _Ty, decltype(::ztd::dynamic_extent) _Extent>
+	inline constexpr bool enable_borrowed_range<::ztd::span<_Ty, _Extent>> = true;
 
 }} // namespace ztd::ranges
 

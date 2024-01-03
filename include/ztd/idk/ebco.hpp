@@ -1,7 +1,7 @@
 // =============================================================================
 //
 // ztd.idk
-// Copyright © 2022-2023 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
+// Copyright © JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
 // Contact: opensource@soasis.org
 //
 // Commercial License Usage
@@ -108,9 +108,9 @@ namespace ztd {
 		/// @brief Constructs the object in storage from the given arguments.
 		///
 		template <typename _Arg, typename... _Args,
-		     typename = ::std::enable_if_t<
-		          !::std::is_same_v<::std::remove_reference_t<::std::remove_cv_t<_Arg>>,
-		               ebco> && !::std::is_same_v<::std::remove_reference_t<::std::remove_cv_t<_Arg>>, _Type>>>
+		     typename
+		     = ::std::enable_if_t<!::std::is_same_v<::std::remove_reference_t<::std::remove_cv_t<_Arg>>, ebco>
+		          && !::std::is_same_v<::std::remove_reference_t<::std::remove_cv_t<_Arg>>, _Type>>>
 		constexpr ebco(_Arg&& __arg, _Args&&... __args) noexcept(
 		     ::std::is_nothrow_constructible_v<_Type, _Arg, _Args...>)
 		: _M_value(::std::forward<_Arg>(__arg), ::std::forward<_Args>(__args)...) {
@@ -172,9 +172,9 @@ namespace ztd {
 		/// @brief Constructs the object in storage from the given arguments.
 		///
 		template <typename _Arg, typename... _Args,
-		     typename = ::std::enable_if_t<
-		          !::std::is_same_v<::std::remove_reference_t<::std::remove_cv_t<_Arg>>,
-		               ebco> && !::std::is_same_v<::std::remove_reference_t<::std::remove_cv_t<_Arg>>, _Type>>>
+		     typename
+		     = ::std::enable_if_t<!::std::is_same_v<::std::remove_reference_t<::std::remove_cv_t<_Arg>>, ebco>
+		          && !::std::is_same_v<::std::remove_reference_t<::std::remove_cv_t<_Arg>>, _Type>>>
 		constexpr ebco(_Arg&& __arg, _Args&&... __args) noexcept(
 		     ::std::is_nothrow_constructible_v<_Type, _Arg, _Args...>)
 		: _Type(::std::forward<_Arg>(__arg), ::std::forward<_Args>(__args)...) {

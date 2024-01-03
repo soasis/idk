@@ -1,7 +1,7 @@
 // =============================================================================
 //
 // ztd.idk
-// Copyright © 2022-2023 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
+// Copyright © JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
 // Contact: opensource@soasis.org
 //
 // Commercial License Usage
@@ -197,7 +197,8 @@ namespace ztd { namespace ranges {
 			/// @param[in] __it An iterator value to `std::move` in.
 			/// @param[in] __sen A sentinel value to `std::move` in.
 			constexpr __subrange(iterator __it, sentinel __sen) noexcept(
-				::std::is_nothrow_move_constructible_v<iterator>&& ::std::is_nothrow_move_constructible_v<sentinel>)
+				::std::is_nothrow_move_constructible_v<iterator>
+				&& ::std::is_nothrow_move_constructible_v<sentinel>)
 			: __subrange(__size_mark {}, ::std::integral_constant<bool, _SizeRequired>(), ::std::move(__it),
 				::std::move(__sen)) {
 			}
@@ -213,8 +214,8 @@ namespace ztd { namespace ranges {
 			template <__subrange_kind _StrawmanKind                           = _Kind,
 				::std::enable_if_t<_StrawmanKind == __subrange_kind::sized>* = nullptr>
 			constexpr __subrange(iterator __it, sentinel __sen, size_type __size) noexcept(
-				::std::is_nothrow_move_constructible_v<iterator>&& ::std::is_nothrow_constructible_v<
-				     sentinel>&& ::std::is_nothrow_move_constructible_v<size_type>)
+				::std::is_nothrow_move_constructible_v<iterator> && ::std::is_nothrow_constructible_v<sentinel>
+				&& ::std::is_nothrow_move_constructible_v<size_type>)
 			: __base_size_t(::std::move(__size)), _M_it(::std::move(__it)), _M_sen(::std::move(__sen)) {
 			}
 
@@ -431,8 +432,9 @@ namespace ztd { namespace ranges {
 		private:
 			template <typename _ArgIterator, typename _ArgSentinel>
 			constexpr __subrange(__size_mark, ::std::true_type, _ArgIterator&& __it, _ArgSentinel&& __sen) noexcept(
-				::std::is_nothrow_constructible_v<iterator, _ArgIterator>&& ::std::is_nothrow_constructible_v<
-				     sentinel, _ArgSentinel>&& ::std::is_nothrow_constructible_v<__base_size_t, _SizeType>)
+				::std::is_nothrow_constructible_v<iterator, _ArgIterator>
+				&& ::std::is_nothrow_constructible_v<sentinel, _ArgSentinel>
+				&& ::std::is_nothrow_constructible_v<__base_size_t, _SizeType>)
 			: __base_size_t(static_cast<_SizeType>(__sen - __it))
 			, _M_it(::std::forward<_ArgIterator>(__it))
 			, _M_sen(::std::forward<_ArgSentinel>(__sen)) {
@@ -440,8 +442,8 @@ namespace ztd { namespace ranges {
 
 			template <typename _ArgIterator, typename _ArgSentinel>
 			constexpr __subrange(__size_mark, ::std::false_type, _ArgIterator&& __it, _ArgSentinel&& __sen) noexcept(
-				::std::is_nothrow_constructible_v<iterator,
-				     _ArgIterator>&& ::std::is_nothrow_constructible_v<sentinel, _ArgSentinel>)
+				::std::is_nothrow_constructible_v<iterator, _ArgIterator>
+				&& ::std::is_nothrow_constructible_v<sentinel, _ArgSentinel>)
 			: _M_it(::std::forward<_ArgIterator>(__it)), _M_sen(::std::forward<_ArgSentinel>(__sen)) {
 			}
 

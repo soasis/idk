@@ -1,7 +1,7 @@
 // =============================================================================
 //
 // ztd.idk
-// Copyright © 2022-2023 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
+// Copyright © JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
 // Contact: opensource@soasis.org
 //
 // Commercial License Usage
@@ -96,11 +96,11 @@ namespace ztd { namespace ranges {
 			: __base_t() {
 			}
 			constexpr __word_iterator_storage(_Range&& __range) noexcept(
-				::std::is_nothrow_move_constructible_v<_Range>&& ::std::is_nothrow_default_constructible_v<_Word>)
+				::std::is_nothrow_move_constructible_v<_Range> && ::std::is_nothrow_default_constructible_v<_Word>)
 			: __base_t(::std::move(__range)), _M_val(::std::nullopt) {
 			}
 			constexpr __word_iterator_storage(const _Range& __range) noexcept(
-				::std::is_nothrow_copy_constructible_v<_Range>&& ::std::is_nothrow_default_constructible_v<_Word>)
+				::std::is_nothrow_copy_constructible_v<_Range> && ::std::is_nothrow_default_constructible_v<_Word>)
 			: __base_t(__range), _M_val(::std::nullopt) {
 			}
 

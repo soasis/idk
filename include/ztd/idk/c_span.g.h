@@ -1,7 +1,7 @@
 // =============================================================================
 //
 // ztd.idk
-// Copyright © 2022-2023 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
+// Copyright © JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
 // Contact: opensource@soasis.org
 //
 // Commercial License Usage
@@ -124,7 +124,8 @@ ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_FULL_NAME_I_ Z
      ZTD_IDK_C_SPAN_CONST_TYPE_I_* __first, ZTD_IDK_C_SPAN_CONST_TYPE_I_* __last) {
 	ZTD_IDK_C_SPAN_FULL_NAME_I_ __result =
 #if ZTD_IS_ON(ZTD_IDK_C_SPAN_SIZE_FIRST)
-	     { (ZTD_IDK_C_SPAN_SIZE_TYPE_I_)(__last - __first), __first }
+	{(ZTD_IDK_C_SPAN_SIZE_TYPE_I_)(__last - __first),
+		__first }
 #else
 	     { __first, (ZTD_IDK_C_SPAN_SIZE_TYPE_I_)(__last - __first) }
 #endif
@@ -136,7 +137,8 @@ ZTD_C_FUNCTION_LINKAGE_I_ ZTD_C_FUNCTION_INLINE_I_ ZTD_IDK_C_SPAN_FULL_NAME_I_ Z
      ZTD_IDK_C_SPAN_CONST_TYPE_I_* __first, ZTD_IDK_C_SPAN_SIZE_TYPE_I_ __size) {
 	ZTD_IDK_C_SPAN_FULL_NAME_I_ __result =
 #if ZTD_IS_ON(ZTD_IDK_C_SPAN_SIZE_FIRST)
-	     { __size, __first }
+	{ __size,
+		__first }
 #else
 	     { __first, __size }
 #endif

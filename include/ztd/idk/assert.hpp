@@ -1,7 +1,7 @@
 // =============================================================================
 //
 // ztd.idk
-// Copyright © 2022-2023 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
+// Copyright © JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
 // Contact: opensource@soasis.org
 //
 // Commercial License Usage
@@ -188,9 +188,9 @@
 /// @param[in] ... The conditional expressions to check against.
 ///
 /// @remarks The conditions must result in a value that is convertible to a boolean in a boolean context. This macro
-/// does nothing when `ZTD_CONSTEXPR_ASSERT_CHECKS` is not detected. (It will still (void)-cast the used items, to prevent unused
-/// warnings.) If the condition is not reached, this function will perform either a user-defined action or
-/// terminate/exit (not abort).
+/// does nothing when `ZTD_CONSTEXPR_ASSERT_CHECKS` is not detected. (It will still (void)-cast the used items, to
+/// prevent unused warnings.) If the condition is not reached, this function will perform either a user-defined action
+/// or terminate/exit (not abort).
 #define ZTD_CONSTEXPR_ASSERT(...) ZTD_CONSTEXPR_ASSERT_I_(__VA_ARGS__)
 
 //////
@@ -200,9 +200,9 @@
 /// @param[in] ... The conditional expressions to check against.
 ///
 /// @remarks The conditions must result in a value that is convertible to a boolean in a boolean context. This macro
-/// does nothing when `ZTD_CONSTEXPR_ASSERT_CHECKS` is not detected. (It will still (void)-cast the used items, to prevent unused
-/// warnings.) If the condition is not reached, this function will perform either a user-defined action or
-/// terminate/exit (not abort).
+/// does nothing when `ZTD_CONSTEXPR_ASSERT_CHECKS` is not detected. (It will still (void)-cast the used items, to
+/// prevent unused warnings.) If the condition is not reached, this function will perform either a user-defined action
+/// or terminate/exit (not abort).
 #define ZTD_CONSTEXPR_ASSERT_MESSAGE(_MESSAGE, ...) ZTD_CONSTEXPR_ASSERT_MESSAGE_I_(_MESSAGE, __VA_ARGS__)
 
 #endif

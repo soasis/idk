@@ -1,7 +1,7 @@
 // =============================================================================
 //
 // ztd.idk
-// Copyright © 2022-2023 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
+// Copyright © JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
 // Contact: opensource@soasis.org
 //
 // Commercial License Usage
@@ -64,7 +64,7 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding
 #if ZTD_IS_ON(ZTD_NL_LANGINFO)
 	const char* __ctype_name = nl_langinfo(CODESET);
 #else
-	const char* __ctype_name          = setlocale(LC_CTYPE, nullptr);
+	const char* __ctype_name = setlocale(LC_CTYPE, nullptr);
 #endif
 	::std::string_view __adjusted_ctype_name(__ctype_name);
 	::std::size_t __index = __adjusted_ctype_name.find_first_of(".");
@@ -107,7 +107,7 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_execution_encoding
 #if ZTD_IS_ON(ZTD_NL_LANGINFO)
 	const char* __ctype_name = nl_langinfo(CODESET);
 #else
-	const char* __ctype_name          = setlocale(LC_CTYPE, nullptr);
+	const char* __ctype_name = setlocale(LC_CTYPE, nullptr);
 #endif
 	::std::string_view __adjusted_ctype_name(__ctype_name);
 	::std::size_t __index = __adjusted_ctype_name.find_first_of(".");

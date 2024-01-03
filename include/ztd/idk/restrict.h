@@ -1,7 +1,7 @@
 // =============================================================================
 //
 // ztd.idk
-// Copyright © 2022-2023 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
+// Copyright © JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
 // Contact: opensource@soasis.org
 //
 // Commercial License Usage
@@ -36,7 +36,7 @@
 #define ZTD_IDK_RESTRICT_H
 
 #if ZTD_IS_ON(ZTD_CXX) && !defined(restrict)
-#define restrict 
+#define restrict
 #endif
 
 #endif

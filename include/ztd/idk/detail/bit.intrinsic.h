@@ -1,7 +1,7 @@
 // =============================================================================
 //
 // ztd.idk
-// Copyright © 2022-2023 JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
+// Copyright © JeanHeyd "ThePhD" Meneide and Shepherd's Oasis, LLC
 // Contact: opensource@soasis.org
 //
 // Commercial License Usage
@@ -54,7 +54,8 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_ones_uc
      unsigned char value) ZTD_CXX_NOEXCEPT_I_;
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_ones_us(
      unsigned short value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_ones_ui(unsigned int value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_ones_ui(
+     unsigned int value) ZTD_CXX_NOEXCEPT_I_;
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_ones_ul(
      unsigned long value) ZTD_CXX_NOEXCEPT_I_;
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_ones_ull(
@@ -198,11 +199,13 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned long ztdc_bit_floor_ul
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned long long ztdc_bit_floor_ull(
      unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
 
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned char ztdc_bit_ceil_uc(unsigned char value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned char ztdc_bit_ceil_uc(
+     unsigned char value) ZTD_CXX_NOEXCEPT_I_;
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned short ztdc_bit_ceil_us(
      unsigned short value) ZTD_CXX_NOEXCEPT_I_;
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_bit_ceil_ui(unsigned int value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned long ztdc_bit_ceil_ul(unsigned long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned long ztdc_bit_ceil_ul(
+     unsigned long value) ZTD_CXX_NOEXCEPT_I_;
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned long long ztdc_bit_ceil_ull(
      unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
 
