@@ -58,6 +58,9 @@ namespace ztd {
 	namespace __span_detail {
 		inline constexpr ::std::size_t __dynamic_extent = static_cast<::std::size_t>(-1LL);
 
+		class __rng_key_t {
+		} constexpr __rng_key = {};
+
 		template <typename _Ty, ::std::size_t _Extent>
 		class span;
 
@@ -126,23 +129,6 @@ namespace ztd {
 			constexpr span(const span&) noexcept = default;
 			constexpr span(span&&) noexcept      = default;
 
-
-			constexpr span(::std::nullptr_t, size_type __count) noexcept
-			: __base_span_size(__count), _M_data(nullptr) {
-			}
-
-			template <typename _It,
-			     ::std::enable_if_t<::ztd::ranges::is_iterator_contiguous_iterator_v<_It>            // cf
-			               && ::ztd::is_non_derived_compatible_pointer_v<                            // cf
-			                    ::std::remove_reference_t<::ztd::ranges::iterator_reference_t<_It>>, // cf
-			                    element_type                                                         // cf
-			                    >                                                                    // cf
-			          >* = nullptr>
-			ZTD_EXPLICIT(extent != ::ztd::__span_detail::__dynamic_extent)
-			constexpr span(_It __first, size_type __count) noexcept
-			: __base_span_size(__count), _M_data(::ztd::to_address(__first)) {
-			}
-
 			template <::std::size_t _N,
 			     ::std::enable_if_t<(extent == _N) || (extent == ::ztd::__span_detail::__dynamic_extent)>* = nullptr>
 			constexpr span(::ztd::type_identity_t<element_type> (&__arr)[_N]) noexcept
@@ -179,24 +165,12 @@ namespace ztd {
 			}
 
 			template <typename _Range,
-			     ::std::enable_if_t<!::ztd::is_std_or_c_array_v<::ztd::remove_cvref_t<_Range>>  // cf
-			          && !::ztd::is_initializer_list_v<::ztd::remove_cvref_t<_Range>>           // cf
-			          && !::ztd::__span_detail::__is_span_v<::ztd::remove_cvref_t<_Range>>      // cf
-			          && ::ztd::ranges::is_range_v<_Range>                                      // cf
-			          && ::ztd::ranges::is_range_contiguous_range_v<_Range>                     // cf
-			          && ::ztd::ranges::is_sized_range_v<_Range>                                // cf
-			          && ::ztd::is_non_derived_compatible_pointer_v<                            // cf
-			               ::std::remove_reference_t<::ztd::ranges::range_reference_t<_Range>>, // cf
-			               element_type>                                                        // cf
-			          && (::std::is_lvalue_reference_v<_Range>                                  // cf
-			                    ? (::std::is_const_v<::std::remove_reference_t<_Range>>         // cf
-			                              ? (::std::is_const_v<element_type>)
-			                              : true)
-			                    : (true)) // cf
+			     ::std::enable_if_t<!::ztd::is_std_or_c_array_v<::ztd::remove_cvref_t<_Range>> // cf
+			          && !::ztd::is_initializer_list_v<::ztd::remove_cvref_t<_Range>>          // cf
+			          && !::ztd::__span_detail::__is_span_v<::ztd::remove_cvref_t<_Range>>     // cf
 			          >* = nullptr>
 			ZTD_EXPLICIT(extent != ::ztd::__span_detail::__dynamic_extent)
-			constexpr span(_Range&& __range) noexcept
-			: __base_span_size(::ztd::ranges::size(__range)), _M_data(::ztd::ranges::data(__range)) {
+			constexpr span(_Range&& __range) noexcept : span(__rng_key, __rng_key, ::std::forward<_Range>(__range)) {
 			}
 
 			template <typename _ItFirst, typename _ItLast,
@@ -210,6 +184,22 @@ namespace ztd {
 			constexpr span(_ItFirst __first, _ItLast __last) noexcept
 			: __base_span_size(static_cast<size_type>(::std::distance(__first, __last)))
 			, _M_data(::ztd::to_address(__first)) {
+			}
+
+			constexpr span(::std::nullptr_t, size_type __count) noexcept
+			: __base_span_size(__count), _M_data(nullptr) {
+			}
+
+			template <typename _It,
+			     ::std::enable_if_t<::ztd::ranges::is_iterator_contiguous_iterator_v<_It>            // cf
+			               && ::ztd::is_non_derived_compatible_pointer_v<                            // cf
+			                    ::std::remove_reference_t<::ztd::ranges::iterator_reference_t<_It>>, // cf
+			                    element_type                                                         // cf
+			                    >                                                                    // cf
+			          >* = nullptr>
+			ZTD_EXPLICIT(extent != ::ztd::__span_detail::__dynamic_extent)
+			constexpr span(_It __first, size_type __count) noexcept
+			: __base_span_size(__count), _M_data(::ztd::to_address(__first)) {
 			}
 
 			constexpr span& operator=(const span&) noexcept = default;
@@ -354,6 +344,26 @@ namespace ztd {
 
 		private:
 			_Ty* _M_data;
+
+			template <typename _Range,
+			     ::std::enable_if_t<
+			          ::ztd::ranges::is_range_v<_Range>                                                        // cf
+			               && ::ztd::ranges::is_range_contiguous_range_v<_Range>                               // cf
+			                    && ::ztd::ranges::is_sized_range_v<_Range>                                     // cf
+			                         && ::ztd::is_non_derived_compatible_pointer_v<                            // cf
+			                              ::std::remove_reference_t<::ztd::ranges::range_reference_t<_Range>>, // cf
+			                              element_type>                                                        // cf
+			          && (::std::is_lvalue_reference_v<_Range>                                                 // cf
+			                    ? (::std::is_const_v<::std::remove_reference_t<_Range>>                        // cf
+			                              ? (::std::is_const_v<element_type>)
+			                              : true)
+			                    : (true)) // cf
+			          >* = nullptr>
+			ZTD_EXPLICIT(extent != ::ztd::__span_detail::__dynamic_extent)
+			constexpr span(
+			     ::ztd::__span_detail::__rng_key_t, ::ztd::__span_detail::__rng_key_t, _Range&& __range) noexcept
+			: __base_span_size(::ztd::ranges::size(__range)), _M_data(::ztd::ranges::data(__range)) {
+			}
 		};
 
 		template <typename _It, typename _ItOrSize>
@@ -492,6 +502,33 @@ namespace ztd {
 		constexpr span<std::byte, _Ex> as_writable_bytes(::ztd::__span_detail::span<_Ty, _Ex> __source) noexcept {
 			return ::ztd::__span_detail::span<std::byte, _Ex>(
 			     reinterpret_cast<::std::byte*>(__source.data()), __source.size_bytes());
+		}
+
+		template <typename _Ty>
+		inline constexpr ::ztd::__span_detail::span<_Ty> make_span(_Ty* __ptr, size_t __count) noexcept {
+			return ::ztd::__span_detail::span<_Ty>(__ptr, __count);
+		}
+
+		template <typename _Ty>
+		inline constexpr ::ztd::__span_detail::span<_Ty> make_span(_Ty* __first, _Ty* __last) noexcept {
+			return ::ztd::__span_detail::span<_Ty>(__first, __last);
+		}
+
+		template <typename _Ty, ::std::size_t _N>
+		inline constexpr ::ztd::__span_detail::span<_Ty, _N> make_span(_Ty (&__arr)[_N]) noexcept {
+			return ::ztd::__span_detail::span<_Ty, _N>(__arr + 0, _N);
+		}
+
+		template <typename _Container, typename _EP = decltype(std::data(std::declval<_Container&>()))>
+		inline constexpr auto make_span(_Container& __cont) noexcept
+		     -> ::ztd::__span_detail::span<typename std::remove_pointer<_EP>::type> {
+			return ::ztd::__span_detail::span<typename ::std::remove_pointer<_EP>::type>(__cont);
+		}
+
+		template <typename _Container, typename _EP = decltype(std::data(std::declval<_Container&>()))>
+		inline constexpr auto make_span(const _Container& __cont) noexcept
+		     -> ::ztd::__span_detail::span<const typename ::std::remove_pointer<_EP>::type> {
+			return ::ztd::__span_detail::span<const typename ::std::remove_pointer<_EP>::type>(__cont);
 		}
 
 	} // namespace __span_detail

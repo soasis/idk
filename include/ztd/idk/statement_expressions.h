@@ -39,7 +39,7 @@
 #if ZTD_IS_ON(ZTD_CXX)
 	#define ZTD_STMT_EXPR_BEGIN() ([&]() {
 	#define ZTD_STMT_EXPR_END() }())
-	#define ZTD_STMT_EXPR_RETURN_I_(...) return __VA_ARGS__
+	#define ZTD_STMT_EXPR_RETURN(...) return __VA_ARGS__
 	#define ZTD_STMT_EXPR_USABLE_I_ ZTD_ON
 #elif ZTD_IS_ON(ZTD_STATEMENT_EXPRESSIONS)
 	#define ZTD_STMT_EXPR_BEGIN() ({

@@ -130,6 +130,7 @@ namespace ztd {
 	using ::ztd::__span_detail::operator<=;
 	using ::ztd::__span_detail::operator>;
 	using ::ztd::__span_detail::operator>=;
+	using ::ztd::__span_detail::make_span;
 
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd
