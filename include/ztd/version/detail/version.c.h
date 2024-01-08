@@ -103,7 +103,7 @@
 #if defined (ZTD_C_VERSION)
 	#define ZTD_C_VERSION_I_ ZTD_C_VERSION
 #elif ZTD_IS_ON(ZTD_C)
-	#define ZTD_CXX_VERSION_I_ __STDC_VERSION__
+	#define ZTD_C_VERSION_I_ __STDC_VERSION__
 #else
 	#define ZTD_C_VERSION_I_ 0
 #endif
