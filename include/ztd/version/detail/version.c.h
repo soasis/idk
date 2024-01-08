@@ -88,6 +88,26 @@
 	#define ZTD_COMPILER_MINGW_I_ ZTD_OFF
 #endif
 
+#if defined (ZTD_CXX_VERSION)
+	#define ZTD_CXX_VERSION_I_ ZTD_CXX_VERSION
+#elif ZTD_IS_ON(ZTD_CXX)
+	#if ZTD_IS_ON(ZTD_COMPILER_VCXX) && defined(_MSVC_LANG)
+		#define ZTD_CXX_VERSION_I_ _MSVC_LANG
+	#else
+		#define ZTD_CXX_VERSION_I_ __cplusplus
+	#endif
+#else
+	#define ZTD_CXX_VERSION_I_ 0
+#endif
+
+#if defined (ZTD_C_VERSION)
+	#define ZTD_C_VERSION_I_ ZTD_C_VERSION
+#elif ZTD_IS_ON(ZTD_C)
+	#define ZTD_CXX_VERSION_I_ __STDC_VERSION__
+#else
+	#define ZTD_C_VERSION_I_ 0
+#endif
+
 #if defined(__GLIBCXX__)
 	#define ZTD_LIBSTDCXX_I_ ZTD_ON
 #else
@@ -706,7 +726,7 @@
 
 #if (ZTD_HAS_ATTRIBUTE_I_(no_unique_address) != 0L)
 	#define ZTD_NO_UNIQUE_ADDRESS_I_ [[no_unique_address]]
-#elif ZTD_IS_ON(ZTD_CXX) && ZTD_IS_ON(ZTD_COMPILER_VCXX) && _MSC_VER >= 1929L
+#elif ZTD_IS_ON(ZTD_CXX) && ZTD_IS_ON(ZTD_COMPILER_VCXX) && _MSC_VER >= 1929L && ZTD_USE(ZTD_CXX_VERSION) >= 202000L 
 	#define ZTD_NO_UNIQUE_ADDRESS_I_ [[msvc::no_unique_address]]
 #else
 	#define ZTD_NO_UNIQUE_ADDRESS_I_

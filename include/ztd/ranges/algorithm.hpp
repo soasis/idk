@@ -326,6 +326,15 @@ namespace ztd { namespace ranges {
 				_OutRange(::std::move(__out_first), ::std::move(__out_last)) };
 		}
 
+		template <typename _Input, typename _Output>
+		constexpr auto __copy(_Input&& __input, _Output&& __output) noexcept(
+			__copy_noexcept<ztd::ranges::range_const_iterator_t<_Input>, ztd::ranges::range_const_sentinel_t<_Input>,
+			     ztd::ranges::range_iterator_t<_Output>, ztd::ranges::range_sentinel_t<_Output>>()) {
+			return ::ztd::ranges::__rng_detail::__copy(::ztd::ranges::cbegin(std::forward<_Input>(__input)),
+				::ztd::ranges::cend(__input), ::ztd::ranges::begin(std::forward<_Output>(__output)),
+				::ztd::ranges::end(__output));
+		}
+
 		template <typename _First0, typename _Last0, typename _First1, typename _Last1>
 		constexpr int __lexicographical_compare_three_way_basic(
 			_First0 __first0, _Last0 __last0, _First1 __first1, _Last1 __last1) {
