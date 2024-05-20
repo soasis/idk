@@ -56,4 +56,36 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_execution_enco
 ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ const char* ztdc_wide_execution_encoding_name(
      void) ZTD_NOEXCEPT_IF_CXX_I_;
 
+
+#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
+
+// slight speed optimization for Windows machines
+#define ZTD_MB_UTF8 (ztdc_is_execution_encoding_utf8())
+#define ZTD_MB_UTF16 0
+#define ZTD_MB_UTF32 0
+
+#define ZTD_WCHAR_UTF8 0
+#define ZTD_WCHAR_UTF16 1
+#define ZTD_WCHAR_UTF32 0
+
+#else
+
+#include <ztd/idk/charN_t.h>
+#if ZTD_IS_ON(ZTD_C)
+#include <limits.h>
+#else
+#include <climits>
+#endif // C++
+
+// fall back to default implementation
+#define ZTD_MB_UTF8 (ztdc_is_execution_encoding_utf8())
+#define ZTD_MB_UTF16 ((CHAR_BIT >= 16) && ztdc_is_execution_encoding_utf16())
+#define ZTD_MB_UTF32 ((CHAR_BIT >= 32) && ztdc_is_execution_encoding_utf32())
+
+#define ZTD_WCHAR_UTF8 (ztdc_is_wide_execution_encoding_utf8())
+#define ZTD_WCHAR_UTF16 (((sizeof(ztd_wchar_t) * CHAR_BIT) >= 16) && ztdc_is_wide_execution_encoding_utf16())
+#define ZTD_WCHAR_UTF32 (((sizeof(ztd_wchar_t) * CHAR_BIT) >= 32) && ztdc_is_wide_execution_encoding_utf32())
+
+#endif
+
 #endif
