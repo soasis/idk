@@ -150,7 +150,7 @@ namespace ztd { namespace ranges {
 
 		//////
 		/// @brief The reconstruct extension point for re-creating this type from its iterator and sentinel.
-		constexpr friend unbounded_view tag_invoke(ztd::tag_t<::ztd::ranges::reconstruct>,
+		constexpr friend unbounded_view reconstruct(
 			::std::in_place_type_t<unbounded_view>, iterator __iterator,
 			sentinel) noexcept(::std::is_nothrow_move_constructible_v<iterator>) {
 			return unbounded_view<_It>(::std::move(__iterator));

@@ -36,7 +36,7 @@ function (crunch_dependency_jail)
 	FetchContent_GetProperties(crunch)
 	if (NOT crunch_POPULATED)
 		# Fetch the content using previously declared details
-		FetchContent_Populate(crunch)
+		FetchContent_MakeAvailable(crunch)
 		# Now build it using meson
 		find_program(meson_executable
 			NAMES
