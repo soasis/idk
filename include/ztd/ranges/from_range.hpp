@@ -60,7 +60,7 @@ namespace ztd { namespace ranges {
 		;
 
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_FROM_RANGE_T)
-	inline constexpr ::std::from_range_t& from_range = ::std::from_range;
+	inline constexpr const ::std::from_range_t& from_range = ::std::from_range;
 #else
 	inline constexpr from_range_t from_range = {};
 #endif

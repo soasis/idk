@@ -258,9 +258,44 @@ namespace ztd { namespace ranges {
 			using type = typename ::std::remove_reference_t<_It>::element_type;
 		};
 
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
+
+		template <typename _It>
+		constexpr auto __find_iterator_concept_type() noexcept {
+			if constexpr (::std::contiguous_iterator<_It>) {
+				return ::ztd::contiguous_iterator_tag {};
+			}
+			else if constexpr (::std::random_access_iterator<_It>) {
+				return ::std::random_access_iterator_tag {};
+			}
+			else if constexpr (::std::bidirectional_iterator<_It>) {
+				return ::std::bidirectional_iterator_tag {};
+			}
+			else if constexpr (::std::forward_iterator<_It>) {
+				return ::std::forward_iterator_tag {};
+			}
+			else if constexpr (::std::contiguous_iterator<_It>) {
+				return ::std::input_iterator_tag {};
+			}
+			else {
+				return ::std::output_iterator_tag {};
+			}
+		}
+
+		template <typename _It>
+		using __iterator_concept_or_fallback_t = decltype(__rng_detail::__find_iterator_concept_type<_It>());
+
+		template <typename _It>
+		using __iterator_category_or_fallback_cascade_t = __iterator_concept_or_fallback_t<_It>;
+#else
 		template <typename _It>
 		using __iterator_concept_or_fallback_t =
 			typename __iterator_concept_or_category_or_fallback<::std::remove_reference_t<_It>>::type;
+
+		template <typename _It>
+		using __iterator_category_or_fallback_cascade_t =
+			typename __rng_detail::__iterator_category_or_concept_or_fallback<::std::remove_reference_t<_It>>::type;
+#endif
 	} // namespace __rng_detail
 
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
@@ -420,70 +455,6 @@ namespace ztd { namespace ranges {
 			}
 
 			template <typename _Range>
-			constexpr bool __rbegin_noexcept() noexcept {
-				if constexpr (::std::is_array_v<remove_cvref_t<_Range>>) {
-					return true;
-				}
-				else if constexpr (is_detected_v<__detect_rbegin, _Range>) {
-					return noexcept(rbegin(::std::declval<_Range>()));
-				}
-				else if constexpr (is_detected_v<__detect_member_rbegin, _Range>) {
-					return noexcept(::std::declval<_Range>().rbegin());
-				}
-				else {
-					return true;
-				}
-			}
-
-			template <typename _Range>
-			constexpr bool __rbegin_sfinae() noexcept {
-				if constexpr (::std::is_array_v<remove_cvref_t<_Range>>) {
-					return true;
-				}
-				else if constexpr (is_detected_v<__detect_rbegin, _Range>) {
-					return true;
-				}
-				else if constexpr (is_detected_v<__detect_member_rbegin, _Range>) {
-					return true;
-				}
-				else {
-					return false;
-				}
-			}
-
-			template <typename _Range>
-			constexpr bool __crbegin_noexcept() noexcept {
-				if constexpr (::std::is_array_v<remove_cvref_t<_Range>>) {
-					return true;
-				}
-				else if constexpr (is_detected_v<__detect_crbegin, _Range>) {
-					return noexcept(crbegin(::std::declval<_Range>()));
-				}
-				else if constexpr (is_detected_v<__detect_member_crbegin, _Range>) {
-					return noexcept(::std::declval<_Range>().crbegin());
-				}
-				else {
-					return true;
-				}
-			}
-
-			template <typename _Range>
-			constexpr bool __crbegin_sfinae() noexcept {
-				if constexpr (::std::is_array_v<remove_cvref_t<_Range>>) {
-					return true;
-				}
-				else if constexpr (is_detected_v<__detect_crbegin, _Range>) {
-					return true;
-				}
-				else if constexpr (is_detected_v<__detect_member_crbegin, _Range>) {
-					return true;
-				}
-				else {
-					return false;
-				}
-			}
-
-			template <typename _Range>
 			constexpr bool __end_noexcept() noexcept {
 				if constexpr (::std::is_array_v<remove_cvref_t<_Range>>) {
 					return true;
@@ -540,6 +511,242 @@ namespace ztd { namespace ranges {
 					return true;
 				}
 				else if constexpr (is_detected_v<__detect_member_cend, _Range>) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+
+			template <typename _It>
+			constexpr bool __iter_move_noexcept() noexcept {
+				if constexpr (::std::is_lvalue_reference_v<decltype(*::std::declval<_It>())>) {
+					return noexcept(::std::move(*::std::declval<_It>()));
+				}
+				else {
+					return noexcept(*::std::declval<_It>());
+				}
+			}
+
+			class __iter_move_fn {
+			public:
+				template <typename _It>
+				constexpr auto operator()(_It&& __it) const noexcept(__iter_move_noexcept<_It>())
+					-> ::std::conditional_t<::std::is_lvalue_reference_v<decltype(*::std::forward<_It>(__it))>,
+					     decltype(::std::move(*::std::forward<_It>(__it))), decltype(*::std::forward<_It>(__it))> {
+					if constexpr (::std::is_lvalue_reference_v<decltype(*::std::forward<_It>(__it))>) {
+						return ::std::move(*::std::forward<_It>(__it));
+					}
+					else {
+						return *::std::forward<_It>(__it);
+					}
+				}
+			};
+
+			class __begin_fn {
+			public:
+				template <typename _Range, ::std::enable_if_t<__begin_sfinae<_Range>()>* = nullptr>
+				constexpr decltype(auto) operator()(_Range&& __range) const noexcept(__begin_noexcept<_Range>()) {
+					using _URange = remove_cvref_t<_Range>;
+					if constexpr (::std::is_array_v<_URange>) {
+						return (__range + 0);
+					}
+					else if constexpr (is_detected_v<__detect_begin, _Range>) {
+						return begin(::std::forward<_Range>(__range));
+					}
+					else {
+						return ::std::forward<_Range>(__range).begin();
+					}
+				}
+			};
+
+			class __cbegin_fn {
+			public:
+				template <typename _Range, ::std::enable_if_t<__cbegin_sfinae<_Range>()>* = nullptr>
+				constexpr decltype(auto) operator()(_Range&& __range) const noexcept(__cbegin_noexcept<_Range>()) {
+					if constexpr (::std::is_array_v<remove_cvref_t<_Range>>) {
+						return (__range + 0);
+					}
+					else if constexpr (is_detected_v<__detect_cbegin, _Range>) {
+						return cbegin(::std::forward<_Range>(__range));
+					}
+					else {
+						return ::std::forward<_Range>(__range).cbegin();
+					}
+				}
+			};
+
+			class __end_fn {
+			public:
+				template <typename _Range,
+					::std::enable_if_t<::ztd::ranges::__rng_detail::__adl::__end_sfinae<_Range>()>* = nullptr>
+				constexpr decltype(auto) operator()(_Range&& __range) const noexcept(__end_noexcept<_Range>()) {
+					if constexpr (::std::is_array_v<remove_cvref_t<_Range>>) {
+						return (__range + ::std::extent_v<remove_cvref_t<_Range>>);
+					}
+					else if constexpr (is_detected_v<__detect_end, _Range>) {
+						return end(::std::forward<_Range>(__range));
+					}
+					else {
+						return ::std::forward<_Range>(__range).end();
+					}
+				}
+			};
+
+			class __cend_fn {
+			public:
+				template <typename _Range,
+					::std::enable_if_t<::ztd::ranges::__rng_detail::__adl::__cend_sfinae<_Range>()>* = nullptr>
+				constexpr decltype(auto) operator()(_Range&& __range) const noexcept(__cend_noexcept<_Range>()) {
+					if constexpr (::std::is_array_v<remove_cvref_t<_Range>>) {
+						return (__range + ::std::extent_v<remove_cvref_t<_Range>>);
+					}
+					else if constexpr (is_detected_v<__detect_cend, _Range>) {
+						return cend(::std::forward<_Range>(__range));
+					}
+					else {
+						return ::std::forward<_Range>(__range).cend();
+					}
+				}
+			};
+
+			class __data_fn {
+			public:
+				template <typename _Range>
+				constexpr auto operator()(_Range&& __range) const noexcept(noexcept(
+					data(::std::forward<_Range>(__range)))) -> decltype(data(::std::forward<_Range>(__range))) {
+					return data(::std::forward<_Range>(__range));
+				}
+			};
+
+			class __size_fn {
+			public:
+				template <typename _Range>
+				constexpr auto operator()(_Range&& __range) const noexcept(noexcept(
+					size(::std::forward<_Range>(__range)))) -> decltype(size(::std::forward<_Range>(__range))) {
+					return size(::std::forward<_Range>(__range));
+				}
+			};
+
+			class __empty_fn {
+			public:
+				template <typename _Range>
+				constexpr auto operator()(_Range&& __range) const noexcept(noexcept(
+					empty(::std::forward<_Range>(__range)))) -> decltype(empty(::std::forward<_Range>(__range))) {
+					return empty(::std::forward<_Range>(__range));
+				}
+			};
+
+			class __iter_swap_fn {
+			public:
+				template <typename _ItLeft, typename _ItRight>
+				constexpr auto operator()(_ItLeft&& __left, _ItRight&& __right) const noexcept(
+					noexcept(iter_swap(::std::forward<_ItLeft>(__left), ::std::forward<_ItRight>(__right))))
+					-> decltype(iter_swap(::std::forward<_ItLeft>(__left), ::std::forward<_ItRight>(__right))) {
+					iter_swap(::std::forward<_ItLeft>(__left), ::std::forward<_ItRight>(__right));
+				}
+			};
+
+			class __swap_fn {
+			public:
+				template <typename _Left, typename _Right>
+				constexpr auto operator()(_Left&& __left, _Right&& __right) const
+					noexcept(noexcept(swap(::std::forward<_Left>(__left), ::std::forward<_Right>(__right))))
+					     -> decltype(swap(::std::forward<_Left>(__left), ::std::forward<_Right>(__right))) {
+					swap(::std::forward<_Left>(__left), ::std::forward<_Right>(__right));
+				}
+			};
+		} // namespace __adl
+#endif
+
+#if ZTD_IS_OFF(ZTD_STD_LIBRARY_RANGES_REVERSE_CPOS)
+		namespace __adl {
+			using ::std::crbegin;
+			using ::std::crend;
+			using ::std::rbegin;
+			using ::std::rend;
+
+			template <typename _Range>
+			using __detect_rbegin = decltype(rbegin(::std::declval<_Range>()));
+
+			template <typename _Range>
+			using __detect_crbegin = decltype(crbegin(::std::declval<_Range>()));
+
+			template <typename _Range>
+			using __detect_rend = decltype(rend(::std::declval<_Range>()));
+
+			template <typename _Range>
+			using __detect_crend = decltype(crend(::std::declval<_Range>()));
+
+			template <typename _Range>
+			using __detect_member_rbegin = decltype(::std::declval<_Range>().rbegin());
+
+			template <typename _Range>
+			using __detect_member_crbegin = decltype(::std::declval<_Range>().crbegin());
+
+			template <typename _Range>
+			using __detect_member_rend = decltype(::std::declval<_Range>().rend());
+
+			template <typename _Range>
+			using __detect_member_crend = decltype(::std::declval<_Range>().crend());
+
+			template <typename _Range>
+			constexpr bool __rbegin_noexcept() noexcept {
+				if constexpr (::std::is_array_v<remove_cvref_t<_Range>>) {
+					return true;
+				}
+				else if constexpr (is_detected_v<__detect_rbegin, _Range>) {
+					return noexcept(rbegin(::std::declval<_Range>()));
+				}
+				else if constexpr (is_detected_v<__detect_member_rbegin, _Range>) {
+					return noexcept(::std::declval<_Range>().rbegin());
+				}
+				else {
+					return true;
+				}
+			}
+
+			template <typename _Range>
+			constexpr bool __rbegin_sfinae() noexcept {
+				if constexpr (::std::is_array_v<remove_cvref_t<_Range>>) {
+					return true;
+				}
+				else if constexpr (is_detected_v<__detect_rbegin, _Range>) {
+					return true;
+				}
+				else if constexpr (is_detected_v<__detect_member_rbegin, _Range>) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+
+			template <typename _Range>
+			constexpr bool __crbegin_noexcept() noexcept {
+				if constexpr (::std::is_array_v<remove_cvref_t<_Range>>) {
+					return true;
+				}
+				else if constexpr (is_detected_v<__detect_crbegin, _Range>) {
+					return noexcept(crbegin(::std::declval<_Range>()));
+				}
+				else if constexpr (is_detected_v<__detect_member_crbegin, _Range>) {
+					return noexcept(::std::declval<_Range>().crbegin());
+				}
+				else {
+					return true;
+				}
+			}
+
+			template <typename _Range>
+			constexpr bool __crbegin_sfinae() noexcept {
+				if constexpr (::std::is_array_v<remove_cvref_t<_Range>>) {
+					return true;
+				}
+				else if constexpr (is_detected_v<__detect_crbegin, _Range>) {
+					return true;
+				}
+				else if constexpr (is_detected_v<__detect_member_crbegin, _Range>) {
 					return true;
 				}
 				else {
@@ -611,64 +818,6 @@ namespace ztd { namespace ranges {
 				}
 			}
 
-			template <typename _It>
-			constexpr bool __iter_move_noexcept() noexcept {
-				if constexpr (::std::is_lvalue_reference_v<decltype(*::std::declval<_It>())>) {
-					return noexcept(::std::move(*::std::declval<_It>()));
-				}
-				else {
-					return noexcept(*::std::declval<_It>());
-				}
-			}
-
-			class __iter_move_fn {
-			public:
-				template <typename _It>
-				constexpr auto operator()(_It&& __it) const noexcept(__iter_move_noexcept<_It>())
-					-> ::std::conditional_t<::std::is_lvalue_reference_v<decltype(*::std::forward<_It>(__it))>,
-					     decltype(::std::move(*::std::forward<_It>(__it))), decltype(*::std::forward<_It>(__it))> {
-					if constexpr (::std::is_lvalue_reference_v<decltype(*::std::forward<_It>(__it))>) {
-						return ::std::move(*::std::forward<_It>(__it));
-					}
-					else {
-						return *::std::forward<_It>(__it);
-					}
-				}
-			};
-
-			class __begin_fn {
-			public:
-				template <typename _Range, ::std::enable_if_t<__begin_sfinae<_Range>()>* = nullptr>
-				constexpr decltype(auto) operator()(_Range&& __range) const noexcept(__begin_noexcept<_Range>()) {
-					using _URange = remove_cvref_t<_Range>;
-					if constexpr (::std::is_array_v<_URange>) {
-						return (__range + 0);
-					}
-					else if constexpr (is_detected_v<__detect_begin, _Range>) {
-						return begin(::std::forward<_Range>(__range));
-					}
-					else {
-						return ::std::forward<_Range>(__range).begin();
-					}
-				}
-			};
-
-			class __cbegin_fn {
-			public:
-				template <typename _Range, ::std::enable_if_t<__cbegin_sfinae<_Range>()>* = nullptr>
-				constexpr decltype(auto) operator()(_Range&& __range) const noexcept(__cbegin_noexcept<_Range>()) {
-					if constexpr (::std::is_array_v<remove_cvref_t<_Range>>) {
-						return (__range + 0);
-					}
-					else if constexpr (is_detected_v<__detect_cbegin, _Range>) {
-						return cbegin(::std::forward<_Range>(__range));
-					}
-					else {
-						return ::std::forward<_Range>(__range).cbegin();
-					}
-				}
-			};
-
 			class __rbegin_fn {
 			public:
 				template <typename _Range, ::std::enable_if_t<__rbegin_sfinae<_Range>()>* = nullptr>
@@ -698,40 +847,6 @@ namespace ztd { namespace ranges {
 					}
 					else {
 						return ::std::forward<_Range>(__range).crbegin();
-					}
-				}
-			};
-
-			class __end_fn {
-			public:
-				template <typename _Range,
-					::std::enable_if_t<::ztd::ranges::__rng_detail::__adl::__end_sfinae<_Range>()>* = nullptr>
-				constexpr decltype(auto) operator()(_Range&& __range) const noexcept(__end_noexcept<_Range>()) {
-					if constexpr (::std::is_array_v<remove_cvref_t<_Range>>) {
-						return (__range + ::std::extent_v<remove_cvref_t<_Range>>);
-					}
-					else if constexpr (is_detected_v<__detect_end, _Range>) {
-						return end(::std::forward<_Range>(__range));
-					}
-					else {
-						return ::std::forward<_Range>(__range).end();
-					}
-				}
-			};
-
-			class __cend_fn {
-			public:
-				template <typename _Range,
-					::std::enable_if_t<::ztd::ranges::__rng_detail::__adl::__cend_sfinae<_Range>()>* = nullptr>
-				constexpr decltype(auto) operator()(_Range&& __range) const noexcept(__cend_noexcept<_Range>()) {
-					if constexpr (::std::is_array_v<remove_cvref_t<_Range>>) {
-						return (__range + ::std::extent_v<remove_cvref_t<_Range>>);
-					}
-					else if constexpr (is_detected_v<__detect_cend, _Range>) {
-						return cend(::std::forward<_Range>(__range));
-					}
-					else {
-						return ::std::forward<_Range>(__range).cend();
 					}
 				}
 			};
@@ -769,56 +884,6 @@ namespace ztd { namespace ranges {
 					}
 				}
 			};
-
-			class __data_fn {
-			public:
-				template <typename _Range>
-				constexpr auto operator()(_Range&& __range) const
-					noexcept(noexcept(data(::std::forward<_Range>(__range))))
-					     -> decltype(data(::std::forward<_Range>(__range))) {
-					return data(::std::forward<_Range>(__range));
-				}
-			};
-
-			class __size_fn {
-			public:
-				template <typename _Range>
-				constexpr auto operator()(_Range&& __range) const
-					noexcept(noexcept(size(::std::forward<_Range>(__range))))
-					     -> decltype(size(::std::forward<_Range>(__range))) {
-					return size(::std::forward<_Range>(__range));
-				}
-			};
-
-			class __empty_fn {
-			public:
-				template <typename _Range>
-				constexpr auto operator()(_Range&& __range) const
-					noexcept(noexcept(empty(::std::forward<_Range>(__range))))
-					     -> decltype(empty(::std::forward<_Range>(__range))) {
-					return empty(::std::forward<_Range>(__range));
-				}
-			};
-
-			class __iter_swap_fn {
-			public:
-				template <typename _ItLeft, typename _ItRight>
-				constexpr auto operator()(_ItLeft&& __left, _ItRight&& __right) const noexcept(
-					noexcept(iter_swap(::std::forward<_ItLeft>(__left), ::std::forward<_ItRight>(__right))))
-					-> decltype(iter_swap(::std::forward<_ItLeft>(__left), ::std::forward<_ItRight>(__right))) {
-					iter_swap(::std::forward<_ItLeft>(__left), ::std::forward<_ItRight>(__right));
-				}
-			};
-
-			class __swap_fn {
-			public:
-				template <typename _Left, typename _Right>
-				constexpr auto operator()(_Left&& __left, _Right&& __right) const
-					noexcept(noexcept(swap(::std::forward<_Left>(__left), ::std::forward<_Right>(__right))))
-					     -> decltype(swap(::std::forward<_Left>(__left), ::std::forward<_Right>(__right))) {
-					swap(::std::forward<_Left>(__left), ::std::forward<_Right>(__right));
-				}
-			};
 		} // namespace __adl
 #endif
 	} // namespace __rng_detail
@@ -826,13 +891,9 @@ namespace ztd { namespace ranges {
 	inline namespace __fn {
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
 		inline constexpr auto& begin     = ::std::ranges::begin;
-		inline constexpr auto& rbegin    = ::std::ranges::rbegin;
 		inline constexpr auto& cbegin    = ::std::ranges::cbegin;
-		inline constexpr auto& crbegin   = ::std::ranges::crbegin;
 		inline constexpr auto& end       = ::std::ranges::end;
-		inline constexpr auto& rend      = ::std::ranges::rend;
 		inline constexpr auto& cend      = ::std::ranges::cend;
-		inline constexpr auto& crend     = ::std::ranges::crend;
 		inline constexpr auto& size      = ::std::ranges::size;
 		inline constexpr auto& data      = ::std::ranges::data;
 		inline constexpr auto& empty     = ::std::ranges::empty;
@@ -841,13 +902,9 @@ namespace ztd { namespace ranges {
 		inline constexpr auto& iter_move = ::std::ranges::iter_move;
 #else
 		inline constexpr __rng_detail::__adl::__begin_fn begin {};
-		inline constexpr __rng_detail::__adl::__rbegin_fn rbegin {};
 		inline constexpr __rng_detail::__adl::__cbegin_fn cbegin {};
-		inline constexpr __rng_detail::__adl::__crbegin_fn crbegin {};
 		inline constexpr __rng_detail::__adl::__end_fn end {};
-		inline constexpr __rng_detail::__adl::__rend_fn rend {};
 		inline constexpr __rng_detail::__adl::__cend_fn cend {};
-		inline constexpr __rng_detail::__adl::__crend_fn crend {};
 		inline constexpr __rng_detail::__adl::__size_fn size {};
 		inline constexpr __rng_detail::__adl::__data_fn data {};
 		inline constexpr __rng_detail::__adl::__empty_fn empty {};
@@ -855,6 +912,20 @@ namespace ztd { namespace ranges {
 		inline constexpr __rng_detail::__adl::__iter_swap_fn iter_swap {};
 		inline constexpr __rng_detail::__adl::__iter_move_fn iter_move {};
 #endif
+
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES_REVERSE_CPOS)
+		// Not present in C++20: need to version check these
+		inline constexpr auto& rbegin  = ::std::ranges::rbegin;
+		inline constexpr auto& crbegin = ::std::ranges::crbegin;
+		inline constexpr auto& crend   = ::std::ranges::crend;
+		inline constexpr auto& rend    = ::std::ranges::rend;
+#else
+		inline constexpr __rng_detail::__adl::__rbegin_fn rbegin {};
+		inline constexpr __rng_detail::__adl::__crbegin_fn crbegin {};
+		inline constexpr __rng_detail::__adl::__rend_fn rend {};
+		inline constexpr __rng_detail::__adl::__crend_fn crend {};
+#endif
+
 	} // namespace __fn
 
 	template <typename _Range>
@@ -900,6 +971,12 @@ namespace ztd { namespace ranges {
 
 	template <typename _Range>
 	using range_size_type_t = ::std::ranges::range_size_t<_Range>;
+
+	template <typename _It>
+	using iterator_category_t = __rng_detail::__iterator_category_or_fallback_cascade_t<_It>;
+
+	template <typename _It>
+	using iterator_concept_t = __rng_detail::__iterator_concept_or_fallback_t<_It>;
 #else
 	template <typename _Range>
 	using range_iterator_t = ::std::remove_reference_t<decltype(::ztd::ranges::begin(
@@ -913,9 +990,6 @@ namespace ztd { namespace ranges {
 	using range_value_type_t = iterator_value_type_t<range_iterator_t<_Range>>;
 
 	template <typename _Range>
-	using range_element_type_t = iterator_element_type_t<range_iterator_t<_Range>>;
-
-	template <typename _Range>
 	using range_reference_t = iterator_reference_t<range_iterator_t<_Range>>;
 
 	template <typename _Range>
@@ -926,7 +1000,17 @@ namespace ztd { namespace ranges {
 
 	template <typename _Range>
 	using range_size_type_t = iterator_size_type_t<range_iterator_t<_Range>>;
+
+	template <typename _It>
+	using iterator_category_t =
+		typename __rng_detail::__iterator_category_or_concept_or_fallback<::std::remove_reference_t<_It>>::type;
+
+	template <typename _It>
+	using iterator_concept_t = __rng_detail::__iterator_concept_or_fallback_t<_It>;
 #endif
+
+	template <typename _Range>
+	using range_element_type_t = iterator_element_type_t<range_iterator_t<_Range>>;
 
 	template <typename _Range>
 	using range_const_iterator_t = ::ztd::remove_cvref_t<decltype(::ztd::ranges::cbegin(
@@ -935,13 +1019,6 @@ namespace ztd { namespace ranges {
 	template <typename _Range>
 	using range_const_sentinel_t = ::ztd::remove_cvref_t<decltype(::ztd::ranges::cend(
 		::std::declval<::std::add_lvalue_reference_t<_Range>>()))>;
-
-	template <typename _It>
-	using iterator_category_t =
-		typename __rng_detail::__iterator_category_or_concept_or_fallback<::std::remove_reference_t<_It>>::type;
-
-	template <typename _It>
-	using iterator_concept_t = __rng_detail::__iterator_concept_or_fallback_t<_It>;
 
 	template <typename _Tag, typename _ActualTag>
 	inline constexpr bool is_concept_or_better_v = ::std::is_base_of_v<_Tag, _ActualTag>;
@@ -1128,8 +1205,13 @@ namespace ztd { namespace ranges {
 	///
 	/// @tparam _Range The range type that may or may not be a borrowed range.
 	template <typename _Range>
-	inline constexpr bool enable_borrowed_range = false;
-
+	inline constexpr bool enable_borrowed_range
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES)
+		= ::std::ranges::enable_borrowed_range<_Range>
+#else
+		= false
+#endif
+		;
 }} // namespace ztd::ranges
 
 namespace ztd { namespace ranges {

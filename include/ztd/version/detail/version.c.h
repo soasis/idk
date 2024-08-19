@@ -58,6 +58,23 @@
 	#define ZTD_COMPILER_CLANG_I_ ZTD_OFF
 #endif
 
+#if ZTD_IS_ON(ZTD_COMPILER_CLANG)
+	#if defined(__apple_build_version__)
+		// Clang compiler built for Apple
+		#define ZTD_COMPILER_APPLE_CLANG_I_ ZTD_ON
+	#else
+		#define ZTD_COMPILER_APPLE_CLANG_I_ ZTD_OFF
+	#endif
+#else
+	#define ZTD_COMPILER_APPLE_CLANG_I_ ZTD_OFF
+#endif
+
+#if defined(__clang__)
+	#define ZTD_COMPILER_CLANG_I_ ZTD_ON
+#else
+	#define ZTD_COMPILER_CLANG_I_ ZTD_OFF
+#endif
+
 #if defined(__TINYC__)
 	#define ZTD_COMPILER_TINYCC_I_ ZTD_ON
 #else

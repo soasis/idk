@@ -118,12 +118,21 @@
 		#define ZTD_STD_CONCEPTS_I_ ZTD_OFF
 	#endif
 #elif ZTD_IS_ON(ZTD_COMPILER_CLANG)
-	// clang is busted right now!
-	// taking bets: Clang 17 is when it'll get fixed!
-	#if (__clang_major__ >= 17) && defined(__cpp_concepts) && (__cpp_concepts >= 201907LL)
-		#define ZTD_STD_CONCEPTS_I_ ZTD_DEFAULT_ON
+	// clang is busted right now! need to check specific versions
+	#if ZTD_IS_ON(ZTD_COMPILER_APPLE_CLANG)
+		// Apple Clang has different versioning from regular clang, because OF COURSE THEY DO
+		#if (__clang_major__ >= 15) && defined(__cpp_concepts) && (__cpp_concepts >= 201907LL)
+			#define ZTD_STD_CONCEPTS_I_ ZTD_DEFAULT_ON
+		#else
+			#define ZTD_STD_CONCEPTS_I_ ZTD_DEFAULT_OFF
+		#endif
 	#else
-		#define ZTD_STD_CONCEPTS_I_ ZTD_DEFAULT_OFF
+		// taking bets: Clang 17 is when it'll get fixed!
+		#if (__clang_major__ >= 17) && defined(__cpp_concepts) && (__cpp_concepts >= 201907LL)
+			#define ZTD_STD_CONCEPTS_I_ ZTD_DEFAULT_ON
+		#else
+			#define ZTD_STD_CONCEPTS_I_ ZTD_DEFAULT_OFF
+		#endif
 	#endif
 #elif defined(__cpp_concepts) && (__cpp_concepts >= 201907LL)
 	#define ZTD_STD_CONCEPTS_I_ ZTD_DEFAULT_ON
@@ -258,7 +267,7 @@
 		#define ZTD_STD_LIBRARY_RANGES_I_ ZTD_OFF
 	#endif
 #elif ZTD_IS_ON(ZTD_COMPILER_CLANG)
-	#if 0
+	#if ZTD_IS_ON(ZTD_STD_CONCEPTS)
 		#define ZTD_STD_LIBRARY_RANGES_I_ ZTD_DEFAULT_ON
 	#else
 		// clang's concepts implementation, which powers ranges, is busted!
@@ -268,6 +277,31 @@
 	#define ZTD_STD_LIBRARY_RANGES_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_STD_LIBRARY_RANGES_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_STD_LIBRARY_ENDIAN)
+	#if (ZTD_STD_LIBRARY_ENDIAN != 0)
+		#define ZTD_STD_LIBRARY_ENDIAN_I_ ZTD_ON
+	#else
+		#define ZTD_STD_LIBRARY_ENDIAN_I_ ZTD_OFF
+	#endif
+#elif defined(__cpp_lib_endian)
+	#define ZTD_STD_LIBRARY_ENDIAN_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_STD_LIBRARY_ENDIAN_I_ ZTD_DEFAULT_OFF
+#endif
+
+
+#if defined(ZTD_STD_LIBRARY_RANGES_REVERSE_CPOS)
+	#if (ZTD_STD_LIBRARY_RANGES_REVERSE_CPOS != 0)
+		#define ZTD_STD_LIBRARY_RANGES_REVERSE_CPOS_I_ ZTD_ON
+	#else
+		#define ZTD_STD_LIBRARY_RANGES_REVERSE_CPOS_I_ ZTD_OFF
+	#endif
+#elif defined(__cpp_lib_ranges) && __cpp_lib_ranges >= 202300L
+	#define ZTD_STD_LIBRARY_RANGES_REVERSE_CPOS_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_STD_LIBRARY_RANGES_REVERSE_CPOS_I_ ZTD_DEFAULT_OFF
 #endif
 
 #if defined(ZTD_STD_LIBRARY_ENDIAN)
