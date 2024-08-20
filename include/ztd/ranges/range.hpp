@@ -69,6 +69,13 @@ namespace ztd { namespace ranges {
 		: public ::std::integral_constant<bool, is_iterator_output_iterator_v<range_iterator_t<_Range>>> { };
 
 		template <typename _Range, bool = ::ztd::ranges::is_range_v<_Range>>
+		class __is_forward_range : public ::std::false_type { };
+
+		template <typename _Range>
+		class __is_forward_range<_Range, true>
+		: public ::std::integral_constant<bool, is_iterator_forward_iterator_v<range_iterator_t<_Range>>> { };
+
+		template <typename _Range, bool = ::ztd::ranges::is_range_v<_Range>>
 		class __is_bidirectional_range : public ::std::false_type { };
 
 		template <typename _Range>
@@ -102,6 +109,13 @@ namespace ztd { namespace ranges {
 		template <typename _Range>
 		class __is_output_range_exactly<_Range, true>
 		: public ::std::integral_constant<bool, is_iterator_output_iterator_exactly_v<range_iterator_t<_Range>>> { };
+
+		template <typename _Range, bool = ::ztd::ranges::is_range_v<_Range>>
+		class __is_forward_range_exactly : public ::std::false_type { };
+
+		template <typename _Range>
+		class __is_forward_range_exactly<_Range, true>
+		: public ::std::integral_constant<bool, is_iterator_forward_iterator_exactly_v<range_iterator_t<_Range>>> { };
 
 		template <typename _Range, bool = ::ztd::ranges::is_range_v<_Range>>
 		class __is_bidirectional_range_exactly : public ::std::false_type { };
@@ -160,6 +174,9 @@ namespace ztd { namespace ranges {
 		= is_range_input_range_v<_Range> || is_range_output_range_v<_Range>;
 
 	template <typename _Range>
+	inline constexpr bool is_range_forward_range_v = __rng_detail::__is_forward_range<_Range>::value;
+
+	template <typename _Range>
 	inline constexpr bool is_range_bidirectional_range_v = __rng_detail::__is_bidirectional_range<_Range>::value;
 
 	template <typename _Range>
@@ -180,6 +197,9 @@ namespace ztd { namespace ranges {
 	template <typename _Range>
 	inline constexpr bool is_range_input_or_output_range_exactly_v
 		= is_range_input_range_exactly_v<_Range> || is_range_output_range_exactly_v<_Range>;
+
+	template <typename _Range>
+	inline constexpr bool is_range_forward_range_exactly_v = __rng_detail::__is_forward_range_exactly<_Range>::value;
 
 	template <typename _Range>
 	inline constexpr bool is_range_bidirectional_range_exactly_v
