@@ -87,6 +87,36 @@
 	#endif // DLL or not
 #endif // Build definitions
 
+#if defined(ZTD_IDK_API_INTERNAL_LINKAGE)
+	#define ZTD_IDK_API_INTERNAL_LINKAGE_I_ ZTD_IDK_API_INTERNAL_LINKAGE
+#else
+	#if ZTD_IS_ON(ZTD_IDK_DLL)
+		#if ZTD_IS_ON(ZTD_COMPILER_VCXX) || ZTD_IS_ON(ZTD_PLATFORM_WINDOWS) || ZTD_IS_ON(ZTD_PLATFORM_CYGWIN)
+			// MSVC Compiler; or, Windows, or Cygwin platforms
+			#if ZTD_IS_ON(ZTD_IDK_BUILD)
+				// Building the library
+				#if ZTD_IS_ON(ZTD_COMPILER_GCC)
+					// Using GCC
+					#define ZTD_IDK_API_INTERNAL_LINKAGE_I_ __attribute__((dllexport))
+				#else
+					// Using Clang, MSVC, etc...
+					#define ZTD_IDK_API_INTERNAL_LINKAGE_I_ __declspec(dllexport)
+				#endif
+			#else
+				#if ZTD_IS_ON(ZTD_COMPILER_GCC)
+					#define ZTD_IDK_API_INTERNAL_LINKAGE_I_ __attribute__((dllimport))
+				#else
+					#define ZTD_IDK_API_INTERNAL_LINKAGE_I_ __declspec(dllimport)
+				#endif
+			#endif
+		#else
+			#define ZTD_IDK_API_INTERNAL_LINKAGE_I_
+		#endif
+	#else
+		#define ZTD_IDK_API_INTERNAL_LINKAGE_I_
+	#endif // DLL or not
+#endif // Build definitions
+
 // clang-format on
 
 #endif

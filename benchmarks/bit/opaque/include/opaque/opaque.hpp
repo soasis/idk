@@ -37,12 +37,12 @@
 
 #include <cstddef>
 
-ZTD_OPAQUE_API_LINKAGE_I_ std::size_t opaque_benchmark_loop_limit(void) ZTD_NOEXCEPT_IF_CXX_I_;
+ZTD_OPAQUE_API_LINKAGE_I_ std::size_t opaque_benchmark_loop_limit(void) ZTD_USE(ZTD_NOEXCEPT_IF_CXX);
 
-ZTD_OPAQUE_API_LINKAGE_I_ std::size_t opaque_hardcoded_index(void) ZTD_NOEXCEPT_IF_CXX_I_;
+ZTD_OPAQUE_API_LINKAGE_I_ std::size_t opaque_hardcoded_index(void) ZTD_USE(ZTD_NOEXCEPT_IF_CXX);
 
-ZTD_OPAQUE_API_LINKAGE_I_ bool opaque_true(void) ZTD_NOEXCEPT_IF_CXX_I_;
+ZTD_OPAQUE_API_LINKAGE_I_ bool opaque_true(void) ZTD_USE(ZTD_NOEXCEPT_IF_CXX);
 
-ZTD_OPAQUE_API_LINKAGE_I_ bool opaque_false(void) ZTD_NOEXCEPT_IF_CXX_I_;
+ZTD_OPAQUE_API_LINKAGE_I_ bool opaque_false(void) ZTD_USE(ZTD_NOEXCEPT_IF_CXX);
 
 #endif

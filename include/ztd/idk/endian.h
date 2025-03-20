@@ -35,7 +35,7 @@
 
 #include <ztd/idk/version.h>
 
-#if ZTD_IS_ON(ZTD_STDBIT_H)
+#if ZTD_IS_ON(ZTD_HEADER_STDBIT_H)
 #include <stdbit.h>
 #endif
 

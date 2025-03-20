@@ -279,6 +279,54 @@
 	#define ZTD_PLATFORM_LINUX_I_ ZTD_DEFAULT_OFF
 #endif // Linux platforms
 
+#if defined(ZTD_PLATFORM_FREEBSD)
+	#if (ZTD_PLATFORM_FREEBSD != 0)
+		#define ZTD_PLATFORM_FREEBSD_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_FREEBSD_I_ ZTD_OFF
+	#endif
+#elif defined(__FreeBSD__)
+	#define ZTD_PLATFORM_FREEBSD_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_PLATFORM_FREEBSD_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_PLATFORM_OPENBSD)
+	#if (ZTD_PLATFORM_OPENBSD != 0)
+		#define ZTD_PLATFORM_OPENBSD_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_OPENBSD_I_ ZTD_OFF
+	#endif
+#elif defined(__OpenBSD__)
+	#define ZTD_PLATFORM_OPENBSD_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_PLATFORM_OPENBSD_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_PLATFORM_NETBSD)
+	#if (ZTD_PLATFORM_NETBSD != 0)
+		#define ZTD_PLATFORM_NETBSD_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_NETBSD_I_ ZTD_OFF
+	#endif
+#elif defined(__NetBSD__)
+	#define ZTD_PLATFORM_NETBSD_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_PLATFORM_NETBSD_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_PLATFORM_DRAGONFLY_BSD)
+	#if (ZTD_PLATFORM_DRAGONFLY_BSD != 0)
+		#define ZTD_PLATFORM_DRAGONFLY_BSD_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_DRAGONFLY_BSD_I_ ZTD_OFF
+	#endif
+#elif defined(__DragonFly__)
+	#define ZTD_PLATFORM_DRAGONFLY_BSD_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_PLATFORM_DRAGONFLY_BSD_I_ ZTD_DEFAULT_OFF
+#endif
+
 #if defined(ZTD_PLATFORM_MAC_OS)
 	#if (ZTD_PLATFORM_MAC_OS != 0)
 		#define ZTD_PLATFORM_MAC_OS_I_ ZTD_ON
@@ -455,7 +503,7 @@
 		#define ZTD_CONSTEXPR_ASSERT_CHECKS_I_ ZTD_OFF
 	#endif
 #elif ZTD_IS_ON(ZTD_DEBUG) || ZTD_IS_ON(ZTD_ASSERT_CHECKS)
-	// C++17 and lower is worthless for constexpr code; don't fucking bother
+	// C++17 and lower is worthless for constexpr code; don't bother
 	#if defined(__cplusplus)  && (__cplusplus >= 202000L)
 		#define ZTD_CONSTEXPR_ASSERT_CHECKS_I_ ZTD_ON
 	#else
@@ -465,25 +513,25 @@
 	#define ZTD_CONSTEXPR_ASSERT_CHECKS_I_ ZTD_OFF
 #endif
 
-#if defined(ZTD_NL_LANGINFO_H)
-	#if (ZTD_NL_LANGINFO_H != 0)
-		#define ZTD_NL_LANGINFO_H_I_ ZTD_ON
+#if defined(ZTD_HEADER_NL_LANGINFO_H)
+	#if (ZTD_HEADER_NL_LANGINFO_H != 0)
+		#define ZTD_HEADER_NL_LANGINFO_H_I_ ZTD_ON
 	#else
-		#define ZTD_NL_LANGINFO_H_I_ ZTD_OFF
+		#define ZTD_HEADER_NL_LANGINFO_H_I_ ZTD_OFF
 	#endif
 #else
 	#if ZTD_HAS_INCLUDE_I_(<nl_langinfo.h>)
 		#if ZTD_IS_ON(ZTD_PLATFORM_ANDROID)
 			#if ZTD_USE(ZTD_PLATFORM_ANDROID_VERSION) >= 26
-				#define ZTD_NL_LANGINFO_H_I_ ZTD_DEFAULT_ON
+				#define ZTD_HEADER_NL_LANGINFO_H_I_ ZTD_DEFAULT_ON
 			#else
-				#define ZTD_NL_LANGINFO_H_I_ ZTD_DEFAULT_OFF
+				#define ZTD_HEADER_NL_LANGINFO_H_I_ ZTD_DEFAULT_OFF
 			#endif
 		#else
-			#define ZTD_NL_LANGINFO_H_I_ ZTD_DEFAULT_ON
+			#define ZTD_HEADER_NL_LANGINFO_H_I_ ZTD_DEFAULT_ON
 		#endif
 	#else
-		#define ZTD_NL_LANGINFO_H_I_ ZTD_DEFAULT_OFF
+		#define ZTD_HEADER_NL_LANGINFO_H_I_ ZTD_DEFAULT_OFF
 	#endif
 #endif // nl_langinfo POSIX
 
@@ -493,7 +541,7 @@
 	#else
 		#define ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_ ZTD_OFF
 	#endif
-#elif ZTD_IS_ON(ZTD_NL_LANGINFO_H) && (ZTD_IS_ON(ZTD_PLATFORM_ZEDOS) || ZTD_IS_ON(ZTD_PLATFORM_AIX))
+#elif ZTD_IS_ON(ZTD_HEADER_NL_LANGINFO_H) && (ZTD_IS_ON(ZTD_PLATFORM_ZEDOS) || ZTD_IS_ON(ZTD_PLATFORM_AIX))
 	#define ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_ ZTD_ON
 #else
 	#define ZTD_LOCALE_DEPENDENT_WIDE_EXECUTION_I_ ZTD_DEFAULT_OFF
@@ -570,88 +618,139 @@
 	#define ZTD_CHAR8_T_I_ unsigned char
 #endif // char8_t defined by the user
 
-#if defined(ZTD_UCHAR_H)
-	#if (ZTD_UCHAR_H != 0)
-		#define ZTD_UCHAR_H_I_ ZTD_ON
+#if defined(ZTD_HEADER_CUCHAR_H)
+	#if (ZTD_HEADER_CUCHAR_H != 0)
+		#define ZTD_HEADER_CUCHAR_H_I_ ZTD_ON
 	#else
-		#define ZTD_UCHAR_H_I_ ZTD_OFF
+		#define ZTD_HEADER_CUCHAR_H_I_ ZTD_OFF
 	#endif
 #elif ZTD_IS_OFF(ZTD_PLATFORM_MAC_OS)
-	#define ZTD_UCHAR_H_I_ ZTD_DEFAULT_ON
+	#define ZTD_HEADER_CUCHAR_H_I_ ZTD_DEFAULT_ON
 #elif ZTD_HAS_INCLUDE_I_(<uchar.h>)
-	#define ZTD_UCHAR_H_I_ ZTD_DEFAULT_ON
+	#define ZTD_HEADER_CUCHAR_H_I_ ZTD_DEFAULT_ON
 #else
-	#define ZTD_UCHAR_H_I_ ZTD_DEFAULT_OFF
+	#define ZTD_HEADER_CUCHAR_H_I_ ZTD_DEFAULT_OFF
 #endif
 
-#if defined(ZTD_CUCHAR)
-	#if (ZTD_CUCHAR != 0)
-		#define ZTD_CUCHAR_I_ ZTD_ON
+#if defined(ZTD_HEADER_CUCHAR)
+	#if (ZTD_HEADER_CUCHAR != 0)
+		#define ZTD_HEADER_CUCHAR_I_ ZTD_ON
 	#else
-		#define ZTD_CUCHAR_I_ ZTD_OFF
+		#define ZTD_HEADER_CUCHAR_I_ ZTD_OFF
 	#endif
 #elif ZTD_IS_ON(ZTD_CXX) && ZTD_HAS_INCLUDE_I_(<cuchar>)
-	#define ZTD_CUCHAR_I_ ZTD_DEFAULT_ON
+	#define ZTD_HEADER_CUCHAR_I_ ZTD_DEFAULT_ON
 #elif ZTD_IS_ON(ZTD_CXX) && ZTD_IS_OFF(ZTD_LIBCXX)
-	#define ZTD_CUCHAR_I_ ZTD_DEFAULT_ON
+	#define ZTD_HEADER_CUCHAR_I_ ZTD_DEFAULT_ON
 #else
-	#define ZTD_CUCHAR_I_ ZTD_DEFAULT_OFF
+	#define ZTD_HEADER_CUCHAR_I_ ZTD_DEFAULT_OFF
 #endif
 
-#if defined(ZTD_WCHAR_H)
-	#if (ZTD_WCHAR_H != 0)
-		#define ZTD_WCHAR_H_I_ ZTD_ON
+#if defined(ZTD_HEADER_WCHAR_H)
+	#if (ZTD_HEADER_WCHAR_H != 0)
+		#define ZTD_HEADER_WCHAR_H_I_ ZTD_ON
 	#else
-		#define ZTD_WCHAR_H_I_ ZTD_OFF
+		#define ZTD_HEADER_WCHAR_H_I_ ZTD_OFF
 	#endif
 #elif ZTD_HAS_INCLUDE_I_(<wchar.h>)
-	#define ZTD_WCHAR_H_I_ ZTD_DEFAULT_ON
+	#define ZTD_HEADER_WCHAR_H_I_ ZTD_DEFAULT_ON
 #elif ZTD_IS_OFF(ZTD_LIBCXX)
-	#define ZTD_WCHAR_H_I_ ZTD_DEFAULT_ON
+	#define ZTD_HEADER_WCHAR_H_I_ ZTD_DEFAULT_ON
 #else
-	#define ZTD_WCHAR_H_I_ ZTD_DEFAULT_OFF
+	#define ZTD_HEADER_WCHAR_H_I_ ZTD_DEFAULT_OFF
 #endif
 
-#if defined(ZTD_CWCHAR)
-	#if (ZTD_CWCHAR != 0)
-		#define ZTD_CWCHAR_I_ ZTD_ON
+#if defined(ZTD_HEADER_CWCHAR)
+	#if (ZTD_HEADER_CWCHAR != 0)
+		#define ZTD_HEADER_CWCHAR_I_ ZTD_ON
 	#else
-		#define ZTD_CWCHAR_I_ ZTD_OFF
+		#define ZTD_HEADER_CWCHAR_I_ ZTD_OFF
 	#endif
 #elif ZTD_IS_ON(ZTD_CXX) && ZTD_HAS_INCLUDE_I_(<cwchar>)
-	#define ZTD_CWCHAR_I_ ZTD_DEFAULT_ON
+	#define ZTD_HEADER_CWCHAR_I_ ZTD_DEFAULT_ON
 #elif ZTD_IS_ON(ZTD_CXX) && ZTD_IS_OFF(ZTD_PLATFORM_MAC_OS)
-	#define ZTD_CWCHAR_I_ ZTD_DEFAULT_ON
+	#define ZTD_HEADER_CWCHAR_I_ ZTD_DEFAULT_ON
 #else
-	#define ZTD_CWCHAR_I_ ZTD_DEFAULT_OFF
+	#define ZTD_HEADER_CWCHAR_I_ ZTD_DEFAULT_OFF
 #endif
 
-#if defined(ZTD_DLFCN_H)
-	#if (ZTD_DLFCN_H != 0)
-		#define ZTD_DLFCN_H_I_ ZTD_ON
+#if defined(ZTD_HEADER_DLFCN_H)
+	#if (ZTD_HEADER_DLFCN_H != 0)
+		#define ZTD_HEADER_DLFCN_H_I_ ZTD_ON
 	#else
-		#define ZTD_DLFCN_H_I_ ZTD_OFF
+		#define ZTD_HEADER_DLFCN_H_I_ ZTD_OFF
 	#endif
 #elif ZTD_HAS_INCLUDE_I_(<dlfcn.h>)
-	#define ZTD_DLFCN_H_I_ ZTD_DEFAULT_ON
+	#define ZTD_HEADER_DLFCN_H_I_ ZTD_DEFAULT_ON
 #else
-	#define ZTD_DLFCN_H_I_ ZTD_DEFAULT_OFF
+	#define ZTD_HEADER_DLFCN_H_I_ ZTD_DEFAULT_OFF
 #endif
 
-#if defined(ZTD_STDBIT_H)
-	#if (ZTD_STDBIT_H != 0)
-		#define ZTD_STDBIT_H_I_ ZTD_ON
+#if defined(ZTD_HEADER_PTHREAD_H)
+	#if (ZTD_HEADER_PTHREAD_H != 0)
+		#define ZTD_HEADER_PTHREAD_H_I_ ZTD_ON
 	#else
-		#define ZTD_STDBIT_H_I_ ZTD_OFF
+		#define ZTD_HEADER_PTHREAD_H_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<pthread.h>)
+	#define ZTD_HEADER_PTHREAD_H_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_HEADER_PTHREAD_H_I_ ZTD_DEFAULT_OFF
+#endif
+
+
+#if defined(ZTD_HEADER_PTHREAD_NP_H)
+	#if (ZTD_HEADER_PTHREAD_NP_H != 0)
+		#define ZTD_HEADER_PTHREAD_NP_H_I_ ZTD_ON
+	#else
+		#define ZTD_HEADER_PTHREAD_NP_H_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<pthread_np.h>)
+	#define ZTD_HEADER_PTHREAD_NP_H_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_HEADER_PTHREAD_NP_H_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_HEADER_SCHED_H)
+	#if (ZTD_HEADER_SCHED_H != 0)
+		#define ZTD_HEADER_SCHED_H_I_ ZTD_ON
+	#else
+		#define ZTD_HEADER_SCHED_H_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<sched.h>)
+	#define ZTD_HEADER_SCHED_H_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_HEADER_SCHED_H_I_ ZTD_DEFAULT_OFF
+#endif
+
+
+#if defined(ZTD_HEADER_THREADS_H)
+	#if (ZTD_THREASD_H != 0)
+		#define ZTD_HEADER_THREADS_H_I_ ZTD_ON
+	#else
+		#define ZTD_HEADER_THREADS_H_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<threads.h>)
+	#define ZTD_HEADER_THREADS_H_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_HEADER_THREADS_H_I_ ZTD_DEFAULT_OFF
+#endif
+
+
+#if defined(ZTD_HEADER_STDBIT_H)
+	#if (ZTD_HEADER_STDBIT_H != 0)
+		#define ZTD_HEADER_STDBIT_H_I_ ZTD_ON
+	#else
+		#define ZTD_HEADER_STDBIT_H_I_ ZTD_OFF
 	#endif
 #elif ZTD_HAS_INCLUDE_I_(<stdbit.h>)
-	#define ZTD_STDBIT_H_I_ ZTD_DEFAULT_ON
+	#define ZTD_HEADER_STDBIT_H_I_ ZTD_DEFAULT_ON
 #else
-	#define ZTD_STDBIT_H_I_ ZTD_DEFAULT_OFF
+	#define ZTD_HEADER_STDBIT_H_I_ ZTD_DEFAULT_OFF
 #endif
 
 #if ZTD_IS_ON(ZTD_CXX)
-	#if ZTD_IS_ON(ZTD_CUCHAR)
+	#if ZTD_IS_ON(ZTD_HEADER_CUCHAR)
 		#define ZTD_UCHAR_SCOPE_I_ ::std::
 	#else
 		#define ZTD_UCHAR_SCOPE_I_ ::
@@ -661,7 +760,7 @@
 #endif
 
 #if ZTD_IS_ON(ZTD_CXX)
-	#if ZTD_IS_ON(ZTD_CWCHAR)
+	#if ZTD_IS_ON(ZTD_HEADER_CWCHAR)
 		#define ZTD_WCHAR_SCOPE_I_ ::std::
 	#else
 		#define ZTD_WCHAR_SCOPE_I_ ::
@@ -671,7 +770,7 @@
 #endif
 
 #if ZTD_IS_ON(ZTD_CXX)
-	#if ZTD_IS_ON(ZTD_CWCHAR) || ZTD_IS_ON(ZTD_CUCHAR)
+	#if ZTD_IS_ON(ZTD_HEADER_CWCHAR) || ZTD_IS_ON(ZTD_HEADER_CUCHAR)
 		#define ZTD_MBSTATE_SCOPE_I_ ::std::
 	#else
 		#define ZTD_MBSTATE_SCOPE_I_ ::
@@ -680,25 +779,25 @@
 	#define ZTD_MBSTATE_SCOPE_I_
 #endif
 
-#if defined(ZTD_LANGINFO_H)
-	#if (ZTD_LANGINFO_H != 0)
-		#define ZTD_LANGINFO_H_I_ ZTD_ON
+#if defined(ZTD_HEADER_LANG_INFO_H)
+	#if (ZTD_HEADER_LANG_INFO_H != 0)
+		#define ZTD_HEADER_LANG_INFO_H_I_ ZTD_ON
 	#else
-		#define ZTD_LANGINFO_H_I_ ZTD_OFF
+		#define ZTD_HEADER_LANG_INFO_H_I_ ZTD_OFF
 	#endif
 #else
 	#if ZTD_HAS_INCLUDE_I_(<langinfo.h>)
 		#if ZTD_IS_ON(ZTD_PLATFORM_ANDROID)
 			#if ZTD_USE(ZTD_PLATFORM_ANDROID_VERSION) >= 26
-				#define ZTD_LANGINFO_H_I_ ZTD_DEFAULT_ON
+				#define ZTD_HEADER_LANG_INFO_H_I_ ZTD_DEFAULT_ON
 			#else
-				#define ZTD_LANGINFO_H_I_ ZTD_DEFAULT_OFF
+				#define ZTD_HEADER_LANG_INFO_H_I_ ZTD_DEFAULT_OFF
 			#endif
 		#else
-			#define ZTD_LANGINFO_H_I_ ZTD_DEFAULT_ON
+			#define ZTD_HEADER_LANG_INFO_H_I_ ZTD_DEFAULT_ON
 		#endif
 	#else
-		#define ZTD_LANGINFO_H_I_ ZTD_DEFAULT_OFF
+		#define ZTD_HEADER_LANG_INFO_H_I_ ZTD_DEFAULT_OFF
 	#endif
 #endif // langinfo POSIX
 
@@ -708,7 +807,7 @@
 	#else
 		#define ZTD_NL_LANGINFO_I_ ZTD_OFF
 	#endif
-#elif ZTD_IS_ON(ZTD_NL_LANGINFO_H) || ZTD_IS_ON(ZTD_LANGINFO_H)
+#elif ZTD_IS_ON(ZTD_HEADER_NL_LANGINFO_H) || ZTD_IS_ON(ZTD_HEADER_LANG_INFO_H)
 	#define ZTD_NL_LANGINFO_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_NL_LANGINFO_I_ ZTD_DEFAULT_OFF
@@ -717,27 +816,27 @@
 #if (ZTD_HAS_ATTRIBUTE_I_(nodiscard) != 0L)
 	#if ZTD_IS_ON(ZTD_CXX)
 		#if ZTD_HAS_ATTRIBUTE_I_(nodiscard) >= 201907L
-			#define ZTD_NODISCARD_MESSAGE_I_(__message) [[nodiscard(__message)]]
-			#define ZTD_NODISCARD_I_ [[nodiscard]]
+			#define ZTD_ATTR_NODISCARD_MESSAGE_I_(__message) [[nodiscard(__message)]]
+			#define ZTD_ATTR_NODISCARD_I_ [[nodiscard]]
 		#else
-			#define ZTD_NODISCARD_MESSAGE_I_(__message) [[nodiscard]]
-			#define ZTD_NODISCARD_I_ [[nodiscard]]
+			#define ZTD_ATTR_NODISCARD_MESSAGE_I_(__message) [[nodiscard]]
+			#define ZTD_ATTR_NODISCARD_I_ [[nodiscard]]
 		#endif
 	#else
-		#define ZTD_NODISCARD_MESSAGE_I_(__message) [[nodiscard(__message)]]
-		#define ZTD_NODISCARD_I_ [[nodiscard]]
+		#define ZTD_ATTR_NODISCARD_MESSAGE_I_(__message) [[nodiscard(__message)]]
+		#define ZTD_ATTR_NODISCARD_I_ [[nodiscard]]
 	#endif
 #else
 	#if ZTD_IS_ON(ZTD_COMPILER_VCXX) && defined(_Check_return_)
-		#define ZTD_NODISCARD_MESSAGE_I_(__message) _Check_return_
-		#define ZTD_NODISCARD_I_ _Check_return_
+		#define ZTD_ATTR_NODISCARD_MESSAGE_I_(__message) _Check_return_
+		#define ZTD_ATTR_NODISCARD_I_ _Check_return_
 	#elif ZTD_IS_ON(ZTD_COMPILER_CLANG) || ZTD_IS_ON(ZTD_COMPILER_GCC)
-		#define ZTD_NODISCARD_MESSAGE_I_(__message) __attribute__((warn_unused_result))
-		#define ZTD_NODISCARD_I_ __attribute__((warn_unused_result))
+		#define ZTD_ATTR_NODISCARD_MESSAGE_I_(__message) __attribute__((warn_unused_result))
+		#define ZTD_ATTR_NODISCARD_I_ __attribute__((warn_unused_result))
 	#else
 		// :c
 		#define ZTD_NODSICARD_I_(__message)
-		#define ZTD_NODISCARD_I_
+		#define ZTD_ATTR_NODISCARD_I_
 	#endif
 #endif
 
@@ -750,32 +849,45 @@
 #endif
 
 #if (ZTD_HAS_ATTRIBUTE_I_(deprecated) != 0L)
-	#define ZTD_DEPRECATED_I_(__message) [[deprecated(__message)]]
+	#define ZTD_ATTR_DEPRECATED_I_(__message) [[deprecated(__message)]]
 #else
 	#if ZTD_IS_ON(ZTD_COMPILER_VCXX)
-		#define ZTD_DEPRECATED_I_(__message) declspec(deprecated)
+		#define ZTD_ATTR_DEPRECATED_I_(__message) declspec(deprecated)
 	#elif ZTD_IS_ON(ZTD_COMPILER_CLANG) || ZTD_IS_ON(ZTD_COMPILER_GCC)
-		#define ZTD_DEPRECATED_I_(__message) __attribute__((warn_unused_result))
+		#define ZTD_ATTR_DEPRECATED_I_(__message) __attribute__((deprecated))
 	#else
 		// :c
-		#define ZTD_DEPRECATED_I_(__message)
+		#define ZTD_ATTR_DEPRECATED_I_(__message)
+	#endif
+#endif
+
+#if (ZTD_HAS_ATTRIBUTE_I_(no_return) != 0L)
+	#define ZTD_ATTR_NO_RETURN_I_ [[noreturn]]
+#else
+	#if ZTD_IS_ON(ZTD_COMPILER_VCXX)
+		#define ZTD_ATTR_NO_RETURN_I_ declspec(noreturn)
+	#elif ZTD_IS_ON(ZTD_COMPILER_CLANG) || ZTD_IS_ON(ZTD_COMPILER_GCC)
+		#define ZTD_ATTR_NO_RETURN_I_ __attribute__((noreturn))
+	#else
+		// :c
+		#define ZTD_ATTR_NO_RETURN_I_
 	#endif
 #endif
 
 #if (ZTD_HAS_ATTRIBUTE_I_(fallthrough) != 0L)
-	#define ZTD_FALLTHROUGH_I_ [[fallthrough]]
+	#define ZTD_ATTR_FALLTHROUGH_I_ [[fallthrough]]
 #else
-	#define ZTD_FALLTHROUGH_I_
+	#define ZTD_ATTR_FALLTHROUGH_I_
 #endif
 
-#if defined(ZTD_TYPE_ALIGN_ATTRIBUTE)
-	#define ZTD_TYPE_ALIGN_ATTRIBUTE_I_(...) ZTD_TYPE_ALIGN_ATTRIBUTE(__VA__ARGS__)
+#if defined(ZTD_ATTR_TYPE_ALIGN)
+	#define ZTD_ATTR_TYPE_ALIGN_I_(...) ZTD_ATTR_TYPE_ALIGN(__VA__ARGS__)
 #elif ZTD_IS_ON(ZTD_COMPILER_VCXX)
-	#define ZTD_TYPE_ALIGN_ATTRIBUTE_I_(...) __declspec(align(__VA_ARGS__))
+	#define ZTD_ATTR_TYPE_ALIGN_I_(...) __declspec(align(__VA_ARGS__))
 #elif ZTD_IS_ON(ZTD_COMPILER_CLANG) || ZTD_IS_ON(ZTD_COMPILER_GCC)
-	#define ZTD_TYPE_ALIGN_ATTRIBUTE_I_(...) __attribute__((aligned(__VA_ARGS__)))
+	#define ZTD_ATTR_TYPE_ALIGN_I_(...) __attribute__((aligned(__VA_ARGS__)))
 #else
-	#define ZTD_TYPE_ALIGN_ATTRIBUTE_I_(...)
+	#define ZTD_ATTR_TYPE_ALIGN_I_(...)
 #endif
 
 #if defined(ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE)
@@ -827,6 +939,30 @@
 #endif // Intermediate buffer sizing
 
 #define ZTD_INTERMEDIATE_BUFFER_SUGGESTED_SIZE_I_(...) (ZTD_INTERMEDIATE_BUFFER_SUGGESTED_BYTE_SIZE_I_ / sizeof(__VA_ARGS__))
+
+#if defined(ZTD_STD_C_THREADS)
+	#if (ZTD_STD_C_THREADS != 0)
+		#define ZTD_STD_C_THREADS_I_ ZTD_ON
+	#else
+		#define ZTD_STD_C_THREADS_I_ ZTD_OFF
+	#endif
+#elif ZTD_IS_ON(ZTD_HEADER_THREADS_H) && (!defined(__STDC_NO_THREADS__) || (__STDC_NO_THREADS__ != 0))
+	#define ZTD_STD_C_THREADS_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_STD_C_THREADS_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_PLATFORM_PTHREADS)
+	#if (ZTD_PLATFORM_PTHREADS != 0)
+		#define ZTD_PLATFORM_PTHREADS_I_ ZTD_ON
+	#else
+		#define ZTD_PLATFORM_PTHREADS_I_ ZTD_OFF
+	#endif
+#elif ZTD_IS_ON(ZTD_HEADER_PTHREAD_H)
+	#define ZTD_PLATFORM_PTHREADS_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_PLATFORM_PTHREADS_I_ ZTD_DEFAULT_OFF
+#endif
 
 #if defined(ZTD_VCXX_CONSTEXPR_BIT_INTRINSICS)
 	#if (ZTD_VCXX_CONSTEXPR_BIT_INTRINSICS != 0)
@@ -920,16 +1056,16 @@
 	#define ZTD_STATIC_PTR_EXTENT_I_(...) static (__VA_ARGS__)
 #endif
 
-#if defined(ZTD_VCXX_INTRIN_H)
-	#if (ZTD_VCXX_INTRIN_H != 0)
-		#define ZTD_VCXX_INTRIN_H_I_ ZTD_ON
+#if defined(ZTD_HEADER_VCXX_INTRIN_H)
+	#if (ZTD_HEADER_VCXX_INTRIN_H != 0)
+		#define ZTD_HEADER_VCXX_INTRIN_H_I_ ZTD_ON
 	#else
-		#define ZTD_VCXX_INTRIN_H_I_ ZTD_OFF
+		#define ZTD_HEADER_VCXX_INTRIN_H_I_ ZTD_OFF
 	#endif
 #elif ZTD_IS_ON(ZTD_COMPILER_VCXX) && ZTD_HAS_INCLUDE_I_(<intrin.h>)
-	#define ZTD_VCXX_INTRIN_H_I_ ZTD_DEFAULT_ON
+	#define ZTD_HEADER_VCXX_INTRIN_H_I_ ZTD_DEFAULT_ON
 #else
-	#define ZTD_VCXX_INTRIN_H_I_ ZTD_DEFAULT_OFF
+	#define ZTD_HEADER_VCXX_INTRIN_H_I_ ZTD_DEFAULT_OFF
 #endif
 
 #if defined(ZTD_VCXX_CONSTEXPR_BIT_INTRINSICS)

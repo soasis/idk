@@ -51,38 +51,70 @@
 ZTD_EXTERN_C_OPEN_I_
 
 #define ZTDC_GENERATE_LOAD8_STORE8_DECLARATIONS(_N)                                                                  \
-	ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ uint_least##_N##_t ztdc_load8_leu##_N(                         \
-	     const unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_;                             \
-	ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ uint_least##_N##_t ztdc_load8_beu##_N(                         \
-	     const unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_;                             \
-	ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ uint_least##_N##_t ztdc_load8_aligned_leu##_N(                 \
-	     const unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_;                             \
-	ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ uint_least##_N##_t ztdc_load8_aligned_beu##_N(                 \
-	     const unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_;                             \
-	ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ int_least##_N##_t ztdc_load8_les##_N(                          \
-	     const unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_;                             \
-	ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ int_least##_N##_t ztdc_load8_bes##_N(                          \
-	     const unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_;                             \
-	ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ int_least##_N##_t ztdc_load8_aligned_les##_N(                  \
-	     const unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_;                             \
-	ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ int_least##_N##_t ztdc_load8_aligned_bes##_N(                  \
-	     const unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_;                             \
+	ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)                                                                                 \
+	ZTD_USE(ZTD_IDK_API_LINKAGE)                                                                                    \
+	uint_least##_N##_t ztdc_load8_leu##_N(const unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)])                 \
+	     ZTD_CXX_NOEXCEPT_I_;                                                                                       \
+	ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)                                                                                 \
+	ZTD_USE(ZTD_IDK_API_LINKAGE)                                                                                    \
+	uint_least##_N##_t ztdc_load8_beu##_N(const unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)])                 \
+	     ZTD_CXX_NOEXCEPT_I_;                                                                                       \
+	ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)                                                                                 \
+	ZTD_USE(ZTD_IDK_API_LINKAGE)                                                                                    \
+	uint_least##_N##_t ztdc_load8_aligned_leu##_N(const unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)])         \
+	     ZTD_CXX_NOEXCEPT_I_;                                                                                       \
+	ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)                                                                                 \
+	ZTD_USE(ZTD_IDK_API_LINKAGE)                                                                                    \
+	uint_least##_N##_t ztdc_load8_aligned_beu##_N(const unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)])         \
+	     ZTD_CXX_NOEXCEPT_I_;                                                                                       \
+	ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)                                                                                 \
+	ZTD_USE(ZTD_IDK_API_LINKAGE)                                                                                    \
+	int_least##_N##_t ztdc_load8_les##_N(const unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)])                  \
+	     ZTD_CXX_NOEXCEPT_I_;                                                                                       \
+	ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)                                                                                 \
+	ZTD_USE(ZTD_IDK_API_LINKAGE)                                                                                    \
+	int_least##_N##_t ztdc_load8_bes##_N(const unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)])                  \
+	     ZTD_CXX_NOEXCEPT_I_;                                                                                       \
+	ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)                                                                                 \
+	ZTD_USE(ZTD_IDK_API_LINKAGE)                                                                                    \
+	int_least##_N##_t ztdc_load8_aligned_les##_N(const unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)])          \
+	     ZTD_CXX_NOEXCEPT_I_;                                                                                       \
+	ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)                                                                                 \
+	ZTD_USE(ZTD_IDK_API_LINKAGE)                                                                                    \
+	int_least##_N##_t ztdc_load8_aligned_bes##_N(const unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)])          \
+	     ZTD_CXX_NOEXCEPT_I_;                                                                                       \
                                                                                                                      \
-	ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ void ztdc_store8_leu##_N(                                      \
+	ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)                                                                                 \
+	ZTD_USE(ZTD_IDK_API_LINKAGE)                                                                                    \
+	void ztdc_store8_leu##_N(const uint_least##_N##_t __value, unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)])  \
+	     ZTD_CXX_NOEXCEPT_I_;                                                                                       \
+	ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)                                                                                 \
+	ZTD_USE(ZTD_IDK_API_LINKAGE)                                                                                    \
+	void ztdc_store8_beu##_N(const uint_least##_N##_t __value, unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)])  \
+	     ZTD_CXX_NOEXCEPT_I_;                                                                                       \
+	ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)                                                                                 \
+	ZTD_USE(ZTD_IDK_API_LINKAGE)                                                                                    \
+	void ztdc_store8_aligned_leu##_N(                                                                               \
 	     const uint_least##_N##_t __value, unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_; \
-	ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ void ztdc_store8_beu##_N(                                      \
+	ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)                                                                                 \
+	ZTD_USE(ZTD_IDK_API_LINKAGE)                                                                                    \
+	void ztdc_store8_aligned_beu##_N(                                                                               \
 	     const uint_least##_N##_t __value, unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_; \
-	ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ void ztdc_store8_aligned_leu##_N(                              \
-	     const uint_least##_N##_t __value, unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_; \
-	ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ void ztdc_store8_aligned_beu##_N(                              \
-	     const uint_least##_N##_t __value, unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_; \
-	ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ void ztdc_store8_les##_N(                                      \
+	ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)                                                                                 \
+	ZTD_USE(ZTD_IDK_API_LINKAGE)                                                                                    \
+	void ztdc_store8_les##_N(const int_least##_N##_t __value, unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)])   \
+	     ZTD_CXX_NOEXCEPT_I_;                                                                                       \
+	ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)                                                                                 \
+	ZTD_USE(ZTD_IDK_API_LINKAGE)                                                                                    \
+	void ztdc_store8_bes##_N(const int_least##_N##_t __value, unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)])   \
+	     ZTD_CXX_NOEXCEPT_I_;                                                                                       \
+	ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)                                                                                 \
+	ZTD_USE(ZTD_IDK_API_LINKAGE)                                                                                    \
+	void ztdc_store8_aligned_les##_N(                                                                               \
 	     const int_least##_N##_t __value, unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_;  \
-	ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ void ztdc_store8_bes##_N(                                      \
-	     const int_least##_N##_t __value, unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_;  \
-	ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ void ztdc_store8_aligned_les##_N(                              \
-	     const int_least##_N##_t __value, unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_;  \
-	ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ void ztdc_store8_aligned_bes##_N(                              \
+	ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)                                                                                 \
+	ZTD_USE(ZTD_IDK_API_LINKAGE)                                                                                    \
+	void ztdc_store8_aligned_bes##_N(                                                                               \
 	     const int_least##_N##_t __value, unsigned char __ptr[ZTD_PTR_EXTENT(_N / CHAR_BIT)]) ZTD_CXX_NOEXCEPT_I_;  \
 	ztdc_static_assert(((_N % 8) == 0), "N must be a multiple of 8")
 

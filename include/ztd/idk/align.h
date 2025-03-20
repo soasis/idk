@@ -88,8 +88,10 @@ typedef struct ztdc_aligned_mutable_pointer {
 /// @param size The size of the object that will be put at the (newly aligned) pointer's location, in bytes.
 /// @param ptr The pointer to align.
 /// @param space The amount of available space within which this alignment pay be performed, in bytes.
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ inline ztdc_aligned_const_pointer ztdc_align_const(
-     size_t alignment, size_t size, const void* ptr, size_t space) ZTD_NOEXCEPT_IF_CXX_I_ {
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+inline ztdc_aligned_const_pointer ztdc_align_const(size_t alignment, size_t size, const void* ptr, size_t space)
+     ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	const uintptr_t initial     = (uintptr_t)(ptr);
 	const uintptr_t offby       = (uintptr_t)(initial % alignment);
 	const uintptr_t padding     = (alignment - offby) % alignment;
@@ -111,8 +113,10 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ inline ztdc_aligned_const_point
 /// @param size The size of the object that will be put at the (newly aligned) pointer's location, in bytes.
 /// @param ptr The pointer to align.
 /// @param space The amount of available space within which this alignment pay be performed, in bytes.
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ inline ztdc_aligned_mutable_pointer ztdc_align_mutable(
-     size_t alignment, size_t size, void* ptr, size_t space) ZTD_NOEXCEPT_IF_CXX_I_ {
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+inline ztdc_aligned_mutable_pointer ztdc_align_mutable(size_t alignment, size_t size, void* ptr, size_t space)
+     ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	const uintptr_t initial     = (uintptr_t)(ptr);
 	const uintptr_t offby       = (uintptr_t)(initial % alignment);
 	const uintptr_t padding     = (alignment - offby) % alignment;
@@ -134,8 +138,9 @@ ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ inline ztdc_aligned_mutable_poi
 /// @param ptr The pointer to check for alignment.
 ///
 /// @remarks `NULL` pointers are considered aligned-by-default (this function performs a `NULL` check).
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ inline bool ztdc_is_aligned(
-     size_t alignment, const void* const ptr) ZTD_NOEXCEPT_IF_CXX_I_ {
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+inline bool ztdc_is_aligned(size_t alignment, const void* const ptr) ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	if (!ptr) {
 		return true;
 	}

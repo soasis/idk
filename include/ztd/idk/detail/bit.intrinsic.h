@@ -50,174 +50,191 @@
 
 ZTD_EXTERN_C_OPEN_I_
 
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_ones_uc(
-     unsigned char value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_ones_us(
-     unsigned short value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_ones_ui(
-     unsigned int value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_ones_ul(
-     unsigned long value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_ones_ull(
-     unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_ones_uc(unsigned char value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_ones_us(unsigned short value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_ones_ui(unsigned int value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_ones_ul(unsigned long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_ones_ull(unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
 
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_zeros_uc(
-     unsigned char value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_zeros_us(
-     unsigned short value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_zeros_ui(
-     unsigned int value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_zeros_ul(
-     unsigned long value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_zeros_ull(
-     unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_zeros_uc(unsigned char value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_zeros_us(unsigned short value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_zeros_ui(unsigned int value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_zeros_ul(unsigned long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_zeros_ull(unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
 
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_leading_zeros_uc(
-     unsigned char value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_leading_zeros_us(
-     unsigned short value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_leading_zeros_ui(
-     unsigned int value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_leading_zeros_ul(
-     unsigned long value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_leading_zeros_ull(
-     unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_leading_zeros_uc(unsigned char value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_leading_zeros_us(unsigned short value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_leading_zeros_ui(unsigned int value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_leading_zeros_ul(unsigned long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_leading_zeros_ull(unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
 
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_leading_ones_uc(
-     unsigned char value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_leading_ones_us(
-     unsigned short value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_leading_ones_ui(
-     unsigned int value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_leading_ones_ul(
-     unsigned long value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_leading_ones_ull(
-     unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_leading_ones_uc(unsigned char value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_leading_ones_us(unsigned short value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_leading_ones_ui(unsigned int value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_leading_ones_ul(unsigned long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_leading_ones_ull(unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
 
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_trailing_zeros_uc(
-     unsigned char value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_trailing_zeros_us(
-     unsigned short value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_trailing_zeros_ui(
-     unsigned int value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_trailing_zeros_ul(
-     unsigned long value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_trailing_zeros_ull(
-     unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_trailing_zeros_uc(unsigned char value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_trailing_zeros_us(unsigned short value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_trailing_zeros_ui(unsigned int value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_trailing_zeros_ul(unsigned long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_trailing_zeros_ull(unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
 
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_trailing_ones_uc(
-     unsigned char value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_trailing_ones_us(
-     unsigned short value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_trailing_ones_ui(
-     unsigned int value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_trailing_ones_ul(
-     unsigned long value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_count_trailing_ones_ull(
-     unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_trailing_ones_uc(unsigned char value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_trailing_ones_us(unsigned short value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_trailing_ones_ui(unsigned int value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_trailing_ones_ul(unsigned long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_count_trailing_ones_ull(unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
 
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_first_leading_one_uc(
-     unsigned char value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_first_leading_one_us(
-     unsigned short value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_first_leading_one_ui(
-     unsigned int value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_first_leading_one_ul(
-     unsigned long value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_first_leading_one_ull(
-     unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_first_leading_one_uc(unsigned char value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_first_leading_one_us(unsigned short value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_first_leading_one_ui(unsigned int value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_first_leading_one_ul(unsigned long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_first_leading_one_ull(unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
 
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_first_trailing_one_uc(
-     unsigned char value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_first_trailing_one_us(
-     unsigned short value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_first_trailing_one_ui(
-     unsigned int value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_first_trailing_one_ul(
-     unsigned long value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_first_trailing_one_ull(
-     unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_first_trailing_one_uc(unsigned char value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_first_trailing_one_us(unsigned short value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_first_trailing_one_ui(unsigned int value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_first_trailing_one_ul(unsigned long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_first_trailing_one_ull(unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
 
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_first_leading_zero_uc(
-     unsigned char value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_first_leading_zero_us(
-     unsigned short value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_first_leading_zero_ui(
-     unsigned int value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_first_leading_zero_ul(
-     unsigned long value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_first_leading_zero_ull(
-     unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_first_leading_zero_uc(unsigned char value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_first_leading_zero_us(unsigned short value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_first_leading_zero_ui(unsigned int value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_first_leading_zero_ul(unsigned long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_first_leading_zero_ull(unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
 
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_first_trailing_zero_uc(
-     unsigned char value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_first_trailing_zero_us(
-     unsigned short value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_first_trailing_zero_ui(
-     unsigned int value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_first_trailing_zero_ul(
-     unsigned long value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_first_trailing_zero_ull(
-     unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_first_trailing_zero_uc(unsigned char value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_first_trailing_zero_us(unsigned short value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_first_trailing_zero_ui(unsigned int value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_first_trailing_zero_ul(unsigned long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_first_trailing_zero_ull(unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
 
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned char ztdc_rotate_left_uc(
-     unsigned char value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned short ztdc_rotate_left_us(
-     unsigned short value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_rotate_left_ui(
-     unsigned int value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned long ztdc_rotate_left_ul(
-     unsigned long value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned long long ztdc_rotate_left_ull(
-     unsigned long long value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+unsigned char ztdc_rotate_left_uc(unsigned char value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+unsigned short ztdc_rotate_left_us(unsigned short value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+unsigned int ztdc_rotate_left_ui(unsigned int value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+unsigned long ztdc_rotate_left_ul(unsigned long value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+unsigned long long ztdc_rotate_left_ull(unsigned long long value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
 
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned char ztdc_rotate_right_uc(
-     unsigned char value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned short ztdc_rotate_right_us(
-     unsigned short value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_rotate_right_ui(
-     unsigned int value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned long ztdc_rotate_right_ul(
-     unsigned long value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned long long ztdc_rotate_right_ull(
-     unsigned long long value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+unsigned char ztdc_rotate_right_uc(unsigned char value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+unsigned short ztdc_rotate_right_us(unsigned short value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+unsigned int ztdc_rotate_right_ui(unsigned int value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+unsigned long ztdc_rotate_right_ul(unsigned long value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+unsigned long long ztdc_rotate_right_ull(unsigned long long value, unsigned int __count) ZTD_CXX_NOEXCEPT_I_;
 
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_has_single_bit_uc(unsigned char value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_has_single_bit_us(unsigned short value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_has_single_bit_ui(unsigned int value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_has_single_bit_ul(unsigned long value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_has_single_bit_ull(
-     unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) bool ztdc_has_single_bit_uc(unsigned char value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) bool ztdc_has_single_bit_us(unsigned short value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) bool ztdc_has_single_bit_ui(unsigned int value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) bool ztdc_has_single_bit_ul(unsigned long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) bool ztdc_has_single_bit_ull(unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
 
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned char ztdc_bit_floor_uc(
-     unsigned char value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned short ztdc_bit_floor_us(
-     unsigned short value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_bit_floor_ui(unsigned int value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned long ztdc_bit_floor_ul(
-     unsigned long value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned long long ztdc_bit_floor_ull(
-     unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned char ztdc_bit_floor_uc(unsigned char value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned short ztdc_bit_floor_us(unsigned short value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_bit_floor_ui(unsigned int value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned long ztdc_bit_floor_ul(unsigned long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned long long ztdc_bit_floor_ull(unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
 
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned char ztdc_bit_ceil_uc(
-     unsigned char value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned short ztdc_bit_ceil_us(
-     unsigned short value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_bit_ceil_ui(unsigned int value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned long ztdc_bit_ceil_ul(
-     unsigned long value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned long long ztdc_bit_ceil_ull(
-     unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned char ztdc_bit_ceil_uc(unsigned char value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned short ztdc_bit_ceil_us(unsigned short value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_bit_ceil_ui(unsigned int value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned long ztdc_bit_ceil_ul(unsigned long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned long long ztdc_bit_ceil_ull(unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
 
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned char ztdc_bit_width_uc(
-     unsigned char value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned short ztdc_bit_width_us(
-     unsigned short value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned int ztdc_bit_width_ui(unsigned int value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned long ztdc_bit_width_ul(
-     unsigned long value) ZTD_CXX_NOEXCEPT_I_;
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ unsigned long long ztdc_bit_width_ull(
-     unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned char ztdc_bit_width_uc(unsigned char value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned short ztdc_bit_width_us(unsigned short value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned int ztdc_bit_width_ui(unsigned int value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned long ztdc_bit_width_ul(unsigned long value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) unsigned long long ztdc_bit_width_ull(unsigned long long value) ZTD_CXX_NOEXCEPT_I_;
 
 ZTD_EXTERN_C_CLOSE_I_
 

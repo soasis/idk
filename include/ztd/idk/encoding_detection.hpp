@@ -39,14 +39,14 @@
 namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
 
-	ZTD_IDK_API_LINKAGE_I_ bool is_execution_encoding_utf8(void) noexcept;
-	ZTD_IDK_API_LINKAGE_I_ bool is_execution_encoding_unicode(void) noexcept;
-	ZTD_IDK_API_LINKAGE_I_ bool is_wide_execution_encoding_unicode(void) noexcept;
-	ZTD_IDK_API_LINKAGE_I_ bool is_wide_execution_encoding_utf8(void) noexcept;
-	ZTD_IDK_API_LINKAGE_I_ bool is_wide_execution_encoding_utf16(void) noexcept;
-	ZTD_IDK_API_LINKAGE_I_ bool is_wide_execution_encoding_utf32(void) noexcept;
-	ZTD_IDK_API_LINKAGE_I_ std::string_view execution_encoding_name(void) noexcept;
-	ZTD_IDK_API_LINKAGE_I_ std::string_view wide_execution_encoding_name(void) noexcept;
+	ZTD_USE(ZTD_IDK_API_LINKAGE) bool is_execution_encoding_utf8(void) noexcept;
+	ZTD_USE(ZTD_IDK_API_LINKAGE) bool is_execution_encoding_unicode(void) noexcept;
+	ZTD_USE(ZTD_IDK_API_LINKAGE) bool is_wide_execution_encoding_unicode(void) noexcept;
+	ZTD_USE(ZTD_IDK_API_LINKAGE) bool is_wide_execution_encoding_utf8(void) noexcept;
+	ZTD_USE(ZTD_IDK_API_LINKAGE) bool is_wide_execution_encoding_utf16(void) noexcept;
+	ZTD_USE(ZTD_IDK_API_LINKAGE) bool is_wide_execution_encoding_utf32(void) noexcept;
+	ZTD_USE(ZTD_IDK_API_LINKAGE) std::string_view execution_encoding_name(void) noexcept;
+	ZTD_USE(ZTD_IDK_API_LINKAGE) std::string_view wide_execution_encoding_name(void) noexcept;
 
 	inline constexpr std::string_view literal_encoding_name(void) noexcept {
 		return ZTD_CXX_COMPILE_TIME_ENCODING_NAME_GET_I_();

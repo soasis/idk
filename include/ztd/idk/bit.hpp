@@ -49,7 +49,7 @@
 #include <bit>
 #endif
 
-#if ZTD_IS_ON(ZTD_COMPILER_VCXX) && ZTD_IS_ON(ZTD_VCXX_INTRIN_H)
+#if ZTD_IS_ON(ZTD_COMPILER_VCXX) && ZTD_IS_ON(ZTD_HEADER_VCXX_INTRIN_H)
 #include <intrin.h>
 #endif
 
@@ -69,7 +69,7 @@ namespace ztd {
 				return static_cast<unsigned char>(__value);
 			}
 			else {
-				return ::ztd::any_to_underlying(__value);
+				return ::ztd::any_enum_or_char_to_underlying_unsigned(__value);
 			}
 		}
 
@@ -227,7 +227,7 @@ namespace ztd {
 		else {
 			static_assert(::std::is_unsigned_v<_UValue>, "bit functions only handle unsigned types");
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_BIT)
-			return ::std::popcount(__value);
+			return ::std::popcount(::ztd::__idk_detail::__to_bit_underlying(__value));
 #elif ZTD_IS_ON(ZTD_BUILTIN_POPCOUNT)
 			if constexpr (binary_digits_v<_Value> <= binary_digits_v<unsigned int>) {
 				return __builtin_popcountl(__value);
@@ -241,7 +241,7 @@ namespace ztd {
 			else {
 				return ::ztd::__idk_detail::__basic_count_ones(__value);
 			}
-#elif ZTD_IS_ON(ZTD_COMPILER_VCXX) && ZTD_IS_ON(ZTD_VCXX_INTRIN_H)
+#elif ZTD_IS_ON(ZTD_COMPILER_VCXX) && ZTD_IS_ON(ZTD_HEADER_VCXX_INTRIN_H)
 			// WARNING
 			// THESE INSTRUCTIONS ARE NOT PORTABLE
 			// FIXME: REPLACE WITH SOMETHING MORE PORTABLE,
@@ -285,7 +285,7 @@ namespace ztd {
 		else {
 			static_assert(::std::is_unsigned_v<_UValue>, "bit functions only handle unsigned types");
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_BIT)
-			return ::std::countl_zero(__value);
+			return ::std::countl_zero(::ztd::__idk_detail::__to_bit_underlying(__value));
 #elif ZTD_IS_ON(ZTD_COMPILER_VCXX)
 
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_CONSTANT_EVALUATED) && ZTD_IS_OFF(ZTD_VCXX_CONSTEXPR_BIT_INTRINSICS)
@@ -351,7 +351,7 @@ namespace ztd {
 		else {
 			static_assert(::std::is_unsigned_v<_UValue>, "bit functions only handle unsigned types");
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_BIT)
-			return static_cast<unsigned int>(::std::countr_zero(__value));
+			return static_cast<unsigned int>(::std::countr_zero(::ztd::__idk_detail::__to_bit_underlying(__value)));
 #elif ZTD_IS_ON(ZTD_COMPILER_VCXX)
 #if ZTD_IS_ON(ZTD_STD_LIBRARY_IS_CONSTANT_EVALUATED) && ZTD_IS_OFF(ZTD_VCXX_CONSTEXPR_BIT_INTRINSICS)
 			if (::std::is_constant_evaluated()) {
@@ -360,7 +360,7 @@ namespace ztd {
 			else
 #endif
 			{
-#if ZTD_IS_ON(ZTD_VCXX_INTRIN_H)
+#if ZTD_IS_ON(ZTD_HEADER_VCXX_INTRIN_H)
 				if constexpr (binary_digits_v<_Value> <= 32) {
 					unsigned long __index = {};
 					auto __scanval        = _BitScanForward(&__index, __value);
@@ -710,7 +710,7 @@ namespace ztd {
 		if (!::std::is_constant_evaluated()) {
 			using _UIntegralish               = ::ztd::remove_cvref_t<_Integralish>;
 			_UIntegralish* __ptr              = &__value;
-			unsigned char* __byte_ptr         = static_cast<_UIntegralish*>(__ptr);
+			unsigned char* __byte_ptr         = static_cast<unsigned char*>(static_cast<void*>(__ptr));
 			unsigned char* __aligned_byte_ptr = static_cast<unsigned char*>(
 			     ZTD_ASSUME_ALIGNED(alignof(_Integralish), static_cast<void*>(__byte_ptr)));
 			memreverse8(sizeof(__value), __aligned_byte_ptr);

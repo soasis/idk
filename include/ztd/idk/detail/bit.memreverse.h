@@ -51,31 +51,40 @@
 ZTD_EXTERN_C_OPEN_I_
 
 #if (CHAR_BIT % 8 == 0)
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ void ztdc_memreverse8(
-     size_t __n, unsigned char __ptr[ZTD_PTR_EXTENT(__n)]) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+void ztdc_memreverse8(size_t __n, unsigned char __ptr[ZTD_PTR_EXTENT(__n)]) ZTD_CXX_NOEXCEPT_I_;
 #if defined(UINT8_MAX)
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ uint8_t ztdc_memreverse8u8(uint8_t __value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) uint8_t ztdc_memreverse8u8(uint8_t __value) ZTD_CXX_NOEXCEPT_I_;
 #endif // 8 bits
 #if defined(UINT16_MAX)
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ uint16_t ztdc_memreverse8u16(uint16_t __value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) uint16_t ztdc_memreverse8u16(uint16_t __value) ZTD_CXX_NOEXCEPT_I_;
 #endif // 16 bits
 #if defined(UINT24_MAX)
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ uint24_t ztdc_memreverse824(uint24_t __value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) uint24_t ztdc_memreverse824(uint24_t __value) ZTD_CXX_NOEXCEPT_I_;
 #endif // 24 bits
 #if defined(UINT32_MAX)
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ uint32_t ztdc_memreverse8u32(uint32_t __value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) uint32_t ztdc_memreverse8u32(uint32_t __value) ZTD_CXX_NOEXCEPT_I_;
 #endif // 32 bits
 #if defined(UINT40_MAX)
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ uint40_t ztdc_memreverse8u40(uint40_t __value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) uint40_t ztdc_memreverse8u40(uint40_t __value) ZTD_CXX_NOEXCEPT_I_;
 #endif // 40 bits
 #if defined(UINT48_MAX)
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ uint48_t ztdc_memreverse8u48(uint48_t __value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) uint48_t ztdc_memreverse8u48(uint48_t __value) ZTD_CXX_NOEXCEPT_I_;
 #endif // 48 bits
 #if defined(UINT56_MAX)
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ uint56_t ztdc_memreverse8u56(uint56_t __value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) uint56_t ztdc_memreverse8u56(uint56_t __value) ZTD_CXX_NOEXCEPT_I_;
 #endif // 48 bits
 #if defined(UINT64_MAX)
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ uint64_t ztdc_memreverse8u64(uint64_t __value) ZTD_CXX_NOEXCEPT_I_;
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE) uint64_t ztdc_memreverse8u64(uint64_t __value) ZTD_CXX_NOEXCEPT_I_;
 #endif // 64 bits
 #endif
 

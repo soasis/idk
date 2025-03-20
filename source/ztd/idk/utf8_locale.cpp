@@ -39,7 +39,7 @@
 #include <stdbool.h>
 #endif
 
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztd_idk_attempt_utf8_locale(void) {
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE) ZTD_USE(ZTD_IDK_API_LINKAGE) bool ztd_idk_attempt_utf8_locale(void) {
 	typedef struct category_locale_attempt {
 		int category;
 		const char* specifier;

@@ -35,45 +35,58 @@
 
 #include <ztd/idk/size.hpp>
 
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_encoding_name_equal(
-     const char* __left_encoding_name, const char* __right_encoding_name) ZTD_NOEXCEPT_IF_CXX_I_ {
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+bool ztdc_is_encoding_name_equal(const char* __left_encoding_name, const char* __right_encoding_name)
+     ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	return ::ztd::is_encoding_name_equal(__left_encoding_name, __right_encoding_name);
 }
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_encoding_name_equal_n(size_t __left_encoding_name_size,
-     const char* __left_encoding_name, size_t __right_encoding_name_size,
-     const char* __right_encoding_name) ZTD_NOEXCEPT_IF_CXX_I_ {
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+bool ztdc_is_encoding_name_equal_n(size_t __left_encoding_name_size, const char* __left_encoding_name,
+     size_t __right_encoding_name_size, const char* __right_encoding_name) ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	return ::ztd::is_encoding_name_equal(
 	     { __left_encoding_name, __left_encoding_name_size }, { __right_encoding_name, __right_encoding_name_size });
 }
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_encoding_name_equal_c8(
-     const ztd_char8_t* __left_encoding_name, const ztd_char8_t* __right_encoding_name) ZTD_NOEXCEPT_IF_CXX_I_ {
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+bool ztdc_is_encoding_name_equal_c8(const ztd_char8_t* __left_encoding_name, const ztd_char8_t* __right_encoding_name)
+     ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	return ::ztd::is_encoding_name_equal(__left_encoding_name, __right_encoding_name);
 }
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_encoding_name_equal_c8n(size_t __left_encoding_name_size,
-     const ztd_char8_t* __left_encoding_name, size_t __right_encoding_name_size,
-     const ztd_char8_t* __right_encoding_name) ZTD_NOEXCEPT_IF_CXX_I_ {
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+bool ztdc_is_encoding_name_equal_c8n(size_t __left_encoding_name_size, const ztd_char8_t* __left_encoding_name,
+     size_t __right_encoding_name_size, const ztd_char8_t* __right_encoding_name) ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	return ::ztd::is_encoding_name_equal(
 	     { __left_encoding_name, __left_encoding_name_size }, { __right_encoding_name, __right_encoding_name_size });
 }
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_encoding_name_equal_c8n_c8(
-     size_t __left_encoding_name_size, const ztd_char8_t* __left_encoding_name,
-     const ztd_char8_t* __right_encoding_name) ZTD_NOEXCEPT_IF_CXX_I_ {
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+bool ztdc_is_encoding_name_equal_c8n_c8(size_t __left_encoding_name_size, const ztd_char8_t* __left_encoding_name,
+     const ztd_char8_t* __right_encoding_name) ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	return ::ztd::is_encoding_name_equal({ __left_encoding_name, __left_encoding_name_size },
 	     { __right_encoding_name, ztdc_c_string_ptr_size_c8(__right_encoding_name) });
 }
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_unicode_encoding_name(
-     const char* __encoding_name) ZTD_NOEXCEPT_IF_CXX_I_ {
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+bool ztdc_is_unicode_encoding_name(const char* __encoding_name) ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	return ::ztd::is_unicode_encoding_name(__encoding_name);
 }
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_unicode_encoding_name_c8(
-     const ztd_char8_t* __encoding_name) ZTD_NOEXCEPT_IF_CXX_I_ {
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+bool ztdc_is_unicode_encoding_name_c8(const ztd_char8_t* __encoding_name) ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	return ::ztd::is_unicode_encoding_name(__encoding_name);
 }
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_unicode_encoding_name_n(
-     size_t __encoding_name_size, const char* __encoding_name) ZTD_NOEXCEPT_IF_CXX_I_ {
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+bool ztdc_is_unicode_encoding_name_n(size_t __encoding_name_size, const char* __encoding_name)
+     ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	return ::ztd::is_unicode_encoding_name({ __encoding_name, __encoding_name_size });
 }
-ZTD_C_LANGUAGE_LINKAGE_I_ ZTD_IDK_API_LINKAGE_I_ bool ztdc_is_unicode_encoding_name_c8n(
-     size_t __encoding_name_size, const ztd_char8_t* __encoding_name) ZTD_NOEXCEPT_IF_CXX_I_ {
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+bool ztdc_is_unicode_encoding_name_c8n(size_t __encoding_name_size, const ztd_char8_t* __encoding_name)
+     ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	return ::ztd::is_unicode_encoding_name({ __encoding_name, __encoding_name_size });
 }

@@ -41,18 +41,18 @@
 
 // clang-format off
 #include <clocale>
-#if ZTD_IS_ON(ZTD_LANGINFO_H)
+#if ZTD_IS_ON(ZTD_HEADER_LANG_INFO_H)
 	extern "C" {
 		#include <langinfo.h>
 	}
-#elif ZTD_IS_ON(ZTD_NL_LANGINFO_H)
+#elif ZTD_IS_ON(ZTD_HEADER_NL_LANGINFO_H)
 	// IBM-specific??
 	extern "C" {
 		#include <nl_langinfo.h>
 	}
 #endif
 
-#if ZTD_IS_ON(ZTD_PLATFORM_POSIX) && ZTD_IS_ON(ZTD_DLFCN_H)
+#if ZTD_IS_ON(ZTD_PLATFORM_POSIX) && ZTD_IS_ON(ZTD_HEADER_DLFCN_H)
 	#include <dlfcn.h>
 #endif
 // clang-format on
