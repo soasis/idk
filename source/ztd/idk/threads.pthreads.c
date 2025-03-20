@@ -33,12 +33,12 @@
 #if ZTD_IS_ON(ZTD_PLATFORM_PTHREADS)
 
 #include <ztd/idk/threads.h>
-
-#include <ztd/idk/detail/threads.pthreads.implementation.h>
-
 #include <ztd/idk/static_assert.h>
 #include <ztd/idk/null.h>
 #include <ztd/idk/size.h>
+
+#include <ztd/idk/detail/threads.pthreads.implementation.h>
+
 
 #include <pthread.h>
 #if ZTD_IS_ON(ZTD_HEADER_PTHREAD_NP_H)
@@ -48,6 +48,8 @@
 #if ZTD_IS_ON(ZTD_HEADER_SCHED_H)
 #include <sched.h>
 #endif
+
+#if ZTD_IS_OFF(ZTD_HEADER_THREADS_H)
 
 #if ZTD_IS_ON(ZTD_CXX)
 #include <cstdlib>
@@ -393,3 +395,5 @@ int ztdc_thrd_create_attrs(
 	return thrd_success;
 #endif
 }
+
+#endif

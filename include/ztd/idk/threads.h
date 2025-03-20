@@ -37,6 +37,8 @@
 
 #include <ztd/idk/charN_t.h>
 
+#include <ztd/idk/detail/threads.attr.h>
+
 #if ZTD_IS_ON(ZTD_HEADER_THREADS_H)
 #if ZTD_IS_ON(ZTD_CXX)
 #include <cthreads>
@@ -50,5 +52,10 @@
 #else
 #error "Unknown platform."
 #endif
+
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+int ztdc_thrd_create_attrs(
+     thrd_t* __thr, thrd_start_t __func, void* __arg, size_t __attrs_size, ztdc_thrd_attr_kind** __attrs);
 
 #endif

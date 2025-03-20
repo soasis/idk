@@ -32,4 +32,14 @@
 
 #if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 
+#include <ztd/idk/threads.h>
+
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+int ztdc_thrd_create_attrs(
+     thrd_t* __thr, thrd_start_t __func, void* __arg, size_t __attrs_size, ztdc_thrd_attr_kind** __attrs) {
+	// oop; needa implement
+	return thrd_error;
+}
+
 #endif
