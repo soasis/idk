@@ -74,7 +74,7 @@
 #endif
 
 typedef struct __ztdc_pthread_trampoline_t {
-	thrd_start_t* __func;
+	thrd_start_t __func;
 	void* __func_arg;
 #if ZTD_IS_ON(ZTD_IDK_THREADS_NAME_SET_INSIDE)
 	bool __name_set;
@@ -98,8 +98,8 @@ inline static void __ztdc_pthread_prepare_name_trampoline(pthread_attr_t* __impl
 }
 
 inline static void* __ztdc_pthread_trampoline(void* __userdata) {
-	thrd_start_t* __func = NULL;
-	void* __func_arg     = NULL;
+	thrd_start_t __func = NULL;
+	void* __func_arg    = NULL;
 	{
 		__ztdc_pthread_trampoline_t* __trampoline_userdata = (__ztdc_pthread_trampoline_t*)__userdata;
 		__func                                             = __trampoline_userdata->__func;

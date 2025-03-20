@@ -47,7 +47,8 @@
 
 typedef pthread_t thrd_t;
 
-typedef int(thrd_start_t)(void*);
+typedef int(__thrd_start_t)(void*);
+typedef __thrd_start_t* thrd_start_t;
 
 typedef enum __mtx_type_t {
 	mtx_plain     = 0,
