@@ -147,7 +147,7 @@ inline static void* __ztdc_pthread_trampoline(void* __userdata) {
 
 ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
 ZTD_USE(ZTD_IDK_API_INTERNAL_LINKAGE)
-__thrd_error_code __ztdc_to_thread_error(int __code) {
+int __ztdc_to_thread_error(int __code) {
 	switch (__code) {
 	case 0:
 		return thrd_success;

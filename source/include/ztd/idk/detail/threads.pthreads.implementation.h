@@ -35,10 +35,8 @@
 
 #include <ztd/idk/version.h>
 
-#include <ztd/idk/threads.h>
-
 ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
 ZTD_USE(ZTD_IDK_API_INTERNAL_LINKAGE)
-__thrd_error_code __ztdc_to_thread_error(int __code);
+int __ztdc_to_thread_error(int __code);
 
 #endif
