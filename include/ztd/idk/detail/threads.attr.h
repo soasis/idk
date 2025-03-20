@@ -41,6 +41,7 @@
 #include <cstdint>
 #else
 #include <stdint.h>
+#include <stdbool.h>
 #endif
 
 typedef enum ztdc_thrd_attr_kind {

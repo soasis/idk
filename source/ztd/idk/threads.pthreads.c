@@ -207,13 +207,13 @@ int thrd_equal(thrd_t __left, thrd_t __right) {
 
 ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
 ZTD_USE(ZTD_IDK_API_LINKAGE)
-thrd_t thrd_current() {
+thrd_t thrd_current(void) {
 	return (thrd_t)pthread_self();
 }
 
 ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
 ZTD_USE(ZTD_IDK_API_LINKAGE)
-void thrd_yield() {
+void thrd_yield(void) {
 #if ZTD_IS_ON(ZTD_HEADER_SCHED_H)
 	// it's implementation-defiend if it yields anyways:
 	// not really our problem if the scehduler/OS doesn't want its time slice back.
@@ -248,7 +248,9 @@ int ztdc_thrd_create_attrs(
 #endif
 	__ztdc_pthread_trampoline_t* __trampoline_userdata
 	     = (__ztdc_pthread_trampoline_t*)malloc(sizeof(__ztdc_pthread_trampoline_t));
-	pthread_attr_t __impl_attrs = { 0 };
+	__trampoline_userdata->__func     = __func;
+	__trampoline_userdata->__func_arg = __func_arg;
+	pthread_attr_t __impl_attrs       = { 0 };
 	if (pthread_attr_init(&__impl_attrs) != 0) {
 		return thrd_error;
 	}
@@ -378,22 +380,19 @@ int ztdc_thrd_create_attrs(
 	}
 #if ZTD_IS_ON(ZTD_HEADER_THREADS_H)
 	pthread_t __raw_thr = { 0 };
-	int __result        = pthread_create(&__raw_thr, &__impl_attrs, __ztdc_pthread_trampoline, arg);
+	int __result        = pthread_create(&__raw_thr, &__impl_attrs, __ztdc_pthread_trampoline, __trampoline_userdata);
 	if (__result == 0) {
 		*__thr = (thrd_t)__raw_thr;
 	}
-	return __result ? thrd_success : thrd_error;
 #else
-	__trampoline_userdata->__func     = __func;
-	__trampoline_userdata->__func_arg = __func_arg;
-	int __res      = pthread_create(__thr, &__impl_attrs, __ztdc_pthread_trampoline, __trampoline_userdata);
+	int __result = pthread_create(__thr, &__impl_attrs, __ztdc_pthread_trampoline, __trampoline_userdata);
+#endif
 	int __attr_res = pthread_attr_destroy(&__impl_attrs);
 	(void)__attr_res;
-	if (__res != 0) {
-		return __ztdc_to_thread_error(__res);
+	if (__result != 0) {
+		return __ztdc_to_thread_error(__result);
 	}
 	return thrd_success;
-#endif
 }
 
 #endif

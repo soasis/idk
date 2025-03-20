@@ -90,11 +90,11 @@ int thrd_equal(thrd_t __left, thrd_t __right);
 
 ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
 ZTD_USE(ZTD_IDK_API_LINKAGE)
-thrd_t thrd_current();
+thrd_t thrd_current(void);
 
 ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
 ZTD_USE(ZTD_IDK_API_LINKAGE)
-void thrd_yield();
+void thrd_yield(void);
 
 ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
 ZTD_USE(ZTD_IDK_API_LINKAGE)
