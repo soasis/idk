@@ -49,8 +49,6 @@
 #include <sched.h>
 #endif
 
-#if ZTD_IS_OFF(ZTD_HEADER_THREADS_H)
-
 #if ZTD_IS_ON(ZTD_CXX)
 #include <cstdlib>
 #include <cstddef>
@@ -167,6 +165,8 @@ __thrd_error_code __ztdc_to_thread_error(int __code) {
 	}
 }
 
+
+#if ZTD_IS_OFF(ZTD_HEADER_THREADS_H)
 
 ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
 ZTD_USE(ZTD_IDK_API_LINKAGE)
