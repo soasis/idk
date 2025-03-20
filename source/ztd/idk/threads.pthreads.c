@@ -82,14 +82,18 @@ typedef struct __ztdc_pthread_trampoline_t {
 #endif
 } __ztdc_pthread_trampoline_t;
 
-inline static void __ztdc_pthread_prepare_name_trampoline(
+inline static void __ztdc_pthread_prepare_name_trampoline(pthread_attr_t* __impl_attrs,
      __ztdc_pthread_trampoline_t* __trampoline_userdata, size_t __name_size, const void* __name) {
 #if ZTD_IS_ON(ZTD_IDK_THREADS_NAME_SET_INSIDE)
+	(void)__impl_attrs;
 	const size_t __trampoline_name_size = sizeof(__trampoline_userdata->__name) - 1;
 	const size_t __copy_size            = __trampoline_name_size < __name_size ? __trampoline_name_size : __name_size;
 	memcpy(__trampoline_userdata->__name, __name, __copy_size);
 	__trampoline_userdata->__name[__copy_size] = '\0'; // ensure the necessary null termination
 	__trampoline_userdata->__name_set          = true;
+#else
+	// we're gonna be using the IBM stuff here, then
+	pthread_attr_setname_np(__impl_attrs, (const char*)__name);
 #endif
 }
 
@@ -110,15 +114,19 @@ inline static void* __ztdc_pthread_trampoline(void* __userdata) {
 			// In some parts of pthread you can create a thread but in the "stopped" mode;
 			// you can "start" it up against later. But this isn't portable. Unfortunately.
 			// So we set it in here, too.
-			// Only on IBM-ish systems can you set the name ahead-of-time with `attr_setname_np`.
+			// Only on IBM-ish systems can you set the name ahead-of-time with `attr_setname_np`
+			// also I am too lazy to create a thread in "stopped" mode, then set up the name while I
+			// still have thrd_t, and then start it up once it's set. It would save on the malloc(...) for
+			// the __name array...
 			pthread_t __self_thread = pthread_self();
 #if ZTD_IS_ON(ZTD_PLATFORM_NETBSD)
 			pthread_setname_np(__self_thread, __trampoline_userdata->__name, 0); // name + void* arg -- huh??
 #elif ZTD_IS_ON(ZTD_PLATFORM_FREEBSD) || ZTD_IS_ON(ZTD_PLATFORM_OPENBSD)
+			// same as most other *nix but different spelling
 			pthread_set_name_np(__self_thread, __trampoline_userdata->__name);
 #else
 			// everyone else is mildly normal about this.
-			pthread_set_namenp(__self_thread, __trampoline_userdata->__name);
+			pthread_setname_np(__self_thread, __trampoline_userdata->__name);
 #endif
 #endif
 		}
@@ -223,6 +231,7 @@ void thrd_yield() {
 ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
 ZTD_USE(ZTD_IDK_API_LINKAGE)
 int thrd_sleep(const struct timespec* __duration, struct timespec* __remaining) {
+	// this is the only funtion where
 	return nanosleep(__duration, __remaining);
 }
 
@@ -248,14 +257,16 @@ int ztdc_thrd_create_attrs(
 			ztdc_thrd_attr_name* __attr = (ztdc_thrd_attr_name*)__attr_kind;
 			if (__attr->name) {
 				const size_t __name_size = ztdc_c_string_ptr_size(__attr->name);
-				__ztdc_pthread_prepare_name_trampoline(__trampoline_userdata, __name_size, __attr->name);
+				__ztdc_pthread_prepare_name_trampoline(
+				     &__impl_attrs, __trampoline_userdata, __name_size, __attr->name);
 			}
 		} break;
 		case ztdc_thrd_attr_kind_name_sized: {
 			ztdc_thrd_attr_name_sized* __attr = (ztdc_thrd_attr_name_sized*)__attr_kind;
 			if (__attr->name) {
 				const size_t __name_size = __attr->size;
-				__ztdc_pthread_prepare_name_trampoline(__trampoline_userdata, __name_size, __attr->name);
+				__ztdc_pthread_prepare_name_trampoline(
+				     &__impl_attrs, __trampoline_userdata, __name_size, __attr->name);
 			}
 		} break;
 		case ztdc_thrd_attr_kind_mcname: {
@@ -263,7 +274,8 @@ int ztdc_thrd_create_attrs(
 			if (__attr->name) {
 				const size_t __name_size = ztdc_c_string_ptr_size(__attr->name);
 				// TODO: convert from execution character set to UTF-8
-				__ztdc_pthread_prepare_name_trampoline(__trampoline_userdata, __name_size, __attr->name);
+				__ztdc_pthread_prepare_name_trampoline(
+				     &__impl_attrs, __trampoline_userdata, __name_size, __attr->name);
 			}
 		} break;
 		case ztdc_thrd_attr_kind_mcname_sized: {
@@ -271,7 +283,8 @@ int ztdc_thrd_create_attrs(
 			if (__attr->name) {
 				const size_t __name_size = __attr->size;
 				// TODO: convert from execution character set to UTF-8
-				__ztdc_pthread_prepare_name_trampoline(__trampoline_userdata, __name_size, __attr->name);
+				__ztdc_pthread_prepare_name_trampoline(
+				     &__impl_attrs, __trampoline_userdata, __name_size, __attr->name);
 			}
 		} break;
 		case ztdc_thrd_attr_kind_mwcname: {
@@ -279,7 +292,8 @@ int ztdc_thrd_create_attrs(
 			if (__attr->name) {
 				const size_t __name_size = ztdc_c_string_ptr_size(__attr->name);
 				// TODO: convert from wide execution character set to UTF-8
-				__ztdc_pthread_prepare_name_trampoline(__trampoline_userdata, __name_size, __attr->name);
+				__ztdc_pthread_prepare_name_trampoline(
+				     &__impl_attrs, __trampoline_userdata, __name_size, __attr->name);
 			}
 		} break;
 		case ztdc_thrd_attr_kind_mwcname_sized: {
@@ -287,7 +301,8 @@ int ztdc_thrd_create_attrs(
 			if (__attr->name) {
 				const size_t __name_size = __attr->size;
 				// TODO: convert from wide execution character set to UTF-8
-				__ztdc_pthread_prepare_name_trampoline(__trampoline_userdata, __name_size, __attr->name);
+				__ztdc_pthread_prepare_name_trampoline(
+				     &__impl_attrs, __trampoline_userdata, __name_size, __attr->name);
 			}
 		} break;
 		case ztdc_thrd_attr_kind_c8name: {
@@ -295,14 +310,16 @@ int ztdc_thrd_create_attrs(
 			if (__attr->name) {
 				const size_t __name_size = ztdc_c_string_ptr_size(__attr->name);
 				// TODO: convert from wide execution character set to UTF-8
-				__ztdc_pthread_prepare_name_trampoline(__trampoline_userdata, __name_size, __attr->name);
+				__ztdc_pthread_prepare_name_trampoline(
+				     &__impl_attrs, __trampoline_userdata, __name_size, __attr->name);
 			}
 		} break;
 		case ztdc_thrd_attr_kind_c8name_sized: {
 			ztdc_thrd_attr_c8name_sized* __attr = (ztdc_thrd_attr_c8name_sized*)__attr_kind;
 			if (__attr->name) {
 				const size_t __name_size = __attr->size;
-				__ztdc_pthread_prepare_name_trampoline(__trampoline_userdata, __name_size, __attr->name);
+				__ztdc_pthread_prepare_name_trampoline(
+				     &__impl_attrs, __trampoline_userdata, __name_size, __attr->name);
 			}
 		} break;
 		case ztdc_thrd_attr_kind_c16name: {
@@ -310,7 +327,8 @@ int ztdc_thrd_create_attrs(
 			if (__attr->name) {
 				const size_t __name_size = ztdc_c_string_ptr_size(__attr->name);
 				// TODO: convert from UTF-16 to UTF-8
-				__ztdc_pthread_prepare_name_trampoline(__trampoline_userdata, __name_size, __attr->name);
+				__ztdc_pthread_prepare_name_trampoline(
+				     &__impl_attrs, __trampoline_userdata, __name_size, __attr->name);
 			}
 		} break;
 		case ztdc_thrd_attr_kind_c16name_sized: {
@@ -318,23 +336,26 @@ int ztdc_thrd_create_attrs(
 			if (__attr->name) {
 				const size_t __name_size = __attr->size;
 				// TODO: convert from UTF-16 to UTF-8
-				__ztdc_pthread_prepare_name_trampoline(__trampoline_userdata, __name_size, __attr->name);
+				__ztdc_pthread_prepare_name_trampoline(
+				     &__impl_attrs, __trampoline_userdata, __name_size, __attr->name);
 			}
 		} break;
 		case ztdc_thrd_attr_kind_c32name: {
 			ztdc_thrd_attr_c32name* __attr = (ztdc_thrd_attr_c32name*)__attr_kind;
 			if (__attr->name) {
 				const size_t __name_size = ztdc_c_string_ptr_size(__attr->name);
-				// TODO: convert from UTF-43 to UTF-8
-				__ztdc_pthread_prepare_name_trampoline(__trampoline_userdata, __name_size, __attr->name);
+				// TODO: convert from UTF-32 to UTF-8
+				__ztdc_pthread_prepare_name_trampoline(
+				     &__impl_attrs, __trampoline_userdata, __name_size, __attr->name);
 			}
 		} break;
 		case ztdc_thrd_attr_kind_c32name_sized: {
 			ztdc_thrd_attr_c32name_sized* __attr = (ztdc_thrd_attr_c32name_sized*)__attr_kind;
 			if (__attr->name) {
 				const size_t __name_size = __attr->size;
-				// TODO: convert from UTF-43 to UTF-8
-				__ztdc_pthread_prepare_name_trampoline(__trampoline_userdata, __name_size, __attr->name);
+				// TODO: convert from UTF-32 to UTF-8
+				__ztdc_pthread_prepare_name_trampoline(
+				     &__impl_attrs, __trampoline_userdata, __name_size, __attr->name);
 			}
 		} break;
 		case ztdc_thrd_attr_kind_stack_size: {
