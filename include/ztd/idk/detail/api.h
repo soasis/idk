@@ -97,16 +97,16 @@
 				// Building the library
 				#if ZTD_IS_ON(ZTD_COMPILER_GCC)
 					// Using GCC
-					#define ZTD_IDK_API_INTERNAL_LINKAGE_I_ __attribute__((dllexport))
+					#define ZTD_IDK_API_INTERNAL_LINKAGE_I_ __attribute__((visibility("internal")))
 				#else
 					// Using Clang, MSVC, etc...
-					#define ZTD_IDK_API_INTERNAL_LINKAGE_I_ __declspec(dllexport)
+					#define ZTD_IDK_API_INTERNAL_LINKAGE_I_ 
 				#endif
 			#else
 				#if ZTD_IS_ON(ZTD_COMPILER_GCC)
-					#define ZTD_IDK_API_INTERNAL_LINKAGE_I_ __attribute__((dllimport))
+					#define ZTD_IDK_API_INTERNAL_LINKAGE_I_ __attribute__((visibility("internal")))
 				#else
-					#define ZTD_IDK_API_INTERNAL_LINKAGE_I_ __declspec(dllimport)
+					#define ZTD_IDK_API_INTERNAL_LINKAGE_I_ 
 				#endif
 			#endif
 		#else

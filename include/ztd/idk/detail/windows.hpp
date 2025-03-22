@@ -33,7 +33,10 @@
 #ifndef ZTD_IDK_DETAIL_WINDOWS_HPP
 #define ZTD_IDK_DETAIL_WINDOWS_HPP
 
+#include <ztd/idk/version.h>
+#if ZTD_IS_ON(ZTD_CXX)
 #include <ztd/idk/version.hpp>
+#endif
 
 #if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 
@@ -50,15 +53,20 @@
 #define WIN32_LEAN_AND_MEAN 1
 #define VC_EXTRALEAN 1
 
-#ifdef _MSC_VER
+#if ZTD_IS_ON(ZTD_COMPILER_VCXX)
+#if ZTD_IS_ON(ZTD_CXX)
 #include <cstddef>
 #include <cwchar>
 #include <locale>
+#else
+#include <stddef.h>
+#include <wchar.h>
+#endif
 #endif
 
-ZTD_EXTERN_C_OPEN_I_
+ZTD_USE(ZTD_EXTERN_C_OPEN)
 #include <Windows.h>
-ZTD_EXTERN_C_CLOSE_I_
+ZTD_USE(ZTD_EXTERN_C_CLOSE)
 #include <winapifamily.h>
 
 #include <ztd/prologue.hpp>
@@ -73,6 +81,7 @@ ZTD_EXTERN_C_CLOSE_I_
 #define ZTD_FILEAPISAREANSI_I_ ZTD_OFF
 #endif
 
+#if ZTD_IS_ON(ZTD_CXX)
 namespace ztd {
 	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
 	namespace __idk_detail { namespace __windows {
@@ -112,6 +121,8 @@ namespace ztd {
 	}} // namespace __idk_detail::__windows
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd
+
+#endif
 
 #if ZTD_IS_ON(ZTD_COMPILER_VCXX)
 #pragma pop_macro("VC_EXTRALEAN")

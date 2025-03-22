@@ -41,7 +41,7 @@
 #endif
 #if ZTD_IS_ON(ZTD_HEADER_CUCHAR)
 #include <cuchar>
-#elif ZTD_IS_ON(ZTD_HEADER_CUCHAR_H)
+#elif ZTD_IS_ON(ZTD_HEADER_UCHAR_H)
 ZTD_EXTERN_C_OPEN_I_
 #include <uchar.h>
 ZTD_EXTERN_C_CLOSE_I_

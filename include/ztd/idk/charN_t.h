@@ -56,7 +56,7 @@ typedef ZTD_CHAR8_T_I_ ztd_char8_t;
 		typedef char16_t ztd_char16_t;
 		typedef char32_t ztd_char32_t;
 #else
-	#if ZTD_IS_ON(ZTD_HEADER_CUCHAR_H)
+	#if ZTD_IS_ON(ZTD_HEADER_UCHAR_H)
 		#include <uchar.h>
 
 		typedef char16_t ztd_char16_t;

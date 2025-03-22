@@ -618,18 +618,18 @@
 	#define ZTD_CHAR8_T_I_ unsigned char
 #endif // char8_t defined by the user
 
-#if defined(ZTD_HEADER_CUCHAR_H)
-	#if (ZTD_HEADER_CUCHAR_H != 0)
-		#define ZTD_HEADER_CUCHAR_H_I_ ZTD_ON
+#if defined(ZTD_HEADER_UCHAR_H)
+	#if (ZTD_HEADER_UCHAR_H != 0)
+		#define ZTD_HEADER_UCHAR_H_I_ ZTD_ON
 	#else
-		#define ZTD_HEADER_CUCHAR_H_I_ ZTD_OFF
+		#define ZTD_HEADER_UCHAR_H_I_ ZTD_OFF
 	#endif
 #elif ZTD_IS_OFF(ZTD_PLATFORM_MAC_OS)
-	#define ZTD_HEADER_CUCHAR_H_I_ ZTD_DEFAULT_ON
+	#define ZTD_HEADER_UCHAR_H_I_ ZTD_DEFAULT_ON
 #elif ZTD_HAS_INCLUDE_I_(<uchar.h>)
-	#define ZTD_HEADER_CUCHAR_H_I_ ZTD_DEFAULT_ON
+	#define ZTD_HEADER_UCHAR_H_I_ ZTD_DEFAULT_ON
 #else
-	#define ZTD_HEADER_CUCHAR_H_I_ ZTD_DEFAULT_OFF
+	#define ZTD_HEADER_UCHAR_H_I_ ZTD_DEFAULT_OFF
 #endif
 
 #if defined(ZTD_HEADER_CUCHAR)
@@ -734,6 +734,18 @@
 	#define ZTD_HEADER_THREADS_H_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_HEADER_THREADS_H_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_HEADER_XTHREADS_H)
+	#if (ZTD_THREASD_H != 0)
+		#define ZTD_HEADER_XTHREADS_H_I_ ZTD_ON
+	#else
+		#define ZTD_HEADER_XTHREADS_H_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<xthreads.h>)
+	#define ZTD_HEADER_XTHREADS_H_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_HEADER_XTHREADS_H_I_ ZTD_DEFAULT_OFF
 #endif
 
 
@@ -946,7 +958,7 @@
 	#else
 		#define ZTD_STD_C_THREADS_I_ ZTD_OFF
 	#endif
-#elif ZTD_IS_ON(ZTD_HEADER_THREADS_H) && (!defined(__STDC_NO_THREADS__) || (__STDC_NO_THREADS__ != 0))
+#elif ZTD_IS_ON(ZTD_HEADER_THREADS_H) && !(defined(__STDC_NO_THREADS__) && (__STDC_NO_THREADS__ != 0))
 	#define ZTD_STD_C_THREADS_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_STD_C_THREADS_I_ ZTD_DEFAULT_OFF

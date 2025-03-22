@@ -30,32 +30,11 @@
 
 #pragma once
 
-#ifndef ZTD_IDK_THREADS_H
-#define ZTD_IDK_THREADS_H
+#ifndef ZTD_IDK_DETAIL_WINDOWS_H
+#define ZTD_IDK_DETAIL_WINDOWS_H
 
 #include <ztd/idk/version.h>
 
-#include <ztd/idk/charN_t.h>
-
-#include <ztd/idk/detail/threads.attr.h>
-
-#if ZTD_IS_ON(ZTD_HEADER_THREADS_H)
-#if ZTD_IS_ON(ZTD_CXX)
-#include <cthreads>
-#else
-#include <threads.h>
-#endif
-#elif ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
-#include <ztd/idk/detail/threads.windows.h>
-#elif ZTD_IS_ON(ZTD_PLATFORM_PTHREADS)
-#include <ztd/idk/detail/threads.pthreads.h>
-#else
-#error "Unknown platform."
-#endif
-
-ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
-ZTD_USE(ZTD_IDK_API_LINKAGE)
-int ztdc_thrd_create_attrs(
-     thrd_t* __thr, thrd_start_t __func, void* __arg, size_t __attrs_size, ztdc_thrd_attr_kind** __attrs);
+#include <ztd/idk/windows.hpp>
 
 #endif
