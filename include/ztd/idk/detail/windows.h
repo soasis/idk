@@ -35,6 +35,6 @@
 
 #include <ztd/idk/version.h>
 
-#include <ztd/idk/windows.hpp>
+#include <ztd/idk/detail/windows.hpp>
 
 #endif
