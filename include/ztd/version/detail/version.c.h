@@ -723,7 +723,6 @@
 	#define ZTD_HEADER_SCHED_H_I_ ZTD_DEFAULT_OFF
 #endif
 
-
 #if defined(ZTD_HEADER_THREADS_H)
 	#if (ZTD_THREASD_H != 0)
 		#define ZTD_HEADER_THREADS_H_I_ ZTD_ON
@@ -734,6 +733,19 @@
 	#define ZTD_HEADER_THREADS_H_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_HEADER_THREADS_H_I_ ZTD_DEFAULT_OFF
+#endif
+
+
+#if defined(ZTD_HEADER_CTHREADS)
+	#if (ZTD_THREASD_H != 0)
+		#define ZTD_HEADER_CTHREADS_I_ ZTD_ON
+	#else
+		#define ZTD_HEADER_CTHREADS_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<cthreads>)
+	#define ZTD_HEADER_CTHREADS_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_HEADER_CTHREADS_I_ ZTD_DEFAULT_OFF
 #endif
 
 #if defined(ZTD_HEADER_XTHREADS_H)
