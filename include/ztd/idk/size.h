@@ -70,8 +70,8 @@ inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_c(const char*
 
 ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
 ZTD_USE(ZTD_IDK_API_LINKAGE)
-inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t
-     ztdc_c_string_ptr_size_uc(const unsigned char* __ptr) ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
+inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_uc(const unsigned char* __ptr)
+     ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	size_t __ptr_size = 0;
 	if (__ptr) {
 		for (; *__ptr; ++__ptr) {
@@ -83,7 +83,8 @@ inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t
 
 ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
 ZTD_USE(ZTD_IDK_API_LINKAGE)
-inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_sc(const signed char* __ptr) ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
+inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_sc(const signed char* __ptr)
+     ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	size_t __ptr_size = 0;
 	if (__ptr) {
 		for (; *__ptr; ++__ptr) {
@@ -95,7 +96,8 @@ inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_sc(const sign
 
 ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
 ZTD_USE(ZTD_IDK_API_LINKAGE)
-inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_wc(const ztd_wchar_t* __ptr) ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
+inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_wc(const ztd_wchar_t* __ptr)
+     ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	size_t __ptr_size = 0;
 	if (__ptr) {
 		for (; *__ptr; ++__ptr) {
@@ -107,7 +109,8 @@ inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_wc(const ztd_
 
 ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
 ZTD_USE(ZTD_IDK_API_LINKAGE)
-inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_c8(const ztd_char8_t* __ptr) ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
+inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_c8(const ztd_char8_t* __ptr)
+     ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	size_t __ptr_size = 0;
 	if (__ptr) {
 		for (; *__ptr; ++__ptr) {
@@ -119,8 +122,8 @@ inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_c8(const ztd_
 
 ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
 ZTD_USE(ZTD_IDK_API_LINKAGE)
-inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t
-     ztdc_c_string_ptr_size_c16(const ztd_char16_t* __ptr) ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
+inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_c16(const ztd_char16_t* __ptr)
+     ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	size_t __ptr_size = 0;
 	if (__ptr) {
 		for (; *__ptr; ++__ptr) {
@@ -132,11 +135,101 @@ inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t
 
 ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
 ZTD_USE(ZTD_IDK_API_LINKAGE)
-inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t
-     ztdc_c_string_ptr_size_c32(const ztd_char32_t* __ptr) ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
+inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_c32(const ztd_char32_t* __ptr)
+     ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	size_t __ptr_size = 0;
 	if (__ptr) {
 		for (; *__ptr; ++__ptr) {
+			__ptr_size += 1;
+		}
+	}
+	return __ptr_size;
+}
+
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_limit_c(size_t __limit, const char* __ptr) {
+	size_t __ptr_size = 0;
+	if (__ptr) {
+		for (; *__ptr && __limit-- > 0; ++__ptr) {
+			__ptr_size += 1;
+		}
+	}
+	return __ptr_size;
+}
+
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_limit_uc(size_t __limit, const unsigned char* __ptr)
+     ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
+	size_t __ptr_size = 0;
+	if (__ptr) {
+		for (; *__ptr && __limit-- > 0; ++__ptr) {
+			__ptr_size += 1;
+		}
+	}
+	return __ptr_size;
+}
+
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_limit_sc(size_t __limit, const signed char* __ptr)
+     ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
+	size_t __ptr_size = 0;
+	if (__ptr) {
+		for (; *__ptr && __limit-- > 0; ++__ptr) {
+			__ptr_size += 1;
+		}
+	}
+	return __ptr_size;
+}
+
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_limit_wc(size_t __limit, const ztd_wchar_t* __ptr)
+     ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
+	size_t __ptr_size = 0;
+	if (__ptr) {
+		for (; *__ptr && __limit-- > 0; ++__ptr) {
+			__ptr_size += 1;
+		}
+	}
+	return __ptr_size;
+}
+
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_limit_c8(size_t __limit, const ztd_char8_t* __ptr)
+     ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
+	size_t __ptr_size = 0;
+	if (__ptr) {
+		for (; *__ptr && __limit-- > 0; ++__ptr) {
+			__ptr_size += 1;
+		}
+	}
+	return __ptr_size;
+}
+
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_limit_c16(size_t __limit, const ztd_char16_t* __ptr)
+     ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
+	size_t __ptr_size = 0;
+	if (__ptr) {
+		for (; *__ptr && __limit-- > 0; ++__ptr) {
+			__ptr_size += 1;
+		}
+	}
+	return __ptr_size;
+}
+
+ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+ZTD_USE(ZTD_IDK_API_LINKAGE)
+inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_limit_c32(size_t __limit, const ztd_char32_t* __ptr)
+     ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
+	size_t __ptr_size = 0;
+	if (__ptr) {
+		for (; *__ptr && __limit-- > 0; ++__ptr) {
 			__ptr_size += 1;
 		}
 	}
@@ -161,6 +254,35 @@ inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t
 	_Generic(*_PTR, signed char: ztdc_c_string_ptr_size_sc, default: ztdc_c_detail_string_ptr_size_5(_PTR))
 
 #define ztdc_c_string_ptr_size(_PTR) ztdc_c_detail_string_ptr_size_6(_PTR)(_PTR)
+
+#define ztdc_c_detail_string_ptr_size_limit_0(_LIM, _PTR) \
+	_Generic(*_PTR, char: ztdc_c_string_ptr_size_limit_c, default: ztdc_uneval_void)
+#define ztdc_c_detail_string_ptr_size_limit_1(_LIM, _PTR) \
+	_Generic(*_PTR,                                      \
+	     unsigned char: ztdc_c_string_ptr_size_limit_uc, \
+	     default: ztdc_c_detail_string_ptr_size_limit_0(_LIM, _PTR))
+#define ztdc_c_detail_string_ptr_size_limit_2(_LIM, _PTR) \
+	_Generic(*_PTR,                                      \
+	     wchar_t: ztdc_c_string_ptr_size_limit_wc,       \
+	     default: ztdc_c_detail_string_ptr_size_limit_1(_LIM, _PTR))
+#define ztdc_c_detail_string_ptr_size_limit_3(_LIM, _PTR) \
+	_Generic(*_PTR,                                      \
+	     ztd_char8_t: ztdc_c_string_ptr_size_limit_c8,   \
+	     default: ztdc_c_detail_string_ptr_size_limit_2(_LIM, _PTR))
+#define ztdc_c_detail_string_ptr_size_limit_4(_LIM, _PTR) \
+	_Generic(*_PTR,                                      \
+	     ztd_char16_t: ztdc_c_string_ptr_size_limit_c16, \
+	     default: ztdc_c_detail_string_ptr_size_limit_3(_LIM, _PTR))
+#define ztdc_c_detail_string_ptr_size_limit_5(_LIM, _PTR) \
+	_Generic(*_PTR,                                      \
+	     ztd_char32_t: ztdc_c_string_ptr_size_limit_c32, \
+	     default: ztdc_c_detail_string_ptr_size_limit_4(_LIM, _PTR))
+#define ztdc_c_detail_string_ptr_size_limit_6(_LIM, _PTR) \
+	_Generic(*_PTR,                                      \
+	     signed char: ztdc_c_string_ptr_size_limit_sc,   \
+	     default: ztdc_c_detail_string_ptr_size_limit_5(_LIM, _PTR))
+
+#define ztdc_c_string_ptr_size_limit(_LIM, _PTR) ztdc_c_detail_string_ptr_size_limit_6(_LIM, _PTR)(_LIM, _PTR)
 
 #else
 
