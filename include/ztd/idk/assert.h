@@ -39,6 +39,7 @@
 #include <cassert>
 #else
 #include <assert.h>
+#include <stdbool.h>
 #endif
 
 // clang-format off

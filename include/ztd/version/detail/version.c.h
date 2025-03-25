@@ -748,6 +748,31 @@
 	#define ZTD_HEADER_CTHREADS_I_ ZTD_DEFAULT_OFF
 #endif
 
+#if defined(ZTD_HEADER_STDATOMIC_H)
+	#if (ZTD_THREASD_H != 0)
+		#define ZTD_HEADER_STDATOMIC_H_I_ ZTD_ON
+	#else
+		#define ZTD_HEADER_STDATOMIC_H_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<stdatomic.h>)
+	#define ZTD_HEADER_STDATOMIC_H_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_HEADER_STDATOMIC_H_I_ ZTD_DEFAULT_OFF
+#endif
+
+
+#if defined(ZTD_HEADER_CSTDATOMIC)
+	#if (ZTD_THREASD_H != 0)
+		#define ZTD_HEADER_CSTDATOMIC_I_ ZTD_ON
+	#else
+		#define ZTD_HEADER_CSTDATOMIC_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<cstdatomic>)
+	#define ZTD_HEADER_CSTDATOMIC_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_HEADER_CSTDATOMIC_I_ ZTD_DEFAULT_OFF
+#endif
+
 #if defined(ZTD_HEADER_XTHREADS_H)
 	#if (ZTD_THREASD_H != 0)
 		#define ZTD_HEADER_XTHREADS_H_I_ ZTD_ON
