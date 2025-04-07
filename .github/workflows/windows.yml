@@ -31,9 +31,6 @@ jobs:
     - name: test
       shell: vsdevenv x64 powershell {0}
       run: |
-        cd build/debug
+        cd build
         ctest --build-config Debug
-        cd ../..
-        cd build/release
         ctest --build-config Release
-        cd ../..
