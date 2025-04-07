@@ -278,7 +278,7 @@ ZTD_EXTERN_C_CLOSE_I_
 
 template <typename _Ptr>
 constexpr ::std::size_t ztdc_c_string_ptr_size(const _Ptr& __ptr) noexcept {
-	using _Ty = ::ztd::remove_cvref_t<::std::remove_pointer_t<::ztd::remove_cvref_t<_Ptr>>>;
+	using _Ty = ::ztd::remove_cvref_t<decltype(__ptr[0])>;
 	if constexpr (::std::is_same_v<_Ty, char>) {
 		return ztdc_c_string_ptr_size_c(__ptr);
 	}

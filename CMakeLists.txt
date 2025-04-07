@@ -222,6 +222,7 @@ target_link_libraries(ztd.idk
 target_compile_definitions(ztd.idk
 	PRIVATE
 		ZTD_IDK_BUILD=1
+		_GNU_SOURCE=1
 	PUBLIC
 		$<$<STREQUAL:$<TARGET_PROPERTY:ztd.idk,TYPE>,SHARED_LIBRARY>:ZTD_IDK_DLL=1>
 		${CMAKE_DL_LIBS}
