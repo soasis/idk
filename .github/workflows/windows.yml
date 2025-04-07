@@ -1,4 +1,4 @@
-name: Windows
+name: Windows (VC++ + Ninja)
 
 on: [push, pull_request]
 
@@ -14,9 +14,10 @@ jobs:
     - uses: actions/checkout@main
       with:
         submodules: recursive
-    - uses: ilammy/msvc-dev-cmd@master
+    - uses: humbletim/vsdevenv-shell@main
     
     - name: configure
+      shell: vsdevenv x64 bash {0}
       run: |
         cmake -B build/debug   "-DCMAKE_CXX_FLAGS_INIT=/Wv:18" "-DCMAKE_C_FLAGS_INIT=/Wv:18" -D ZTD_IDK_TESTS=ON -D ZTD_IDK_EXAMPLES=ON -D ZTD_IDK_GENERATE_SINGLE=ON
         cmake -B build/release "-DCMAKE_CXX_FLAGS_INIT=/Wv:18" "-DCMAKE_C_FLAGS_INIT=/Wv:18" -D ZTD_IDK_TESTS=ON -D ZTD_IDK_EXAMPLES=ON -D ZTD_IDK_GENERATE_SINGLE=ON

@@ -1,4 +1,4 @@
-name: Windows
+name: Windows (MinGW + Ninja)
 
 on: [push, pull_request]
 
