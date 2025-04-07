@@ -15,7 +15,8 @@ jobs:
       with:
         submodules: recursive
     - uses: humbletim/vsdevenv-shell@main
-    
+    - uses: seanmiddleditch/gha-setup-ninja@master
+
     - name: configure
       shell: vsdevenv x64 bash {0}
       run: |
