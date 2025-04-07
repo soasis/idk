@@ -18,17 +18,19 @@ jobs:
     - uses: seanmiddleditch/gha-setup-ninja@master
 
     - name: configure
-      shell: vsdevenv x64 bash {0}
+      shell: vsdevenv x64 powershell {0}
       run: |
         cmake -B build/debug   -G Ninja "-DCMAKE_CXX_FLAGS_INIT=/Wv:18" "-DCMAKE_C_FLAGS_INIT=/Wv:18" -D ZTD_IDK_TESTS=ON -D ZTD_IDK_EXAMPLES=ON -D ZTD_IDK_GENERATE_SINGLE=ON
         cmake -B build/release -G Ninja "-DCMAKE_CXX_FLAGS_INIT=/Wv:18" "-DCMAKE_C_FLAGS_INIT=/Wv:18" -D ZTD_IDK_TESTS=ON -D ZTD_IDK_EXAMPLES=ON -D ZTD_IDK_GENERATE_SINGLE=ON
 
     - name: build
+      shell: vsdevenv x64 powershell {0}
       run: |
         cmake --build build/debug   --config Debug
         cmake --build build/release --config Release
 
     - name: test
+      shell: vsdevenv x64 powershell {0}
       run: |
         cd build/debug
         ctest --build-config Debug
