@@ -14,7 +14,8 @@ jobs:
     - uses: actions/checkout@main
       with:
         submodules: recursive
-
+    - uses: ilammy/msvc-dev-cmd@master
+    
     - name: configure
       run: |
         cmake -B build/debug   "-DCMAKE_CXX_FLAGS_INIT=/Wv:18" "-DCMAKE_C_FLAGS_INIT=/Wv:18" -D ZTD_IDK_TESTS=ON -D ZTD_IDK_EXAMPLES=ON -D ZTD_IDK_GENERATE_SINGLE=ON
