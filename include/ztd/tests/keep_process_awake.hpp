@@ -36,10 +36,12 @@
 #include <ztd/version.hpp>
 
 #include <ztd/idk/detail/windows.hpp>
-
 #include <memory>
 #include <cstddef>
 #include <cstring>
+#if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
+#include <string>
+#endif
 
 namespace ztd { namespace tests {
 
