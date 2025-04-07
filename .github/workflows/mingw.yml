@@ -14,11 +14,12 @@ jobs:
     - uses: actions/checkout@main
       with:
         submodules: recursive
+    - uses: seanmiddleditch/gha-setup-ninja@master
 
     - name: configure
       run: |
-        cmake -B build/debug   "-DCMAKE_CXX_FLAGS_INIT=/Wv:18" "-DCMAKE_C_FLAGS_INIT=/Wv:18" -D ZTD_IDK_TESTS=ON -D ZTD_IDK_EXAMPLES=ON -D ZTD_IDK_GENERATE_SINGLE=ON
-        cmake -B build/release "-DCMAKE_CXX_FLAGS_INIT=/Wv:18" "-DCMAKE_C_FLAGS_INIT=/Wv:18" -D ZTD_IDK_TESTS=ON -D ZTD_IDK_EXAMPLES=ON -D ZTD_IDK_GENERATE_SINGLE=ON
+        cmake -B build/debug   -G Ninja -D ZTD_IDK_TESTS=ON -D ZTD_IDK_EXAMPLES=ON -D ZTD_IDK_GENERATE_SINGLE=ON
+        cmake -B build/release -G Ninja -D ZTD_IDK_TESTS=ON -D ZTD_IDK_EXAMPLES=ON -D ZTD_IDK_GENERATE_SINGLE=ON
 
     - name: build
       run: |
