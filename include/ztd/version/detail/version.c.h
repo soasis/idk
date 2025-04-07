@@ -126,21 +126,85 @@
 #endif
 
 #if defined(__GLIBCXX__)
-	#define ZTD_LIBSTDCXX_I_ ZTD_ON
+	#define ZTD_CXX_STDLIB_STDCXX_I_ ZTD_ON
 #else
-	#define ZTD_LIBSTDCXX_I_ ZTD_OFF
+	#define ZTD_CXX_STDLIB_STDCXX_I_ ZTD_OFF
 #endif
 
 #if defined(_LIBCPP_VERSION)
-	#define ZTD_LIBCXX_I_ ZTD_ON
+	#define ZTD_CXX_STDLIB_CXX_I_ ZTD_ON
 #else
-	#define ZTD_LIBCXX_I_ ZTD_OFF
+	#define ZTD_CXX_STDLIB_CXX_I_ ZTD_OFF
 #endif
 
-#if defined (_YVALS_CORE_H_) // Volatile definition; would be nice if VC++ exposed some documented macros...
-	#define ZTD_LIBVCXX_I_ ZTD_ON
+#if defined(ZTD_CXX_STDLIB_VCXX)
+	#if (ZTD_CXX_STDLIB_VCXX) != 0
+		#define ZTD_CXX_STDLIB_VCXX_I_ ZTD_ON
+	#else
+		#define ZTD_CXX_STDLIB_VCXX_I_ ZTD_OFF
+	#endif
+#elif defined (_YVALS_CORE_H_)
+// Volatile definition;
+// would be nice if VC++ exposed some documented macros...
+	#define ZTD_CXX_STDLIB_VCXX_I_ ZTD_ON
 #else
-	#define ZTD_LIBVCXX_I_ ZTD_OFF
+	#define ZTD_CXX_STDLIB_VCXX_I_ ZTD_OFF
+#endif
+
+#if defined(ZTD_C_STDLIB_VCXX)
+	#if (ZTD_C_STDLIB_VCXX) != 0
+		#define ZTD_C_STDLIB_VCXX_I_ ZTD_ON
+	#else
+		#define ZTD_C_STDLIB_VCXX_I_ ZTD_OFF
+	#endif
+#elif defined (_YVALS_CORE_H_)
+// Volatile definition;
+// would be nice if VC++ exposed some documented macros...
+	#define ZTD_C_STDLIB_VCXX_I_ ZTD_ON
+#else
+	#define ZTD_C_STDLIB_VCXX_I_ ZTD_OFF
+#endif
+
+#if defined(ZTD_C_STDLIB_GLIBC)
+	#if (ZTD_C_STDLIB_GLIBC) != 0
+		#define ZTD_C_STDLIB_GLIBC_I_ ZTD_ON
+	#else
+		#define ZTD_C_STDLIB_GLIBC_I_ ZTD_OFF
+	#endif
+#elif defined (__GLIBC__)
+// Volatile definition;
+// would be nice if VC++ exposed some documented macros...
+	#define ZTD_C_STDLIB_GLIBC_I_ ZTD_ON
+#else
+	#define ZTD_C_STDLIB_GLIBC_I_ ZTD_OFF
+#endif
+
+#if defined(ZTD_C_STDLIB_BSD)
+	#if (ZTD_C_STDLIB_BSD) != 0
+		#define ZTD_C_STDLIB_BSD_I_ ZTD_ON
+	#else
+		#define ZTD_C_STDLIB_BSD_I_ ZTD_OFF
+	#endif
+#elif defined (__BSD_VISIBLE)
+// Volatile definition;
+// would be nice if VC++ exposed some documented macros...
+	#define ZTD_C_STDLIB_BSD_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_C_STDLIB_BSD_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_C_STDLIB_MUSL)
+	#if (ZTD_C_STDLIB_MUSL) != 0
+		#define ZTD_C_STDLIB_MUSL_I_ 1
+	#else
+		#define ZTD_C_STDLIB_MUSL_I_ 0
+	#endif
+#elif ZTD_IS_OFF(ZTD_C_STDLIB_GLIBC) && ZTD_IS_OFF(ZTD_C_STDLIB_BSD) && defined (_REDIR)
+// Volatile definition;
+// would be nice if VC++ exposed some documented macros...
+	#define ZTD_C_STDLIB_MUSL_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_C_STDLIB_MUSL_I_ ZTD_DEFAULT_OFF
 #endif
 
 #if defined(ZTD_PLATFORM_WINDOWS)
@@ -640,7 +704,7 @@
 	#endif
 #elif ZTD_IS_ON(ZTD_CXX) && ZTD_HAS_INCLUDE_I_(<cuchar>)
 	#define ZTD_HEADER_CUCHAR_I_ ZTD_DEFAULT_ON
-#elif ZTD_IS_ON(ZTD_CXX) && ZTD_IS_OFF(ZTD_LIBCXX)
+#elif ZTD_IS_ON(ZTD_CXX) && ZTD_IS_OFF(ZTD_CXX_STDLIB_CXX)
 	#define ZTD_HEADER_CUCHAR_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_HEADER_CUCHAR_I_ ZTD_DEFAULT_OFF
@@ -654,7 +718,7 @@
 	#endif
 #elif ZTD_HAS_INCLUDE_I_(<wchar.h>)
 	#define ZTD_HEADER_WCHAR_H_I_ ZTD_DEFAULT_ON
-#elif ZTD_IS_OFF(ZTD_LIBCXX)
+#elif ZTD_IS_OFF(ZTD_CXX_STDLIB_CXX)
 	#define ZTD_HEADER_WCHAR_H_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_HEADER_WCHAR_H_I_ ZTD_DEFAULT_OFF

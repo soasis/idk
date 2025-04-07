@@ -167,7 +167,7 @@ namespace ztd {
 			template <typename _Pointer, ::std::enable_if_t<!::std::is_pointer_v<_Pointer>>* = nullptr>
 			constexpr auto operator()(_Pointer& p) const noexcept {
 				if constexpr (::ztd::__idk_detail::__mark_contiguous_v<_Pointer>) {
-#if ZTD_IS_ON(ZTD_LIBVCXX)
+#if ZTD_IS_ON(ZTD_CXX_STDLIB_VCXX)
 					return (*this)(p._Unwrapped());
 #else
 					return (*this)(p.operator->());

@@ -50,18 +50,18 @@ namespace ztd {
 		struct __mark_contiguous : public ::std::integral_constant<bool, ::std::is_pointer_v<remove_cvref_t<_It>>> {
 		};
 
-#if ZTD_IS_ON(ZTD_LIBSTDCXX)
+#if ZTD_IS_ON(ZTD_CXX_STDLIB_STDCXX)
 		template <typename _It, typename _Parent>
 		struct __mark_contiguous<::__gnu_cxx::__normal_iterator<_It, _Parent>> : public __mark_contiguous<_It> { };
 #endif
 
-#if ZTD_IS_ON(ZTD_LIBVCXX)
+#if ZTD_IS_ON(ZTD_CXX_STDLIB_VCXX)
 		template <typename _It>
 		struct __mark_contiguous<_It, ::std::void_t<decltype(::std::declval<_It>()._Unwrapped())>>
 		: public __mark_contiguous<decltype(::std::declval<_It>()._Unwrapped())> { };
 #endif
 
-#if ZTD_IS_ON(ZTD_LIBCXX)
+#if ZTD_IS_ON(ZTD_CXX_STDLIB_CXX)
 		template <typename _It>
 		struct __mark_contiguous<::std::__wrap_iter<_It>> : public __mark_contiguous<_It> { };
 #endif

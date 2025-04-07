@@ -51,7 +51,7 @@ ZTD_USE(ZTD_IDK_API_LINKAGE) bool ztdc_is_execution_encoding_unicode(void) ZTD_U
 #if ZTD_IS_ON(ZTD_PLATFORM_MAC_OS)
 	return true;
 #else
-#if ZTD_IS_ON(ZTD_LIBVCXX)
+#if ZTD_IS_ON(ZTD_CXX_STDLIB_VCXX)
 	if (MB_CUR_MAX == 4) {
 		return true;
 	}
@@ -96,7 +96,7 @@ ZTD_USE(ZTD_IDK_API_LINKAGE) bool ztdc_is_execution_encoding_utf8(void) ZTD_USE(
 #if ZTD_IS_ON(ZTD_PLATFORM_MAC_OS)
 	return true;
 #else
-#if ZTD_IS_ON(ZTD_LIBVCXX)
+#if ZTD_IS_ON(ZTD_CXX_STDLIB_VCXX)
 	if (MB_CUR_MAX == 4) {
 		return true;
 	}
@@ -219,7 +219,7 @@ ZTD_USE(ZTD_IDK_API_LINKAGE) bool ztdc_is_wide_execution_encoding_utf32(void) ZT
 
 ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
 ZTD_USE(ZTD_IDK_API_LINKAGE) const char* ztdc_execution_encoding_name(void) ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
-#if ZTD_IS_ON(ZTD_LIBVCXX)
+#if ZTD_IS_ON(ZTD_CXX_STDLIB_VCXX)
 	if (MB_CUR_MAX == 4) {
 		return "UTF-8";
 	}
