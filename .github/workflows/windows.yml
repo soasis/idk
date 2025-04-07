@@ -11,10 +11,10 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: seanmiddleditch/gha-setup-ninja@master
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@main
       with:
         submodules: recursive
+    - uses: seanmiddleditch/gha-setup-ninja@master
 
     - name: configure
       run: |
