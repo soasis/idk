@@ -1,0 +1,382 @@
+{
+	"version": 10,
+	"cmakeMinimumRequired": {
+		"major": 3,
+		"minor": 31,
+		"patch": 0
+	},
+	"configurePresets": [
+		{
+			"name": "base",
+			"generator": "Ninja Multi-Config",
+			"hidden": true,
+			"binaryDir": "${sourceDir}/.cmake/build",
+			"installDir": "${sourceDir}/.cmake/install",
+			"warnings": {
+				"dev": false
+			},
+			"cacheVariables": {
+				"ZTD_IDK_GENERATE_SINGLE": true,
+				"ZTD_IDK_EXAMPLES": true,
+				"ZTD_IDK_TESTS": true,
+				"ZTD_IDK_BENCHMARKS": true,
+				"ZTD_IDK_DOCUMENTATION": false
+			}
+		},
+		{
+			"name": "windows-msvc",
+			"displayName": "MSVC on Windows configuration",
+			"inherits": "base",
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Windows"
+			},
+			"cacheVariables": {
+				"CMAKE_CXX_FLAGS_INIT": "/Wv:18",
+				"CMAKE_C_FLAGS_INIT": "/Wv:18",
+				"CMAKE_CXX_COMPILER": "cl.exe",
+				"CMAKE_C_COMPILER": "cl.exe"
+			}
+		},
+		{
+			"name": "macos-gcc",
+			"displayName": "GCC on Darwin (Mac OS) configuration",
+			"inherits": "base",
+			"cacheVariables": {
+				"CMAKE_CXX_COMPILER": "g++-14",
+				"CMAKE_C_COMPILER": "gcc-14"
+			}
+		},
+		{
+			"name": "gcc",
+			"displayName": "GCC default configuration",
+			"inherits": "base",
+			"cacheVariables": {
+				"CMAKE_CXX_COMPILER": "g++",
+				"CMAKE_C_COMPILER": "gcc"
+			}
+		},
+		{
+			"name": "clang",
+			"description": "Clang default configuration",
+			"displayName": "Clang",
+			"hidden": false,
+			"inherits": "base",
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Darwin"
+			},
+			"cacheVariables": {
+				"CMAKE_CXX_COMPILER": "clang++",
+				"CMAKE_C_COMPILER": "clang"
+			}
+		},
+		{
+			"name": "documentation",
+			"displayName": "Documentation",
+			"generator": "Ninja Multi-Config",
+			"description": "Generates the documentation for any system",
+			"inherits": "base",
+			"cacheVariables": {
+				"ZTD_IDK_GENERATE_SINGLE": false,
+				"ZTD_IDK_EXAMPLES": false,
+				"ZTD_IDK_TESTS": false,
+				"ZTD_IDK_BENCHMARKS": false,
+				"ZTD_IDK_DOCUMENTATION": true
+			}
+		},
+		{
+			"name": "documentation-readthedocs",
+			"displayName": "Documentation (ReadTheDocs)",
+			"generator": "Ninja Multi-Config",
+			"description": "Generates the documentation for a ReadTheDocs build",
+			"inherits": "base",
+			"cacheVariables": {
+				"ZTD_IDK_GENERATE_SINGLE": false,
+				"ZTD_IDK_EXAMPLES": false,
+				"ZTD_IDK_TESTS": false,
+				"ZTD_IDK_BENCHMARKS": false,
+				"ZTD_IDK_DOCUMENTATION": true,
+				"ZTD_IDK_DOCUMENTATION_NO_SPHINX": true
+			}
+		}
+	],
+	"buildPresets": [
+		{
+			"name": "debug",
+			"configuration": "Debug"
+		},
+		{
+			"name": "release-debug",
+			"configuration": "RelWithDebInfo"
+		},
+		{
+			"name": "release",
+			"configuration": "Release"
+		}
+	],
+	"testPresets": [
+		{
+			"name": "debug",
+			"configuration": "Debug"
+		},
+		{
+			"name": "release-debug",
+			"configuration": "RelWithDebInfo"
+		},
+		{
+			"name": "release",
+			"configuration": "Release"
+		}
+	],
+	"packagePresets": [],
+	"workflowPresets": [
+		{
+			"name": "windows-msvc",
+			"displayName": "Windows (MSVC)",
+			"description": "Full Workflow for Windows using VC++/VS toolchain",
+			"steps": [
+				{
+					"type": "configure",
+					"name": "windows-msvc"
+				},
+				{
+					"type": "build",
+					"name": "debug"
+				},
+				{
+					"type": "build",
+					"name": "release-debug"
+				},
+				{
+					"type": "build",
+					"name": "release"
+				},
+				{
+					"type": "test",
+					"name": "debug"
+				},
+				{
+					"type": "test",
+					"name": "release-debug"
+				},
+				{
+					"type": "test",
+					"name": "release"
+				}
+			]
+		},
+		{
+			"name": "windows-gcc",
+			"displayName": "Windows (MinGW)",
+			"description": "Full Workflow for Windows using MinGW toolchain",
+			"steps": [
+				{
+					"type": "configure",
+					"name": "gcc"
+				},
+				{
+					"type": "build",
+					"name": "debug"
+				},
+				{
+					"type": "build",
+					"name": "release-debug"
+				},
+				{
+					"type": "build",
+					"name": "release"
+				},
+				{
+					"type": "test",
+					"name": "debug"
+				},
+				{
+					"type": "test",
+					"name": "release-debug"
+				},
+				{
+					"type": "test",
+					"name": "release"
+				}
+			]
+		},
+		{
+			"name": "windows-clang",
+			"displayName": "Windows (Clang)",
+			"description": "Full Workflow for Windows using Clang toolchain",
+			"steps": [
+				{
+					"type": "configure",
+					"name": "clang"
+				},
+				{
+					"type": "build",
+					"name": "debug"
+				},
+				{
+					"type": "build",
+					"name": "release-debug"
+				},
+				{
+					"type": "build",
+					"name": "release"
+				},
+				{
+					"type": "test",
+					"name": "debug"
+				},
+				{
+					"type": "test",
+					"name": "release-debug"
+				},
+				{
+					"type": "test",
+					"name": "release"
+				}
+			]
+		},
+		{
+			"name": "macos-gcc",
+			"displayName": "MacOS (GCC)",
+			"description": "Full Workflow for MacOS using the GCC toolchain",
+			"steps": [
+				{
+					"type": "configure",
+					"name": "macos-gcc"
+				},
+				{
+					"type": "build",
+					"name": "debug"
+				},
+				{
+					"type": "build",
+					"name": "release-debug"
+				},
+				{
+					"type": "build",
+					"name": "release"
+				},
+				{
+					"type": "test",
+					"name": "debug"
+				},
+				{
+					"type": "test",
+					"name": "release-debug"
+				},
+				{
+					"type": "test",
+					"name": "release"
+				}
+			]
+		},
+		{
+			"name": "macos-clang",
+			"displayName": "MacOS (Clang)",
+			"description": "Full Workflow for MacOS using the Clang toolchain",
+			"steps": [
+				{
+					"type": "configure",
+					"name": "clang"
+				},
+				{
+					"type": "build",
+					"name": "debug"
+				},
+				{
+					"type": "build",
+					"name": "release-debug"
+				},
+				{
+					"type": "build",
+					"name": "release"
+				},
+				{
+					"type": "test",
+					"name": "debug"
+				},
+				{
+					"type": "test",
+					"name": "release-debug"
+				},
+				{
+					"type": "test",
+					"name": "release"
+				}
+			]
+		},
+		{
+			"name": "linux-gcc",
+			"displayName": "Linux (GCC)",
+			"description": "Full Workflow for Linux using the GCC toolchain",
+			"steps": [
+				{
+					"type": "configure",
+					"name": "gcc"
+				},
+				{
+					"type": "build",
+					"name": "debug"
+				},
+				{
+					"type": "build",
+					"name": "release-debug"
+				},
+				{
+					"type": "build",
+					"name": "release"
+				},
+				{
+					"type": "test",
+					"name": "debug"
+				},
+				{
+					"type": "test",
+					"name": "release-debug"
+				},
+				{
+					"type": "test",
+					"name": "release"
+				}
+			]
+		},
+		{
+			"name": "linux-clang",
+			"displayName": "Linux (Clang)",
+			"description": "Full Workflow for Linux using the Clang toolchain",
+			"steps": [
+				{
+					"type": "configure",
+					"name": "clang"
+				},
+				{
+					"type": "build",
+					"name": "debug"
+				},
+				{
+					"type": "build",
+					"name": "release-debug"
+				},
+				{
+					"type": "build",
+					"name": "release"
+				},
+				{
+					"type": "test",
+					"name": "debug"
+				},
+				{
+					"type": "test",
+					"name": "release-debug"
+				},
+				{
+					"type": "test",
+					"name": "release"
+				}
+			]
+		}
+	]
+}

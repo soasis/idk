@@ -7,6 +7,7 @@ scratch/
 .vscode/
 .vs/
 CMakeSettings.json
+CMakeUserPresets.json
 
 /main.cpp
 /*.hex
