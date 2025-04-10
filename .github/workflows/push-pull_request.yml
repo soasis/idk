@@ -27,9 +27,8 @@ jobs:
           - clang
         exclude:
           - compiler: msvc
-            os.name: linux
-          - compiler: msvc
-            os.name: macos
+            os:
+              name: [linux, macos]
     runs-on: ${{matrix.os.name}}-latest
     steps:
       # important setup
