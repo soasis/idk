@@ -27,8 +27,8 @@ jobs:
           - clang
         exclude:
           - os:
-            name: [ubuntu. macos]
-            compiler: msvc
+            - name: [ubuntu. macos]
+              compiler: msvc
     runs-on: ${{matrix.os.name}}-latest
     steps:
       # important setup
@@ -42,8 +42,8 @@ jobs:
         # actual runs
       - name: Execute CMake Workflow (Windows)
         if: ${{matrix.os.name == 'windows' && matrix.compiler == 'msvc'}}
-        run: cmake --workflow=${{matrix.os.platform}}-${{matrix.compiler}}
         shell: vsdevenv x64 powershell {0}
+        run: cmake --workflow=${{matrix.os.platform}}-${{matrix.compiler}}
       - name: Execute CMake Workflow (Non-Windows)
         if: ${{matrix.os.name != 'windows' || matrix.compiler != 'msvc'}}
         run: cmake --workflow=${{matrix.os.platform}}-${{matrix.compiler}}
