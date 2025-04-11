@@ -72,6 +72,7 @@ else()
 endif()
 
 # # Options
+option(ZTD_IDK_EXCLUDE_FROM_ALL "Exclude from default builts" OFF)
 option(ZTD_IDK_CI "Whether or not we are in continuous integration mode" OFF)
 option(ZTD_IDK_READTHEDOCS "Whether or not we are building inside of ReadTheDocs" OFF)
 option(ZTD_IDK_TESTS "Enable build of tests" OFF)
@@ -81,6 +82,10 @@ option(ZTD_IDK_EXAMPLES "Enable build of examples" OFF)
 option(ZTD_IDK_BENCHMARKS "Enable build of benchmarks" OFF)
 option(ZTD_IDK_GENERATE_SINGLE "Enable generation of a single header and its target" OFF)
 set(ZTD_IDK_BENCHMARKS_REPETITIONS 50 CACHE STRING "Number of repetitions to perform. Each repetition has a number of iterations: higher means a lot more time is spent benchmarking.")
+
+if (ZTD_IDK_EXCLUDE_FROM_ALL)
+	set_directory_properties(PROPERTIES EXCLUDE_FROM_ALL ON EXCLUDE_FROM_DEFAULT_BUILD ON)
+endif()
 
 # Modify bad flags / change defaults if we are the top level
 if(ZTD_IDK_IS_TOP_LEVEL_PROJECT)

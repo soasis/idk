@@ -12,23 +12,16 @@ jobs:
     strategy:
       matrix:
         os:
-          - ubuntu:
-            name: ubuntu
-            platform: linux
-          - windows:
-            name: windows
-            platform: windows
-          - macos:
-            name: macos
-            platform: macos
+          - ubuntu
+          - windows
+          - macos
         compiler:
           - msvc
           - gcc
           - clang
         exclude:
           - compiler: msvc
-            os:
-              name: [linux, macos]
+            os: [ubuntu, macos]
     runs-on: ${{matrix.os.name}}-latest
     steps:
       # important setup
@@ -41,9 +34,9 @@ jobs:
         if: ${{matrix.os.name == 'windows'}}
         # actual runs
       - name: Execute CMake Workflow (Windows)
-        if: ${{matrix.os.name == 'windows' && matrix.compiler == 'msvc'}}
+        if: ${{(matrix.os.name == 'windows' && matrix.compiler == 'msvc')}}
         shell: vsdevenv x64 powershell {0}
-        run: cmake --workflow=${{matrix.os.platform}}-${{matrix.compiler}}
+        run: cmake --workflow ${{matrix.compiler}}
       - name: Execute CMake Workflow (Non-Windows)
-        if: ${{matrix.os.name != 'windows' || matrix.compiler != 'msvc'}}
-        run: cmake --workflow=${{matrix.os.platform}}-${{matrix.compiler}}
+        if: ${{(matrix.os.name != 'windows' || matrix.compiler != 'msvc')}}
+        run: cmake --workflow ${{matrix.compiler}}

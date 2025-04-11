@@ -96,7 +96,7 @@ add_custom_command(OUTPUT ${ZTD_IDK_DOXYGEN_INDEX_FILE}
 	DEPENDS ${ztd_idk_headers} ${ZTD_IDK_DOXYFILE_OUT}
 	COMMENT "[ztd.idk/documentation] Generating Doxygen XML..."
 )
-add_custom_target(ztd.idk.documentation.doxygen ALL DEPENDS ${ZTD_IDK_DOXYGEN_INDEX_FILE})
+add_custom_target(ztd.idk.documentation.doxygen ALL DEPENDS ${ZTD_IDK_DOXYGEN_INDEX_FILE} $<TARGET_NAME_IF_EXISTS:ztd.idk.gen>)
 
 if (NOT ZTD_IDK_DOCUMENTATION_NO_SPHINX)
 	add_custom_target(ztd.idk.documentation.sphinx ALL
