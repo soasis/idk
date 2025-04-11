@@ -22,21 +22,21 @@ jobs:
         exclude:
           - compiler: msvc
             os: [ubuntu, macos]
-    runs-on: ${{matrix.os.name}}-latest
+    runs-on: ${{matrix.os}}-latest
     steps:
       # important setup
       - uses: actions/checkout@main
         with:
           submodules: recursive
       - uses: humbletim/vsdevenv-shell@main
-        if: ${{matrix.os.name == 'windows'}}
+        if: ${{matrix.os == 'windows'}}
       - uses: seanmiddleditch/gha-setup-ninja@master
-        if: ${{matrix.os.name == 'windows'}}
+        if: ${{matrix.os == 'windows'}}
         # actual runs
       - name: Execute CMake Workflow (Windows)
-        if: ${{(matrix.os.name == 'windows' && matrix.compiler == 'msvc')}}
+        if: ${{(matrix.os == 'windows' && matrix.compiler == 'msvc')}}
         shell: vsdevenv x64 powershell {0}
-        run: cmake --workflow ${{matrix.compiler}}
+        run: cmake --workflow --preset ${{matrix.compiler}}
       - name: Execute CMake Workflow (Non-Windows)
-        if: ${{(matrix.os.name != 'windows' || matrix.compiler != 'msvc')}}
-        run: cmake --workflow ${{matrix.compiler}}
+        if: ${{(matrix.os != 'windows' || matrix.compiler != 'msvc')}}
+        run: cmake --workflow --preset ${{matrix.compiler}}
