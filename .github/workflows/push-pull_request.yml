@@ -8,7 +8,8 @@ env:
   CTEST_OUTPUT_ON_FAILURE: 1
 
 jobs:
-  tests:
+  ci:
+    name: "${{matrix.os}} and ${{matrix.compiler}} latest | c${{matrix.c_standard}} and c++${{matrix.cxx_standard}}"
     strategy:
       matrix:
         os:
