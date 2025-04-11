@@ -9,7 +9,7 @@ env:
 
 jobs:
   ci:
-    name: "${{matrix.os}} and ${{matrix.compiler}} latest | c${{matrix.c_standard}} and c++${{matrix.cxx_standard}}"
+    name: "latest ${{matrix.os}} ${{matrix.compiler}} | c${{matrix.c_standard}} + c++${{matrix.cxx_standard}}"
     strategy:
       matrix:
         os:
