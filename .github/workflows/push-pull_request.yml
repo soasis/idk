@@ -19,6 +19,12 @@ jobs:
           - msvc
           - gcc
           - clang
+        c_standard:
+          - 17
+          - 23
+        cxx_standard:
+          - 20
+          - 23
         exclude:
           - compiler: msvc
             os: ubuntu
@@ -38,7 +44,7 @@ jobs:
       - name: Execute CMake Workflow (Windows)
         if: ${{(matrix.os == 'windows' && matrix.compiler == 'msvc')}}
         shell: vsdevenv x64 powershell {0}
-        run: cmake --workflow --preset ${{matrix.compiler}}
+        run: cmake --workflow --preset ${{matrix.compiler}} -DCMAKE_C_STANDARD=${{matrix.c_standard}} -DCMAKE_CXX_STANDARD=${{matrix.cxx_standard}}
       - name: Execute CMake Workflow (Non-Windows)
         if: ${{(matrix.os != 'windows' || matrix.compiler != 'msvc')}}
-        run: cmake --workflow --preset ${{matrix.compiler}}
+        run: cmake --workflow --preset ${{matrix.compiler}} -DCMAKE_C_STANDARD=${{matrix.c_standard}} -DCMAKE_CXX_STANDARD=${{matrix.cxx_standard}}
