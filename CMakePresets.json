@@ -16,6 +16,8 @@
 				"dev": false
 			},
 			"cacheVariables": {
+				"CMAKE_CXX_STANDARD": "$env{CMAKE_CXX_STANDARD}",
+				"CMAKE_C_STANDARD": "$env{CMAKE_C_STANDARD}",
 				"ZTD_IDK_GENERATE_SINGLE": true,
 				"ZTD_IDK_EXAMPLES": true,
 				"ZTD_IDK_TESTS": true,
@@ -342,7 +344,7 @@
 		},
 		{
 			"name": "clang",
-			"displayName": "MacOS (Clang)",
+			"displayName": "Clang",
 			"description": "Full Workflow for the Clang toolchain",
 			"steps": [
 				{

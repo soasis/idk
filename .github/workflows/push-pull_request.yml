@@ -25,12 +25,16 @@ jobs:
         cxx_standard:
           - 20
           - 23
+          - 26
         exclude:
           - compiler: msvc
             os: ubuntu
           - compiler: msvc
             os: macos
     runs-on: ${{matrix.os}}-latest
+    env:
+      CMAKE_CXX_STANDARD: ${{matrix.cxx_standard}}
+      CMAKE_C_STANDARD: ${{matrix.c_standard}}
     steps:
       # important setup
       - uses: actions/checkout@main
@@ -44,7 +48,7 @@ jobs:
       - name: Execute CMake Workflow (Windows)
         if: ${{(matrix.os == 'windows' && matrix.compiler == 'msvc')}}
         shell: vsdevenv x64 powershell {0}
-        run: cmake --workflow --preset ${{matrix.compiler}} -DCMAKE_C_STANDARD=${{matrix.c_standard}} -DCMAKE_CXX_STANDARD=${{matrix.cxx_standard}}
+        run: cmake --workflow --preset ${{matrix.compiler}}
       - name: Execute CMake Workflow (Non-Windows)
         if: ${{(matrix.os != 'windows' || matrix.compiler != 'msvc')}}
-        run: cmake --workflow --preset ${{matrix.compiler}} -DCMAKE_C_STANDARD=${{matrix.c_standard}} -DCMAKE_CXX_STANDARD=${{matrix.cxx_standard}}
+        run: cmake --workflow --preset ${{matrix.compiler}}
