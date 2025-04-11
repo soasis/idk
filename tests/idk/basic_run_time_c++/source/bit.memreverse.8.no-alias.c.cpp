@@ -32,6 +32,7 @@
 
 #include <ztd/idk/bit.h>
 
+#include <ztd/idk/size.hpp>
 #include <ztd/tests/bit_constant.hpp>
 #include <ztd/tests/types.hpp>
 #include <ztd/idk/detail/bit.memreverse.impl.h>
@@ -91,7 +92,10 @@ TEMPLATE_LIST_TEST_CASE(
 	SECTION("unsigned char-based") {
 		TestType value = expected_value;
 		REQUIRE(value == expected_value); // quick silliness check
-		ztdc_memreverse8(sizeof(value), reinterpret_cast<unsigned char*>(&value));
+		unsigned char value_arr[sizeof(value) / sizeof(unsigned char)];
+		std::memcpy(value_arr, &value, sizeof(value));
+		ztdc_memreverse8(ztdc_c_array_size(value_arr), value_arr);
+		std::memcpy(&value, value_arr, sizeof(value));
 		REQUIRE(value == expected_reverse_value);
 	}
 
@@ -101,57 +105,67 @@ TEMPLATE_LIST_TEST_CASE(
 		SECTION("unsigned short-based") {
 			TestType value = expected_value;
 			REQUIRE(value == expected_value); // quick silliness check
-			ztd_idk_basic_run_time_cxx_memreverse8_ushort(
-			     sizeof(value) / sizeof(unsigned short), reinterpret_cast<unsigned short*>(&value));
+			unsigned short value_arr[sizeof(value) / sizeof(unsigned short)];
+			std::memcpy(value_arr, &value, sizeof(value));
+			ztd_idk_basic_run_time_cxx_memreverse8_ushort(ztdc_c_array_size(value_arr), value_arr);
+			std::memcpy(&value, value_arr, sizeof(value));
 			REQUIRE(value == expected_reverse_value);
 		}
 	}
 
 	if constexpr ((sizeof(TestType) % sizeof(unsigned int)) == 0) {
-		// for all types which are a multiple of the size of unsigned short,
-		// test the unsigned short-based type, to verify the implementation is correct
+		// for all types which are a multiple of the size of unsigned int,
+		// test the unsigned int-based type, to verify the implementation is correct
 		SECTION("unsigned int-based") {
 			TestType value = expected_value;
 			REQUIRE(value == expected_value); // quick silliness check
-			ztd_idk_basic_run_time_cxx_memreverse8_uint(
-			     sizeof(value) / sizeof(unsigned int), reinterpret_cast<unsigned int*>(&value));
+			unsigned int value_arr[sizeof(value) / sizeof(unsigned int)];
+			std::memcpy(value_arr, &value, sizeof(value));
+			ztd_idk_basic_run_time_cxx_memreverse8_uint(ztdc_c_array_size(value_arr), value_arr);
+			std::memcpy(&value, value_arr, sizeof(value));
 			REQUIRE(value == expected_reverse_value);
 		}
 	}
 
 	if constexpr ((sizeof(TestType) % sizeof(unsigned long)) == 0) {
-		// for all types which are a multiple of the size of unsigned short,
-		// test the unsigned short-based type, to verify the implementation is correct
+		// for all types which are a multiple of the size of unsigned long,
+		// test the unsigned long-based type, to verify the implementation is correct
 		SECTION("unsigned long-based") {
 			TestType value = expected_value;
 			REQUIRE(value == expected_value); // quick silliness check
-			ztd_idk_basic_run_time_cxx_memreverse8_ulong(
-			     sizeof(value) / sizeof(unsigned long), reinterpret_cast<unsigned long*>(&value));
+			unsigned long value_arr[sizeof(value) / sizeof(unsigned long)];
+			std::memcpy(value_arr, &value, sizeof(value));
+			ztd_idk_basic_run_time_cxx_memreverse8_ulong(ztdc_c_array_size(value_arr), value_arr);
+			std::memcpy(&value, value_arr, sizeof(value));
 			REQUIRE(value == expected_reverse_value);
 		}
 	}
 
 	if constexpr ((sizeof(TestType) % sizeof(unsigned long long)) == 0) {
-		// for all types which are a multiple of the size of unsigned short,
-		// test the unsigned short-based type, to verify the implementation is correct
+		// for all types which are a multiple of the size of unsigned long long,
+		// test the unsigned long long-based type, to verify the implementation is correct
 		SECTION("unsigned long long-based") {
 			TestType value = expected_value;
 			REQUIRE(value == expected_value); // quick silliness check
-			ztd_idk_basic_run_time_cxx_memreverse8_ullong(
-			     sizeof(value) / sizeof(unsigned long long), reinterpret_cast<unsigned long long*>(&value));
+			unsigned long long value_arr[sizeof(value) / sizeof(unsigned long long)];
+			std::memcpy(value_arr, &value, sizeof(value));
+			ztd_idk_basic_run_time_cxx_memreverse8_ullong(ztdc_c_array_size(value_arr), value_arr);
+			std::memcpy(&value, value_arr, sizeof(value));
 			REQUIRE(value == expected_reverse_value);
 		}
 	}
 
 #if ZTD_IS_ON(ZTD___UINT128_T)
 	if constexpr ((sizeof(TestType) % sizeof(__uint128_t)) == 0) {
-		// for all types which are a multiple of the size of unsigned short,
-		// test the unsigned short-based type, to verify the implementation is correct
+		// for all types which are a multiple of the size of __uint128_t,
+		// test the __uint128_t-based type, to verify the implementation is correct
 		SECTION("__uint128_t-based") {
 			TestType value = expected_value;
 			REQUIRE(value == expected_value); // quick silliness check
-			ztd_idk_basic_run_time_cxx_memreverse8_uint128_t(
-			     sizeof(value) / sizeof(__uint128_t), reinterpret_cast<__uint128_t*>(&value));
+			__uint128_t value_arr[sizeof(value) / sizeof(__uint128_t)];
+			std::memcpy(value_arr, &value, sizeof(value));
+			ztd_idk_basic_run_time_cxx_memreverse8_uint128_t(ztdc_c_array_size(value_arr), value_arr);
+			std::memcpy(&value, value_arr, sizeof(value));
 			REQUIRE(value == expected_reverse_value);
 		}
 	}
@@ -159,13 +173,15 @@ TEMPLATE_LIST_TEST_CASE(
 
 #if ZTD_IS_ON(ZTD___UINT256_T)
 	if constexpr ((sizeof(TestType) % sizeof(__uint256_t)) == 0) {
-		// for all types which are a multiple of the size of unsigned short,
-		// test the unsigned short-based type, to verify the implementation is correct
-		SECTION("__uint128_t-based") {
+		// for all types which are a multiple of the size of __uint256_t,
+		// test the __uint256_t-based type, to verify the implementation is correct
+		SECTION("__uint256_t-based") {
 			TestType value = expected_value;
 			REQUIRE(value == expected_value); // quick silliness check
-			ztd_idk_basic_run_time_cxx_memreverse8_uint256_t(
-			     sizeof(value) / sizeof(__uint256_t), reinterpret_cast<__uint256_t*>(&value));
+			__uint256_t value_arr[sizeof(value) / sizeof(__uint256_t)];
+			std::memcpy(value_arr, &value, sizeof(value));
+			ztd_idk_basic_run_time_cxx_memreverse8_uint256_t(ztdc_c_array_size(value_arr), value_arr);
+			std::memcpy(&value, value_arr, sizeof(value));
 			REQUIRE(value == expected_reverse_value);
 		}
 	}

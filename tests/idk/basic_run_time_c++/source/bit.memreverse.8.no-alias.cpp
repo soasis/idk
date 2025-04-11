@@ -32,6 +32,7 @@
 
 #include <ztd/idk/bit.hpp>
 
+#include <ztd/idk/size.hpp>
 #include <ztd/tests/bit_constant.hpp>
 #include <ztd/tests/types.hpp>
 #include <ztd/idk/detail/bit.memreverse.impl.h>
@@ -53,7 +54,10 @@ TEMPLATE_LIST_TEST_CASE(
 	SECTION("unsigned char-based") {
 		TestType value = expected_value;
 		REQUIRE(value == expected_value); // quick silliness check
-		ztd::memreverse8(sizeof(value), reinterpret_cast<unsigned char*>(&value));
+		unsigned char value_arr[sizeof(value)];
+		std::memcpy(value_arr, &value, sizeof(value));
+		ztd::memreverse8(ztdc_c_array_size(value_arr), value_arr);
+		std::memcpy(&value, value_arr, sizeof(value));
 		REQUIRE(value == expected_reverse_value);
 	}
 }
