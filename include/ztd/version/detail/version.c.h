@@ -207,9 +207,9 @@
 
 #if defined(ZTD_C_STDLIB_MUSL)
 	#if (ZTD_C_STDLIB_MUSL) != 0
-		#define ZTD_C_STDLIB_MUSL_I_ 1
+		#define ZTD_C_STDLIB_MUSL_I_ ZTD_ON
 	#else
-		#define ZTD_C_STDLIB_MUSL_I_ 0
+		#define ZTD_C_STDLIB_MUSL_I_ ZTD_OFF
 	#endif
 #elif ZTD_IS_OFF(ZTD_C_STDLIB_GLIBC) && ZTD_IS_OFF(ZTD_C_STDLIB_BSD) && defined (_REDIR)
 // Volatile definition;
@@ -217,6 +217,18 @@
 	#define ZTD_C_STDLIB_MUSL_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_C_STDLIB_MUSL_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_C_STDLIB_UCRT)
+	#if (ZTD_C_STDLIB_UCRT) != 0
+		#define ZTD_C_STDLIB_UCRT_I_ ZTD_ON
+	#else
+		#define ZTD_C_STDLIB_UCRT_I_ ZTD_OFF
+	#endif
+#elif (ZTD_IS_ON(ZTD_COMPILER_MINGW) && defined(_UCRT))
+	#define ZTD_C_STDLIB_UCRT_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_C_STDLIB_UCRT_I_ ZTD_DEFAULT_OFF
 #endif
 
 #if defined(ZTD_PLATFORM_WINDOWS)

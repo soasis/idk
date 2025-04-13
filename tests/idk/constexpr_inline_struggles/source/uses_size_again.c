@@ -30,18 +30,10 @@
 
 #include <uses_size.h>
 
-int main(int argc, char* argv[]) {
-	(void)argc;
-	(void)argv;
-	const size_t expected = ztd_idk_tests_c_foo_size * 2;
-	if (expected != ztd_idk_tests_use_size(ztd_idk_tests_c_foo)) {
-		return 1;
-	}
-	if (0 != ztd_idk_tests_use_size2(ztd_idk_tests_c_foo)) {
-		return 2;
-	}
-	if (expected != ztd_idk_tests_use_size_cpp(ztd_idk_tests_c_foo)) {
-		return 3;
-	}
-	return 0;
+#include <ztd/idk/size.h>
+
+#include <stddef.h>
+
+ZTD_USE(ZTD_EXTERN_C) size_t ztd_idk_tests_use_size2(const char* p) {
+	return ztdc_c_string_ptr_size_c(p) - ztdc_c_string_ptr_size_limit_c(256, p);
 }

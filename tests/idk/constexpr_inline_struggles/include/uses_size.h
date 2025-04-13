@@ -43,8 +43,9 @@ ZTD_USE(ZTD_EXTERN_C_OPEN)
 
 extern const char* ztd_idk_tests_c_foo;
 extern const size_t ztd_idk_tests_c_foo_size;
-size_t ztd_idk_tests_use_size(const char* p);
-size_t ztd_idk_tests_use_size_cpp(const char* p);
+extern size_t ztd_idk_tests_use_size(const char* p);
+extern size_t ztd_idk_tests_use_size2(const char* p);
+extern size_t ztd_idk_tests_use_size_cpp(const char* p);
 
 ZTD_USE(ZTD_EXTERN_C_CLOSE)
 
