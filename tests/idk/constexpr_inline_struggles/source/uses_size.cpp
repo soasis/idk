@@ -35,5 +35,5 @@
 #include <cstddef>
 
 ZTD_USE(ZTD_EXTERN_C) size_t ztd_idk_tests_use_size_cpp(const char* p) {
-	return ztdc_c_string_ptr_size(p) + ztdc_c_string_ptr_size_limit(256, p);
+	return ztdc_c_string_ptr_size_c(p) + ztdc_c_string_ptr_size_limit_c(256, p);
 }

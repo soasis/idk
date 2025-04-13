@@ -33,5 +33,12 @@
 int main(int argc, char* argv[]) {
 	(void)argc;
 	(void)argv;
-	return ztd_idk_tests_use_size(ztd_idk_tests_c_foo) + ztd_idk_tests_use_size_cpp(ztd_idk_tests_c_foo);
+	const size_t expected = ztd_idk_tests_c_foo_size * 2;
+	if (expected != ztd_idk_tests_use_size(ztd_idk_tests_c_foo)) {
+		return 1;
+	}
+	if (expected != ztd_idk_tests_use_size_cpp(ztd_idk_tests_c_foo)) {
+		return 2;
+	}
+	return 0;
 }

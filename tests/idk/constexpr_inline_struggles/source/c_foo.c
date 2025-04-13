@@ -30,4 +30,5 @@
 
 #include <uses_size.h>
 
-const char* ztd_idk_tests_c_foo = "foo!?#jdkgniofkwgeunwgjgwbuohi904h";
+const char* ztd_idk_tests_c_foo       = "foo!?#jdkgniofkwgeunwgjgwbuohi904h";
+const size_t ztd_idk_tests_c_foo_size = 34;
