@@ -58,8 +58,8 @@
 
 ZTD_EXTERN_C_OPEN_I_
 
-ZTD_USE(ZTD_IDK_API_LINKAGE)
-inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_c(const char* __ptr) {
+ZTD_USE(ZTD_ATTR_ALWAYS_INLINE)
+inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_c(const char* __ptr) ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	size_t __ptr_size = 0;
 	if (__ptr) {
 		for (; *__ptr; ++__ptr) {
@@ -69,7 +69,7 @@ inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_c(const char*
 	return __ptr_size;
 }
 
-ZTD_USE(ZTD_IDK_API_LINKAGE)
+ZTD_USE(ZTD_ATTR_ALWAYS_INLINE)
 inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_uc(const unsigned char* __ptr)
      ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	size_t __ptr_size = 0;
@@ -81,7 +81,7 @@ inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_uc(const unsi
 	return __ptr_size;
 }
 
-ZTD_USE(ZTD_IDK_API_LINKAGE)
+ZTD_USE(ZTD_ATTR_ALWAYS_INLINE)
 inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_sc(const signed char* __ptr)
      ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	size_t __ptr_size = 0;
@@ -93,7 +93,7 @@ inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_sc(const sign
 	return __ptr_size;
 }
 
-ZTD_USE(ZTD_IDK_API_LINKAGE)
+ZTD_USE(ZTD_ATTR_ALWAYS_INLINE)
 inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_wc(const ztd_wchar_t* __ptr)
      ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	size_t __ptr_size = 0;
@@ -105,7 +105,7 @@ inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_wc(const ztd_
 	return __ptr_size;
 }
 
-ZTD_USE(ZTD_IDK_API_LINKAGE)
+ZTD_USE(ZTD_ATTR_ALWAYS_INLINE)
 inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_c8(const ztd_char8_t* __ptr)
      ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	size_t __ptr_size = 0;
@@ -117,7 +117,7 @@ inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_c8(const ztd_
 	return __ptr_size;
 }
 
-ZTD_USE(ZTD_IDK_API_LINKAGE)
+ZTD_USE(ZTD_ATTR_ALWAYS_INLINE)
 inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_c16(const ztd_char16_t* __ptr)
      ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	size_t __ptr_size = 0;
@@ -129,7 +129,7 @@ inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_c16(const ztd
 	return __ptr_size;
 }
 
-ZTD_USE(ZTD_IDK_API_LINKAGE)
+ZTD_USE(ZTD_ATTR_ALWAYS_INLINE)
 inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_c32(const ztd_char32_t* __ptr)
      ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	size_t __ptr_size = 0;
@@ -141,7 +141,7 @@ inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_c32(const ztd
 	return __ptr_size;
 }
 
-ZTD_USE(ZTD_IDK_API_LINKAGE)
+ZTD_USE(ZTD_ATTR_ALWAYS_INLINE)
 inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_limit_c(size_t __limit, const char* __ptr) {
 	size_t __ptr_size = 0;
 	if (__ptr) {
@@ -152,7 +152,7 @@ inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_limit_c(size_
 	return __ptr_size;
 }
 
-ZTD_USE(ZTD_IDK_API_LINKAGE)
+ZTD_USE(ZTD_ATTR_ALWAYS_INLINE)
 inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_limit_uc(size_t __limit, const unsigned char* __ptr)
      ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	size_t __ptr_size = 0;
@@ -164,7 +164,7 @@ inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_limit_uc(size
 	return __ptr_size;
 }
 
-ZTD_USE(ZTD_IDK_API_LINKAGE)
+ZTD_USE(ZTD_ATTR_ALWAYS_INLINE)
 inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_limit_sc(size_t __limit, const signed char* __ptr)
      ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	size_t __ptr_size = 0;
@@ -176,7 +176,7 @@ inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_limit_sc(size
 	return __ptr_size;
 }
 
-ZTD_USE(ZTD_IDK_API_LINKAGE)
+ZTD_USE(ZTD_ATTR_ALWAYS_INLINE)
 inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_limit_wc(size_t __limit, const ztd_wchar_t* __ptr)
      ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	size_t __ptr_size = 0;
@@ -188,7 +188,7 @@ inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_limit_wc(size
 	return __ptr_size;
 }
 
-ZTD_USE(ZTD_IDK_API_LINKAGE)
+ZTD_USE(ZTD_ATTR_ALWAYS_INLINE)
 inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_limit_c8(size_t __limit, const ztd_char8_t* __ptr)
      ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	size_t __ptr_size = 0;
@@ -200,7 +200,7 @@ inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_limit_c8(size
 	return __ptr_size;
 }
 
-ZTD_USE(ZTD_IDK_API_LINKAGE)
+ZTD_USE(ZTD_ATTR_ALWAYS_INLINE)
 inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_limit_c16(size_t __limit, const ztd_char16_t* __ptr)
      ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	size_t __ptr_size = 0;
@@ -212,7 +212,7 @@ inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_limit_c16(siz
 	return __ptr_size;
 }
 
-ZTD_USE(ZTD_IDK_API_LINKAGE)
+ZTD_USE(ZTD_ATTR_ALWAYS_INLINE)
 inline ZTD_USE(ZTD_CONSTEXPR_IF_CXX) size_t ztdc_c_string_ptr_size_limit_c32(size_t __limit, const ztd_char32_t* __ptr)
      ZTD_USE(ZTD_NOEXCEPT_IF_CXX) {
 	size_t __ptr_size = 0;

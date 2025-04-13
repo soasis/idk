@@ -93,16 +93,28 @@
 	#define ZTD_COMPILER_VCXX_I_ ZTD_OFF
 #endif
 
-#if ZTD_IS_ON(ZTD_COMPILER_VCXX) && ZTD_IS_ON(ZTD_COMPILER_CLANG)
+#if defined(ZTD_COMPILER_VCXX_CLANG)
+	#if (ZTD_COMPILER_VCXX_CLANG) != 0
+		#define ZTD_COMPILER_VCXX_CLANG_I_ ZTD_ON
+	#else
+		#define ZTD_COMPILER_VCXX_CLANG_I_ ZTD_OFF
+	#endif
+#elif ZTD_IS_ON(ZTD_COMPILER_VCXX) && ZTD_IS_ON(ZTD_COMPILER_CLANG)
 	#define ZTD_COMPILER_VCXX_CLANG_I_ ZTD_ON
 #else
 	#define ZTD_COMPILER_VCXX_CLANG_I_ ZTD_OFF
 #endif
 
-#if defined(__MINGW32__)
-	#define ZTD_COMPILER_MINGW_I_ ZTD_ON
+#if defined(ZTD_COMPILER_MINGW)
+	#if (ZTD_COMPILER_MINGW) != 0
+		#define ZTD_COMPILER_MINGW_I_ ZTD_ON
+	#else
+		#define ZTD_COMPILER_MINGW_I_ ZTD_OFF
+	#endif
+#elif defined(__MINGW32__)
+	#define ZTD_COMPILER_MINGW_I_ ZTD_DEFAULT_ON
 #else
-	#define ZTD_COMPILER_MINGW_I_ ZTD_OFF
+	#define ZTD_COMPILER_MINGW_I_ ZTD_DEFAULT_OFF
 #endif
 
 #if defined (ZTD_CXX_VERSION)
@@ -961,6 +973,56 @@
 	#define ZTD_NO_UNIQUE_ADDRESS_I_
 #endif
 
+#if (ZTD_HAS_ATTRIBUTE_I_(no_unique_address) != 0L)
+	#define ZTD_NO_UNIQUE_ADDRESS_I_ [[no_unique_address]]
+#elif ZTD_IS_ON(ZTD_CXX) && ZTD_IS_ON(ZTD_COMPILER_VCXX) && _MSC_VER >= 1929L && ZTD_USE(ZTD_CXX_VERSION) >= 202000L 
+	#define ZTD_NO_UNIQUE_ADDRESS_I_ [[msvc::no_unique_address]]
+#else
+	#define ZTD_NO_UNIQUE_ADDRESS_I_
+#endif
+
+#if ZTD_IS_ON(ZTD_COMPILER_GCC) || ZTD_IS_ON(ZTD_COMPILER_CLANG)
+	#define ZTD_ATTR_WEAK_FUNC_I_ __attribute__((weak))
+#elif (ZTD_HAS_ATTRIBUTE_I_(weak) != 0L)
+	#define ZTD_ATTR_WEAK_FUNC_I_ [[weak]]
+#elif (ZTD_HAS_ATTRIBUTE_I_(gcc::weak) != 0L)
+	#define ZTD_ATTR_WEAK_FUNC_I_ [[gcc::weak]]
+#elif (ZTD_HAS_ATTRIBUTE_I_(clang::weak) != 0L)
+	#define ZTD_ATTR_WEAK_FUNC_I_ [[clang::weak]]
+#else
+	#define ZTD_ATTR_WEAK_FUNC_I_
+#endif
+
+#if ZTD_IS_ON(ZTD_COMPILER_GCC) || ZTD_IS_ON(ZTD_COMPILER_CLANG)
+	#define ZTD_ATTR_FLATTEN_I_ __attribute__((flatten))
+#elif (ZTD_HAS_ATTRIBUTE_I_(flatten) != 0L)
+	#define ZTD_ATTR_FLATTEN_I_ [[flatten]]
+#elif (ZTD_HAS_ATTRIBUTE_I_(gcc::flatten) != 0L)
+	#define ZTD_ATTR_FLATTEN_I_ [[gcc::flatten]]
+#elif (ZTD_HAS_ATTRIBUTE_I_(clang::flatten) != 0L)
+	#define ZTD_ATTR_FLATTEN_I_ [[clang::flatten]]
+#elif (ZTD_HAS_ATTRIBUTE_I_(msvc::flatten) != 0L)
+	#define ZTD_ATTR_FLATTEN_I_ [[msvc::flatten]]
+#else
+	#define ZTD_ATTR_FLATTEN_I_
+#endif
+
+#if ZTD_IS_ON(ZTD_COMPILER_GCC) || ZTD_IS_ON(ZTD_COMPILER_CLANG)
+	#define ZTD_ATTR_ALWAYS_INLINE_I_ __attribute__((always_inline))
+#elif (ZTD_HAS_ATTRIBUTE_I_(always_inline) != 0L)
+	#define ZTD_ATTR_ALWAYS_INLINE_I_ [[always_inline]]
+#elif (ZTD_HAS_ATTRIBUTE_I_(gcc::always_inline) != 0L)
+	#define ZTD_ATTR_ALWAYS_INLINE_I_ [[gcc::always_inline]]
+#elif (ZTD_HAS_ATTRIBUTE_I_(clang::always_inline) != 0L)
+	#define ZTD_ATTR_ALWAYS_INLINE_I_ [[clang::always_inline]]
+#elif (ZTD_HAS_ATTRIBUTE_I_(forceinline) != 0L)
+	#define ZTD_ATTR_ALWAYS_INLINE_I_ [[forceinline]]
+#elif ZTD_IS_ON(ZTD_COMPILER_VCXX)
+	#define ZTD_ATTR_ALWAYS_INLINE_I_ __forceinline
+#else
+	#define ZTD_ATTR_ALWAYS_INLINE_I_
+#endif
+
 #if (ZTD_HAS_ATTRIBUTE_I_(deprecated) != 0L)
 	#define ZTD_ATTR_DEPRECATED_I_(__message) [[deprecated(__message)]]
 #else
@@ -1063,18 +1125,6 @@
 	#define ZTD_STD_C_THREADS_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_STD_C_THREADS_I_ ZTD_DEFAULT_OFF
-#endif
-
-#if defined(ZTD_PLATFORM_PTHREADS)
-	#if (ZTD_PLATFORM_PTHREADS != 0)
-		#define ZTD_PLATFORM_PTHREADS_I_ ZTD_ON
-	#else
-		#define ZTD_PLATFORM_PTHREADS_I_ ZTD_OFF
-	#endif
-#elif ZTD_IS_ON(ZTD_HEADER_PTHREAD_H)
-	#define ZTD_PLATFORM_PTHREADS_I_ ZTD_DEFAULT_ON
-#else
-	#define ZTD_PLATFORM_PTHREADS_I_ ZTD_DEFAULT_OFF
 #endif
 
 #if defined(ZTD_VCXX_CONSTEXPR_BIT_INTRINSICS)

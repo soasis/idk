@@ -88,6 +88,54 @@
 				"ZTD_IDK_DOCUMENTATION": true,
 				"ZTD_IDK_DOCUMENTATION_NO_SPHINX": true
 			}
+		},
+		{
+			"name": "local-base",
+			"description": "Initial values for configuration",
+			"displayName": "Core values for user CMake builds",
+			"inherits": "base",
+			"hidden": true,
+			"binaryDir": "${sourceDir}/.cmake/build-${hostSystemName}",
+			"installDir": "${sourceDir}/.cmake/install-${hostSystemName}",
+			"warnings": {
+				"dev": true
+			},
+			"cacheVariables": {
+				"ZTD_IDK_SCRATCH": true,
+				"ZTD_IDK_TESTS": true,
+				"ZTD_IDK_EXAMPLES": true,
+				"ZTD_IDK_DOCUMENTATION": true,
+				"FETCHCONTENT_SOURCE_DIR_ZTD.CMAKE": "${sourceDir}/../cmake",
+				"CMAKE_CXX_STANDARD": "23",
+				"CMAKE_C_STANDARD": "23"
+			}
+		},
+		{
+			"name": "local-clang",
+			"displayName": "Local Clang",
+			"description": "Local default Clang configuration",
+			"inherits": [
+				"local-base",
+				"clang"
+			]
+		},
+		{
+			"name": "local-gcc",
+			"displayName": "Local GCC",
+			"description": "Local default GCC configuration",
+			"inherits": [
+				"local-base",
+				"gcc"
+			]
+		},
+		{
+			"name": "local-msvc",
+			"displayName": "Local MSVC",
+			"description": "Local default MSVC configuration",
+			"inherits": [
+				"local-base",
+				"msvc"
+			]
 		}
 	],
 	"buildPresets": [
@@ -190,6 +238,69 @@
 			"targets": [
 				"ztd.idk.documentation.doxygen"
 			]
+		},
+		{
+			"name": "local-msvc-debug",
+			"displayName": "Local Debug MSVC",
+			"hidden": false,
+			"inherits": "debug",
+			"configurePreset": "local-msvc"
+		},
+		{
+			"name": "local-msvc-release-debug",
+			"displayName": "Local Release-Debug MSVC",
+			"hidden": false,
+			"inherits": "release-debug",
+			"configurePreset": "local-msvc"
+		},
+		{
+			"name": "local-msvc-release",
+			"displayName": "Local Release MSVC",
+			"hidden": false,
+			"inherits": "release",
+			"configurePreset": "local-msvc"
+		},
+		{
+			"name": "local-clang-debug",
+			"displayName": "Local Debug Clang",
+			"hidden": false,
+			"inherits": "debug",
+			"configurePreset": "local-clang"
+		},
+		{
+			"name": "local-clang-release-debug",
+			"displayName": "Local Release-Debug Clang",
+			"hidden": false,
+			"inherits": "release-debug",
+			"configurePreset": "local-clang"
+		},
+		{
+			"name": "local-clang-release",
+			"displayName": "Local Release Clang",
+			"hidden": false,
+			"inherits": "release",
+			"configurePreset": "local-clang"
+		},
+		{
+			"name": "local-gcc-debug",
+			"displayName": "Local Debug GCC",
+			"hidden": false,
+			"inherits": "debug",
+			"configurePreset": "local-gcc"
+		},
+		{
+			"name": "local-gcc-release-debug",
+			"displayName": "Local Release-Debug GCC",
+			"hidden": false,
+			"inherits": "release-debug",
+			"configurePreset": "local-gcc"
+		},
+		{
+			"name": "local-gcc-release",
+			"displayName": "Local Release GCC",
+			"hidden": false,
+			"inherits": "release",
+			"configurePreset": "local-gcc"
 		}
 	],
 	"testPresets": [
@@ -268,6 +379,69 @@
 			"displayName": "Release GCC",
 			"inherits": "release",
 			"configurePreset": "gcc"
+		},
+		{
+			"name": "local-msvc-debug",
+			"displayName": "Local Debug MSVC",
+			"hidden": false,
+			"inherits": "debug",
+			"configurePreset": "local-msvc"
+		},
+		{
+			"name": "local-msvc-release-debug",
+			"displayName": "Local Release-Debug MSVC",
+			"hidden": false,
+			"inherits": "release-debug",
+			"configurePreset": "local-msvc"
+		},
+		{
+			"name": "local-msvc-release",
+			"displayName": "Local Release MSVC",
+			"hidden": false,
+			"inherits": "release",
+			"configurePreset": "local-msvc"
+		},
+		{
+			"name": "local-clang-debug",
+			"displayName": "Local Debug Clang",
+			"hidden": false,
+			"inherits": "debug",
+			"configurePreset": "local-clang"
+		},
+		{
+			"name": "local-clang-release-debug",
+			"displayName": "Local Release-Debug Clang",
+			"hidden": false,
+			"inherits": "release-debug",
+			"configurePreset": "local-clang"
+		},
+		{
+			"name": "local-clang-release",
+			"displayName": "Local Release Clang",
+			"hidden": false,
+			"inherits": "release",
+			"configurePreset": "local-clang"
+		},
+		{
+			"name": "local-gcc-debug",
+			"displayName": "Local Debug GCC",
+			"hidden": false,
+			"inherits": "debug",
+			"configurePreset": "local-gcc"
+		},
+		{
+			"name": "local-gcc-release-debug",
+			"displayName": "Local Release-Debug GCC",
+			"hidden": false,
+			"inherits": "release-debug",
+			"configurePreset": "local-gcc"
+		},
+		{
+			"name": "local-gcc-release",
+			"displayName": "Local Release GCC",
+			"hidden": false,
+			"inherits": "release",
+			"configurePreset": "local-gcc"
 		}
 	],
 	"packagePresets": [],
@@ -404,6 +578,111 @@
 				{
 					"type": "build",
 					"name": "readthedocs"
+				}
+			]
+		},
+		{
+			"name": "local-msvc",
+			"displayName": "Local MSVC",
+			"description": "Full Local Workflow for the MSVC toolchain",
+			"steps": [
+				{
+					"type": "configure",
+					"name": "local-msvc"
+				},
+				{
+					"type": "build",
+					"name": "local-msvc-debug"
+				},
+				{
+					"type": "build",
+					"name": "local-msvc-release-debug"
+				},
+				{
+					"type": "build",
+					"name": "local-msvc-release"
+				},
+				{
+					"type": "test",
+					"name": "local-msvc-debug"
+				},
+				{
+					"type": "test",
+					"name": "local-msvc-release-debug"
+				},
+				{
+					"type": "test",
+					"name": "local-msvc-release"
+				}
+			]
+		},
+		{
+			"name": "local-gcc",
+			"displayName": "Local GCC",
+			"description": "Full Local Workflow for the GCC toolchain",
+			"steps": [
+				{
+					"type": "configure",
+					"name": "local-gcc"
+				},
+				{
+					"type": "build",
+					"name": "local-gcc-debug"
+				},
+				{
+					"type": "build",
+					"name": "local-gcc-release-debug"
+				},
+				{
+					"type": "build",
+					"name": "local-gcc-release"
+				},
+				{
+					"type": "test",
+					"name": "local-gcc-debug"
+				},
+				{
+					"type": "test",
+					"name": "local-gcc-release-debug"
+				},
+				{
+					"type": "test",
+					"name": "local-gcc-release"
+				}
+			]
+		},
+		{
+			"name": "local-clang",
+			"displayName": "Local Clang",
+			"description": "Full Local Workflow for the Clang toolchain",
+			"steps": [
+				{
+					"type": "configure",
+					"name": "local-clang"
+				},
+				{
+					"type": "build",
+					"name": "local-clang-debug"
+				},
+				{
+					"type": "build",
+					"name": "local-clang-release-debug"
+				},
+				{
+					"type": "build",
+					"name": "local-clang-release"
+				},
+				{
+					"type": "test",
+					"name": "local-clang-debug"
+				},
+				{
+					"type": "test",
+					"name": "local-clang-release-debug"
+				},
+				{
+					"type": "test",
+					"name": "local-clang-release"
 				}
 			]
 		}
