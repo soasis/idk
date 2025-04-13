@@ -99,6 +99,9 @@
 #if defined(_MSC_VER) && _MSC_FULL_VER > 196000000
 	// Assume Microsoft will get their shit together in a couple major versions
 	#define ZTD_HAS_ATTRIBUTE_I_(...) 0L
+#else
+	#define ZTD_HAS_ATTRIBUTE_I_(...) __has_attribute(__VA_ARGS__)
+#endif
 #elif defined(__has_attribute)
 	#define ZTD_HAS_ATTRIBUTE_I_(...) __has_attribute(__VA_ARGS__)
 #else
