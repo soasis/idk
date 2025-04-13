@@ -96,7 +96,9 @@
 #elif ZTD_IS_ON(ZTD_CXX) && defined(__has_cpp_attribute)
 	#define ZTD_HAS_ATTRIBUTE_I_(...) __has_cpp_attribute(__VA_ARGS__)
 #elif ZTD_IS_ON(ZTD_C) && defined(__has_c_attribute)
-	#define ZTD_HAS_ATTRIBUTE_I_(...) __has_c_attribute(__VA_ARGS__)
+#if defined(_MSC_VER) && _MSC_FULL_VER > 196000000
+	// Assume Microsoft will get their shit together in a couple major versions
+	#define ZTD_HAS_ATTRIBUTE_I_(...) 0L
 #elif defined(__has_attribute)
 	#define ZTD_HAS_ATTRIBUTE_I_(...) __has_attribute(__VA_ARGS__)
 #else
