@@ -94,14 +94,27 @@
 #if defined(ZTD_HAS_ATTRIBUTE)
 	#define ZTD_HAS_ATTRIBUTE_I_(...) ZTD_HAS_ATTRIBUTE(__VA_ARGS__)
 #elif ZTD_IS_ON(ZTD_CXX) && defined(__has_cpp_attribute)
-	#define ZTD_HAS_ATTRIBUTE_I_(...) __has_cpp_attribute(__VA_ARGS__)
+	#if defined(_MSC_VER)
+		// Assume Microsoft will get their shit together in a couple major versions
+		#if _MSC_FULL_VER > 196000000
+			#define ZTD_HAS_ATTRIBUTE_I_(...) __has_cpp_attribute(__VA_ARGS__)
+		#else
+			#define ZTD_HAS_ATTRIBUTE_I_(...) 0L
+		#endif
+	#else
+		#define ZTD_HAS_ATTRIBUTE_I_(...) __has_cpp_attribute(__VA_ARGS__)
+	#endif
 #elif ZTD_IS_ON(ZTD_C) && defined(__has_c_attribute)
-#if defined(_MSC_VER) && _MSC_FULL_VER > 196000000
-	// Assume Microsoft will get their shit together in a couple major versions
-	#define ZTD_HAS_ATTRIBUTE_I_(...) 0L
-#else
-	#define ZTD_HAS_ATTRIBUTE_I_(...) __has_attribute(__VA_ARGS__)
-#endif
+	#if defined(_MSC_VER)
+		// Assume Microsoft will get their shit together in a couple major versions
+		#if _MSC_FULL_VER > 196000000
+			#define ZTD_HAS_ATTRIBUTE_I_(...) __has_c_attribute(__VA_ARGS__)
+		#else
+			#define ZTD_HAS_ATTRIBUTE_I_(...) 0L
+		#endif
+	#else
+		#define ZTD_HAS_ATTRIBUTE_I_(...) __has_c_attribute(__VA_ARGS__)
+	#endif
 #elif defined(__has_attribute)
 	#define ZTD_HAS_ATTRIBUTE_I_(...) __has_attribute(__VA_ARGS__)
 #else
