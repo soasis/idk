@@ -1023,6 +1023,12 @@
 	#define ZTD_ATTR_ALWAYS_INLINE_I_
 #endif
 
+#if ZTD_IS_ON(ZTD_COMPILER_VCXX)
+	#define ZTD_INLINE_IF_NOT_MSVC_I_ 
+#else
+	#define ZTD_INLINE_IF_NOT_MSVC_I_ inline
+#endif
+
 #if (ZTD_HAS_ATTRIBUTE_I_(deprecated) != 0L)
 	#define ZTD_ATTR_DEPRECATED_I_(__message) [[deprecated(__message)]]
 #else
