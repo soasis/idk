@@ -56,7 +56,7 @@
 #define ztdc_c_array_bit_size(...) (ztdc_c_array_byte_size(__VA_ARGS__) * CHAR_BIT)
 #define ztdc_c_string_array_bit_size(...) (ztdc_c_string_array_byte_size(__VA_ARGS__) * CHAR_BIT)
 
-ZTD_EXTERN_C_OPEN_I_
+ZTD_USE(ZTD_EXTERN_C_OPEN)
 
 ZTD_USE(ZTD_ATTR_ALWAYS_INLINE)
 ZTD_USE(ZTD_INLINE_IF_NOT_MSVC)
@@ -235,7 +235,7 @@ size_t ztdc_c_string_ptr_size_limit_c32(size_t __limit, const ztd_char32_t* __pt
 	return __ptr_size;
 }
 
-ZTD_EXTERN_C_CLOSE_I_
+ZTD_USE(ZTD_EXTERN_C_CLOSE)
 
 #if ZTD_IS_ON(ZTD_C)
 // NOTE: cascading _Generic implementation prevents issues with multiple types having the same underlying type, because
@@ -315,6 +315,40 @@ constexpr ::std::size_t ztdc_c_string_ptr_size(const _Ptr& __ptr) noexcept {
 	}
 	else if constexpr (::std::is_same_v<_Ty, ztd_char8_t>) {
 		return ztdc_c_string_ptr_size_c8(__ptr);
+	}
+	else {
+		static_assert(::ztd::always_false_v<_Ptr>, "unknown type to ztdc_c_string_ptr_size");
+	}
+}
+
+template <typename _Ptr>
+constexpr ::std::size_t ztdc_c_string_ptr_size_limit(::std::size_t __limit, const _Ptr& __ptr) noexcept {
+	using _Ty = ::ztd::remove_cvref_t<decltype(__ptr[0])>;
+	if constexpr (::std::is_same_v<_Ty, char>) {
+		return ztdc_c_string_ptr_size_limit_c(__limit, __ptr);
+	}
+	else if constexpr (::std::is_same_v<_Ty, unsigned char>) {
+		return ztdc_c_string_ptr_size_limit_uc(__limit, __ptr);
+	}
+	else if constexpr (::std::is_same_v<_Ty, signed char>) {
+		return ztdc_c_string_ptr_size_limit_sc(__limit, __ptr);
+	}
+	else if constexpr (::std::is_same_v<_Ty, wchar_t>) {
+		return ztdc_c_string_ptr_size_limit_wc(__limit, __ptr);
+	}
+#if ZTD_IS_ON(ZTD_NATIVE_CHAR8_T)
+	else if constexpr (::std::is_same_v<_Ty, char8_t>) {
+		return ztdc_c_string_ptr_size_limit_c8(__limit, __ptr);
+	}
+#endif
+	else if constexpr (::std::is_same_v<_Ty, char16_t>) {
+		return ztdc_c_string_ptr_size_limit_c16(__limit, __ptr);
+	}
+	else if constexpr (::std::is_same_v<_Ty, char32_t>) {
+		return ztdc_c_string_ptr_size_limit_c32(__limit, __ptr);
+	}
+	else if constexpr (::std::is_same_v<_Ty, ztd_char8_t>) {
+		return ztdc_c_string_ptr_size_limit_c8(__limit, __ptr);
 	}
 	else {
 		static_assert(::ztd::always_false_v<_Ptr>, "unknown type to ztdc_c_string_ptr_size");
