@@ -28,25 +28,6 @@
 #
 # ============================================================================>
 
-# # Tests
-file(GLOB_RECURSE ztd.idk.ranges.tests.inclusion.sources
-	LIST_DIRECTORIES FALSE
-	CONFIGURE_DEPENDS
-	source/*.cpp)
+include(GenerateInclusionTest)
 
-add_executable(ztd.idk.ranges.tests.inclusion ${ztd.idk.ranges.tests.inclusion.sources})
-target_compile_options(ztd.idk.ranges.tests.inclusion
-	PRIVATE
-	${--utf8-literal-encoding}
-	${--utf8-source-encoding}
-	${--disable-permissive}
-	${--warn-pedantic}
-	${--warn-default}
-	${--warn-extra}
-	${--warn-errors})
-target_link_libraries(ztd.idk.ranges.tests.inclusion
-	PRIVATE
-	ztd::idk
-	${CMAKE_DL_LIBS}
-)
-add_test(NAME ztd.idk.ranges.tests.inclusion COMMAND ztd.idk.ranges.tests.inclusion)
+generate_inclusion_test(NAME "ztd.ranges.tests.inclusion" BASE_DIRECTORY "../../../include" ROOTS "../../../include/ztd/ranges" LINK_LIBRARIES ztd::ranges)
