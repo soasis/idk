@@ -38,6 +38,7 @@
 #if ZTD_IS_ON(ZTD_C)
 #include <stddef.h>
 #include <stdint.h>
+#include <stdbool.h>
 #else
 #include <cstddef>
 #include <cstdint>
