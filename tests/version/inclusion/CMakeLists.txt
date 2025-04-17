@@ -30,4 +30,8 @@
 
 include(GenerateInclusionTest)
 
-generate_inclusion_test(NAME "ztd.version.tests.inclusion" BASE_DIRECTORY "../../../include" ROOTS "../../../include/ztd/version" LINK_LIBRARIES ztd::version)
+generate_inclusion_test(NAME "ztd.version.tests.inclusion"
+	BASE_DIRECTORY "../../../include"
+	ROOTS "../../../include/ztd/version"
+	LINK_LIBRARIES ztd::version
+)

@@ -30,4 +30,8 @@
 
 include(GenerateInclusionTest)
 
-generate_inclusion_test(NAME "ztd.tag_invoke.tests.inclusion" BASE_DIRECTORY "../../../include" ROOTS "../../../include/ztd/tag_invoke" LINK_LIBRARIES ztd::tag_invoke)
+generate_inclusion_test(NAME "ztd.tag_invoke.tests.inclusion"
+	BASE_DIRECTORY "../../../include"
+	ROOTS "../../../include/ztd/tag_invoke"
+	LINK_LIBRARIES ztd::tag_invoke
+)
