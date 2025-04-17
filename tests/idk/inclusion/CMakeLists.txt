@@ -30,4 +30,9 @@
 
 include(GenerateInclusionTest)
 
-generate_inclusion_test(NAME "ztd.idk.tests.inclusion" BASE_DIRECTORY "../../../include" ROOTS "../../../include/ztd/idk" LINK_LIBRARIES ztd::idk)
+generate_inclusion_test(NAME "ztd.idk.tests.inclusion"
+	BASE_DIRECTORY "../../../include"
+	ROOTS "../../../include/ztd/idk"
+	REGEX_EXCLUSIONS ".*\.g\.h" ".*\.g\.hpp"
+	LINK_LIBRARIES  ztd::idk
+)

@@ -36,6 +36,7 @@
 #include <ztd/idk/version.hpp>
 
 #include <type_traits>
+#include <array>
 
 #include <ztd/prologue.hpp>
 
