@@ -84,8 +84,7 @@ namespace ztd { namespace ranges {
 		if constexpr (::std::is_same_v<::ztd::remove_cvref_t<_Range>, __rng_detail::__range_iterator_unsaveable_t>) {
 			return ::std::forward<_FallbackRange>(__fallback_range);
 		}
-		else if constexpr (::ztd::ranges::is_iterator_input_or_output_iterator_exactly_v<
-			                   ::ztd::remove_cvref_t<_Range>>) {
+		else if constexpr (::ztd::ranges::is_range_input_or_output_range_exactly_v<::ztd::remove_cvref_t<_Range>>) {
 			return ::std::forward<_FallbackRange>(__fallback_range);
 		}
 		else {
