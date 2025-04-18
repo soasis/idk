@@ -278,7 +278,9 @@ namespace ztd { namespace ranges {
 				return ::std::input_iterator_tag {};
 			}
 			else {
-				return ::std::output_iterator_tag {};
+				using __falback_t =
+					typename __iterator_concept_or_category_or_fallback<::std::remove_reference_t<_It>>::type;
+				return __falback_t {};
 			}
 		}
 
@@ -613,8 +615,9 @@ namespace ztd { namespace ranges {
 			class __data_fn {
 			public:
 				template <typename _Range>
-				constexpr auto operator()(_Range&& __range) const noexcept(noexcept(
-					data(::std::forward<_Range>(__range)))) -> decltype(data(::std::forward<_Range>(__range))) {
+				constexpr auto operator()(_Range&& __range) const
+					noexcept(noexcept(data(::std::forward<_Range>(__range))))
+					     -> decltype(data(::std::forward<_Range>(__range))) {
 					return data(::std::forward<_Range>(__range));
 				}
 			};
@@ -622,8 +625,9 @@ namespace ztd { namespace ranges {
 			class __size_fn {
 			public:
 				template <typename _Range>
-				constexpr auto operator()(_Range&& __range) const noexcept(noexcept(
-					size(::std::forward<_Range>(__range)))) -> decltype(size(::std::forward<_Range>(__range))) {
+				constexpr auto operator()(_Range&& __range) const
+					noexcept(noexcept(size(::std::forward<_Range>(__range))))
+					     -> decltype(size(::std::forward<_Range>(__range))) {
 					return size(::std::forward<_Range>(__range));
 				}
 			};
@@ -631,8 +635,9 @@ namespace ztd { namespace ranges {
 			class __empty_fn {
 			public:
 				template <typename _Range>
-				constexpr auto operator()(_Range&& __range) const noexcept(noexcept(
-					empty(::std::forward<_Range>(__range)))) -> decltype(empty(::std::forward<_Range>(__range))) {
+				constexpr auto operator()(_Range&& __range) const
+					noexcept(noexcept(empty(::std::forward<_Range>(__range))))
+					     -> decltype(empty(::std::forward<_Range>(__range))) {
 					return empty(::std::forward<_Range>(__range));
 				}
 			};

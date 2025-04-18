@@ -427,7 +427,10 @@ namespace ztd { namespace ranges {
 		if (false)
 #endif
 		{
-			// TODO: constexpr-unfriendly implementation when possible
+			if constexpr (::std::is_same_v<_It, _Last>) {
+				auto __it = ::std::lower_bound(__first, __last, __target_val, __compare);
+				return { ::std::move(__it), ::std::move(__last) };
+			}
 		}
 		_It __it      = {};
 		_Diff __count = ::ztd::ranges::distance(__first, __last);
@@ -444,7 +447,7 @@ namespace ztd { namespace ranges {
 				__count = __step;
 			}
 		}
-		return { ::std::move(__it), ::std::move(__last) };
+		return { ::std::move(__first), ::std::move(__last) };
 	}
 
 	template <typename _ItLast, typename _Ty, typename _Compare>
