@@ -475,6 +475,10 @@ namespace ztd { namespace ranges {
 	using subrange_for_t
 		= ::ztd::ranges::subrange<::ztd::ranges::range_iterator_t<_Range>, ::ztd::ranges::range_sentinel_t<_Range>>;
 
+	template <typename _Range>
+	using csubrange_for_t = ::ztd::ranges::subrange<::ztd::ranges::range_const_iterator_t<_Range>,
+		::ztd::ranges::range_const_sentinel_t<_Range>>;
+
 	//////
 	/// @brief Decomposes a range into its two iterators and returns it as a ztd::ranges::subrange.
 	template <typename _Range>
