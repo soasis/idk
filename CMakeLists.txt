@@ -233,6 +233,10 @@ target_compile_definitions(ztd.idk
 		$<$<STREQUAL:$<TARGET_PROPERTY:ztd.idk,TYPE>,SHARED_LIBRARY>:ZTD_IDK_DLL=1>
 		${CMAKE_DL_LIBS}
 )
+set_target_properties(ztd.idk
+	PROPERTIES
+		$<$<STREQUAL:$<TARGET_PROPERTY:ztd.idk,TYPE>,SHARED_LIBRARY>:POSITION_INDEPENDENT_CODE TRUE>
+)
 
 if(ZTD_IDK_IS_TOP_LEVEL_PROJECT)
 	target_compile_options(ztd.idk

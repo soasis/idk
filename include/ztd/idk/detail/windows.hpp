@@ -38,6 +38,28 @@
 #include <ztd/idk/version.hpp>
 #endif
 
+
+
+#if ZTD_IS_ON(ZTD_CXX)
+#include <cstdint>
+#else
+#include <stdint.h>
+#endif
+
+#if ZTD_IS_ON(ZTD_CXX)
+namespace ztd {
+	ZTD_IDK_INLINE_ABI_NAMESPACE_OPEN_I_
+	namespace __idk_detail { namespace __windows {
+
+		inline constexpr int32_t __code_page_active        = 0;
+		inline constexpr int32_t __code_page_oem           = 1;
+		inline constexpr int32_t __code_page_mac           = 2;
+		inline constexpr int32_t __code_page_active_thread = 3;
+	}} // namespace __idk_detail::__windows
+	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
+} // namespace ztd
+#endif
+
 #if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 
 #if ZTD_IS_ON(ZTD_COMPILER_VCXX) || ZTD_IS_ON(ZTD_COMPILER_GCC)

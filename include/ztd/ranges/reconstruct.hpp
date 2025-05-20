@@ -147,9 +147,10 @@ namespace ztd { namespace ranges {
 
 	namespace __rng_detail {
 
+		template <bool>
 		class __reconstruct_fn;
 
-		template <typename...>
+		template <bool, typename...>
 		class __cascading_reconstruct_fn;
 
 		template <typename _It, typename _Sen>
@@ -170,9 +171,14 @@ namespace ztd { namespace ranges {
 		template <typename _It, typename _Sen>
 		constexpr bool __is_tagless_iterator_reconstruct_noexcept() noexcept {
 			if constexpr (((::std::is_class_v<_It> || ::std::is_enum_v<_It>)
-				              || (::std::is_class_v<_Sen> || ::std::is_enum_v<_Sen>))
-				&& is_detected_v<__detect_tagless_iterator_sentinel_reconstruct, _It, _Sen>) {
-				return noexcept(reconstruct(::std::declval<_It>(), ::std::declval<_Sen>()));
+				              || (::std::is_class_v<_Sen> || ::std::is_enum_v<_Sen>))) {
+				if constexpr (is_detected_v<__detect_tagless_iterator_sentinel_reconstruct, _It, _Sen>) {
+					return noexcept(reconstruct(::std::declval<_It>(), ::std::declval<_Sen>()));
+				}
+				else {
+					return ::std::is_nothrow_constructible_v<subrange<remove_cvref_t<_It>, remove_cvref_t<_Sen>>,
+						_It, _Sen>;
+				}
 			}
 			else {
 				return ::std::is_nothrow_constructible_v<subrange<remove_cvref_t<_It>, remove_cvref_t<_Sen>>, _It,
@@ -202,25 +208,29 @@ namespace ztd { namespace ranges {
 			}
 		}
 
-		template <typename _InPlace, typename _Range>
+		template <bool _Mutable, typename _InPlace, typename _Range>
 		constexpr bool __is_range_reconstruct_noexcept() noexcept {
-			return __is_range_iterator_reconstruct_noexcept<_InPlace, _Range, range_iterator_t<_Range>,
-				range_sentinel_t<_Range>>();
+			if constexpr (_Mutable) {
+				return __is_range_iterator_reconstruct_noexcept<_InPlace, _Range, range_iterator_t<_Range>,
+					range_sentinel_t<_Range>>();
+			}
+			else {
+				return __is_range_iterator_reconstruct_noexcept<_InPlace, _Range, range_const_iterator_t<_Range>,
+					range_const_sentinel_t<_Range>>();
+			}
 		}
 
-		template <typename _InPlaceOrIt, typename _RangeOrSen>
+		template <bool _Mutable, typename _InPlaceOrIt, typename _RangeOrSen>
 		constexpr bool __is_range_reconstruct_or_tagless_iterator_reconstruct_noexcept() noexcept {
 			if constexpr (is_specialization_of_v<remove_cvref_t<_InPlaceOrIt>, ::std::in_place_type_t>) {
-				return __is_range_reconstruct_noexcept<_InPlaceOrIt, _RangeOrSen>();
+				return __is_range_reconstruct_noexcept<_Mutable, _InPlaceOrIt, _RangeOrSen>();
 			}
 			else {
 				return __is_tagless_iterator_reconstruct_noexcept<_InPlaceOrIt, _RangeOrSen>();
 			}
 		}
 
-
-
-		template <typename _InPlaceOrIt, typename _RangeOrSen, typename... _Args>
+		template <bool _Mutable, typename _InPlaceOrIt, typename _RangeOrSen, typename... _Args>
 		static constexpr bool __is_reconstructible() noexcept {
 			if constexpr (sizeof...(_Args) == 0) {
 				if constexpr (is_specialization_of_v<remove_cvref_t<_InPlaceOrIt>, ::std::in_place_type_t>) {
@@ -228,9 +238,16 @@ namespace ztd { namespace ranges {
 						return true;
 					}
 					else {
-						return __is_reconstructible<_InPlaceOrIt, _RangeOrSen,
-							::ztd::ranges::range_iterator_t<_RangeOrSen>,
-							::ztd::ranges::range_sentinel_t<_RangeOrSen>>();
+						if constexpr (_Mutable) {
+							return __is_reconstructible<_Mutable, _InPlaceOrIt, _RangeOrSen,
+								::ztd::ranges::range_iterator_t<_RangeOrSen>,
+								::ztd::ranges::range_sentinel_t<_RangeOrSen>>();
+						}
+						else {
+							return __is_reconstructible<_Mutable, _InPlaceOrIt, _RangeOrSen,
+								::ztd::ranges::range_const_iterator_t<_RangeOrSen>,
+								::ztd::ranges::range_const_sentinel_t<_RangeOrSen>>();
+						}
 					}
 				}
 				else if constexpr (((::std::is_class_v<_InPlaceOrIt> || ::std::is_enum_v<_InPlaceOrIt>)
@@ -248,7 +265,7 @@ namespace ztd { namespace ranges {
 					return true;
 				}
 				else {
-					return __is_reconstructible<_RangeOrSen, _Args...>();
+					return __is_reconstructible<_Mutable, _RangeOrSen, _Args...>();
 				}
 			}
 			else if constexpr (sizeof...(_Args) == 2) {
@@ -257,7 +274,7 @@ namespace ztd { namespace ranges {
 					return true;
 				}
 				else {
-					return __is_reconstructible<_InPlaceOrIt, _Args...>();
+					return __is_reconstructible<_Mutable, _InPlaceOrIt, _Args...>();
 				}
 			}
 			else {
@@ -265,21 +282,21 @@ namespace ztd { namespace ranges {
 			}
 		}
 
-		template <typename _InPlaceOrIt, typename _RangeOrSen, typename... _Args>
+		template <bool _Mutable, typename _InPlaceOrIt, typename _RangeOrSen, typename... _Args>
 		inline constexpr bool __is_reconstructible_noexcept() noexcept {
 			if constexpr (sizeof...(_Args) == 0) {
 				if constexpr (is_specialization_of_v<remove_cvref_t<_InPlaceOrIt>, ::std::in_place_type_t>) {
-					return __is_range_reconstruct_noexcept<_InPlaceOrIt, _RangeOrSen>();
+					return __is_range_reconstruct_noexcept<_Mutable, _InPlaceOrIt, _RangeOrSen>();
 				}
 				else {
-					return __is_tagless_iterator_reconstruct_noexcept<_InPlaceOrIt, _RangeOrSen>();
+					return __is_tagless_iterator_reconstruct_noexcept<_Mutable, _InPlaceOrIt, _RangeOrSen>();
 				}
 			}
 			else if constexpr (sizeof...(_Args) == 1) {
 				return __is_iterator_reconstruct_noexcept<_InPlaceOrIt, _RangeOrSen, _Args...>();
 			}
 			else if constexpr (sizeof...(_Args) == 2) {
-				return __is_range_iterator_reconstruct_noexcept<_InPlaceOrIt, _RangeOrSen, _Args...>();
+				return __is_range_iterator_reconstruct_noexcept<_Mutable, _InPlaceOrIt, _RangeOrSen, _Args...>();
 			}
 			else {
 				static_assert(
@@ -287,8 +304,9 @@ namespace ztd { namespace ranges {
 			}
 		}
 
-		class __reconstruct_fn : public ::ztd::hijack::token<__reconstruct_fn>,
-			                    public ::ztd_hijack_global_token<__reconstruct_fn> {
+		template <bool _Mutable>
+		class __reconstruct_fn : public ::ztd::hijack::token<__reconstruct_fn<_Mutable>>,
+			                    public ::ztd_hijack_global_token<__reconstruct_fn<_Mutable>> {
 		public:
 			template <typename _InPlaceTag, typename _It, typename _Sen>
 			constexpr auto operator()(
@@ -324,17 +342,26 @@ namespace ztd { namespace ranges {
 			template <typename _InPlaceOrIt, typename _RangeOrSen>
 			constexpr decltype(auto) operator()(
 				_InPlaceOrIt&& __inplace_or_iterator, _RangeOrSen&& __range_or_sentinel) const
-				noexcept(
-				     __is_range_reconstruct_or_tagless_iterator_reconstruct_noexcept<_InPlaceOrIt, _RangeOrSen>()) {
+				noexcept(__is_range_reconstruct_or_tagless_iterator_reconstruct_noexcept<_Mutable, _InPlaceOrIt,
+				     _RangeOrSen>()) {
 				if constexpr (is_specialization_of_v<remove_cvref_t<_InPlaceOrIt>, ::std::in_place_type_t>) {
 					if constexpr (is_detected_v<__detect_range_reconstruct, _InPlaceOrIt, _RangeOrSen>) {
 						return reconstruct(::std::forward<_InPlaceOrIt>(__inplace_or_iterator),
 							::std::forward<_RangeOrSen>(__range_or_sentinel));
 					}
 					else {
-						return (*this)(::std::forward<_InPlaceOrIt>(__inplace_or_iterator),
-							::std::forward<_RangeOrSen>(__range_or_sentinel),
-							::ztd::ranges::begin(__range_or_sentinel), ::ztd::ranges::end(__range_or_sentinel));
+						if constexpr (_Mutable) {
+							return (*this)(::std::forward<_InPlaceOrIt>(__inplace_or_iterator),
+								::std::forward<_RangeOrSen>(__range_or_sentinel),
+								::ztd::ranges::begin(__range_or_sentinel),
+								::ztd::ranges::end(__range_or_sentinel));
+						}
+						else {
+							return (*this)(::std::forward<_InPlaceOrIt>(__inplace_or_iterator),
+								::std::forward<_RangeOrSen>(__range_or_sentinel),
+								::ztd::ranges::cbegin(__range_or_sentinel),
+								::ztd::ranges::cend(__range_or_sentinel));
+						}
 					}
 				}
 				else if constexpr (((::std::is_class_v<_InPlaceOrIt> || ::std::is_enum_v<_InPlaceOrIt>)
@@ -360,55 +387,76 @@ namespace ztd { namespace ranges {
 		/// reconstruction for things outside of their control, without needing to place it in the global namespace or
 		/// the immediate ztd::ranges namespace, where there are too many other types that could force asking more
 		/// questions about what is in the list for ADL and drive up compile-times.
-		inline constexpr __rng_detail::__reconstruct_fn reconstruct = {};
+		inline constexpr __rng_detail::__reconstruct_fn<true> reconstruct = {};
+		//////
+		/// @brief An implementation of the P1664 (https://wg21.link/p1664 |
+		/// https://thephd.dev/_vendor/future_cxx/papers/d1664.html) reconstructible ranges extension point. It is
+		/// derives from ztd::hijack::token in order for outside implementations to have a common place to put
+		/// reconstruction for things outside of their control, without needing to place it in the global namespace or
+		/// the immediate ztd::ranges namespace, where there are too many other types that could force asking more
+		/// questions about what is in the list for ADL and drive up compile-times.
+		inline constexpr __rng_detail::__reconstruct_fn<false> const_reconstruct = {};
 	} // namespace __fn
 
 	namespace __rng_detail {
-		template <typename... _Args, typename _Type>
+		template <bool _Mutable, typename... _Args, typename _Type>
 		static constexpr bool __is_cascading_reconstructible(::ztd::tag<_Type>) noexcept {
-			return __is_reconstructible<::std::in_place_type_t<_Type>, _Args...>();
+			return __is_reconstructible<_Mutable, ::std::in_place_type_t<_Type>, _Args...>();
 		}
 
-		template <typename... _Args, typename _Type, typename... _Types>
+		template <bool _Mutable, typename... _Args, typename _Type, typename... _Types>
 		static constexpr bool __is_cascading_reconstructible(::ztd::tag<_Type, _Types...>) noexcept {
-			if constexpr (__is_reconstructible<::std::in_place_type_t<_Type>, _Args...>()) {
+			if constexpr (__is_reconstructible<_Mutable, ::std::in_place_type_t<_Type>, _Args...>()) {
 				return true;
 			}
 			else {
-				return __is_cascading_reconstructible<_Args...>(::ztd::tag<_Types...>());
+				return __is_cascading_reconstructible<_Mutable, _Args...>(::ztd::tag<_Types...>());
 			}
 		}
 
-		template <typename... _Args, typename... _Types>
+		template <bool _Mutable, typename... _Args, typename... _Types>
 		inline constexpr bool __is_cascading_reconstructible_noexcept(::ztd::tag<_Types...>) noexcept {
-			return ((__is_reconstructible_noexcept<::std::in_place_type_t<_Types>, _Args...>()) || ...);
+			return ((__is_reconstructible_noexcept<_Mutable, ::std::in_place_type_t<_Types>, _Args...>()) || ...);
 		}
 
-		template <typename... _Args, typename _Type>
+		template <bool _Mutable, typename... _Args, typename _Type>
 		constexpr decltype(auto) __cascading_reconstruct(::ztd::tag<_Type>, _Args&&... __args) noexcept(
-			__is_reconstructible_noexcept<::std::in_place_type_t<_Type>, _Args...>()) {
-			return ::ztd::ranges::reconstruct(::std::in_place_type<_Type>, ::std::forward<_Args>(__args)...);
-		}
-
-		template <typename... _Args, typename _Type, typename... _Types,
-			::std::enable_if_t<(sizeof...(_Types) > 0)>* = nullptr>
-		constexpr decltype(auto) __cascading_reconstruct(::ztd::tag<_Type, _Types...>, _Args&&... __args) noexcept(
-			__is_cascading_reconstructible_noexcept<_Args...>(::ztd::tag<_Type, _Types...>())) {
-			if constexpr (__is_reconstructible<::std::in_place_type_t<_Type>, _Args...>()) {
+			__is_reconstructible_noexcept<_Mutable, ::std::in_place_type_t<_Type>, _Args...>()) {
+			if constexpr (_Mutable) {
 				return ::ztd::ranges::reconstruct(::std::in_place_type<_Type>, ::std::forward<_Args>(__args)...);
 			}
 			else {
-				return __cascading_reconstruct(::ztd::tag<_Types...>(), ::std::forward<_Args>(__args)...);
+				return ::ztd::ranges::const_reconstruct(
+					::std::in_place_type<_Type>, ::std::forward<_Args>(__args)...);
 			}
 		}
 
-		template <typename... _Types>
+		template <bool _Mutable, typename... _Args, typename _Type, typename... _Types,
+			::std::enable_if_t<(sizeof...(_Types) > 0)>* = nullptr>
+		constexpr decltype(auto) __cascading_reconstruct(::ztd::tag<_Type, _Types...>, _Args&&... __args) noexcept(
+			__is_cascading_reconstructible_noexcept<_Mutable, _Args...>(::ztd::tag<_Type, _Types...>())) {
+			if constexpr (__is_reconstructible<_Mutable, ::std::in_place_type_t<_Type>, _Args...>()) {
+				if constexpr (_Mutable) {
+					return ::ztd::ranges::reconstruct(
+						::std::in_place_type<_Type>, ::std::forward<_Args>(__args)...);
+				}
+				else {
+					return ::ztd::ranges::const_reconstruct(
+						::std::in_place_type<_Type>, ::std::forward<_Args>(__args)...);
+				}
+			}
+			else {
+				return __cascading_reconstruct<_Mutable>(::ztd::tag<_Types...>(), ::std::forward<_Args>(__args)...);
+			}
+		}
+
+		template <bool _Mutable, typename... _Types>
 		class __cascading_reconstruct_fn {
 		public:
 			template <typename... _Args>
 			constexpr decltype(auto) operator()(_Args&&... __args) const
-				noexcept(__is_cascading_reconstructible_noexcept<_Args...>(::ztd::tag<_Types...>())) {
-				return __cascading_reconstruct(::ztd::tag<_Types...>(), ::std::forward<_Args>(__args)...);
+				noexcept(__is_cascading_reconstructible_noexcept<_Mutable, _Args...>(::ztd::tag<_Types...>())) {
+				return __cascading_reconstruct<_Mutable>(::ztd::tag<_Types...>(), ::std::forward<_Args>(__args)...);
 			}
 		};
 
@@ -419,7 +467,12 @@ namespace ztd { namespace ranges {
 		/// @brief A reconstruct that attempts multiple versions of reconstruct, and if none of them works then
 		/// fallsback to the default subrange return value.
 		template <typename... _Args>
-		inline constexpr __rng_detail::__cascading_reconstruct_fn<_Args...> cascading_reconstruct = {};
+		inline constexpr __rng_detail::__cascading_reconstruct_fn<true, _Args...> cascading_reconstruct = {};
+		//////
+		/// @brief A reconstruct that attempts multiple versions of reconstruct, and if none of them works then
+		/// fallsback to the default subrange return value.
+		template <typename... _Args>
+		inline constexpr __rng_detail::__cascading_reconstruct_fn<false, _Args...> const_cascading_reconstruct = {};
 	} // namespace __fn
 
 	ZTD_RANGES_INLINE_ABI_NAMESPACE_CLOSE_I_
@@ -432,41 +485,42 @@ namespace ztd { namespace ranges {
 	inline constexpr bool is_tagless_iterator_reconstructible_v
 		= ((::std::is_class_v<_It> || ::std::is_enum_v<_It>)           // cf
 		       || (::std::is_class_v<_Sen> || ::std::is_enum_v<_Sen>)) // cf
-		&& __rng_detail::__is_reconstructible<_It, _Sen>();
+		&& __rng_detail::__is_reconstructible<false, _It, _Sen>();
 
 	template <typename _Tag, typename _It, typename _Sen>
-	inline constexpr bool is_iterator_reconstructible_v = __rng_detail::__is_reconstructible<_Tag, _It, _Sen>();
+	inline constexpr bool is_iterator_reconstructible_v = __rng_detail::__is_reconstructible<false, _Tag, _It, _Sen>();
 
 	template <typename _Tag, typename _Range, typename _It, typename _Sen>
 	inline constexpr bool is_range_iterator_reconstructible_v
-		= __rng_detail::__is_reconstructible<_Tag, _Range, _It, _Sen>();
+		= __rng_detail::__is_reconstructible<false, _Tag, _Range, _It, _Sen>();
 
 	template <typename _Tag, typename _Range>
 	inline constexpr bool is_range_reconstructible_v
-		= __rng_detail::__is_reconstructible<::std::in_place_type_t<unwrap_remove_cvref_t<_Tag>>, _Range>();
+		= __rng_detail::__is_reconstructible<false, ::std::in_place_type_t<unwrap_remove_cvref_t<_Tag>>, _Range>();
 
 	template <typename... _Args>
-	inline constexpr bool is_reconstructible_v = __rng_detail::__is_reconstructible<_Args...>();
+	inline constexpr bool is_reconstructible_v = __rng_detail::__is_reconstructible<false, _Args...>();
 
 	template <typename _It, typename _Sen>
 	inline constexpr bool is_nothrow_tagless_iterator_reconstructible_v
 		= ((::std::is_class_v<_It> || ::std::is_enum_v<_It>)           // cf
 		       || (::std::is_class_v<_Sen> || ::std::is_enum_v<_Sen>)) // cf
 		&& is_tagless_iterator_reconstructible_v<_It, _Sen>
-		&& __rng_detail::__is_reconstructible_noexcept<_It, _Sen>();
+		&& __rng_detail::__is_reconstructible_noexcept<false, _It, _Sen>();
 
 	template <typename _Tag, typename _It, typename _Sen>
 	inline constexpr bool is_nothrow_iterator_reconstructible_v = is_iterator_reconstructible_v<_Tag, _It, _Sen>
-		&& __rng_detail::__is_reconstructible_noexcept<_Tag, _It, _Sen>();
+		&& __rng_detail::__is_reconstructible_noexcept<false, _Tag, _It, _Sen>();
 
 	template <typename _Tag, typename _Range, typename _It, typename _Sen>
 	inline constexpr bool is_nothrow_range_iterator_reconstructible_v
 		= is_range_iterator_reconstructible_v<_Tag, _Range, _It, _Sen>
-		&& __rng_detail::__is_reconstructible_noexcept<_Tag, _Range, _It, _Sen>();
+		&& __rng_detail::__is_reconstructible_noexcept<false, _Tag, _Range, _It, _Sen>();
 
 	template <typename _Tag, typename _Range>
 	inline constexpr bool is_nothrow_range_reconstructible_v = is_range_reconstructible_v<_Tag, _Range>
-		&& __rng_detail::__is_reconstructible_noexcept<::std::in_place_type_t<unwrap_remove_cvref_t<_Tag>>, _Range>();
+		&& __rng_detail::__is_reconstructible_noexcept<false, ::std::in_place_type_t<unwrap_remove_cvref_t<_Tag>>,
+		     _Range>();
 
 	template <typename... _Args>
 	inline constexpr bool is_nothrow_reconstructible_v = __rng_detail::__is_reconstructible_noexcept<_Args...>();
@@ -483,6 +537,66 @@ namespace ztd { namespace ranges {
 	template <typename _Tag, typename _Range = _Tag>
 	using tag_range_reconstruct_t
 		= decltype(ranges::reconstruct(::std::in_place_type<unwrap_remove_cvref_t<_Tag>>, ::std::declval<_Range>()));
+
+	template <typename _It, typename _Sen>
+	inline constexpr bool is_tagless_iterator_const_reconstructible_v
+		= ((::std::is_class_v<_It> || ::std::is_enum_v<_It>)           // cf
+		       || (::std::is_class_v<_Sen> || ::std::is_enum_v<_Sen>)) // cf
+		&& __rng_detail::__is_reconstructible<true, _It, _Sen>();
+
+	template <typename _Tag, typename _It, typename _Sen>
+	inline constexpr bool is_iterator_const_reconstructible_v
+		= __rng_detail::__is_reconstructible<true, _Tag, _It, _Sen>();
+
+	template <typename _Tag, typename _Range, typename _It, typename _Sen>
+	inline constexpr bool is_range_iterator_const_reconstructible_v
+		= __rng_detail::__is_reconstructible<true, _Tag, _Range, _It, _Sen>();
+
+	template <typename _Tag, typename _Range>
+	inline constexpr bool is_range_const_reconstructible_v
+		= __rng_detail::__is_reconstructible<true, ::std::in_place_type_t<unwrap_remove_cvref_t<_Tag>>, _Range>();
+
+	template <typename... _Args>
+	inline constexpr bool is_const_reconstructible_v = __rng_detail::__is_reconstructible<true, _Args...>();
+
+	template <typename _It, typename _Sen>
+	inline constexpr bool is_nothrow_tagless_iterator_const_reconstructible_v
+		= ((::std::is_class_v<_It> || ::std::is_enum_v<_It>)           // cf
+		       || (::std::is_class_v<_Sen> || ::std::is_enum_v<_Sen>)) // cf
+		&& is_tagless_iterator_const_reconstructible_v<_It, _Sen>
+		&& __rng_detail::__is_reconstructible_noexcept<true, _It, _Sen>();
+
+	template <typename _Tag, typename _It, typename _Sen>
+	inline constexpr bool is_nothrow_iterator_const_reconstructible_v
+		= is_iterator_const_reconstructible_v<_Tag, _It, _Sen>
+		&& __rng_detail::__is_reconstructible_noexcept<false, _Tag, _It, _Sen>();
+
+	template <typename _Tag, typename _Range, typename _It, typename _Sen>
+	inline constexpr bool is_nothrow_range_iterator_const_reconstructible_v
+		= is_range_iterator_const_reconstructible_v<_Tag, _Range, _It, _Sen>
+		&& __rng_detail::__is_reconstructible_noexcept<false, _Tag, _Range, _It, _Sen>();
+
+	template <typename _Tag, typename _Range>
+	inline constexpr bool is_nothrow_range_const_reconstructible_v = is_range_const_reconstructible_v<_Tag, _Range>
+		&& __rng_detail::__is_reconstructible_noexcept<false, ::std::in_place_type_t<unwrap_remove_cvref_t<_Tag>>,
+		     _Range>();
+
+	template <typename... _Args>
+	inline constexpr bool is_nothrow_const_reconstructible_v
+		= __rng_detail::__is_reconstructible_noexcept<false, _Args...>();
+
+	template <typename _Range, typename _It = ranges::range_iterator_t<unwrap_remove_reference_t<_Range>>,
+		typename _Sen = ranges::range_sentinel_t<unwrap_remove_reference_t<_Range>>>
+	using const_reconstruct_t = decltype(ranges::const_reconstruct(
+		::std::in_place_type<unwrap_remove_cvref_t<_Range>>, ::std::declval<_It>(), ::std::declval<_Sen>()));
+
+	template <typename _Range>
+	using const_range_reconstruct_t = decltype(ranges::reconstruct(
+		::std::in_place_type<unwrap_remove_cvref_t<_Range>>, ::std::declval<_Range>()));
+
+	template <typename _Tag, typename _Range = _Tag>
+	using tag_range_const_reconstruct_t = decltype(ranges::const_reconstruct(
+		::std::in_place_type<unwrap_remove_cvref_t<_Tag>>, ::std::declval<_Range>()));
 
 	ZTD_RANGES_INLINE_ABI_NAMESPACE_CLOSE_I_
 }} // namespace ztd::ranges
