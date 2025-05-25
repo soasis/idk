@@ -140,6 +140,95 @@ namespace ztd {
 			}
 		}
 
+		struct __mbtowc_default_used {
+			int __flags;
+			const char* __p_default_char;
+			BOOL* __p_default_char_used;
+		};
+
+		inline __mbtowc_default_used __multibyte_to_widechar_used_char(
+			uint32_t __codepage_id, const char* __p_default_char, BOOL* __p_default_char_used) {
+			__mbtowc_default_used __used = { 0, __p_default_char, __p_default_char_used };
+			switch (__codepage_id) {
+			case 50220:
+			case 50221:
+			case 50222:
+			case 50225:
+			case 50227:
+			case 50229:
+			case 57002:
+			case 57003:
+			case 57004:
+			case 57005:
+			case 57006:
+			case 57007:
+			case 57008:
+			case 57009:
+			case 57010:
+			case 57011:
+			case 65000: //(UTF-7)
+			case 42:    // (Symbol)
+				// flags are not allowed for these
+				__used.__flags = 0;
+				// UNDOCUMENTED: these parameters are not allowed to be pass as anything but "nullptr" for these
+				// conversions. Microsoft, of course, refuses to mention this.
+				__used.__p_default_char      = nullptr;
+				__used.__p_default_char_used = nullptr;
+				break;
+			case 54936:
+			case 65001: // UTF-8
+				__used.__flags |= WC_ERR_INVALID_CHARS;
+				break;
+			case 0:
+			case 1:
+			case 2:
+			case 3:
+				// unsure for these...?
+				__used.__flags |= WC_ERR_INVALID_CHARS;
+				break;
+			default:
+				break;
+			}
+			switch (__codepage_id) {
+			case 65000: //(UTF-7)
+			case 65001: //(UTF-8)
+				// not allowed to use default character pointers
+				__used.__p_default_char      = nullptr;
+				__used.__p_default_char_used = nullptr;
+			default:
+				break;
+			}
+			return __used;
+		}
+
+		inline uint32_t __multibyte_to_widechar_flags(uint32_t __codepage_id) {
+			switch (__codepage_id) {
+			case 50220:
+			case 50221:
+			case 50222:
+			case 50225:
+			case 50227:
+			case 50229:
+			case 57002:
+			case 57003:
+			case 57004:
+			case 57005:
+			case 57006:
+			case 57007:
+			case 57008:
+			case 57009:
+			case 57010:
+			case 57011:
+			case 65000: //(UTF-7)
+			case 42:    // (Symbol)
+				// flags are not allowed for these
+				return 0;
+			default:
+				break;
+			}
+			return MB_ERR_INVALID_CHARS;
+		}
+
 	}} // namespace __idk_detail::__windows
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd
