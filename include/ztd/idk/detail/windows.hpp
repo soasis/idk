@@ -146,7 +146,7 @@ namespace ztd {
 			BOOL* __p_default_char_used;
 		};
 
-		inline __mbtowc_default_used __multibyte_to_widechar_used_char(
+		inline __mbtowc_default_used __widechar_to_multibyte_used_char(
 			uint32_t __codepage_id, const char* __p_default_char, BOOL* __p_default_char_used) {
 			__mbtowc_default_used __used = { 0, __p_default_char, __p_default_char_used };
 			switch (__codepage_id) {
