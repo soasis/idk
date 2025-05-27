@@ -229,6 +229,30 @@ namespace ztd {
 			return MB_ERR_INVALID_CHARS;
 		}
 
+		ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+		ZTD_USE(ZTD_IDK_API_LINKAGE)
+		bool __get_codepage_descirptor(uint32_t __codepage_id, CPINFOEXW** __pp_codepage_info)
+			ZTD_USE(ZTD_NOEXCEPT_IF_CXX);
+
+		// double-check if we were screwed over by the conversion: given
+		// Win32's undocumented fuckups around this, the only way to know if
+		// we actually failed is by checking if the single character we output
+		// is equal to a replacement character, and if the replacement
+		// character is NOT present in the original stream. The proper way to
+		// do this is to call GetCPInfoExW and then using a comparison to the
+		// MultiByte stream. But there's so many different things wrong with
+		// it, and it's hard to know.
+
+		ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+		ZTD_USE(ZTD_IDK_API_LINKAGE)
+		bool __widechar_to_multibyte_conversion_failed(const WCHAR* __input, size_t __output_size,
+			const CHAR* __output, CPINFOEXW* __p_codepage_info) ZTD_USE(ZTD_NOEXCEPT_IF_CXX);
+
+		ZTD_USE(ZTD_C_LANGUAGE_LINKAGE)
+		ZTD_USE(ZTD_IDK_API_LINKAGE)
+		bool __multibyte_to_widechar_conversion_failed(size_t __input_size, const CHAR* __input,
+			const WCHAR* __output, CPINFOEXW* __p_codepage_info) ZTD_USE(ZTD_NOEXCEPT_IF_CXX);
+
 	}} // namespace __idk_detail::__windows
 	ZTD_IDK_INLINE_ABI_NAMESPACE_CLOSE_I_
 } // namespace ztd

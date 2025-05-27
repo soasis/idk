@@ -38,7 +38,11 @@
 #if ZTD_IS_ON(ZTD_CXX)
 #define ztd_thread_local thread_local
 #else
+#if __STDC_VERSION__ >= 202311L
+#define ztd_thread_local thread_local
+#else
 #define ztd_thread_local _Thread_local
+#endif
 #endif
 
 #endif
