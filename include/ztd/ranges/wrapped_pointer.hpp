@@ -148,7 +148,7 @@ namespace ztd { namespace ranges {
 		}
 
 		friend constexpr pointer to_address(const wrapped_pointer& __wrapped) noexcept {
-			return ztd::unwrap_iterator(__wrapped._M_ptr);
+			return ztd::unwrap_iterator_value(__wrapped._M_ptr);
 		}
 
 	private:

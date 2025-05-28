@@ -52,7 +52,10 @@ namespace ztd {
 		using __is_unwrappable_value_test = decltype(unwrap(::std::declval<_Type>()));
 
 		template <typename _Type>
-		using __is_unwrappable_iter_value_test = decltype(unwrap_iterator(::std::declval<_Type>()));
+		using __is_unwrappable_iter_value_test = decltype(unwrap_iterator_value(::std::declval<_Type>()));
+
+		template <typename _Type>
+		using __is_unwrappable_iter_test = decltype(unwrap_iterator(::std::declval<_Type>()));
 	} // namespace __idk_detail
 
 	//////
@@ -62,10 +65,16 @@ namespace ztd {
 	     = ztd::is_detected_v<__idk_detail::__is_unwrappable_value_test, _Type>;
 
 	//////
-	/// @brief Test whether a type can have `unwrap_iterator(...)` called on it.
+	/// @brief Test whether a type can have `unwrap_iterator_value(...)` called on it.
 	template <typename _Type>
 	inline constexpr bool is_unwrappable_iterator_value_v
 	     = ztd::is_detected_v<__idk_detail::__is_unwrappable_iter_value_test, _Type>;
+
+	//////
+	/// @brief Test whether a type can have `unwrap_iterator(...)` called on it.
+	template <typename _Type>
+	inline constexpr bool is_unwrappable_iterator_v
+	     = ztd::is_detected_v<__idk_detail::__is_unwrappable_iter_test, _Type>;
 
 	namespace __idk_detail {
 		class __unwrap_fn : public ::ztd::hijack::token<__unwrap_fn>, public ::ztd_hijack_global_token<__unwrap_fn> {
@@ -99,13 +108,13 @@ namespace ztd {
 
 
 	namespace __idk_detail {
-		class __unwrap_iterator_fn : public ::ztd::hijack::token<__unwrap_iterator_fn>,
-		                             public ::ztd_hijack_global_token<__unwrap_iterator_fn> {
+		class __unwrap_iterator_value_fn : public ::ztd::hijack::token<__unwrap_iterator_value_fn>,
+		                                   public ::ztd_hijack_global_token<__unwrap_iterator_value_fn> {
 		public:
 			template <typename _Type>
 			constexpr decltype(auto) operator()(_Type&& __value) const noexcept {
 				if constexpr (is_unwrappable_iterator_value_v<_Type>) {
-					return unwrap_iterator(::std::forward<_Type>(__value));
+					return unwrap_iterator_value(::std::forward<_Type>(__value));
 				}
 				else {
 					return ::ztd::unwrap(*::std::forward<_Type>(__value));
@@ -120,6 +129,37 @@ namespace ztd {
 		/// value through.
 		///
 		/// @returns The iterator's unwrapped value.
+		inline constexpr __idk_detail::__unwrap_iterator_value_fn unwrap_iterator_value = {};
+	} // namespace __fn
+
+
+	namespace __idk_detail {
+		class __unwrap_iterator_fn : public ::ztd::hijack::token<__unwrap_iterator_fn>,
+		                             public ::ztd_hijack_global_token<__unwrap_iterator_fn> {
+		public:
+			template <typename _Type>
+			constexpr decltype(auto) operator()(_Type&& __value) const noexcept {
+#if ZTD_IS_ON(ZTD_STD_LIBRARY_RANGES_BASIC_CONST_ITERATOR)
+				if constexpr (::ztd::is_specialization_of_v<::ztd::remove_cvref_t<_Type>,
+				                   ::std::basic_const_iterator>) {
+					// peel off the const iterator where possible
+					return ::std::forward<_Type>(__value).base();
+				}
+				else
+#endif
+				{
+					return ::std::forward<_Type>(__value);
+				}
+			}
+		};
+	} // namespace __idk_detail
+
+	inline namespace __fn {
+		//////
+		/// @brief Peels layers off of an iterator that may be wrapped in implementation-defined and standards-defined
+		/// abstraction layers.
+		///
+		/// @returns The iterator's unwrapped value.
 		inline constexpr __idk_detail::__unwrap_iterator_fn unwrap_iterator = {};
 	} // namespace __fn
 
@@ -131,9 +171,18 @@ namespace ztd {
 	using unwrap_t = decltype(::ztd::unwrap(::std::declval<_Type>()));
 
 	//////
-	/// @brief Retrives the unwrapped type if the object were put through a call to ztd::unwrap.
+	/// @brief Retrives the unwrapped type if the object were put through a call to ztd::unwrap_iterator_value.
 	///
-	/// @remarks Typically used to get the type underlying a `std::reference_wrapper` or similar.
+	/// @remarks Typically used to get the type underlying an iterator whose value may be wrapped up in certain
+	/// abstractions.
+	template <typename _Type>
+	using unwrap_iterator_value_t = decltype(::ztd::unwrap_iterator_value(::std::declval<_Type>()));
+
+	//////
+	/// @brief Retrives the unwrapped type if the object were put through a call to ztd::unwrap_iterator.
+	///
+	/// @remarks Typically used to peel off various layers of implementation-defiend and other boilerplate around
+	/// iterator types.
 	template <typename _Type>
 	using unwrap_iterator_t = decltype(::ztd::unwrap_iterator(::std::declval<_Type>()));
 

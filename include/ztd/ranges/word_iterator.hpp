@@ -126,9 +126,9 @@ namespace ztd { namespace ranges {
 		using __base_reference             = iterator_reference_t<__base_iterator>;
 		using __maybe_void_base_value_type = iterator_value_type_t<__base_iterator>;
 		using __base_value_type            = ::std::conditional_t<::std::is_void_v<__maybe_void_base_value_type> // cf
-                    || (!::std::is_arithmetic_v<__maybe_void_base_value_type>                           // cf
+			                || (!::std::is_arithmetic_v<__maybe_void_base_value_type>                           // cf
                          && !::std::is_same_v<__maybe_void_base_value_type, ::std::byte>),              // cf
-               unsigned char, __maybe_void_base_value_type>;
+			           unsigned char, __maybe_void_base_value_type>;
 		using __difference_type            = iterator_difference_type_t<__base_iterator>;
 		using __size_type                  = iterator_size_type_t<__base_iterator>;
 		using __value_type                 = _Word;
@@ -145,10 +145,8 @@ namespace ztd { namespace ranges {
 
 		static inline constexpr __size_type __base_values_per_word = sizeof(__value_type) / sizeof(__base_value_type);
 
-		template <bool _IsConst>
 		class __word_reference {
 		private:
-			using __cv_value_type = ::std::conditional_t<_IsConst, const _Word, _Word>;
 			using __underlying_base_value_type
 				= decltype(::ztd::any_enum_or_char_to_underlying(__base_value_type {}));
 			using __underlying_word_type
@@ -161,8 +159,11 @@ namespace ztd { namespace ranges {
 		public:
 			constexpr __word_reference(_URange& __range) noexcept : _M_base_range_ref(__range) {
 			}
+			constexpr __word_reference(const _URange& __range) noexcept
+			: _M_base_range_ref(const_cast<_URange&>(__range)) {
+			}
 
-			template <typename _Value, ::std::enable_if_t<::ztd::always_true_v<_Value> && !_IsConst>* = nullptr>
+			template <typename _Value, ::std::enable_if_t<!::std::is_same_v<_Value, __word_reference>>* = nullptr>
 			constexpr __word_reference& operator=(_Value __maybe_val) noexcept {
 				if constexpr (_Endian == endian::native
 					&& (endian::native != endian::big && endian::native != endian::little)) {
@@ -324,10 +325,10 @@ namespace ztd { namespace ranges {
 		using value_type = __value_type;
 		//////
 		///@brief The non-const-qualified reference type.
-		using reference = ::std::conditional_t<_IsInputOrOutput, value_type&, __word_reference<false>>;
+		using reference = ::std::conditional_t<_IsInputOrOutput, value_type&, __word_reference>;
 		//////
 		///@brief The const-qualified reference type.
-		using const_reference = ::std::conditional_t<_IsInputOrOutput, const value_type&, __word_reference<true>>;
+		using const_reference = ::std::conditional_t<_IsInputOrOutput, const value_type&, __word_reference>;
 
 	private:
 		static constexpr bool _S_deref_noexcept() noexcept {
@@ -655,7 +656,7 @@ namespace ztd { namespace ranges {
 	private:
 		constexpr void _M_read_one() noexcept(_S_deref_noexcept()) {
 			if constexpr (_IsInputOrOutput) {
-				_Word __read_word              = __word_reference<true>(this->__base_storage_t::get_value());
+				_Word __read_word              = __word_reference(this->__base_storage_t::get_value());
 				this->__base_storage_t::_M_val = ::std::optional<_Word>(__read_word);
 			}
 		}
