@@ -85,9 +85,18 @@ namespace ztd {
 				return false;
 			}
 			if (__p_codepage_info->DefaultChar[1] == '\0') {
-				// if there isn't a second char then we're done here: it's been equal both for the wide and the
-				// not-wide.
-				return true;
+				// There is only a single byte worth of default characters
+				if (__input[0] == __p_codepage_info->UnicodeDefaultChar) {
+					// if the input IS equal to the UTF-16 default character, then it wasn't change and instead
+					// just a default transfer of what was expected.
+					// NOTE: this can be a false positive, but like. What the hell else are we supposed to do?
+					return false;
+				}
+				else {
+					// Otherwise, if there isn't a second char then we're done here: the wide character was NOT
+					// already the default and it changed therein.
+					return true;
+				}
 			}
 			if (__output_size < 2u || __p_codepage_info->DefaultChar[1] != __output[1]) {
 				return false;
