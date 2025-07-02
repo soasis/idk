@@ -343,13 +343,86 @@
 	#define ZTD_PLATFORM_UNIX_I_ ZTD_DEFAULT_OFF
 #endif // UNIX platforms
 
+
+#if defined(ZTD_HEADER_SYS_THR_H)
+	#if (ZTD_HEADER_SYS_THR_H != 0)
+		#define ZTD_HEADER_SYS_THR_H_I_ ZTD_ON
+	#else
+		#define ZTD_HEADER_SYS_THR_H_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<sys/thr.h>)
+	#define ZTD_HEADER_SYS_THR_H_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_HEADER_SYS_THR_H_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_HEADER_SYS_LWP_H)
+	#if (ZTD_HEADER_SYS_LWP_H != 0)
+		#define ZTD_HEADER_SYS_LWP_H_I_ ZTD_ON
+	#else
+		#define ZTD_HEADER_SYS_LWP_H_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<sys/lwp.h>)
+	#define ZTD_HEADER_SYS_LWP_H_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_HEADER_SYS_LWP_H_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_HEADER_UNISTD_H)
+	#if (ZTD_HEADER_UNISTD_H != 0)
+		#define ZTD_HEADER_UNISTD_H_I_ ZTD_ON
+	#else
+		#define ZTD_HEADER_UNISTD_H_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<unistd.h>)
+	#define ZTD_HEADER_UNISTD_H_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_HEADER_UNISTD_H_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_HEADER_SYS_SYSCALL_H)
+	#if (ZTD_HEADER_SYS_SYSCALL_H != 0)
+		#define ZTD_HEADER_SYS_SYSCALL_H_I_ ZTD_ON
+	#else
+		#define ZTD_HEADER_SYS_SYSCALL_H_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<sys/syscall.h>)
+	#define ZTD_HEADER_SYS_SYSCALL_H_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_HEADER_SYS_SYSCALL_H_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_HEADER_SYS_UIO_H)
+	#if (ZTD_HEADER_SYS_UIO_H != 0)
+		#define ZTD_HEADER_SYS_UIO_H_I_ ZTD_ON
+	#else
+		#define ZTD_HEADER_SYS_UIO_H_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<sys/uio.h>)
+	#define ZTD_HEADER_SYS_UIO_H_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_HEADER_SYS_UIO_H_I_ ZTD_DEFAULT_OFF
+#endif
+
+#if defined(ZTD_HEADER_SYS_TYPES_H)
+	#if (ZTD_HEADER_SYS_TYPES_H != 0)
+		#define ZTD_HEADER_SYS_TYPES_H_I_ ZTD_ON
+	#else
+		#define ZTD_HEADER_SYS_TYPES_H_I_ ZTD_OFF
+	#endif
+#elif ZTD_HAS_INCLUDE_I_(<sys/types.h>)
+	#define ZTD_HEADER_SYS_TYPES_H_I_ ZTD_DEFAULT_ON
+#else
+	#define ZTD_HEADER_SYS_TYPES_H_I_ ZTD_DEFAULT_OFF
+#endif
+
 #if defined(ZTD_PLATFORM_POSIX)
 	#if (ZTD_PLATFORM_POSIX != 0)
 		#define ZTD_PLATFORM_POSIX_I_ ZTD_ON
 	#else
 		#define ZTD_PLATFORM_POSIX_I_ ZTD_OFF
 	#endif
-#elif ZTD_HAS_INCLUDE_I_(<unistd.h>) && ZTD_HAS_INCLUDE_I_(<sys/types.h>)
+#elif ZTD_IS_ON(ZTD_HEADER_UNISTD_H) && ZTD_IS_ON(ZTD_HEADER_SYS_TYPES_H)
 	#define ZTD_PLATFORM_POSIX_I_ ZTD_DEFAULT_ON
 #else
 	#define ZTD_PLATFORM_POSIX_I_ ZTD_DEFAULT_OFF
@@ -367,40 +440,40 @@
 	#define ZTD_PLATFORM_LINUX_I_ ZTD_DEFAULT_OFF
 #endif // Linux platforms
 
-#if defined(ZTD_PLATFORM_FREEBSD)
-	#if (ZTD_PLATFORM_FREEBSD != 0)
-		#define ZTD_PLATFORM_FREEBSD_I_ ZTD_ON
+#if defined(ZTD_PLATFORM_FREE_BSD)
+	#if (ZTD_PLATFORM_FREE_BSD != 0)
+		#define ZTD_PLATFORM_FREE_BSD_I_ ZTD_ON
 	#else
-		#define ZTD_PLATFORM_FREEBSD_I_ ZTD_OFF
+		#define ZTD_PLATFORM_FREE_BSD_I_ ZTD_OFF
 	#endif
 #elif defined(__FreeBSD__)
-	#define ZTD_PLATFORM_FREEBSD_I_ ZTD_DEFAULT_ON
+	#define ZTD_PLATFORM_FREE_BSD_I_ ZTD_DEFAULT_ON
 #else
-	#define ZTD_PLATFORM_FREEBSD_I_ ZTD_DEFAULT_OFF
+	#define ZTD_PLATFORM_FREE_BSD_I_ ZTD_DEFAULT_OFF
 #endif
 
-#if defined(ZTD_PLATFORM_OPENBSD)
-	#if (ZTD_PLATFORM_OPENBSD != 0)
-		#define ZTD_PLATFORM_OPENBSD_I_ ZTD_ON
+#if defined(ZTD_PLATFORM_OPEN_BSD)
+	#if (ZTD_PLATFORM_OPEN_BSD != 0)
+		#define ZTD_PLATFORM_OPEN_BSD_I_ ZTD_ON
 	#else
-		#define ZTD_PLATFORM_OPENBSD_I_ ZTD_OFF
+		#define ZTD_PLATFORM_OPEN_BSD_I_ ZTD_OFF
 	#endif
 #elif defined(__OpenBSD__)
-	#define ZTD_PLATFORM_OPENBSD_I_ ZTD_DEFAULT_ON
+	#define ZTD_PLATFORM_OPEN_BSD_I_ ZTD_DEFAULT_ON
 #else
-	#define ZTD_PLATFORM_OPENBSD_I_ ZTD_DEFAULT_OFF
+	#define ZTD_PLATFORM_OPEN_BSD_I_ ZTD_DEFAULT_OFF
 #endif
 
-#if defined(ZTD_PLATFORM_NETBSD)
-	#if (ZTD_PLATFORM_NETBSD != 0)
-		#define ZTD_PLATFORM_NETBSD_I_ ZTD_ON
+#if defined(ZTD_PLATFORM_NET_BSD)
+	#if (ZTD_PLATFORM_NET_BSD != 0)
+		#define ZTD_PLATFORM_NET_BSD_I_ ZTD_ON
 	#else
-		#define ZTD_PLATFORM_NETBSD_I_ ZTD_OFF
+		#define ZTD_PLATFORM_NET_BSD_I_ ZTD_OFF
 	#endif
 #elif defined(__NetBSD__)
-	#define ZTD_PLATFORM_NETBSD_I_ ZTD_DEFAULT_ON
+	#define ZTD_PLATFORM_NET_BSD_I_ ZTD_DEFAULT_ON
 #else
-	#define ZTD_PLATFORM_NETBSD_I_ ZTD_DEFAULT_OFF
+	#define ZTD_PLATFORM_NET_BSD_I_ ZTD_DEFAULT_OFF
 #endif
 
 #if defined(ZTD_PLATFORM_DRAGONFLY_BSD)
@@ -785,7 +858,6 @@
 #else
 	#define ZTD_HEADER_PTHREAD_H_I_ ZTD_DEFAULT_OFF
 #endif
-
 
 #if defined(ZTD_HEADER_PTHREAD_NP_H)
 	#if (ZTD_HEADER_PTHREAD_NP_H != 0)
