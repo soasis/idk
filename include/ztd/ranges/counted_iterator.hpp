@@ -63,14 +63,16 @@ namespace ztd { namespace ranges {
 		template <typename _It>
 		class __counted_iterator {
 		private:
+			_It _M_it = _It();
+
 			using _ItDiff = ranges::iterator_difference_type_t<_It>;
 
 			static constexpr bool _S_operator_plusplus_noexcept() noexcept {
-				return noexcept(++::std::declval<_It&>())&& noexcept(--::std::declval<_ItDiff&>());
+				return noexcept(++::std::declval<_It&>()) && noexcept(--::std::declval<_ItDiff&>());
 			}
 
 			static constexpr bool _S_operator_minusminus_noexcept() noexcept {
-				return noexcept(--::std::declval<_It&>())&& noexcept(++::std::declval<_ItDiff&>());
+				return noexcept(--::std::declval<_It&>()) && noexcept(++::std::declval<_ItDiff&>());
 			}
 
 		public:
@@ -263,7 +265,6 @@ namespace ztd { namespace ranges {
 			}
 
 		private:
-			_It _M_it                = _It();
 			difference_type _M_count = difference_type {};
 		};
 	} // namespace __rng_detail
