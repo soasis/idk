@@ -66,11 +66,11 @@ namespace ztd { namespace ranges {
 			using _ItDiff = ranges::iterator_difference_type_t<_It>;
 
 			static constexpr bool _S_operator_plusplus_noexcept() noexcept {
-				return noexcept(++::std::declval<_It&>())&& noexcept(--::std::declval<_ItDiff&>());
+				return noexcept(++::std::declval<_It&>()) && noexcept(--::std::declval<_ItDiff&>());
 			}
 
 			static constexpr bool _S_operator_minusminus_noexcept() noexcept {
-				return noexcept(--::std::declval<_It&>())&& noexcept(++::std::declval<_ItDiff&>());
+				return noexcept(--::std::declval<_It&>()) && noexcept(++::std::declval<_ItDiff&>());
 			}
 
 		public:
@@ -251,15 +251,15 @@ namespace ztd { namespace ranges {
 			}
 
 			friend constexpr ranges::iterator_rvalue_reference_t<_It> iter_move(
-				const __counted_iterator& __it) noexcept(noexcept(::ztd::ranges::iter_move(__it._M_it))) {
-				return ::ztd::ranges::iter_move(__it._M_it);
+				const __counted_iterator& __it) noexcept(noexcept(::ztd::ranges::iter_move(__it.base()))) {
+				return ::ztd::ranges::iter_move(__it.base());
 			}
 
 			template <typename _RightIt>
 			friend constexpr void
-			iter_swap(const __counted_iterator& x, const __counted_iterator<_RightIt>& y) noexcept(
-				noexcept(::ztd::ranges::iter_swap(x._M_it, y._M_it))) {
-				::ztd::ranges::iter_swap(x._M_it, y._M_it);
+			iter_swap(const __counted_iterator& __left, const __counted_iterator<_RightIt>& __right) noexcept(
+				noexcept(::ztd::ranges::iter_swap(__left.base(), __right.base()))) {
+				::ztd::ranges::iter_swap(__left.base(), __right.base());
 			}
 
 		private:
