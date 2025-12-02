@@ -310,8 +310,14 @@
 	#else
 		#define ZTD_STD_LIBRARY_RANGES_REVERSE_CPOS_I_ ZTD_OFF
 	#endif
-#elif defined(__cpp_lib_ranges) && __cpp_lib_ranges >= 202300L
-	#define ZTD_STD_LIBRARY_RANGES_REVERSE_CPOS_I_ ZTD_DEFAULT_ON
+#elif defined(__cpp_lib_ranges)
+	#if ZTD_IS_ON(ZTD_COMPILER_CLANG) && ZTD_IS_ON(ZTD_PLATFORM_MAC_OS) && __cpp_lib_ranges <= 202600L
+		#define ZTD_STD_LIBRARY_RANGES_REVERSE_CPOS_I_ ZTD_DEFAULT_OFF
+	#elif __cpp_lib_ranges >= 202300L
+		#define ZTD_STD_LIBRARY_RANGES_REVERSE_CPOS_I_ ZTD_DEFAULT_ON
+	#else
+		#define ZTD_STD_LIBRARY_RANGES_REVERSE_CPOS_I_ ZTD_DEFAULT_OFF
+	#endif
 #else
 	#define ZTD_STD_LIBRARY_RANGES_REVERSE_CPOS_I_ ZTD_DEFAULT_OFF
 #endif

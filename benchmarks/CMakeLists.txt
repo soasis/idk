@@ -61,3 +61,4 @@ google_benchmark_dependency_jail()
 # # Benchmarks
 # Bit benchmarks
 add_subdirectory(bit)
+add_subdirectory(closures)

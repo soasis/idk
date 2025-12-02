@@ -29,29 +29,29 @@
 # ============================================================================>
 
 # # Opaque Library
-file(GLOB_RECURSE ztd.idk.benchmarks.opaque.sources
+file(GLOB_RECURSE ztd.idk.benchmarks.bit.opaque.sources
 	CONFIGURE_DEPENDS
 	source/**.cpp source/**.c)
 
-add_library(ztd.idk.benchmarks.opaque SHARED ${ztd.idk.benchmarks.opaque.sources})
-add_library(ztd::idk::benchmarks::opaque ALIAS ztd.idk.benchmarks.opaque)
-target_include_directories(ztd.idk.benchmarks.opaque
+add_library(ztd.idk.benchmarks.bit.opaque SHARED ${ztd.idk.benchmarks.bit.opaque.sources})
+add_library(ztd::idk::benchmarks::bit::opaque ALIAS ztd.idk.benchmarks.bit.opaque)
+target_include_directories(ztd.idk.benchmarks.bit.opaque
 	PUBLIC
 	include/
 )
-target_link_libraries(ztd.idk.benchmarks.opaque PRIVATE
+target_link_libraries(ztd.idk.benchmarks.bit.opaque PRIVATE
 	ztd::idk
 	${CMAKE_DL_LIBS}
 )
-target_compile_definitions(ztd.idk.benchmarks.opaque
+target_compile_definitions(ztd.idk.benchmarks.bit.opaque
 	PRIVATE
 	ZTD_OPAQUE_BUILD=1
 )
-target_compile_definitions(ztd.idk.benchmarks.opaque
+target_compile_definitions(ztd.idk.benchmarks.bit.opaque
 	PUBLIC
 	ZTD_OPAQUE_DLL=1
 )
-target_compile_options(ztd.idk.benchmarks.opaque PRIVATE 
+target_compile_options(ztd.idk.benchmarks.bit.opaque PRIVATE 
 	${--utf8-literal-encoding}
 	${--utf8-source-encoding}
 	${--disable-permissive}

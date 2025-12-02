@@ -81,10 +81,16 @@
 	#define ZTD_COMPILER_TINYCC_I_ ZTD_OFF
 #endif
 
-#if defined(__GNUC__)
+#if defined(__GNUC__) && ZTD_IS_OFF(ZTD_COMPILER_CLANG)
 	#define ZTD_COMPILER_GCC_I_ ZTD_ON
 #else
 	#define ZTD_COMPILER_GCC_I_ ZTD_OFF
+#endif
+
+#if defined(__GNUC__)
+	#define ZTD_COMPILER_ANY_GCC_I_ ZTD_ON
+#else
+	#define ZTD_COMPILER_ANY_GCC_I_ ZTD_OFF
 #endif
 
 #if defined (_MSC_VER)

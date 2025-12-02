@@ -46,7 +46,7 @@
 #include <ztd/idk/to_address.hpp>
 
 #include <algorithm>
-#include <cstring>
+#include <ztd/idk/detail/cstring_fix.hpp>
 
 #include <ztd/prologue.hpp>
 

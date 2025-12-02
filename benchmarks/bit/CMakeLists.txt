@@ -41,7 +41,7 @@ target_include_directories(ztd.idk.benchmarks.bit PRIVATE
 )
 target_link_libraries(ztd.idk.benchmarks.bit PRIVATE
 	ztd::idk
-	ztd::idk::benchmarks::opaque
+	ztd::idk::benchmarks::bit::opaque
 	benchmark
 	${CMAKE_DL_LIBS}
 )

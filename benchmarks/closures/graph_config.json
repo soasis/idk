@@ -1,0 +1,73 @@
+{
+	"name": "closure test",
+	"scale": {
+		"type": "relative",
+		"to": "base"
+	},
+	"categories": [
+		{
+			"name": "Rosetta Code Example",
+			"pattern": "*",
+			"ascending": true,
+			"description": "A benchmark for determining the runtime of a Wikibooks / Rosetta Code example under many different kinds of languages."
+		}
+	],
+	"data_groups": [
+		{
+			"name": "Lambdas",
+			"pattern": "lambda",
+			"description": ""
+		},
+		{
+			"name": "Lambdas",
+			"pattern": "lambda",
+			"description": ""
+		},
+		{
+			"name": "Lambdas",
+			"pattern": "lambda_function_ref",
+			"description": ""
+		},
+		{
+			"name": "Normal Functions (Manual Struct Capture, Modified Argument)",
+			"pattern": "normal_functions_rosetta",
+			"description": "The use of plain C functions in the Man or Boy tests. Modifies the function arguments list to transfer data."
+		},
+		{
+			"name": "Normal Functions (Statics)",
+			"pattern": "normal_function_statics",
+			"description": "The use of plain C functions with statics for data transfer in the Man or Boy tests."
+		},
+		{
+			"name": "GNU Nested Functions",
+			"pattern": "gnu_nested_functions",
+			"description": "The use of the GNU Nested Functions C extension for the Man or Boy tests."
+		},
+		{
+			"name": "Apple Blocks",
+			"pattern": "apple_blocks",
+			"description": "The use of the Apple Blocks extension for the Man or Boy tests."
+		}
+	],
+	"data_labels": [
+		{
+			"name": "real time",
+			"id": "real_time",
+			"format": "clock",
+			"primary": true
+		},
+		{
+			"name": "cpu time",
+			"id": "cpu_time",
+			"format": "clock"
+		}
+	],
+	"remove_suffixes": [
+		",",
+		"_"
+	],
+	"remove_prefixes": [
+		",",
+		"_"
+	]
+}

@@ -41,7 +41,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #else
-#include <cstring>
+#include <ztd/idk/detail/cstring_fix.hpp>
 #include <cstddef>
 #include <cstdint>
 #endif

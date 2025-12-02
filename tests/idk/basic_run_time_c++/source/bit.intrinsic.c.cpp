@@ -33,7 +33,7 @@
 #include <catch2/catch_all.hpp>
 
 #include <limits>
-#include <cstring>
+#include <ztd/idk/detail/cstring_fix.hpp>
 
 TEMPLATE_TEST_CASE("bit intrinsics with count_ones", "[bit intrinsics][stdc_count_ones]", unsigned long long,
      unsigned long, unsigned int, unsigned short, unsigned char) {

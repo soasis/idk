@@ -33,7 +33,7 @@
 #include <catch2/catch_all.hpp>
 
 #include <limits>
-#include <cstring>
+#include <ztd/idk/detail/cstring_fix.hpp>
 
 TEMPLATE_TEST_CASE("bit_operations with count_ones", "[bit_operations][count_ones]", std::uint64_t, std::uint32_t,
      std::uint16_t, std::uint8_t, std::byte, char32_t, char16_t, unsigned char, std::size_t) {

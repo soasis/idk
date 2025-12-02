@@ -40,7 +40,7 @@
 
 #include <ztd/idk/detail/bit.load_store.impl.h>
 
-#include <cstring>
+#include <ztd/idk/detail/cstring_fix.hpp>
 #include <climits>
 
 static void explode_and_catch() {

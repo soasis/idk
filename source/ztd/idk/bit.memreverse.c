@@ -40,7 +40,7 @@
 #include <stddef.h>
 #include <limits.h>
 #else
-#include <cstring>
+#include <ztd/idk/detail/cstring_fix.hpp>
 #include <cstdint>
 #include <cstddef>
 #include <climits>

@@ -33,7 +33,7 @@
 
 #if ZTD_IS_ON(ZTD_CXX)
 #include <cstddef>
-#include <cstring>
+#include <ztd/idk/detail/cstring_fix.hpp>
 #else
 #include <stddef.h>
 #include <stdbool.h>

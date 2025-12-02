@@ -42,7 +42,7 @@
 #if ZTD_IS_ON(ZTD_C)
 #include <string.h>
 #else
-#include <cstring>
+#include <ztd/idk/detail/cstring_fix.hpp>
 #endif
 
 

@@ -40,7 +40,7 @@
 
 #include <memory>
 #include <cstddef>
-#include <cstring>
+#include <ztd/idk/detail/cstring_fix.hpp>
 
 namespace ztd { namespace tests {
 

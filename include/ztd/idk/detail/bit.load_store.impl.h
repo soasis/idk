@@ -47,7 +47,7 @@
 #include <string.h>
 #include <stdint.h>
 #else
-#include <cstring>
+#include <ztd/idk/detail/cstring_fix.hpp>
 #include <cstdint>
 #endif
 
@@ -55,7 +55,7 @@
 	typedef uint_least##_N##_t __unsigned_type;                                                                   \
 	const size_t __width     = sizeof(_TYPE) * CHAR_BIT;                                                          \
 	const size_t __idx_limit = (_N);                                                                              \
-	const size_t __sign_idx  = (_N)-8;                                                                            \
+	const size_t __sign_idx  = (_N) - 8;                                                                          \
 	__unsigned_type _VALUE   = { 0 };                                                                             \
 	for (size_t __idx = 0, __ptr_idx = 0; __idx < __idx_limit; __idx += 8, __ptr_idx += 8) {                      \
 		const size_t __value_idx = __idx % __width;                                                              \
@@ -68,7 +68,7 @@
 #define ZTDC_GENERATE_STORE8_BODY_LE_UNSIGNED_TYPE(_TYPE, _N, _PTR, _VALUE)                                 \
 	const size_t __width     = sizeof(_TYPE) * CHAR_BIT;                                                   \
 	const size_t __idx_limit = (_N);                                                                       \
-	const size_t __sign_idx  = (_N)-8;                                                                     \
+	const size_t __sign_idx  = (_N) - 8;                                                                   \
 	memset(_PTR, 0, ((_N) / __width));                                                                     \
 	for (size_t __idx = 0, __ptr_idx = 0; __idx < __idx_limit; __idx += 8, __ptr_idx += 8) {               \
 		const size_t __value_idx = __idx % __width;                                                       \
