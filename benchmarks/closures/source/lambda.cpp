@@ -32,6 +32,8 @@
 
 #include <k_value/k_value.h>
 
+#if __cplusplus >= 202300L
+
 #include <ztd/idk/type_traits.hpp>
 
 #include <exception>
@@ -81,3 +83,5 @@ static void lambda(benchmark::State& state) {
 }
 
 BENCHMARK(lambda);
+
+#endif
