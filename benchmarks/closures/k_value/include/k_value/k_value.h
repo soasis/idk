@@ -32,6 +32,6 @@
 
 #include <stddef.h>
 
-ZTD_USE(ZTD_EXTERN_C) ZTD_USE(ZTD_K_VALUE_API_LINKAGE) int k_value();
+ZTD_USE(ZTD_EXTERN_C) ZTD_USE(ZTD_K_VALUE_API_LINKAGE) int k_value(void);
 
-ZTD_USE(ZTD_EXTERN_C) ZTD_USE(ZTD_K_VALUE_API_LINKAGE) int expected_k_value();
+ZTD_USE(ZTD_EXTERN_C) ZTD_USE(ZTD_K_VALUE_API_LINKAGE) int expected_k_value(void);

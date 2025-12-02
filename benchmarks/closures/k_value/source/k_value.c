@@ -30,10 +30,10 @@
 
 #include <k_value/k_value.h>
 
-ZTD_K_VALUE_API_LINKAGE_I_ ZTD_EXTERN_C_I_ int k_value() {
+ZTD_K_VALUE_API_LINKAGE_I_ ZTD_EXTERN_C_I_ int k_value(void) {
 	return 10;
 }
 
-ZTD_K_VALUE_API_LINKAGE_I_ ZTD_EXTERN_C_I_ int expected_k_value() {
+ZTD_K_VALUE_API_LINKAGE_I_ ZTD_EXTERN_C_I_ int expected_k_value(void) {
 	return -67;
 }
