@@ -66,9 +66,9 @@ extern int gnu_nested_functions_benchmark(int k) {
 }
 
 extern int gnu_nested_functions_benchmark_rosetta(int k) {
-	auto argf1  = INT(+1);
-	auto argf_1 = INT(-1);
-	auto argf0  = INT(0);
+	f_t* argf1  = INT(+1);
+	f_t* argf_1 = INT(-1);
+	f_t* argf0  = INT(0);
 	return gnu_nested_functions_a(k, argf1, argf_1, argf_1, argf1, argf0);
 }
 
