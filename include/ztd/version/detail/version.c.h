@@ -1086,7 +1086,7 @@
 #if ZTD_IS_ON(ZTD_COMPILER_GCC) || ZTD_IS_ON(ZTD_COMPILER_CLANG)
 	#define ZTD_ATTR_SELECTANY_I_ __attribute__((selectany))
 #elif ZTD_IS_ON(ZTD_COMPILER_VCXX)
-	#define ZTD_ATTR_SELECTANY_I_ declspec(selectany)
+	#define ZTD_ATTR_SELECTANY_I_ __declspec(selectany)
 #elif (ZTD_HAS_ATTRIBUTE_I_(weak) != 0L)
 	#define ZTD_ATTR_SELECTANY_I_ [[weak]]
 #elif (ZTD_HAS_ATTRIBUTE_I_(gcc::weak) != 0L)
@@ -1171,7 +1171,7 @@
 	#define ZTD_ATTR_DEPRECATED_I_(__message) [[deprecated(__message)]]
 #else
 	#if ZTD_IS_ON(ZTD_COMPILER_VCXX)
-		#define ZTD_ATTR_DEPRECATED_I_(__message) declspec(deprecated)
+		#define ZTD_ATTR_DEPRECATED_I_(__message) __declspec(deprecated)
 	#elif ZTD_IS_ON(ZTD_COMPILER_CLANG) || ZTD_IS_ON(ZTD_COMPILER_GCC)
 		#define ZTD_ATTR_DEPRECATED_I_(__message) __attribute__((deprecated))
 	#else
@@ -1184,7 +1184,7 @@
 	#define ZTD_ATTR_NO_RETURN_I_ [[noreturn]]
 #else
 	#if ZTD_IS_ON(ZTD_COMPILER_VCXX)
-		#define ZTD_ATTR_NO_RETURN_I_ declspec(noreturn)
+		#define ZTD_ATTR_NO_RETURN_I_ __declspec(noreturn)
 	#elif ZTD_IS_ON(ZTD_COMPILER_CLANG) || ZTD_IS_ON(ZTD_COMPILER_GCC)
 		#define ZTD_ATTR_NO_RETURN_I_ __attribute__((noreturn))
 	#else

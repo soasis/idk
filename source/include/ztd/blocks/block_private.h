@@ -100,13 +100,14 @@ enum {
 /* Runtime entry point called by compiler when assigning objects inside copy helper routines */
 ZTD_USE(ZTD_BLOCKS_API_LINKAGE)
 ZTD_USE(ZTD_EXTERN_C)
-void _Block_object_assign(void* destAddr, const void* object, const int flags) ZTD_USE(ZTD_ATTR_WEAK_FUNC);
+ZTD_USE(ZTD_ATTR_WEAK_FUNC)
+void _Block_object_assign(void* destAddr, const void* object, const int flags);
 /* BLOCK_FIELD_IS_BYREF is only used from within block copy helpers */
 
 
 /* runtime entry point called by the compiler when disposing of objects inside dispose helper routine */
 ZTD_USE(ZTD_BLOCKS_API_LINKAGE)
-ZTD_USE(ZTD_EXTERN_C) void _Block_object_dispose(const void* object, const int flags) ZTD_USE(ZTD_ATTR_WEAK_FUNC);
+ZTD_USE(ZTD_EXTERN_C) ZTD_USE(ZTD_ATTR_WEAK_FUNC) void _Block_object_dispose(const void* object, const int flags);
 
 
 
@@ -114,46 +115,48 @@ ZTD_USE(ZTD_EXTERN_C) void _Block_object_dispose(const void* object, const int f
 
 /* Runtime entry to get total size of a closure */
 ZTD_USE(ZTD_BLOCKS_API_LINKAGE)
-ZTD_USE(ZTD_EXTERN_C) unsigned long int Block_size(void* block_basic) ZTD_USE(ZTD_ATTR_WEAK_FUNC);
+ZTD_USE(ZTD_EXTERN_C) ZTD_USE(ZTD_ATTR_WEAK_FUNC) unsigned long int Block_size(void* block_basic);
 
 
 
 /* the raw data space for runtime classes for blocks */
 /* class+meta used for stack, malloc, and collectable based blocks */
-ZTD_USE(ZTD_BLOCKS_API_LINKAGE) ZTD_USE(ZTD_EXTERN_C) void* _NSConcreteStackBlock[32] ZTD_USE(ZTD_ATTR_WEAK_VAR);
-ZTD_USE(ZTD_BLOCKS_API_LINKAGE) ZTD_USE(ZTD_EXTERN_C) void* _NSConcreteMallocBlock[32] ZTD_USE(ZTD_ATTR_WEAK_VAR);
-ZTD_USE(ZTD_BLOCKS_API_LINKAGE) ZTD_USE(ZTD_EXTERN_C) void* _NSConcreteAutoBlock[32] ZTD_USE(ZTD_ATTR_WEAK_VAR);
-ZTD_USE(ZTD_BLOCKS_API_LINKAGE) ZTD_USE(ZTD_EXTERN_C) void* _NSConcreteFinalizingBlock[32] ZTD_USE(ZTD_ATTR_WEAK_VAR);
-ZTD_USE(ZTD_BLOCKS_API_LINKAGE) ZTD_USE(ZTD_EXTERN_C) void* _NSConcreteGlobalBlock[32] ZTD_USE(ZTD_ATTR_WEAK_VAR);
-ZTD_USE(ZTD_BLOCKS_API_LINKAGE) ZTD_USE(ZTD_EXTERN_C) void* _NSConcreteWeakBlockVariable[32] ZTD_USE(ZTD_ATTR_WEAK_VAR);
+ZTD_USE(ZTD_BLOCKS_API_LINKAGE) ZTD_USE(ZTD_EXTERN_C) ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteStackBlock[32];
+ZTD_USE(ZTD_BLOCKS_API_LINKAGE) ZTD_USE(ZTD_EXTERN_C) ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteMallocBlock[32];
+ZTD_USE(ZTD_BLOCKS_API_LINKAGE) ZTD_USE(ZTD_EXTERN_C) ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteAutoBlock[32];
+ZTD_USE(ZTD_BLOCKS_API_LINKAGE) ZTD_USE(ZTD_EXTERN_C) ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteFinalizingBlock[32];
+ZTD_USE(ZTD_BLOCKS_API_LINKAGE) ZTD_USE(ZTD_EXTERN_C) ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteGlobalBlock[32];
+ZTD_USE(ZTD_BLOCKS_API_LINKAGE) ZTD_USE(ZTD_EXTERN_C) ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteWeakBlockVariable[32];
 
 
 /* the intercept routines that must be used under GC */
 ZTD_USE(ZTD_BLOCKS_API_LINKAGE)
 ZTD_USE(ZTD_EXTERN_C)
+ZTD_USE(ZTD_ATTR_WEAK_FUNC)
 void _Block_use_GC(void* (*alloc)(const unsigned long, const bool isOne, const bool isObject),
      void (*setHasRefcount)(const void*, const bool), void (*gc_assign_strong)(void*, void**),
-     void (*gc_assign_weak)(const void*, void*), void (*gc_memmove)(void*, void*, unsigned long))
-     ZTD_USE(ZTD_ATTR_WEAK_FUNC);
+     void (*gc_assign_weak)(const void*, void*), void (*gc_memmove)(void*, void*, unsigned long));
 
 /* earlier version, now simply transitional */
 ZTD_USE(ZTD_BLOCKS_API_LINKAGE)
 ZTD_USE(ZTD_EXTERN_C)
+ZTD_USE(ZTD_ATTR_WEAK_FUNC)
 void _Block_use_GC5(void* (*alloc)(const unsigned long, const bool isOne, const bool isObject),
      void (*setHasRefcount)(const void*, const bool), void (*gc_assign_strong)(void*, void**),
-     void (*gc_assign_weak)(const void*, void*)) ZTD_USE(ZTD_ATTR_WEAK_FUNC);
+     void (*gc_assign_weak)(const void*, void*));
 
 ZTD_USE(ZTD_BLOCKS_API_LINKAGE)
 ZTD_USE(ZTD_EXTERN_C)
-void _Block_use_RR(void (*retain)(const void*), void (*release)(const void*)) ZTD_USE(ZTD_ATTR_WEAK_FUNC);
+ZTD_USE(ZTD_ATTR_WEAK_FUNC)
+void _Block_use_RR(void (*retain)(const void*), void (*release)(const void*));
 
 /* make a collectable GC heap based Block.  Not useful under non-GC. */
 ZTD_USE(ZTD_BLOCKS_API_LINKAGE)
-ZTD_USE(ZTD_EXTERN_C) void* _Block_copy_collectable(const void* aBlock) ZTD_USE(ZTD_ATTR_WEAK_FUNC);
+ZTD_USE(ZTD_EXTERN_C) ZTD_USE(ZTD_ATTR_WEAK_FUNC) void* _Block_copy_collectable(const void* aBlock);
 
 /* thread-unsafe diagnostic */
 ZTD_USE(ZTD_BLOCKS_API_LINKAGE)
-ZTD_USE(ZTD_EXTERN_C) const char* _Block_dump(const void* block) ZTD_USE(ZTD_ATTR_WEAK_FUNC);
+ZTD_USE(ZTD_EXTERN_C) ZTD_USE(ZTD_ATTR_WEAK_FUNC) const char* _Block_dump(const void* block);
 
 
 /* Obsolete */
