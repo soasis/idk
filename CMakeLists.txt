@@ -198,6 +198,45 @@ export(TARGETS ztd.tag_invoke
 	"${CMAKE_CURRENT_BINARY_DIR}/cmake/ztd.tag_invoke/ztd.tag_invoke-targets.cmake"
 )
 
+# ztd.blocks
+file(GLOB_RECURSE ztd.blocks.includes
+	CONFIGURE_DEPENDS
+	include/ztd/blocks**.hpp
+	include/ztd/blocks**.h
+)
+file(GLOB_RECURSE ztd.blocks.sources
+	CONFIGURE_DEPENDS
+	source/ztd/blocks/**.cpp
+	source/ztd/blocks/**.c
+)
+
+add_library(ztd.blocks ${ztd.blocks.sources})
+add_library(ztd::blocks ALIAS ztd.blocks)
+target_include_directories(ztd.blocks
+	PUBLIC
+	$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+	$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+	PRIVATE
+	$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/source/include>
+)
+target_link_libraries(ztd.blocks
+	PUBLIC
+	ztd::version
+)
+target_compile_definitions(ztd.blocks
+	PRIVATE
+		ZTD_BLOCKS_BUILD=1
+	PUBLIC
+		$<$<BOOL:${APPLE}>:__STDC_WANT_LIB_EXT1__=1>
+		$<$<BOOL:${APPLE}>:_GNU_SOURCE=1>
+		$<$<STREQUAL:$<TARGET_PROPERTY:ztd.blocks,TYPE>,SHARED_LIBRARY>:ZTD_BLOCKS_DLL=1>
+		${CMAKE_DL_LIBS}
+)
+set_target_properties(ztd.blocks
+	PROPERTIES
+		$<$<STREQUAL:$<TARGET_PROPERTY:ztd.blocks,TYPE>,SHARED_LIBRARY>:POSITION_INDEPENDENT_CODE TRUE>
+)
+
 # ztd.idk
 file(GLOB_RECURSE ztd.idk.includes
 	CONFIGURE_DEPENDS

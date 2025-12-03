@@ -53,6 +53,7 @@ target_include_directories(ztd.idk.benchmarks.closures PRIVATE
 	source/include
 )
 target_link_libraries(ztd.idk.benchmarks.closures PRIVATE
+	ztd::blocks
 	ztd::idk
 	ztd::idk::benchmarks::closures::k_value
 	std23::nontype_functional

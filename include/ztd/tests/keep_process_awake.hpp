@@ -38,7 +38,7 @@
 #include <ztd/idk/detail/windows.hpp>
 #include <memory>
 #include <cstddef>
-#include <ztd/idk/detail/cstring_fix.hpp>
+#include <ztd/version/detail/cstring_fix.hpp>
 #if ZTD_IS_ON(ZTD_PLATFORM_WINDOWS)
 #include <string>
 #endif

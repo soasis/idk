@@ -47,7 +47,7 @@
 #include <string.h>
 #include <stdint.h>
 #else
-#include <ztd/idk/detail/cstring_fix.hpp>
+#include <ztd/version/detail/cstring_fix.hpp>
 #include <cstdint>
 #endif
 

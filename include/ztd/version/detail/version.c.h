@@ -1084,6 +1084,18 @@
 #endif
 
 #if ZTD_IS_ON(ZTD_COMPILER_GCC) || ZTD_IS_ON(ZTD_COMPILER_CLANG)
+	#define ZTD_ATTR_WEAK_I_ __attribute__((weak))
+#elif (ZTD_HAS_ATTRIBUTE_I_(weak) != 0L)
+	#define ZTD_ATTR_WEAK_I_ [[weak]]
+#elif (ZTD_HAS_ATTRIBUTE_I_(gcc::weak) != 0L)
+	#define ZTD_ATTR_WEAK_I_ [[gcc::weak]]
+#elif (ZTD_HAS_ATTRIBUTE_I_(clang::weak) != 0L)
+	#define ZTD_ATTR_WEAK_I_ [[clang::weak]]
+#else
+	#define ZTD_ATTR_WEAK_I_
+#endif
+
+#if ZTD_IS_ON(ZTD_COMPILER_GCC) || ZTD_IS_ON(ZTD_COMPILER_CLANG)
 	#define ZTD_ATTR_FLATTEN_I_ __attribute__((flatten))
 #elif (ZTD_HAS_ATTRIBUTE_I_(flatten) != 0L)
 	#define ZTD_ATTR_FLATTEN_I_ [[flatten]]

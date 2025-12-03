@@ -35,7 +35,7 @@
 
 #include <catch2/catch_all.hpp>
 
-#include <ztd/idk/detail/cstring_fix.hpp>
+#include <ztd/version/detail/cstring_fix.hpp>
 
 TEST_CASE("Ensure that the 8-bit load and store work properly for all array sizes.", "[bit][load.store]") {
 #define SECTION_CASE(N)                                                                                           \

@@ -51,7 +51,7 @@
 #include <cstddef>
 #include <limits>
 #include <climits>
-#include <ztd/idk/detail/cstring_fix.hpp>
+#include <ztd/version/detail/cstring_fix.hpp>
 #include <memory>
 #include <optional>
 #include <iostream>

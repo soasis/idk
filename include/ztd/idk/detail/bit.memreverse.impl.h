@@ -45,7 +45,7 @@
 #include <stddef.h>
 #include <limits.h>
 #else
-#include <ztd/idk/detail/cstring_fix.hpp>
+#include <ztd/version/detail/cstring_fix.hpp>
 #include <cstdint>
 #include <cstddef>
 #include <climits>
