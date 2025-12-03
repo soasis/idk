@@ -30,13 +30,9 @@
 
 #include <ztd/blocks/block.h>
 
-#ifndef _MSC_VER
-#include <stdbool.h>
+#if ZTD_IS_ON(ZTD_CXX)
 #else
-/* MSVC doesn't have <stdbool.h>. Compensate. */
-typedef char bool;
-#define true (bool)1
-#define false (bool)0
+#include <stdbool.h>
 #endif
 
 ZTD_USE(ZTD_EXTERN_C_OPEN)
