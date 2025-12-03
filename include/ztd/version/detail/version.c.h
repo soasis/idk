@@ -1072,18 +1072,6 @@
 #endif
 
 #if ZTD_IS_ON(ZTD_COMPILER_GCC) || ZTD_IS_ON(ZTD_COMPILER_CLANG)
-	#define ZTD_ATTR_WEAK_FUNC_I_ __attribute__((weak))
-#elif (ZTD_HAS_ATTRIBUTE_I_(weak) != 0L)
-	#define ZTD_ATTR_WEAK_FUNC_I_ [[weak]]
-#elif (ZTD_HAS_ATTRIBUTE_I_(gcc::weak) != 0L)
-	#define ZTD_ATTR_WEAK_FUNC_I_ [[gcc::weak]]
-#elif (ZTD_HAS_ATTRIBUTE_I_(clang::weak) != 0L)
-	#define ZTD_ATTR_WEAK_FUNC_I_ [[clang::weak]]
-#else
-	#define ZTD_ATTR_WEAK_FUNC_I_
-#endif
-
-#if ZTD_IS_ON(ZTD_COMPILER_GCC) || ZTD_IS_ON(ZTD_COMPILER_CLANG)
 	#define ZTD_ATTR_WEAK_I_ __attribute__((weak))
 #elif (ZTD_HAS_ATTRIBUTE_I_(weak) != 0L)
 	#define ZTD_ATTR_WEAK_I_ [[weak]]
@@ -1093,6 +1081,54 @@
 	#define ZTD_ATTR_WEAK_I_ [[clang::weak]]
 #else
 	#define ZTD_ATTR_WEAK_I_
+#endif
+
+#if ZTD_IS_ON(ZTD_COMPILER_GCC) || ZTD_IS_ON(ZTD_COMPILER_CLANG)
+	#define ZTD_ATTR_SELECTANY_I_ __attribute__((selectany))
+#elif ZTD_IS_ON(ZTD_COMPILER_VCXX)
+	#define ZTD_ATTR_SELECTANY_I_ declspec(selectany)
+#elif (ZTD_HAS_ATTRIBUTE_I_(weak) != 0L)
+	#define ZTD_ATTR_SELECTANY_I_ [[weak]]
+#elif (ZTD_HAS_ATTRIBUTE_I_(gcc::weak) != 0L)
+	#define ZTD_ATTR_SELECTANY_I_ [[gcc::weak]]
+#elif (ZTD_HAS_ATTRIBUTE_I_(clang::weak) != 0L)
+	#define ZTD_ATTR_SELECTANY_I_ [[clang::weak]]
+#else
+	#define ZTD_ATTR_SELECTANY_I_
+#endif
+
+#if defined(ZTD_ATTR_WEAK_VAR)
+	#define ZTD_ATTR_WEAK_VAR_I_ ZTD_ATTR_WEAK_VAR
+#elif ZTD_IS_ON(ZTD_COMPILER_GCC) || ZTD_IS_ON(ZTD_COMPILER_CLANG)
+	#define ZTD_ATTR_WEAK_VAR_I_ ZTD_ATTR_WEAK_I_
+#elif ZTD_IS_ON(ZTD_COMPILER_VCXX)
+	#define ZTD_ATTR_WEAK_VAR_I_ ZTD_ATTR_SELECTANY_I_
+#else
+	#define ZTD_ATTR_WEAK_VAR_I_
+#endif
+
+#if defined(ZTD_ATTR_WEAK_VAR_DEF)
+	#define ZTD_ATTR_WEAK_VAR_DEF_I_ ZTD_ATTR_WEAK_VAR_DEF
+#elif ZTD_IS_ON(ZTD_COMPILER_CLANG) || ZTD_IS_ON(ZTD_COMPILER_GCC)
+	#define ZTD_ATTR_WEAK_VAR_DEF_I_ ZTD_ATTR_WEAK_VAR_I_
+#else
+	#define ZTD_ATTR_WEAK_VAR_DEF_I_
+#endif
+
+#if defined(ZTD_ATTR_WEAK_FUNC_DEF)
+	#define ZTD_ATTR_WEAK_FUNC_DEF_I_ ZTD_ATTR_WEAK_FUNC_DEF
+#elif ZTD_IS_ON(ZTD_COMPILER_CLANG)
+	#define ZTD_ATTR_WEAK_FUNC_DEF_I_ ZTD_ATTR_WEAK_VAR_I_
+#else
+	#define ZTD_ATTR_WEAK_FUNC_DEF_I_
+#endif
+
+#if defined(ZTD_ATTR_WEAK_FUNC)
+	#define ZTD_ATTR_WEAK_FUNC_I_ ZTD_ATTR_WEAK_FUNC
+#elif ZTD_IS_ON(ZTD_COMPILER_CLANG) || ZTD_IS_ON(ZTD_COMPILER_GCC)
+	#define ZTD_ATTR_WEAK_FUNC_I_ ZTD_ATTR_WEAK_VAR_I_
+#else
+	#define ZTD_ATTR_WEAK_FUNC_I_
 #endif
 
 #if ZTD_IS_ON(ZTD_COMPILER_GCC) || ZTD_IS_ON(ZTD_COMPILER_CLANG)

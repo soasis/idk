@@ -40,14 +40,14 @@ unified in a common block.
 
 ZTD_USE(ZTD_EXTERN_C_OPEN)
 
-void* _NSConcreteStackBlock[32] ZTD_USE(ZTD_ATTR_WEAK)        = { 0 };
-void* _NSConcreteMallocBlock[32] ZTD_USE(ZTD_ATTR_WEAK)       = { 0 };
-void* _NSConcreteAutoBlock[32] ZTD_USE(ZTD_ATTR_WEAK)         = { 0 };
-void* _NSConcreteFinalizingBlock[32] ZTD_USE(ZTD_ATTR_WEAK)   = { 0 };
-void* _NSConcreteGlobalBlock[32] ZTD_USE(ZTD_ATTR_WEAK)       = { 0 };
-void* _NSConcreteWeakBlockVariable[32] ZTD_USE(ZTD_ATTR_WEAK) = { 0 };
+void* _NSConcreteStackBlock[32] ZTD_USE(ZTD_ATTR_WEAK_VAR)        = { 0 };
+void* _NSConcreteMallocBlock[32] ZTD_USE(ZTD_ATTR_WEAK_VAR)       = { 0 };
+void* _NSConcreteAutoBlock[32] ZTD_USE(ZTD_ATTR_WEAK_VAR)         = { 0 };
+void* _NSConcreteFinalizingBlock[32] ZTD_USE(ZTD_ATTR_WEAK_VAR)   = { 0 };
+void* _NSConcreteGlobalBlock[32] ZTD_USE(ZTD_ATTR_WEAK_VAR)       = { 0 };
+void* _NSConcreteWeakBlockVariable[32] ZTD_USE(ZTD_ATTR_WEAK_VAR) = { 0 };
 
-void _Block_copy_error(void) ZTD_USE(ZTD_ATTR_WEAK) {
+void _Block_copy_error(void) ZTD_USE(ZTD_ATTR_WEAK_FUNC_DEF) {
 }
 
 ZTD_USE(ZTD_EXTERN_C_CLOSE)
