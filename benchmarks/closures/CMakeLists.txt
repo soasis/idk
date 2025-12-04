@@ -81,5 +81,5 @@ ztd_tools_add_benchmark_grapher(
 	TARGETS
 		ztd.idk.benchmarks.closures
 	REPETITIONS
-		${ZTD_IDK_BENCHMARKS_REPETITIONS}
+		${ZTD_IDK_BENCHMARKS_CLOSURE_REPETITIONS}
 )

@@ -81,7 +81,25 @@ option(ZTD_IDK_DOCUMENTATION_NO_SPHINX "Turn off Sphinx usage (useful for ReadTh
 option(ZTD_IDK_EXAMPLES "Enable build of examples" OFF)
 option(ZTD_IDK_BENCHMARKS "Enable build of benchmarks" OFF)
 option(ZTD_IDK_GENERATE_SINGLE "Enable generation of a single header and its target" OFF)
-set(ZTD_IDK_BENCHMARKS_REPETITIONS 50 CACHE STRING "Number of repetitions to perform. Each repetition has a number of iterations: higher means a lot more time is spent benchmarking.")
+set(ZTD_IDK_BENCHMARKS_REPETITIONS
+	50 CACHE STRING
+	"Number of repetitions to perform. Each repetition has a number of iterations: \
+	higher means a lot more time is spent benchmarking."
+)
+cmake_dependent_option(ZTD_IDK_BENCHMARKS_BIT_REPETITIONS
+	"Number of repetitions to perform for the bit benchmarks. \
+	Each repetition has a number of iterations: higher means a lot more time is spent benchmarking."
+	${ZTD_IDK_BENCHMARKS_REPETITIONS}
+	"DEFINED ZTD_IDK_BENCHMARKS_REPETITIONS AND ZTD_IDK_BENCHMARKS"
+	1
+)
+cmake_dependent_option(ZTD_IDK_BENCHMARKS_CLOSURE_REPETITIONS
+	"Number of repetitions to perform for the closure benchmarks. \
+	Each repetition has a number of iterations: higher means a lot more time is spent benchmarking."
+	${ZTD_IDK_BENCHMARKS_REPETITIONS}
+	"DEFINED ZTD_IDK_BENCHMARKS_REPETITIONS AND ZTD_IDK_BENCHMARKS"
+	1
+)
 
 if (ZTD_IDK_EXCLUDE_FROM_ALL)
 	set_directory_properties(PROPERTIES EXCLUDE_FROM_ALL ON EXCLUDE_FROM_DEFAULT_BUILD ON)

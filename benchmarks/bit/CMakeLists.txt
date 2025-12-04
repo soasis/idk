@@ -66,5 +66,5 @@ ztd_tools_add_benchmark_grapher(
 	TARGETS
 		ztd.idk.benchmarks.bit
 	REPETITIONS
-		${ZTD_IDK_BENCHMARKS_REPETITIONS}
+		${ZTD_IDK_BENCHMARKS_BIT_REPETITIONS}
 )

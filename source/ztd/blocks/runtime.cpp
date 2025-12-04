@@ -575,65 +575,68 @@ void _Block_object_dispose(const void* object, const int flags) {
 
 const char* _Block_dump(const void* block) {
 	struct Block_layout* closure = (struct Block_layout*)block;
-	static char buffer[512];
-	char* cp = buffer;
+	thread_local static char buffer[1024];
+	const char* const buffer_end = buffer + sizeof(buffer);
+	char* cp                     = buffer;
 	if (closure == NULL) {
-		sprintf(cp, "NULL passed to _Block_dump\n");
+		snprintf(cp, static_cast<size_t>(buffer_end - cp), "NULL passed to _Block_dump\n");
 		return buffer;
 	}
 	if (!(closure->flags & BLOCK_HAS_DESCRIPTOR)) {
 		printf("Block compiled by obsolete compiler, please recompile source for this Block\n");
 		exit(1);
 	}
-	cp += sprintf(cp, "^%p (new layout) =\n", (void*)closure);
+	cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), "^%p (new layout) =\n", (void*)closure);
 	if (closure->isa == NULL) {
-		cp += sprintf(cp, "isa: NULL\n");
+		cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), "isa: NULL\n");
 	}
 	else if (closure->isa == _NSConcreteStackBlock) {
-		cp += sprintf(cp, "isa: stack Block\n");
+		cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), "isa: stack Block\n");
 	}
 	else if (closure->isa == _NSConcreteMallocBlock) {
-		cp += sprintf(cp, "isa: malloc heap Block\n");
+		cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), "isa: malloc heap Block\n");
 	}
 	else if (closure->isa == _NSConcreteAutoBlock) {
-		cp += sprintf(cp, "isa: GC heap Block\n");
+		cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), "isa: GC heap Block\n");
 	}
 	else if (closure->isa == _NSConcreteGlobalBlock) {
-		cp += sprintf(cp, "isa: global Block\n");
+		cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), "isa: global Block\n");
 	}
 	else if (closure->isa == _NSConcreteFinalizingBlock) {
-		cp += sprintf(cp, "isa: finalizing Block\n");
+		cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), "isa: finalizing Block\n");
 	}
 	else {
-		cp += sprintf(cp, "isa?: %p\n", (void*)closure->isa);
+		cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), "isa?: %p\n", (void*)closure->isa);
 	}
-	cp += sprintf(cp, "flags:");
+	cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), "flags:");
 	if (closure->flags & BLOCK_HAS_DESCRIPTOR) {
-		cp += sprintf(cp, " HASDESCRIPTOR");
+		cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), " HASDESCRIPTOR");
 	}
 	if (closure->flags & BLOCK_NEEDS_FREE) {
-		cp += sprintf(cp, " FREEME");
+		cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), " FREEME");
 	}
 	if (closure->flags & BLOCK_IS_GC) {
-		cp += sprintf(cp, " ISGC");
+		cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), " ISGC");
 	}
 	if (closure->flags & BLOCK_HAS_COPY_DISPOSE) {
-		cp += sprintf(cp, " HASHELP");
+		cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), " HASHELP");
 	}
 	if (closure->flags & BLOCK_HAS_CTOR) {
-		cp += sprintf(cp, " HASCTOR");
+		cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), " HASCTOR");
 	}
-	cp += sprintf(cp, "\nrefcount: %u\n", closure->flags & BLOCK_REFCOUNT_MASK);
-	cp += sprintf(cp, "invoke: %p\n", (void*)(uintptr_t)closure->invoke);
+	cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), "\nrefcount: %u\n", closure->flags & BLOCK_REFCOUNT_MASK);
+	cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), "invoke: %p\n", (void*)(uintptr_t)closure->invoke);
 	{
 		struct Block_descriptor* dp = closure->descriptor;
-		cp += sprintf(cp, "descriptor: %p\n", (void*)dp);
-		cp += sprintf(cp, "descriptor->reserved: %lu\n", dp->reserved);
-		cp += sprintf(cp, "descriptor->size: %lu\n", dp->size);
+		cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), "descriptor: %p\n", (void*)dp);
+		cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), "descriptor->reserved: %lu\n", dp->reserved);
+		cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), "descriptor->size: %lu\n", dp->size);
 
 		if (closure->flags & BLOCK_HAS_COPY_DISPOSE) {
-			cp += sprintf(cp, "descriptor->copy helper: %p\n", (void*)(uintptr_t)dp->copy);
-			cp += sprintf(cp, "descriptor->dispose helper: %p\n", (void*)(uintptr_t)dp->dispose);
+			cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), "descriptor->copy helper: %p\n",
+			     (void*)(uintptr_t)dp->copy);
+			cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), "descriptor->dispose helper: %p\n",
+			     (void*)(uintptr_t)dp->dispose);
 		}
 	}
 	return buffer;
@@ -641,15 +644,18 @@ const char* _Block_dump(const void* block) {
 
 
 const char* _Block_byref_dump(struct Block_byref* src) {
-	static char buffer[256];
-	char* cp = buffer;
-	cp += sprintf(cp, "byref data block %p contents:\n", (void*)src);
-	cp += sprintf(cp, "  forwarding: %p\n", (void*)src->forwarding);
-	cp += sprintf(cp, "  flags: 0x%x\n", src->flags);
-	cp += sprintf(cp, "  size: %d\n", src->size);
+	static thread_local char buffer[512];
+	const char* const buffer_end = buffer + sizeof(buffer);
+	char* cp                     = buffer;
+	cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), "byref data block %p contents:\n", (void*)src);
+	cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), "  forwarding: %p\n", (void*)src->forwarding);
+	cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), "  flags: 0x%x\n", src->flags);
+	cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), "  size: %d\n", src->size);
 	if (src->flags & BLOCK_HAS_COPY_DISPOSE) {
-		cp += sprintf(cp, "  copy helper: %p\n", (void*)(uintptr_t)src->byref_keep);
-		cp += sprintf(cp, "  dispose helper: %p\n", (void*)(uintptr_t)src->byref_destroy);
+		cp += snprintf(
+		     cp, static_cast<size_t>(buffer_end - cp), "  copy helper: %p\n", (void*)(uintptr_t)src->byref_keep);
+		cp += snprintf(cp, static_cast<size_t>(buffer_end - cp), "  dispose helper: %p\n",
+		     (void*)(uintptr_t)src->byref_destroy);
 	}
 	return buffer;
 }

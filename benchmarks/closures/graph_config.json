@@ -6,30 +6,45 @@
 	},
 	"categories": [
 		{
-			"name": "Rosetta Code Example",
-			"pattern": "*",
+			"name": "Rosetta Code Example - Man or Boy Test",
+			"pattern": ".*",
 			"ascending": true,
 			"description": "A benchmark for determining the runtime of a Wikibooks / Rosetta Code example under many different kinds of languages."
 		}
 	],
 	"data_groups": [
 		{
-			"name": "Lambdas",
-			"pattern": "lambda",
-			"description": ""
+			"name": "Custom C++ Class",
+			"pattern": "custom_callable_cxx",
+			"description": "The use of a custom-written C++ class with operator() in the Man or boy tests."
 		},
 		{
 			"name": "Lambdas",
-			"pattern": "lambda",
-			"description": ""
+			"exact_pattern": "lambda",
+			"description": "The use of C++-style lambdas in the Man or boy tests. Uses templates to never erase the type: hard-codes recursion limit."
 		},
 		{
-			"name": "Lambdas",
-			"pattern": "lambda_function_ref",
-			"description": ""
+			"name": "Lambdas (No Function Helpers)",
+			"exact_pattern": "lambda_all_lambdas",
+			"description": "The use of C++-style lambdas in the Man or boy tests. Uses templates to never erase the type: hard-codes recursion limit, uses no regular helper functions."
 		},
 		{
-			"name": "Normal Functions (Manual Struct Capture, Modified Argument)",
+			"name": "Lambdas (std::function)",
+			"pattern": "lambda_std_function$",
+			"description": "The use of C++-style lambdas in the Man or boy tests. Wraps the lambdas in a std::function."
+		},
+		{
+			"name": "Lambdas (std::function_ref)",
+			"pattern": "lambda_function_ref$",
+			"description": "The use of C++-style lambdas in the Man or boy tests. Wraps the lambdas in a std::function_ref."
+		},
+		{
+			"name": "Lambdas (Rosetta Code)",
+			"pattern": "lambda_rosetta$",
+			"description": "The use of C++-style lambdas in the Man or boy tests."
+		},
+		{
+			"name": "Normal Functions (Rosetta Code)",
 			"pattern": "normal_functions_rosetta",
 			"description": "The use of plain C functions in the Man or Boy tests. Modifies the function arguments list to transfer data."
 		},
@@ -40,7 +55,12 @@
 		},
 		{
 			"name": "GNU Nested Functions",
-			"pattern": "gnu_nested_functions",
+			"exact_pattern": "gnu_nested_functions",
+			"description": "The use of the GNU Nested Functions C extension for the Man or Boy tests."
+		},
+		{
+			"name": "GNU Nested Functions (Rosetta Code)",
+			"pattern": "gnu_nested_functions_rosetta",
 			"description": "The use of the GNU Nested Functions C extension for the Man or Boy tests."
 		},
 		{
