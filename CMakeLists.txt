@@ -94,7 +94,7 @@ cmake_dependent_option(ZTD_IDK_BENCHMARKS_BIT_REPETITIONS
 	1
 )
 cmake_dependent_option(ZTD_IDK_BENCHMARKS_CLOSURES_REPETITIONS
-	"Number of repetitions to perform for the closure benchmarks. \
+	"Number of repetitions to perform for the closures benchmarks. \
 	Each repetition has a number of iterations: higher means a lot more time is spent benchmarking."
 	${ZTD_IDK_BENCHMARKS_REPETITIONS}
 	"DEFINED ZTD_IDK_BENCHMARKS_REPETITIONS AND ZTD_IDK_BENCHMARKS"

@@ -28,66 +28,60 @@
 //
 // ============================================================================ //
 
+#include <stdlib.h>
 #include <benchmark/benchmark.h>
 
 #include <k_value/k_value.h>
 
-#include <cstdlib>
-#include <cstdint>
-#include <cstddef>
-
 namespace {
-	typedef struct arg {
-		int (*fn)(struct arg*);
-		int* k;
-		struct arg *x1, *x2, *x3, *x4, *x5;
-	} arg;
+	typedef struct all {
+		int (*B)(struct all*);
+		int k;
+		struct all *x1, *x2, *x3, *x4, *x5;
+	} all;
 
-	static int f_1(arg* _) {
-		return -1;
+	static int A(int k, all* x1, all* x2, all* x3, all* x4, all* x5);
+
+	static int B(all* self) {
+		return A(--self->k, self, self->x1, self->x2, self->x3, self->x4);
 	}
 
-	static int f0(arg* _) {
-		return 0;
+	static int A(int k, all* x1, all* x2, all* x3, all* x4, all* x5) {
+		if (k <= 0) {
+			return x4->B(x4) + x5->B(x5);
+		}
+		else {
+			all y = { .B = B, .k = k, .x1 = x1, .x2 = x2, .x3 = x3, .x4 = x4, .x5 = x5 };
+			return B(&y);
+		}
 	}
 
-	static int f1(arg* _) {
+	static int f1(all* p) {
 		return 1;
 	}
 
-	// --- helper
-	static int eval(arg* a) {
-		return a->fn(a);
+	static int f_1(all* p) {
+		return -1;
 	}
 
-	static int A(arg*);
-
-	// --- functions
-	static int B(arg* a) {
-		int k    = *a->k -= 1;
-		arg args = { B, &k, a, a->x1, a->x2, a->x3, a->x4 };
-		return A(&args);
+	static int f0(all* p) {
+		return 0;
 	}
 
-	static int A(arg* a) {
-		return *a->k <= 0 ? eval(a->x4) + eval(a->x5) : B(a);
-	}
+
 } // namespace
 
-static void normal_functions_rosetta(benchmark::State& state) {
-	const int initial_k  = k_value();
-	const int expected_k = expected_k_value();
-	int64_t result       = 0;
-	arg arg1             = { f1, NULL, NULL, NULL, NULL, NULL, NULL };
-	arg arg2             = { f_1, NULL, NULL, NULL, NULL, NULL, NULL };
-	arg arg3             = { f_1, NULL, NULL, NULL, NULL, NULL, NULL };
-	arg arg4             = { f1, NULL, NULL, NULL, NULL, NULL, NULL };
-	arg arg5             = { f0, NULL, NULL, NULL, NULL, NULL, NULL };
+static void plain_normal_functions(benchmark::State& state) {
+	int k          = k_value();
+	int expected_k = expected_k_value();
+
+	int64_t result = 0;
+	all arg1       = { .B = f1 };
+	all arg_1      = { .B = f_1 };
+	all arg0       = { .B = f0 };
 
 	for (auto _ : state) {
-		int k     = initial_k;
-		arg args  = { B, &k, &arg1, &arg2, &arg3, &arg4, &arg5 };
-		int value = A(&args);
+		int value = A(k, &arg1, &arg_1, &arg_1, &arg1, &arg0);
 		result += value == expected_k ? 1 : 0;
 	}
 
@@ -96,4 +90,4 @@ static void normal_functions_rosetta(benchmark::State& state) {
 	}
 }
 
-BENCHMARK(normal_functions_rosetta);
+BENCHMARK(plain_normal_functions);
