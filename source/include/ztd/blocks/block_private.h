@@ -49,25 +49,25 @@ enum {
 
 
 /* Revised new layout. */
-struct Block_descriptor {
+typedef struct Block_descriptor {
 	unsigned long int reserved;
 	unsigned long int size;
 	void (*copy)(void* dst, void* src);
 	void (*dispose)(void*);
-};
+} Block_descriptor;
 
 
-struct Block_layout {
+typedef struct Block_layout {
 	void* isa;
 	int flags;
 	int reserved;
 	void (*invoke)(void*, ...);
 	struct Block_descriptor* descriptor;
 	/* Imported variables. */
-};
+} Block_layout;
 
 
-struct Block_byref {
+typedef struct Block_byref {
 	void* isa;
 	struct Block_byref* forwarding;
 	int flags; /* refcount; */
@@ -75,15 +75,15 @@ struct Block_byref {
 	void (*byref_keep)(struct Block_byref* dst, struct Block_byref* src);
 	void (*byref_destroy)(struct Block_byref*);
 	/* long shared[0]; */
-};
+} Block_byref;
 
 
-struct Block_byref_header {
+typedef struct Block_byref_header {
 	void* isa;
 	struct Block_byref* forwarding;
 	int flags;
 	int size;
-};
+} Block_byref_header;
 
 
 /* Runtime support functions used by compiler when generating copy/dispose helpers. */
@@ -123,17 +123,17 @@ ZTD_USE(ZTD_C_LANGUAGE_LINKAGE) ZTD_USE(ZTD_ATTR_WEAK_FUNC) unsigned long int Bl
 /* the raw data space for runtime classes for blocks */
 /* class+meta used for stack, malloc, and collectable based blocks */
 ZTD_USE(ZTD_BLOCKS_API_LINKAGE)
-ZTD_USE(ZTD_C_LANGUAGE_LINKAGE) ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteStackBlock[32];
+extern void* _NSConcreteStackBlock[32];
 ZTD_USE(ZTD_BLOCKS_API_LINKAGE)
-ZTD_USE(ZTD_C_LANGUAGE_LINKAGE) ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteMallocBlock[32];
+extern void* _NSConcreteMallocBlock[32];
 ZTD_USE(ZTD_BLOCKS_API_LINKAGE)
-ZTD_USE(ZTD_C_LANGUAGE_LINKAGE) ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteAutoBlock[32];
+extern void* _NSConcreteAutoBlock[32];
 ZTD_USE(ZTD_BLOCKS_API_LINKAGE)
-ZTD_USE(ZTD_C_LANGUAGE_LINKAGE) ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteFinalizingBlock[32];
+extern void* _NSConcreteFinalizingBlock[32];
 ZTD_USE(ZTD_BLOCKS_API_LINKAGE)
-ZTD_USE(ZTD_C_LANGUAGE_LINKAGE) ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteGlobalBlock[32];
+extern void* _NSConcreteGlobalBlock[32];
 ZTD_USE(ZTD_BLOCKS_API_LINKAGE)
-ZTD_USE(ZTD_C_LANGUAGE_LINKAGE) ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteWeakBlockVariable[32];
+extern void* _NSConcreteWeakBlockVariable[32];
 
 
 /* the intercept routines that must be used under GC */
@@ -169,7 +169,7 @@ ZTD_USE(ZTD_C_LANGUAGE_LINKAGE) ZTD_USE(ZTD_ATTR_WEAK_FUNC) const char* _Block_d
 /* Obsolete */
 
 /* first layout */
-struct Block_basic {
+typedef struct Block_basic {
 	void* isa;
 	int Block_flags; /* int32_t */
 	int Block_size;  /* XXX should be packed into Block_flags */
@@ -177,7 +177,7 @@ struct Block_basic {
 	void (*Block_copy)(void* dst, void* src); /* iff BLOCK_HAS_COPY_DISPOSE */
 	void (*Block_dispose)(void*);             /* iff BLOCK_HAS_COPY_DISPOSE */
 	/* long params[0];  // where const imports, __block storage references, etc. get laid down */
-};
+} Block_basic;
 
 ZTD_USE(ZTD_EXTERN_C_CLOSE)
 

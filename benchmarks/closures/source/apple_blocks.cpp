@@ -45,12 +45,7 @@ namespace {
 	static int a(int arg_k, fn_t ^ x1, fn_t ^ x2, fn_t ^ x3, fn_t ^ x4, fn_t ^ x5) {
 		__block int k    = arg_k;
 		__block fn_t ^ b = ^(void) { return a(--k, b, x1, x2, x3, x4); };
-		// clang-format off
-		return k <= 0 ?
-			x4() + x5()
-			:
-			b();
-		// clang-format on
+		return k <= 0 ? x4() + x5() : b();
 	}
 
 	static void apple_blocks(benchmark::State& state) {

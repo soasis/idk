@@ -36,16 +36,16 @@ unified in a common block.
 // modifications made to be packaged in C++ and be cross-platform between MacOS, Windows, and typical *nix installations
 // taken from: https://github.com/llvm/llvm-project
 
-#include <ztd/version/version.h>
+#include <ztd/blocks/block.h>
 
 ZTD_USE(ZTD_EXTERN_C_OPEN)
 
-ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteStackBlock[32]        = { 0 };
-ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteMallocBlock[32]       = { 0 };
-ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteAutoBlock[32]         = { 0 };
-ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteFinalizingBlock[32]   = { 0 };
-ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteGlobalBlock[32]       = { 0 };
-ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteWeakBlockVariable[32] = { 0 };
+ZTD_USE(ZTD_BLOCKS_API_LINKAGE) ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteStackBlock[32]        = { 0 };
+ZTD_USE(ZTD_BLOCKS_API_LINKAGE) ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteMallocBlock[32]       = { 0 };
+ZTD_USE(ZTD_BLOCKS_API_LINKAGE) ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteAutoBlock[32]         = { 0 };
+ZTD_USE(ZTD_BLOCKS_API_LINKAGE) ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteFinalizingBlock[32]   = { 0 };
+ZTD_USE(ZTD_BLOCKS_API_LINKAGE) ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteGlobalBlock[32]       = { 0 };
+ZTD_USE(ZTD_BLOCKS_API_LINKAGE) ZTD_USE(ZTD_ATTR_WEAK_VAR) void* _NSConcreteWeakBlockVariable[32] = { 0 };
 
 ZTD_USE(ZTD_ATTR_WEAK_FUNC_DEF) void _Block_copy_error(void) {
 }

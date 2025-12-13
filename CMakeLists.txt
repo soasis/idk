@@ -228,7 +228,7 @@ file(GLOB_RECURSE ztd.blocks.sources
 	source/ztd/blocks/**.c
 )
 
-add_library(ztd.blocks ${ztd.blocks.sources})
+add_library(ztd.blocks SHARED ${ztd.blocks.sources})
 add_library(ztd::blocks ALIAS ztd.blocks)
 target_include_directories(ztd.blocks
 	PUBLIC
