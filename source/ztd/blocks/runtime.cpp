@@ -394,13 +394,13 @@ static void _Block_byref_release(const void* arg) {
 #pragma mark SPI/API
 #endif /* if 0 */
 
-void* _Block_copy(const void* arg) {
+extern ZTD_USE(ZTD_BLOCKS_API_LINKAGE) void* _Block_copy(const void* arg) {
 	return _Block_copy_internal(arg, WANTS_ONE);
 }
 
 
 // API entry point to release a copied Block
-void _Block_release(void* arg) {
+extern ZTD_USE(ZTD_BLOCKS_API_LINKAGE) void _Block_release(void* arg) {
 	struct Block_layout* aBlock = (struct Block_layout*)arg;
 	int32_t newCount;
 	if (!aBlock)

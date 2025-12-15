@@ -46,12 +46,10 @@ ZTD_USE(ZTD_EXTERN_C_OPEN)
  * This must be paired with Block_release to recover memory, even when running
  * under Objective-C Garbage Collection.
  */
-ZTD_USE(ZTD_BLOCKS_API_LINKAGE)
-ZTD_USE(ZTD_C_LANGUAGE_LINKAGE) void* _Block_copy(const void* aBlock) ZTD_USE(ZTD_ATTR_WEAK_FUNC);
+extern ZTD_USE(ZTD_BLOCKS_API_LINKAGE) void* _Block_copy(const void* aBlock) ZTD_USE(ZTD_ATTR_WEAK_FUNC);
 
 /* Lose the reference, and if heap based and last reference, recover the memory. */
-ZTD_USE(ZTD_BLOCKS_API_LINKAGE)
-ZTD_USE(ZTD_C_LANGUAGE_LINKAGE) void _Block_release(const void* aBlock) ZTD_USE(ZTD_ATTR_WEAK_FUNC);
+extern ZTD_USE(ZTD_BLOCKS_API_LINKAGE) void _Block_release(const void* aBlock) ZTD_USE(ZTD_ATTR_WEAK_FUNC);
 
 ZTD_USE(ZTD_EXTERN_C_CLOSE)
 

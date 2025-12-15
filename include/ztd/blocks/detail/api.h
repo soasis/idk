@@ -68,9 +68,9 @@
 		#if ZTD_IS_ON(ZTD_COMPILER_GCC)
 			#if ZTD_IS_ON(ZTD_BLOCKS_BUILD)
 				// Building the library
-				#define ZTD_BLOCKS_API_LINKAGE_I_ __attribute__((visibility("visible")))
+				#define ZTD_BLOCKS_API_LINKAGE_I_ __attribute__((visibility("default")))
 			#else
-				#define ZTD_BLOCKS_API_LINKAGE_I_ __attribute__((visibility("visible")))
+				#define ZTD_BLOCKS_API_LINKAGE_I_ __attribute__((visibility("default")))
 			#endif
 		#elif ZTD_IS_ON(ZTD_COMPILER_VCXX) || ZTD_IS_ON(ZTD_PLATFORM_WINDOWS) || ZTD_IS_ON(ZTD_PLATFORM_CYGWIN)
 			// MSVC Compiler; or, Windows, or Cygwin platforms
