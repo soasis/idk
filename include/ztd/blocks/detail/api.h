@@ -58,14 +58,21 @@
 		#define ZTD_BLOCKS_DLL_I_ ZTD_ON
 	#endif
 #else
-	#define ZTD_BLOCKS_DLL_I_ ZTD_OFF
+	#define ZTD_BLOCKS_DLL_I_ ZTD_DEFAULT_OFF
 #endif // Building or not
 
 #if defined(ZTD_BLOCKS_API_LINKAGE)
 	#define ZTD_BLOCKS_API_LINKAGE_I_ ZTD_BLOCKS_API_LINKAGE
 #else
 	#if ZTD_IS_ON(ZTD_BLOCKS_DLL)
-		#if ZTD_IS_ON(ZTD_COMPILER_VCXX) || ZTD_IS_ON(ZTD_PLATFORM_WINDOWS) || ZTD_IS_ON(ZTD_PLATFORM_CYGWIN)
+		#if ZTD_IS_ON(ZTD_COMPILER_GCC)
+			#if ZTD_IS_ON(ZTD_BLOCKS_BUILD)
+				// Building the library
+				#define ZTD_BLOCKS_API_LINKAGE_I_ __attribute__((visibility("visible")))
+			#else
+				#define ZTD_BLOCKS_API_LINKAGE_I_ __attribute__((visibility("visible")))
+			#endif
+		#elif ZTD_IS_ON(ZTD_COMPILER_VCXX) || ZTD_IS_ON(ZTD_PLATFORM_WINDOWS) || ZTD_IS_ON(ZTD_PLATFORM_CYGWIN)
 			// MSVC Compiler; or, Windows, or Cygwin platforms
 			#if ZTD_IS_ON(ZTD_BLOCKS_BUILD)
 				// Building the library
