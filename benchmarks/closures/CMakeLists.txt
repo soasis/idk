@@ -77,24 +77,33 @@ set(ZTD_IDK_BENCHMARKS_CLOSURES_GRAPH_NAMES)
 set(ZTD_IDK_BENCHMARKS_CLOSURES_GRAPH_OUTPUT_CONFIGS)
 set(closure_scales "linear;logarithmic")
 set(closure_scale_titles " ;(LOGARITHMIC SCALE)")
+set(closure_config_inputs "${CMAKE_CURRENT_SOURCE_DIR}/graph_config" "${CMAKE_CURRENT_SOURCE_DIR}/focused_graph_config")
+set(closure_config_outputs "${CMAKE_CURRENT_BINARY_DIR}/graph_config" "${CMAKE_CURRENT_BINARY_DIR}/focused_graph_config")
+set(closure_config_names "all" "focused")
+set(closure_config_titles " " "(OUTLIERS REMOVED)")
 foreach(scale scale_title
 	IN ZIP_LISTS closure_scales;closure_scale_titles)
 	set(ZTD_IDK_BENCHMARKS_CLOSURES_GRAPH_SCALE ${scale})
 	string(TOUPPER ${scale} ZTD_IDK_BENCHMARKS_CLOSURES_GRAPH_UPPER_SCALE)
 	string(TIMESTAMP title_time UTC)
 	set(ZTD_IDK_BENCHMARKS_CLOSURES_GRAPH_PROVENANCE "${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION} on ${CMAKE_SYSTEM_NAME} ${CMAKE_SYSTEM_VERSION}-${CMAKE_SYSTEM_PROCESSOR} at ${title_time}")
-	set(ZTD_IDK_BENCHMARKS_CLOSURES_GRAPH_SCALE_TITLE ${scale_title})
-	set(ZTD_IDK_BENCHMARKS_CLOSURES_GRAPH_CONFIG_INPUT "${CMAKE_CURRENT_SOURCE_DIR}/graph_config.json.config")
-	set(ZTD_IDK_BENCHMARKS_CLOSURES_GRAPH_CONFIG_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/graph_config.${scale}.json")
-	configure_file("${ZTD_IDK_BENCHMARKS_CLOSURES_GRAPH_CONFIG_INPUT}" "${ZTD_IDK_BENCHMARKS_CLOSURES_GRAPH_CONFIG_OUTPUT}")
-	list(APPEND ZTD_IDK_BENCHMARKS_CLOSURES_GRAPH_NAMES "closures.${scale}")
-	list(APPEND ZTD_IDK_BENCHMARKS_CLOSURES_GRAPH_OUTPUT_CONFIGS ${ZTD_IDK_BENCHMARKS_CLOSURES_GRAPH_CONFIG_OUTPUT})
+	foreach (config_input_prefix config_output_prefix config_name config_title IN ZIP_LISTS closure_config_inputs;closure_config_outputs;closure_config_names;closure_config_titles)
+		set(ZTD_IDK_BENCHMARKS_CLOSURES_GRAPH_SCALE_TITLE ${scale_title})
+		set(ZTD_IDK_BENCHMARKS_CLOSURES_FILE_SUBTITLE "${scale}-${config_name}")
+		set(ZTD_IDK_BENCHMARKS_CLOSURES_GRAPH_CONFIG_INPUT "${config_input_prefix}.json.config")
+		set(ZTD_IDK_BENCHMARKS_CLOSURES_GRAPH_CONFIG_OUTPUT "${config_output_prefix}-${scale}-${config_name}.json")
+		configure_file("${ZTD_IDK_BENCHMARKS_CLOSURES_GRAPH_CONFIG_INPUT}" "${ZTD_IDK_BENCHMARKS_CLOSURES_GRAPH_CONFIG_OUTPUT}")
+		list(APPEND ZTD_IDK_BENCHMARKS_CLOSURES_GRAPH_NAMES "closures-${scale}-${config_name}")
+		list(APPEND ZTD_IDK_BENCHMARKS_CLOSURES_GRAPH_OUTPUT_CONFIGS ${ZTD_IDK_BENCHMARKS_CLOSURES_GRAPH_CONFIG_OUTPUT})
+	endforeach()
 endforeach()
 
 
 ztd_tools_add_benchmark_grapher(
 	NAMES
 		${ZTD_IDK_BENCHMARKS_CLOSURES_GRAPH_NAMES}
+	GROUP_NAME
+		closures
 	CONFIGS
 		${ZTD_IDK_BENCHMARKS_CLOSURES_GRAPH_OUTPUT_CONFIGS}
 	TARGETS
